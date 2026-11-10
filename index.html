@@ -536,6 +536,202 @@
     @media (min-width: 640px) {
       .phase-row { grid-template-columns: 18px minmax(5.5rem, auto) 5rem 1fr; }
     }
+
+    [hidden] { display: none !important; }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tab {
+      min-height: 44px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      font-weight: 700;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+    }
+
+    #map-view { margin-top: 10px; }
+
+    .palette {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .pal-btn {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 74px;
+      min-height: 64px;
+      padding: 6px 8px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      font-size: 0.74rem;
+      font-weight: 700;
+      line-height: 1.1;
+      cursor: pointer;
+    }
+
+    .pal-btn svg { width: 40px; height: 28px; overflow: visible; }
+    .pal-btn.pal-cable { border-style: dashed; }
+    .pal-btn.pal-cable.on { background: var(--accent); color: var(--accent-text); border-style: solid; border-color: var(--accent); }
+
+    .map-mode {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      z-index: 2;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: var(--banner);
+      border: 2px solid var(--banner-border);
+      border-radius: 10px;
+      font-weight: 650;
+    }
+
+    .map-mode span { flex: 1 1 7rem; font-size: 0.92rem; line-height: 1.2; }
+
+    .map-mode select, .map-sheet select, .map-sheet input[type="text"] {
+      min-height: 44px;
+      padding: 6px 10px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      font-size: 16px;
+      font-weight: 650;
+      color: var(--text);
+    }
+
+    .map-stage {
+      position: relative;
+      height: max(320px, calc(100dvh - 240px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    #map-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      cursor: grab;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+    }
+
+    #map-svg .map-item, #map-svg .map-cable { cursor: pointer; }
+    #map-svg .rot-handle { cursor: alias; }
+
+    .zoom-ctl {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .zoom-ctl .btn {
+      min-width: 44px;
+      padding: 4px 8px;
+      font-size: 1.1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .zoom-ctl .btn.small { font-size: 0.8rem; }
+
+    .map-sheet {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 60;
+      max-width: 42rem;
+      margin: 0 auto;
+      max-height: 44dvh;
+      overflow-y: auto;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-bottom: 0;
+      border-radius: 16px 16px 0 0;
+      padding: 12px 12px calc(14px + env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.25);
+      display: grid;
+      gap: 10px;
+    }
+
+    .sheet-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sheet-head h2 { margin: 0; font-size: 1.05rem; }
+
+    .field { display: grid; gap: 4px; font-weight: 650; font-size: 0.9rem; }
+
+    .sheet-note, .link-info { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .link-info { font-weight: 650; color: var(--text); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .link-info:empty { display: none; }
+
+    .swatches { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .swatch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 10px;
+      border: 2px solid var(--hairline);
+      border-radius: 10px;
+      background: var(--bg);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .swatch.on { border-color: var(--accent); outline: 2px solid var(--accent); }
+
+    .swatch .sw {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #666;
+    }
+
+    .map-sheet-spacer { height: 0; }
+    body.sheet-open .map-sheet-spacer { height: 44dvh; }
+    body.sheet-open .toast { bottom: calc(44dvh + 12px); }
   </style>
 </head>
 <body>
@@ -545,9 +741,15 @@
         <h1>Base Camp Phase Tracker</h1>
         <button type="button" class="icon-btn" id="theme-btn" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
       </div>
-      <div class="phases" id="summary-phases"></div>
-      <p class="balance" id="balance-line">Enter amps to see phase balance.</p>
-      <p class="saved-line" id="saved-line">Not saved yet</p>
+      <div class="tabs" role="tablist" aria-label="View">
+        <button type="button" class="tab" role="tab" id="tab-tracker" aria-selected="true" aria-controls="tracker-view">Tracker</button>
+        <button type="button" class="tab" role="tab" id="tab-map" aria-selected="false" aria-controls="map-view">Map</button>
+      </div>
+      <div id="tracker-summary">
+        <div class="phases" id="summary-phases"></div>
+        <p class="balance" id="balance-line">Enter amps to see phase balance.</p>
+        <p class="saved-line" id="saved-line">Not saved yet</p>
+      </div>
       <div id="share-banner" role="status">
         <p id="share-banner-text"></p>
         <div class="btn-row">
@@ -557,6 +759,7 @@
       </div>
     </header>
 
+    <div id="tracker-view">
     <section class="list" id="location-list" aria-label="Locations"></section>
 
     <section class="actions">
@@ -574,6 +777,60 @@
       <p>Each person who opens the app URL gets their own copy on their own phone. Use <strong>Share link</strong> to send a snapshot of your current readings. Opening a shared link never overwrites the other person’s saved data unless they choose <strong>Save to my tracker</strong>.</p>
       <p>If you opened a shared link, add the plain app address to your Home Screen — not the long shared URL.</p>
     </details>
+    </div>
+
+    <section id="map-view" aria-label="Base camp map" hidden>
+      <div class="palette" id="map-palette" role="toolbar" aria-label="Tap to add to the map">
+        <button type="button" class="pal-btn pal-cable" id="cable-btn"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M4 22 C 14 22, 14 6, 24 6 S 34 10, 36 6" fill="none" stroke="#c62828" stroke-width="4" stroke-linecap="round"/><path d="M4 26 C 14 26, 16 10, 26 10 S 34 14, 36 10" fill="none" stroke="#0d47a1" stroke-width="4" stroke-linecap="round"/></svg><span id="cable-btn-text">Cable run</span></button>
+      </div>
+      <div class="map-stage" id="map-stage">
+        <div class="map-mode" id="map-mode" hidden>
+        <span id="map-mode-text"></span>
+        <select id="cable-color" aria-label="Cable colour">
+          <option value="red">Red</option>
+          <option value="blue">Blue</option>
+          <option value="black">Black</option>
+          <option value="white">White (Neutral)</option>
+          <option value="feeder">Feeder</option>
+        </select>
+        <button type="button" class="btn" id="map-mode-cancel">Cancel</button>
+      </div>
+        <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Base camp layout map">
+          <g id="map-viewport">
+            <g id="map-bg"></g>
+            <g id="map-cables"></g>
+            <g id="map-items"></g>
+          </g>
+        </svg>
+        <div class="zoom-ctl">
+          <button type="button" class="btn" id="zoom-in" aria-label="Zoom in">+</button>
+          <button type="button" class="btn" id="zoom-out" aria-label="Zoom out">−</button>
+          <button type="button" class="btn small" id="zoom-fit" aria-label="Fit map to screen">Fit</button>
+        </div>
+      </div>
+      <p class="saved-line" id="map-status"></p>
+      <section class="actions">
+        <div class="btn-row">
+          <button type="button" class="btn" id="bg-btn">Load lot photo</button>
+          <button type="button" class="btn" id="bg-clear-btn">Clear photo</button>
+        </div>
+        <input type="file" id="bg-file" accept="image/*" hidden>
+        <div class="btn-row">
+          <button type="button" class="btn" id="map-share-btn">Share link</button>
+          <button type="button" class="btn" id="map-export-btn">Export map as PNG image</button>
+        </div>
+        <button type="button" class="btn btn-danger" id="map-reset-btn">Reset map layout</button>
+      </section>
+      <details class="hint">
+        <summary>How to use the map</summary>
+        <p>Tap an item in the row above the map to add it. Drag items to move them. Drag an empty spot to pan. Pinch, or use + and −, to zoom.</p>
+        <p>Tap an item to label it, link it to a tracker location, rotate it, or delete it. A linked item shows its phase pair and amps from the Tracker tab.</p>
+        <p>Tap <strong>Cable run</strong>, pick a colour, then tap the two items it connects. Tap a cable to change its colour or add a length.</p>
+        <p><strong>Load lot photo</strong> puts a photo or screenshot of the lot behind the map. It is shrunk so it fits on your phone. Share links carry the layout. A photo is usually too big for a link, so it is left out when needed.</p>
+      </details>
+      <div class="map-sheet-spacer"></div>
+    </section>
+    <div class="map-sheet" id="map-sheet" role="dialog" aria-label="Edit map item" hidden></div>
   </div>
 
   <div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -632,6 +889,49 @@
       'Cast Trailer · SW806': 'bk'
     };
 
+    // ---------- Map constants ----------
+    const MAP_KEY = 'basecamp-phase-tracker-map-v1';
+    const MAP_BG_KEY = 'basecamp-phase-tracker-map-bg-v1';
+    const TAB_KEY = 'basecamp-phase-tracker-tab';
+    const WORLD_W = 1200;
+    const WORLD_H = 800;
+    const MAX_SHARE_URL = 12000;
+    const MIN_ZOOM = 0.15;
+    const MAX_ZOOM = 6;
+    const ITEM_TYPES = {
+      generator: { label: 'Generator', w: 100, h: 56, fill: '#f2b705', ink: '#1a1a1a', rot: true },
+      distro: { label: 'Distro box', w: 40, h: 40, fill: '#ef6c00', ink: '#ffffff', rot: false },
+      cast: { label: 'Cast Trailer', w: 140, h: 44, fill: '#6a1b9a', ink: '#ffffff', rot: true },
+      truck: { label: 'Truck', w: 130, h: 44, fill: '#455a64', ink: '#ffffff', rot: true },
+      tower: { label: 'Light tower', w: 48, h: 48, fill: '#fdd835', ink: '#1a1a1a', rot: false },
+      honeywagon: { label: 'Honeywagon / Bathroom', short: 'Honeywagon', w: 120, h: 44, fill: '#00838f', ink: '#ffffff', rot: true },
+      tent: { label: 'Tent', w: 80, h: 80, fill: '#2e7d32', ink: '#ffffff', rot: true },
+      custom: { label: 'Custom', w: 110, h: 50, fill: '#8d6e63', ink: '#ffffff', rot: true }
+    };
+    const TYPE_ORDER = ['generator', 'distro', 'cast', 'truck', 'tower', 'honeywagon', 'tent', 'custom'];
+    const CABLE_COLORS = {
+      red: { label: 'Red', stroke: '#c62828', width: 5 },
+      blue: { label: 'Blue', stroke: '#0d47a1', width: 5 },
+      black: { label: 'Black', stroke: '#111111', width: 5 },
+      white: { label: 'White', stroke: '#f5f5f5', width: 5 },
+      feeder: { label: 'Feeder', stroke: '#ef6c00', width: 9 }
+    };
+    const PHASE_HEX = { red: '#c62828', blue: '#0d47a1', black: '#111111', white: '#777777' };
+    // Portrait-friendly starting layout so it reads well on a phone.
+    const MAP_SEED = [
+      ['Cast Trailer · SW245', 'cast', 110, 200],
+      ['Cast Trailer · SW323', 'cast', 110, 300],
+      ['Cast Trailer · SW327G', 'cast', 110, 400],
+      ['Cast Trailer · SW328G', 'cast', 110, 500],
+      ['Cast Trailer · SW806', 'cast', 110, 600],
+      ['Hair & Makeup', 'custom', 420, 200],
+      ['Wardrobe', 'custom', 420, 300],
+      ['AD Office', 'custom', 420, 400],
+      ['Workout Gym', 'custom', 420, 500],
+      ['Bathroom', 'honeywagon', 420, 600],
+      ['Transport', 'truck', 265, 710]
+    ];
+
     function defaultPairForName(name) {
       return DEFAULT_PAIRS_BY_NAME[name] || 'rb';
     }
@@ -666,9 +966,11 @@
     let modalResolver = null;
 
     function defaultState() {
+      const locations = DEFAULT_NAMES.map((name, i) => makeLocation(name, 'def-' + (i + 1)));
       return {
         savedAt: null,
-        locations: DEFAULT_NAMES.map((name, i) => makeLocation(name, 'def-' + (i + 1)))
+        locations: locations,
+        map: seedMap(locations)
       };
     }
 
@@ -782,6 +1084,12 @@
     }
 
     function loadLocal() {
+      const state = loadTracker();
+      state.map = loadMap(state.locations);
+      return state;
+    }
+
+    function loadTracker() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return defaultState();
@@ -963,6 +1271,11 @@
       });
       updateSummary();
       updateShareBanner();
+      if (activeTab === 'map') {
+        const needFit = !currentMap().view;
+        renderMapAll();
+        if (needFit) fitView();
+      }
     }
 
     function onAmpInput(id, key, input, sanitize) {
@@ -984,7 +1297,7 @@
       if (viewState) {
         bannerEl.classList.add('visible');
         const when = sharedAt ? formatWhen(sharedAt) : 'an unknown time';
-        bannerTextEl.textContent = 'Viewing shared readings from ' + when;
+        bannerTextEl.textContent = 'Viewing shared readings from ' + when + (viewState.map ? ', with map' : '');
       } else {
         bannerEl.classList.remove('visible');
       }
@@ -1107,8 +1420,8 @@
       toast('Readings cleared.');
     }
 
-    function compactState(state) {
-      return {
+    function compactState(state, opts) {
+      const out = {
         v: 1,
         t: state.savedAt || Date.now(),
         l: state.locations.map((loc) => ({
@@ -1118,6 +1431,9 @@
           r: loc.red, b: loc.blue, k: loc.black, w: loc.white
         }))
       };
+      const m = mapForState(state);
+      if (m) out.m = compactMap(m, !opts || opts.image !== false);
+      return out;
     }
 
     function expandState(data) {
@@ -1129,7 +1445,8 @@
           name: loc.n,
           pair: loc.p,
           red: loc.r, blue: loc.b, black: loc.k, white: loc.w
-        }, i, 'share-'))
+        }, i, 'share-')),
+        map: data.m ? expandMap(data.m) : null
       };
     }
 
@@ -1149,8 +1466,8 @@
       return arr;
     }
 
-    async function encodeShare(state) {
-      const json = JSON.stringify(compactState(state));
+    async function encodeShare(state, opts) {
+      const json = JSON.stringify(compactState(state, opts));
       if (typeof CompressionStream !== 'undefined') {
         try {
           const stream = new Blob([json]).stream().pipeThrough(new CompressionStream('gzip'));
@@ -1188,8 +1505,8 @@
       return href;
     }
 
-    async function shareUrlFor(state) {
-      const payload = await encodeShare(state);
+    async function shareUrlFor(state, opts) {
+      const payload = await encodeShare(state, opts);
       const base = appBaseUrl();
       const join = base.endsWith('/') || base.indexOf('?') >= 0 ? '' : '';
       return base + join + '#share=' + payload;
@@ -1256,9 +1573,10 @@
     }
 
     async function shareLink() {
-      let url;
-      try { url = await shareUrlFor(current()); }
+      let url, dropped = false;
+      try { const res = await buildShareLink(current()); url = res.url; dropped = res.droppedImage; }
       catch (err) { toast('Could not build a share link.'); return; }
+      if (dropped) toast('Sharing the map layout without the lot photo. The photo is too big for a link.');
       if (navigator.share) {
         try {
           await navigator.share({
@@ -1272,7 +1590,7 @@
         }
       }
       const ok = await copyText(url);
-      toast(ok ? 'Share link copied.' : 'Could not copy the link.');
+      toast(ok ? (dropped ? 'Share link copied. The lot photo was left out because it is too big for a link.' : 'Share link copied.') : 'Could not copy the link.');
     }
 
     async function shareSummary() {
@@ -1306,6 +1624,8 @@
       if (payload.startsWith('share=')) payload = payload.slice(6);
       try {
         const shared = await decodeShare(decodeURIComponent(payload));
+        mapSelected = null;
+        cableMode = null;
         viewState = shared;
         sharedAt = shared.savedAt || Date.now();
         renderList();
@@ -1322,21 +1642,31 @@
       if (!viewState) return;
       const ok = await openModal({
         title: 'Save to my tracker',
-        body: 'This will replace all locations and readings currently saved on this phone with the shared copy. This cannot be undone.',
+        body: viewState.map
+          ? 'This will replace all locations, readings, and the map currently saved on this phone with the shared copy. This cannot be undone.'
+          : 'This will replace all locations and readings currently saved on this phone with the shared copy. Your map stays. This cannot be undone.',
         okLabel: 'Save and replace',
         danger: true
       });
       if (!ok) return;
+      const keepMap = viewState.map ? null : localState.map;
       localState = cloneState(viewState);
+      if (!localState.map) localState.map = keepMap || seedMap(localState.locations);
+      localState.map.view = null;
       viewState = null;
       sharedAt = null;
+      mapSelected = null;
+      cableMode = null;
       persist();
+      persistMap({ bg: true });
       history.replaceState(null, '', appBaseUrl());
       renderList();
       toast('Shared readings saved on this phone.');
     }
 
     function dismissShared() {
+      mapSelected = null;
+      cableMode = null;
       viewState = null;
       sharedAt = null;
       localState = loadLocal();
@@ -1356,6 +1686,999 @@
       try { localStorage.setItem(THEME_KEY, next); } catch (err) {}
       const meta = document.querySelectorAll('meta[name="theme-color"]');
       meta.forEach((m) => { m.setAttribute('content', next === 'dark' ? '#0c0c0c' : '#f6f4ef'); });
+      renderMapAll();
+    }
+
+    // ======================= MAP =======================
+    const mapSvg = $('map-svg');
+    const mapViewportEl = $('map-viewport');
+    const mapBgLayer = $('map-bg');
+    const mapCableLayer = $('map-cables');
+    const mapItemLayer = $('map-items');
+    const mapSheetEl = $('map-sheet');
+    let activeTab = 'tracker';
+    let mapSelected = null;
+    let cableMode = null;
+    let lastCableColor = 'black';
+    let mapSavedAt = null;
+    let viewSaveTimer = null;
+    let labelSaveTimer = null;
+    const mapPointers = new Map();
+    let mapGesture = null;
+
+    function num(v, d) { const n = Number(v); return Number.isFinite(n) ? n : d; }
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    function mapUid(prefix) { return prefix + Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4); }
+    function normRot(r) { let a = Math.round(num(r, 0)) % 360; if (a < 0) a += 360; return a; }
+
+    function seedMap(locations) {
+      const items = [{ id: 'gen-1', type: 'generator', x: 265, y: 70, rot: 0, label: 'Generator', loc: '' }];
+      MAP_SEED.forEach((row, i) => {
+        const loc = (locations || []).find((l) => l.name === row[0]);
+        items.push({ id: 'mi-' + (i + 1), type: row[1], x: row[2], y: row[3], rot: 0, label: loc ? '' : row[0], loc: loc ? loc.id : '' });
+      });
+      return { items: items, cables: [], bg: null, bgData: '', view: null };
+    }
+
+    function hydrateMap(m) {
+      if (!m || !Array.isArray(m.items)) return null;
+      const items = m.items.filter((it) => it && ITEM_TYPES[it.type]).map((it, i) => ({
+        id: String(it.id || ('mi-x' + i)),
+        type: it.type,
+        x: Math.round(num(it.x, WORLD_W / 2)),
+        y: Math.round(num(it.y, WORLD_H / 2)),
+        rot: normRot(it.rot),
+        label: String(it.label == null ? '' : it.label).slice(0, 60),
+        loc: String(it.loc == null ? '' : it.loc)
+      }));
+      const ids = new Set(items.map((it) => it.id));
+      const cables = (Array.isArray(m.cables) ? m.cables : [])
+        .filter((c) => c && ids.has(String(c.a)) && ids.has(String(c.b)) && String(c.a) !== String(c.b))
+        .map((c, i) => ({
+          id: String(c.id || ('cb-x' + i)),
+          a: String(c.a), b: String(c.b),
+          color: CABLE_COLORS[c.color] ? c.color : 'black',
+          len: String(c.len == null ? '' : c.len).slice(0, 20)
+        }));
+      const bgData = typeof m.bgData === 'string' && m.bgData.indexOf('data:image/') === 0 ? m.bgData : '';
+      const bg = bgData && m.bg && num(m.bg.w, 0) > 0 && num(m.bg.h, 0) > 0 ? { w: num(m.bg.w), h: num(m.bg.h) } : null;
+      const view = m.view && num(m.view.s, 0) > 0 ? { s: num(m.view.s), tx: num(m.view.tx, 0), ty: num(m.view.ty, 0) } : null;
+      return { items: items, cables: cables, bg: bg, bgData: bg ? bgData : '', view: view };
+    }
+
+    function loadMap(locations) {
+      let raw = null;
+      try { raw = JSON.parse(localStorage.getItem(MAP_KEY) || 'null'); } catch (err) { raw = null; }
+      if (!raw) return seedMap(locations);
+      try { raw.bgData = localStorage.getItem(MAP_BG_KEY) || ''; } catch (err) { raw.bgData = ''; }
+      const m = hydrateMap(raw);
+      if (!m) return seedMap(locations);
+      mapSavedAt = raw.savedAt || null;
+      return m;
+    }
+
+    function currentMap() {
+      if (viewState && viewState.map) return viewState.map;
+      if (!localState.map) localState.map = seedMap(localState.locations);
+      return localState.map;
+    }
+
+    function persistMap(opts) {
+      updateMapStatus();
+      if (viewState && viewState.map) return true;
+      const m = currentMap();
+      try {
+        localStorage.setItem(MAP_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), items: m.items, cables: m.cables, bg: m.bg, view: m.view }));
+      } catch (err) {
+        toast('Could not save the map on this device.');
+        return false;
+      }
+      if (opts && opts.bg) {
+        try {
+          localStorage.removeItem(MAP_BG_KEY);
+          if (m.bgData) localStorage.setItem(MAP_BG_KEY, m.bgData);
+        } catch (err) {
+          return false;
+        }
+      }
+      mapSavedAt = Date.now();
+      updateMapStatus();
+      return true;
+    }
+
+    function updateMapStatus() {
+      const el = $('map-status');
+      if (!el) return;
+      if (viewState && viewState.map) el.textContent = 'Shared map. Changes are not saved on this phone unless you tap Save to my tracker.';
+      else if (viewState) el.textContent = 'This shared link has no map, so this is your own map.';
+      else if (mapSavedAt) {
+        const d = new Date(mapSavedAt);
+        el.textContent = 'Map saved ' + (d.toDateString() === new Date().toDateString()
+          ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : formatWhen(mapSavedAt));
+      } else el.textContent = 'The map saves automatically on this phone.';
+    }
+
+    function mapView() {
+      const m = currentMap();
+      if (!m.view) m.view = { s: 1, tx: 0, ty: 0 };
+      return m.view;
+    }
+
+    function worldSize(m) { return m.bg ? { w: m.bg.w, h: m.bg.h } : { w: WORLD_W, h: WORLD_H }; }
+
+    function mapPalette() {
+      const cs = getComputedStyle(document.documentElement);
+      const g = (n, d) => (cs.getPropertyValue(n) || '').trim() || d;
+      return {
+        bg: g('--surface', '#ffffff'),
+        grid: g('--hairline', '#cfc9bd'),
+        gridMajor: g('--muted', '#333333'),
+        text: g('--text', '#111111'),
+        halo: g('--surface', '#ffffff'),
+        accent: g('--accent', '#0b4f8a')
+      };
+    }
+
+    function linkedLoc(it, locations) {
+      if (!it.loc) return null;
+      return (locations || current().locations).find((l) => l.id === it.loc) || null;
+    }
+
+    function displayName(it, loc) {
+      const t = ITEM_TYPES[it.type];
+      return it.label || (loc && loc.name) || t.short || t.label;
+    }
+
+    function ampLabel(v) {
+      const n = parseAmp(v);
+      return n == null ? '—' : formatAmp(n) + 'A';
+    }
+
+    function shapeSvg(type) {
+      const t = ITEM_TYPES[type];
+      const w = t.w, h = t.h, x = -w / 2, y = -h / 2, f = t.fill, k = t.ink, e = '#1a1a1a';
+      const box = (rx, extra) => '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + rx + '" fill="' + f + '" stroke="' + e + '" stroke-width="2.5"' + (extra || '') + '/>';
+      const txt = (tx, ty, size, s) => '<text x="' + tx + '" y="' + ty + '" font-size="' + size + '" font-weight="800" text-anchor="middle" fill="' + k + '">' + s + '</text>';
+      switch (type) {
+        case 'generator':
+          return box(7) + '<path d="M-28 -18 L-40 3 L-31 3 L-35 19 L-20 -4 L-29 -4 Z" fill="' + k + '"/>' + txt(12, 6.5, 18, 'GEN');
+        case 'distro':
+          return box(5) + [[-11, -11], [11, -11], [-11, 11], [11, 11]].map((p) => '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3" fill="' + k + '"/>').join('') + txt(0, 5.5, 15, 'D');
+        case 'cast':
+          return '<path d="M' + x + ' -9 L' + (x - 16) + ' 0 L' + x + ' 9" fill="none" stroke="' + e + '" stroke-width="3" stroke-linejoin="round"/>' +
+            '<circle cx="' + (x - 16) + '" cy="0" r="3" fill="' + e + '"/>' + box(6) +
+            '<path d="M' + (x + 10) + ' ' + (y + 7) + ' h' + (w - 20) + '" stroke="' + k + '" stroke-opacity="0.35" stroke-width="2"/>' + txt(0, 7, 19, '★');
+        case 'truck': {
+          const cab = 34;
+          return '<rect x="' + x + '" y="' + y + '" width="' + (w - cab - 3) + '" height="' + h + '" rx="4" fill="' + f + '" stroke="' + e + '" stroke-width="2.5"/>' +
+            '<rect x="' + (x + w - cab) + '" y="' + (y + 3) + '" width="' + cab + '" height="' + (h - 6) + '" rx="8" fill="#263238" stroke="' + e + '" stroke-width="2.5"/>' +
+            '<rect x="' + (x + w - 12) + '" y="' + (y + 8) + '" width="7" height="' + (h - 16) + '" rx="2" fill="#90caf9"/>' +
+            txt(x + (w - cab) / 2, 5, 13, 'TRUCK');
+        }
+        case 'tower': {
+          let rays = '';
+          for (let i = 0; i < 8; i++) {
+            const a = i * Math.PI / 4, c = Math.cos(a), s = Math.sin(a);
+            rays += '<line x1="' + (c * 17).toFixed(1) + '" y1="' + (s * 17).toFixed(1) + '" x2="' + (c * 24).toFixed(1) + '" y2="' + (s * 24).toFixed(1) + '" stroke="' + e + '" stroke-width="3" stroke-linecap="round"/>';
+          }
+          return '<circle r="24" fill="#000" fill-opacity="0"/>' + rays + '<circle r="14" fill="' + f + '" stroke="' + e + '" stroke-width="2.5"/><circle r="5" fill="' + e + '"/>';
+        }
+        case 'honeywagon':
+          return box(6) + '<path d="M' + (x + 20) + ' ' + y + ' v' + h + ' M' + (x + w - 20) + ' ' + y + ' v' + h + '" stroke="' + k + '" stroke-opacity="0.45" stroke-width="2"/>' + txt(0, 6, 17, 'WC');
+        case 'tent':
+          return box(3) + '<path d="M' + x + ' ' + y + ' L' + (-x) + ' ' + (-y) + ' M' + (-x) + ' ' + y + ' L' + x + ' ' + (-y) + '" stroke="' + k + '" stroke-opacity="0.6" stroke-width="2"/><circle r="5" fill="' + k + '"/>';
+        default:
+          return box(12, ' stroke-dasharray="7 4"');
+      }
+    }
+
+    function iconSvg(type) {
+      const t = ITEM_TYPES[type];
+      const S = Math.max(t.w + (type === 'cast' ? 34 : 6), t.h * 1.45);
+      const H = S * 0.7;
+      return '<svg viewBox="' + (-S / 2) + ' ' + (-H / 2) + ' ' + S + ' ' + H + '" aria-hidden="true" focusable="false">' + shapeSvg(type) + '</svg>';
+    }
+
+    function labelSvg(name, y, pal) {
+      return '<text x="0" y="' + y.toFixed(1) + '" text-anchor="middle" font-size="14" font-weight="700" fill="' + pal.text + '" stroke="' + pal.halo +
+        '" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">' + esc(name) + '</text>';
+    }
+
+    function badgeSvg(loc, y) {
+      const info = pairInfo(loc.pair);
+      const segs = info.keys.concat(['white']).map((k) => ({ dot: k === 'white' ? '○' : '●', col: PHASE_HEX[k], v: ampLabel(loc[k]) }));
+      const plain = segs.map((g) => g.dot + ' ' + g.v).join('   ');
+      const w = plain.length * 7 + 16;
+      let s = '<g class="map-badge"><rect x="' + (-w / 2).toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="18" rx="9" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.2"/>' +
+        '<text x="0" y="' + (y + 13).toFixed(1) + '" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111111">';
+      segs.forEach((g, i) => {
+        s += '<tspan fill="' + g.col + '"' + (i ? ' dx="8"' : '') + '>' + g.dot + '</tspan><tspan dx="3">' + esc(g.v) + '</tspan>';
+      });
+      return s + '</text></g>';
+    }
+
+    function itemHalfHeight(it) {
+      const t = ITEM_TYPES[it.type];
+      const r = (it.rot || 0) * Math.PI / 180;
+      return Math.abs(t.w / 2 * Math.sin(r)) + Math.abs(t.h / 2 * Math.cos(r));
+    }
+
+    function itemHalfWidth(it) {
+      const t = ITEM_TYPES[it.type];
+      const r = (it.rot || 0) * Math.PI / 180;
+      return Math.abs(t.w / 2 * Math.cos(r)) + Math.abs(t.h / 2 * Math.sin(r)) + (it.type === 'cast' ? 16 : 0);
+    }
+
+    function itemSvg(it, pal, o, locations) {
+      const t = ITEM_TYPES[it.type];
+      const k = 1 / ((o && o.s) || 1);
+      const hh = itemHalfHeight(it);
+      const loc = linkedLoc(it, locations);
+      let s = '<g class="map-item" data-item="' + esc(it.id) + '" transform="translate(' + it.x + ' ' + it.y + ')"><g transform="rotate(' + (it.rot || 0) + ')">';
+      if (o && o.hl) {
+        s += '<rect x="' + (-t.w / 2 - 8) + '" y="' + (-t.h / 2 - 8) + '" width="' + (t.w + 16) + '" height="' + (t.h + 16) + '" rx="10" fill="' + pal.accent +
+          '" fill-opacity="0.15" stroke="' + pal.accent + '" stroke-width="' + (2.5 * k).toFixed(2) + '" stroke-dasharray="' + (6 * k).toFixed(1) + ' ' + (4 * k).toFixed(1) + '"/>';
+      }
+      s += shapeSvg(it.type);
+      if (o && o.handle) {
+        const y0 = -t.h / 2 - 8, y1 = y0 - 24 * k, cy = y1 - 12 * k;
+        s += '<line x1="0" y1="' + y0 + '" x2="0" y2="' + y1.toFixed(1) + '" stroke="' + pal.accent + '" stroke-width="' + (2.5 * k).toFixed(2) + '"/>' +
+          '<g class="rot-handle" data-handle="' + esc(it.id) + '"><circle cx="0" cy="' + cy.toFixed(1) + '" r="' + (22 * k).toFixed(1) + '" fill="#000" fill-opacity="0"/>' +
+          '<circle cx="0" cy="' + cy.toFixed(1) + '" r="' + (12 * k).toFixed(1) + '" fill="' + pal.accent + '" stroke="#ffffff" stroke-width="' + (2 * k).toFixed(2) + '"/>' +
+          '<path d="M' + (-5 * k).toFixed(1) + ' ' + cy.toFixed(1) + ' a ' + (5 * k).toFixed(1) + ' ' + (5 * k).toFixed(1) + ' 0 1 1 ' + (5 * k).toFixed(1) + ' ' + (5 * k).toFixed(1) +
+          '" fill="none" stroke="#ffffff" stroke-width="' + (2 * k).toFixed(2) + '"/></g>';
+      }
+      s += '</g>' + labelSvg(displayName(it, loc), hh + 17, pal);
+      if (loc) s += badgeSvg(loc, hh + 23);
+      return s + '</g>';
+    }
+
+    function cableSvgs(m, pal, selId) {
+      const groups = {};
+      m.cables.forEach((c) => {
+        const key = [c.a, c.b].sort().join('|');
+        (groups[key] = groups[key] || []).push(c);
+      });
+      let out = '';
+      Object.keys(groups).forEach((key) => {
+        const list = groups[key];
+        list.forEach((c, idx) => {
+          const a = m.items.find((i) => i.id === c.a);
+          const b = m.items.find((i) => i.id === c.b);
+          if (!a || !b) return;
+          const col = CABLE_COLORS[c.color] || CABLE_COLORS.black;
+          // offset parallel runs between the same two items so each colour stays visible
+          const p0 = c.a < c.b ? a : b, p1 = c.a < c.b ? b : a;
+          const dx = p1.x - p0.x, dy = p1.y - p0.y, len = Math.hypot(dx, dy) || 1;
+          const off = (idx - (list.length - 1) / 2) * 11;
+          const nx = -dy / len * off, ny = dx / len * off;
+          const x1 = (a.x + nx).toFixed(1), y1 = (a.y + ny).toFixed(1), x2 = (b.x + nx).toFixed(1), y2 = (b.y + ny).toFixed(1);
+          const L = 'x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"';
+          const under = c.color === 'white' ? '#4d4d4d' : c.color === 'black' ? '#ffffff' : 'rgba(0,0,0,0.35)';
+          let s = '<g class="map-cable" data-cable="' + esc(c.id) + '">';
+          if (c.id === selId) s += '<line ' + L + ' stroke="' + pal.accent + '" stroke-opacity="0.45" stroke-width="' + (col.width + 12) + '" stroke-linecap="round"/>';
+          s += '<line ' + L + ' stroke="' + under + '" stroke-width="' + (col.width + 3) + '" stroke-linecap="round"/>';
+          s += '<line ' + L + ' stroke="' + col.stroke + '" stroke-width="' + col.width + '" stroke-linecap="round"/>';
+          if (c.color === 'feeder') s += '<line ' + L + ' stroke="#1a1a1a" stroke-width="2" stroke-dasharray="10 8"/>';
+          s += '<line ' + L + ' stroke="#000" stroke-opacity="0" stroke-width="26" stroke-linecap="round"/>';
+          if (c.len) {
+            const mx = (a.x + b.x) / 2 + nx, my = (a.y + b.y) / 2 + ny;
+            s += '<text x="' + mx.toFixed(1) + '" y="' + (my - 9).toFixed(1) + '" text-anchor="middle" font-size="12.5" font-weight="800" fill="' + pal.text +
+              '" stroke="' + pal.halo + '" stroke-width="4" paint-order="stroke" stroke-linejoin="round">' + esc(c.len) + '</text>';
+          }
+          out += s + '</g>';
+        });
+      });
+      return out;
+    }
+
+    function gridSvg(pal, x, y, w, h) {
+      return '<defs><pattern id="mgMinor" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0 L0 0 0 20" fill="none" stroke="' + pal.grid + '" stroke-width="0.7"/></pattern>' +
+        '<pattern id="mgMajor" width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill="url(#mgMinor)"/><path d="M100 0 L0 0 0 100" fill="none" stroke="' + pal.gridMajor + '" stroke-opacity="0.45" stroke-width="1.3"/></pattern></defs>' +
+        '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + pal.bg + '"/>' +
+        '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="url(#mgMajor)"/>';
+    }
+
+    function renderMapBg() {
+      const m = currentMap();
+      const pal = mapPalette();
+      let s = gridSvg(pal, -4000, -4000, 10000, 10000);
+      if (m.bg && m.bgData) {
+        s += '<image href="' + m.bgData + '" x="0" y="0" width="' + m.bg.w + '" height="' + m.bg.h + '" preserveAspectRatio="none"/>' +
+          '<rect x="0" y="0" width="' + m.bg.w + '" height="' + m.bg.h + '" fill="none" stroke="' + pal.gridMajor + '" stroke-width="2"/>';
+      }
+      mapBgLayer.innerHTML = s;
+    }
+
+    function renderMapContent() {
+      const m = currentMap();
+      const pal = mapPalette();
+      const s = mapView().s;
+      const hl = new Set();
+      if (mapSelected && mapSelected.kind === 'item') hl.add(mapSelected.id);
+      if (cableMode && cableMode.from) hl.add(cableMode.from);
+      mapCableLayer.innerHTML = cableSvgs(m, pal, mapSelected && mapSelected.kind === 'cable' ? mapSelected.id : null);
+      mapItemLayer.innerHTML = m.items.map((it) => itemSvg(it, pal, {
+        hl: hl.has(it.id),
+        handle: !cableMode && mapSelected && mapSelected.kind === 'item' && mapSelected.id === it.id && ITEM_TYPES[it.type].rot,
+        s: s
+      })).join('');
+    }
+
+    function applyView() {
+      const v = mapView();
+      mapViewportEl.setAttribute('transform', 'translate(' + v.tx.toFixed(2) + ' ' + v.ty.toFixed(2) + ') scale(' + v.s.toFixed(4) + ')');
+    }
+
+    function renderMapAll() {
+      if (activeTab !== 'map') return;
+      renderMapBg();
+      renderMapContent();
+      applyView();
+      renderSheet();
+      updateModeBar();
+      updateMapStatus();
+    }
+
+    function contentBounds(m, pad) {
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      if (m.bg || !m.items.length) {
+        const ws = worldSize(m);
+        minX = 0; minY = 0; maxX = ws.w; maxY = ws.h;
+      }
+      m.items.forEach((it) => {
+        const hw = Math.max(itemHalfWidth(it), 75), hh = itemHalfHeight(it);
+        minX = Math.min(minX, it.x - hw); maxX = Math.max(maxX, it.x + hw);
+        minY = Math.min(minY, it.y - hh - 10); maxY = Math.max(maxY, it.y + hh + 46);
+      });
+      pad = pad == null ? 20 : pad;
+      return { x: minX - pad, y: minY - pad, w: maxX - minX + pad * 2, h: maxY - minY + pad * 2 };
+    }
+
+    function stageSize() {
+      const r = mapSvg.getBoundingClientRect();
+      return { w: r.width || 360, h: r.height || 400 };
+    }
+
+    function fitView() {
+      const m = currentMap();
+      const b = contentBounds(m, 20);
+      const st = stageSize();
+      // keep the top strip clear for the cable bar and the right edge clear for zoom buttons
+      const top = 58, right = 52;
+      const aw = Math.max(100, st.w - right), ah = Math.max(100, st.h - top);
+      const s = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, Math.min(aw / b.w, ah / b.h)));
+      m.view = { s: s, tx: (aw - b.w * s) / 2 - b.x * s, ty: top + (ah - b.h * s) / 2 - b.y * s };
+      applyView();
+      renderMapContent();
+      saveViewSoon();
+    }
+
+    function zoomAt(factor, pt) {
+      const v = mapView();
+      const s = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, v.s * factor));
+      const wx = (pt.x - v.tx) / v.s, wy = (pt.y - v.ty) / v.s;
+      v.s = s; v.tx = pt.x - wx * s; v.ty = pt.y - wy * s;
+      applyView();
+      saveViewSoon(true);
+    }
+
+    function saveViewSoon(rerender) {
+      clearTimeout(viewSaveTimer);
+      viewSaveTimer = setTimeout(() => {
+        if (rerender) renderMapContent();
+        persistMap();
+      }, 350);
+    }
+
+    function toWorld(p) {
+      const v = mapView();
+      return { x: (p.x - v.tx) / v.s, y: (p.y - v.ty) / v.s };
+    }
+
+    function localPt(e) {
+      const r = mapSvg.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    function findMapItem(id) { return currentMap().items.find((i) => i.id === id); }
+
+    function addMapItem(type) {
+      if (!ITEM_TYPES[type]) return null;
+      if (cableMode) cancelCableMode();
+      const m = currentMap();
+      const st = stageSize();
+      const c = toWorld({ x: st.w / 2, y: st.h / 2 });
+      const n = m.items.length % 6;
+      const it = {
+        id: mapUid('mi-'), type: type,
+        x: Math.round(c.x + (n - 2.5) * 14), y: Math.round(c.y + (n - 2.5) * 14),
+        rot: 0, label: '', loc: ''
+      };
+      m.items.push(it);
+      mapSelected = { kind: 'item', id: it.id };
+      persistMap();
+      renderMapContent();
+      renderSheet();
+      keepSelectionVisible();
+      toast('Added ' + (ITEM_TYPES[type].short || ITEM_TYPES[type].label) + '. Drag it into place.');
+      return it;
+    }
+
+    function selectMap(sel) {
+      mapSelected = sel;
+      renderMapContent();
+      renderSheet();
+      keepSelectionVisible();
+    }
+
+    // Pan so the selected item is not hidden under the edit sheet.
+    function keepSelectionVisible() {
+      if (!mapSelected || mapSheetEl.hidden) return;
+      const m = currentMap();
+      let wx, wy;
+      if (mapSelected.kind === 'item') {
+        const it = m.items.find((i) => i.id === mapSelected.id);
+        if (!it) return;
+        wx = it.x; wy = it.y;
+      } else {
+        const c = m.cables.find((x) => x.id === mapSelected.id);
+        const a = c && m.items.find((i) => i.id === c.a), b = c && m.items.find((i) => i.id === c.b);
+        if (!a || !b) return;
+        wx = (a.x + b.x) / 2; wy = (a.y + b.y) / 2;
+      }
+      const v = mapView();
+      const r = mapSvg.getBoundingClientRect();
+      const sheetTop = mapSheetEl.getBoundingClientRect().top;
+      const visTop = Math.max(r.top, 0) + 60;
+      const visBottom = Math.min(r.bottom, sheetTop) - 70;
+      const sy = r.top + v.ty + wy * v.s;
+      const sx = r.left + v.tx + wx * v.s;
+      let dy = 0, dx = 0;
+      if (visBottom > visTop) {
+        if (sy > visBottom) dy = visBottom - sy;
+        else if (sy < visTop) dy = visTop - sy;
+      }
+      if (sx < r.left + 40) dx = r.left + 40 - sx;
+      else if (sx > r.right - 40) dx = r.right - 40 - sx;
+      if (!dx && !dy) return;
+      v.tx += dx; v.ty += dy;
+      applyView();
+      saveViewSoon();
+    }
+
+    function onItemTap(id) {
+      if (cableMode) {
+        if (!cableMode.from) {
+          cableMode.from = id;
+          updateModeBar();
+          renderMapContent();
+          return;
+        }
+        if (cableMode.from === id) { toast('Tap a different item to finish the cable.'); return; }
+        const c = { id: mapUid('cb-'), a: cableMode.from, b: id, color: cableMode.color, len: '' };
+        lastCableColor = cableMode.color;
+        currentMap().cables.push(c);
+        cableMode = null;
+        updateModeBar();
+        persistMap();
+        selectMap({ kind: 'cable', id: c.id });
+        toast('Cable added. You can add a length below.');
+        return;
+      }
+      selectMap({ kind: 'item', id: id });
+    }
+
+    function onCableTap(id) {
+      if (cableMode) return;
+      selectMap({ kind: 'cable', id: id });
+    }
+
+    function onEmptyTap() {
+      if (cableMode) return;
+      if (mapSelected) selectMap(null);
+    }
+
+    // ----- pointer: drag items, pan, pinch -----
+    mapSvg.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      e.preventDefault();
+      try { mapSvg.setPointerCapture(e.pointerId); } catch (err) {}
+      const p = localPt(e);
+      mapPointers.set(e.pointerId, p);
+      if (mapPointers.size === 2) { startPinch(); return; }
+      if (mapPointers.size > 2) return;
+      const t = e.target && e.target.closest ? e.target : null;
+      const h = t && t.closest('[data-handle]');
+      const it = t && t.closest('[data-item]');
+      const cb = t && t.closest('[data-cable]');
+      const v = mapView();
+      if (h) mapGesture = { kind: 'rotate', id: h.getAttribute('data-handle'), start: p, moved: false };
+      else if (it) {
+        const item = findMapItem(it.getAttribute('data-item'));
+        if (item) mapGesture = { kind: 'item', id: item.id, start: p, ox: item.x, oy: item.y, moved: false };
+      } else if (cb) mapGesture = { kind: 'cable', id: cb.getAttribute('data-cable'), start: p, tx: v.tx, ty: v.ty, moved: false };
+      else mapGesture = { kind: 'pan', start: p, tx: v.tx, ty: v.ty, moved: false };
+    });
+
+    function startPinch() {
+      const pts = Array.from(mapPointers.values());
+      const v = mapView();
+      if (mapGesture && (mapGesture.kind === 'item' || mapGesture.kind === 'rotate') && mapGesture.moved) persistMap();
+      mapGesture = {
+        kind: 'pinch',
+        d0: Math.max(1, Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y)),
+        m0: { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 },
+        s0: v.s, tx0: v.tx, ty0: v.ty
+      };
+    }
+
+    mapSvg.addEventListener('pointermove', (e) => {
+      if (!mapPointers.has(e.pointerId)) return;
+      const p = localPt(e);
+      mapPointers.set(e.pointerId, p);
+      const g = mapGesture;
+      if (!g) return;
+      const v = mapView();
+      if (g.kind === 'pinch') {
+        if (mapPointers.size < 2) return;
+        const pts = Array.from(mapPointers.values()).slice(0, 2);
+        const d = Math.max(1, Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y));
+        const mid = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 };
+        const s = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, g.s0 * d / g.d0));
+        const wx = (g.m0.x - g.tx0) / g.s0, wy = (g.m0.y - g.ty0) / g.s0;
+        v.s = s; v.tx = mid.x - wx * s; v.ty = mid.y - wy * s;
+        applyView();
+        return;
+      }
+      const dx = p.x - g.start.x, dy = p.y - g.start.y;
+      if (!g.moved && Math.hypot(dx, dy) < 6) return;
+      g.moved = true;
+      if (g.kind === 'item') {
+        const item = findMapItem(g.id);
+        if (!item) return;
+        item.x = Math.round(g.ox + dx / v.s);
+        item.y = Math.round(g.oy + dy / v.s);
+        renderMapContent();
+      } else if (g.kind === 'rotate') {
+        const item = findMapItem(g.id);
+        if (!item) return;
+        const w = toWorld(p);
+        const ang = Math.atan2(w.y - item.y, w.x - item.x) * 180 / Math.PI + 90;
+        item.rot = normRot(Math.round(ang / 5) * 5);
+        renderMapContent();
+      } else {
+        v.tx = g.tx + dx; v.ty = g.ty + dy;
+        applyView();
+      }
+    });
+
+    function endMapPointer(e) {
+      if (!mapPointers.has(e.pointerId)) return;
+      mapPointers.delete(e.pointerId);
+      const g = mapGesture;
+      if (!g) return;
+      if (g.kind === 'pinch') {
+        if (mapPointers.size < 2) { mapGesture = null; saveViewSoon(true); }
+        return;
+      }
+      mapGesture = null;
+      const cancelled = e.type === 'pointercancel';
+      if (g.kind === 'item' || g.kind === 'rotate') {
+        if (g.moved) { persistMap(); if (mapSelected && mapSelected.id === g.id) renderSheet(); }
+        else if (!cancelled && g.kind === 'item') onItemTap(g.id);
+        return;
+      }
+      if (g.moved) { saveViewSoon(); return; }
+      if (cancelled) return;
+      if (g.kind === 'cable') onCableTap(g.id);
+      else onEmptyTap();
+    }
+    mapSvg.addEventListener('pointerup', endMapPointer);
+    // Stop the browser's follow-up "ghost" click from landing on the edit sheet that a tap just opened.
+    mapSvg.addEventListener('touchend', (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
+    let sheetShownAt = 0;
+    mapSheetEl.addEventListener('click', (e) => {
+      if (Date.now() - sheetShownAt < 350) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+    mapSvg.addEventListener('pointercancel', endMapPointer);
+    mapSvg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      zoomAt(Math.exp(-e.deltaY * 0.0015), localPt(e));
+    }, { passive: false });
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach((name) => {
+      $('map-stage').addEventListener(name, (e) => e.preventDefault());
+    });
+    $('zoom-in').addEventListener('click', () => { const st = stageSize(); zoomAt(1.3, { x: st.w / 2, y: st.h / 2 }); });
+    $('zoom-out').addEventListener('click', () => { const st = stageSize(); zoomAt(1 / 1.3, { x: st.w / 2, y: st.h / 2 }); });
+    $('zoom-fit').addEventListener('click', fitView);
+
+    // ----- edit sheet -----
+    function linkInfoHtml(loc) {
+      if (!loc) return '';
+      const info = pairInfo(loc.pair);
+      const parts = info.keys.map((k) => {
+        const p = PHASES.find((x) => x.key === k);
+        return '<span class="dot dot-' + p.css + '" aria-hidden="true"></span>' + esc(p.label) + ' ' + esc(ampLabel(loc[k]).replace('A', ' A'));
+      });
+      parts.push('<span class="dot dot-neutral" aria-hidden="true"></span>Neutral ' + esc(ampLabel(loc.white).replace('A', ' A')));
+      return '<span>' + esc(info.label) + ':</span> ' + parts.join(' · ');
+    }
+
+    function renderSheet() {
+      document.body.classList.toggle('sheet-open', !!mapSelected && activeTab === 'map');
+      if (!mapSelected || activeTab !== 'map') { mapSheetEl.hidden = true; mapSheetEl.innerHTML = ''; return; }
+      const m = currentMap();
+      if (mapSelected.kind === 'item') {
+        const it = m.items.find((i) => i.id === mapSelected.id);
+        if (!it) { mapSelected = null; renderSheet(); return; }
+        const t = ITEM_TYPES[it.type];
+        const locs = current().locations;
+        const loc = linkedLoc(it);
+        const active = document.activeElement;
+        if (!mapSheetEl.hidden && mapSheetEl.dataset.for === it.id && active && active.id === 'ms-label') {
+          $('ms-info').innerHTML = linkInfoHtml(loc);
+          return;
+        }
+        mapSheetEl.dataset.for = it.id;
+        mapSheetEl.innerHTML =
+          '<div class="sheet-head"><h2>' + esc(t.label) + '</h2><button type="button" class="btn" id="ms-done">Done</button></div>' +
+          '<label class="field"><span>Label</span><input id="ms-label" type="text" maxlength="60" autocomplete="off" placeholder="' + esc(loc ? loc.name : (t.short || t.label)) + '" value="' + esc(it.label) + '"></label>' +
+          '<label class="field"><span>Tracker location</span><select id="ms-loc"><option value="">Not linked</option>' +
+          locs.map((l) => '<option value="' + esc(l.id) + '"' + (l.id === it.loc ? ' selected' : '') + '>' + esc(l.name) + '</option>').join('') + '</select></label>' +
+          '<p class="link-info" id="ms-info">' + linkInfoHtml(loc) + '</p>' +
+          (t.rot ? '<div class="btn-row"><button type="button" class="btn" id="ms-rot-l" aria-label="Rotate left 15 degrees">⟲ 15°</button><button type="button" class="btn" id="ms-rot-r" aria-label="Rotate right 15 degrees">⟳ 15°</button><button type="button" class="btn" id="ms-rot-90">Turn 90°</button></div>' +
+            '<p class="sheet-note">Angle ' + it.rot + '°. You can also drag the round handle on the map.</p>' : '') +
+          '<div class="btn-row"><button type="button" class="btn" id="ms-cable">Run cable from here</button><button type="button" class="btn btn-danger" id="ms-del">Delete</button></div>';
+        $('ms-done').addEventListener('click', () => selectMap(null));
+        $('ms-label').addEventListener('input', (ev) => {
+          it.label = ev.target.value.slice(0, 60);
+          renderMapContent();
+          clearTimeout(labelSaveTimer);
+          labelSaveTimer = setTimeout(() => persistMap(), 250);
+        });
+        $('ms-label').addEventListener('change', () => persistMap());
+        $('ms-loc').addEventListener('change', (ev) => {
+          it.loc = ev.target.value;
+          persistMap();
+          renderMapContent();
+          mapSheetEl.dataset.for = '';
+          renderSheet();
+        });
+        const rot = (d, abs) => { it.rot = normRot(abs != null ? abs : it.rot + d); persistMap(); renderMapContent(); mapSheetEl.dataset.for = ''; renderSheet(); };
+        if (t.rot) {
+          $('ms-rot-l').addEventListener('click', () => rot(-15));
+          $('ms-rot-r').addEventListener('click', () => rot(15));
+          $('ms-rot-90').addEventListener('click', () => rot(90));
+        }
+        $('ms-cable').addEventListener('click', () => startCableMode(it.id));
+        $('ms-del').addEventListener('click', () => deleteMapItem(it.id));
+      } else {
+        const c = m.cables.find((x) => x.id === mapSelected.id);
+        if (!c) { mapSelected = null; renderSheet(); return; }
+        const a = m.items.find((i) => i.id === c.a), b = m.items.find((i) => i.id === c.b);
+        const active = document.activeElement;
+        if (!mapSheetEl.hidden && mapSheetEl.dataset.for === c.id && active && active.id === 'mc-len') return;
+        mapSheetEl.dataset.for = c.id;
+        mapSheetEl.innerHTML =
+          '<div class="sheet-head"><h2>Cable run</h2><button type="button" class="btn" id="ms-done">Done</button></div>' +
+          '<p class="sheet-note">From <strong>' + esc(a ? displayName(a, linkedLoc(a)) : '?') + '</strong> to <strong>' + esc(b ? displayName(b, linkedLoc(b)) : '?') + '</strong></p>' +
+          '<div class="swatches" role="group" aria-label="Cable colour">' + Object.keys(CABLE_COLORS).map((k) =>
+            '<button type="button" class="swatch' + (k === c.color ? ' on' : '') + '" data-color="' + k + '" aria-pressed="' + (k === c.color) + '"><span class="sw" style="background:' + CABLE_COLORS[k].stroke + '"></span>' + CABLE_COLORS[k].label + '</button>').join('') + '</div>' +
+          '<label class="field"><span>Length (optional)</span><input id="mc-len" type="text" maxlength="20" autocomplete="off" placeholder="e.g. 100 ft" value="' + esc(c.len) + '"></label>' +
+          '<div class="btn-row"><button type="button" class="btn btn-danger" id="mc-del">Delete cable</button></div>';
+        $('ms-done').addEventListener('click', () => selectMap(null));
+        mapSheetEl.querySelectorAll('.swatch').forEach((btn) => btn.addEventListener('click', () => {
+          c.color = btn.getAttribute('data-color');
+          lastCableColor = c.color;
+          persistMap();
+          renderMapContent();
+          mapSheetEl.dataset.for = '';
+          renderSheet();
+        }));
+        $('mc-len').addEventListener('input', (ev) => {
+          c.len = ev.target.value.slice(0, 20);
+          renderMapContent();
+          clearTimeout(labelSaveTimer);
+          labelSaveTimer = setTimeout(() => persistMap(), 250);
+        });
+        $('mc-del').addEventListener('click', async () => {
+          const ok = await openModal({ title: 'Delete cable', body: 'Delete this cable run? This cannot be undone.', okLabel: 'Delete', danger: true });
+          if (!ok) return;
+          const mm = currentMap();
+          mm.cables = mm.cables.filter((x) => x.id !== c.id);
+          mapSelected = null;
+          persistMap();
+          renderMapContent();
+          renderSheet();
+        });
+      }
+      if (mapSheetEl.hidden) sheetShownAt = Date.now();
+      mapSheetEl.hidden = false;
+    }
+
+    async function deleteMapItem(id) {
+      const m = currentMap();
+      const it = m.items.find((i) => i.id === id);
+      if (!it) return;
+      const nCables = m.cables.filter((c) => c.a === id || c.b === id).length;
+      const ok = await openModal({
+        title: 'Delete from map',
+        body: 'Delete “' + displayName(it, linkedLoc(it)) + '” from the map' + (nCables ? ' and its ' + nCables + (nCables === 1 ? ' cable run' : ' cable runs') : '') + '? Tracker readings are not affected. This cannot be undone.',
+        okLabel: 'Delete',
+        danger: true
+      });
+      if (!ok) return;
+      const mm = currentMap();
+      mm.items = mm.items.filter((i) => i.id !== id);
+      mm.cables = mm.cables.filter((c) => c.a !== id && c.b !== id);
+      mapSelected = null;
+      persistMap();
+      renderMapContent();
+      renderSheet();
+    }
+
+    // ----- cable mode -----
+    function startCableMode(fromId) {
+      mapSelected = null;
+      cableMode = { from: fromId || null, color: lastCableColor };
+      updateModeBar();
+      renderSheet();
+      renderMapContent();
+      const r = $('map-stage').getBoundingClientRect();
+      if (r.top < 0 || r.top > window.innerHeight * 0.5) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cancelCableMode() {
+      cableMode = null;
+      updateModeBar();
+      renderMapContent();
+    }
+
+    function updateModeBar() {
+      const bar = $('map-mode');
+      bar.hidden = !cableMode;
+      $('cable-btn-text').textContent = cableMode ? 'Cancel cable' : 'Cable run';
+      $('cable-btn').classList.toggle('on', !!cableMode);
+      if (cableMode) {
+        $('map-mode-text').textContent = cableMode.from ? 'Now tap where it runs to' : 'Pick colour, tap start item';
+        $('cable-color').value = cableMode.color;
+      }
+    }
+
+    $('cable-btn').addEventListener('click', () => { if (cableMode) cancelCableMode(); else startCableMode(null); });
+    $('map-mode-cancel').addEventListener('click', cancelCableMode);
+    $('cable-color').addEventListener('change', (e) => { if (cableMode) cableMode.color = e.target.value; lastCableColor = e.target.value; });
+
+    // ----- background photo -----
+    function fileToImage(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => { resolve(img); setTimeout(() => URL.revokeObjectURL(url), 1000); };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('bad image')); };
+        img.src = url;
+      });
+    }
+
+    function compressImage(img, maxDim, quality) {
+      const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+      const scale = Math.min(1, maxDim / Math.max(iw, ih));
+      const w = Math.max(1, Math.round(iw * scale)), h = Math.max(1, Math.round(ih * scale));
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      return canvas.toDataURL('image/jpeg', quality);
+    }
+
+    async function loadBackgroundFile(file) {
+      if (!file) return;
+      let img;
+      try { img = await fileToImage(file); } catch (err) { toast('Could not read that image.'); return; }
+      let maxDim = 1600, q = 0.72, data = '';
+      for (let i = 0; i < 7; i++) {
+        data = compressImage(img, maxDim, q);
+        if (data.length <= 900000) break;
+        maxDim = Math.round(maxDim * 0.8);
+        q = Math.max(0.45, q - 0.06);
+      }
+      const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+      const m = currentMap();
+      m.bg = iw >= ih ? { w: WORLD_W, h: Math.round(WORLD_W * ih / iw) } : { w: Math.round(WORLD_W * iw / ih), h: WORLD_W };
+      m.bgData = data;
+      let saved = persistMap({ bg: true });
+      if (!saved && !(viewState && viewState.map)) {
+        m.bgData = data = compressImage(img, 900, 0.5);
+        saved = persistMap({ bg: true });
+      }
+      renderMapBg();
+      fitView();
+      const kb = Math.round(data.length * 0.75 / 1024);
+      toast(saved ? 'Lot photo added (' + kb + ' KB).' : 'Photo shown, but it is too big to save on this phone.');
+    }
+
+    $('bg-btn').addEventListener('click', () => $('bg-file').click());
+    $('bg-file').addEventListener('change', async (e) => {
+      const f = e.target.files && e.target.files[0];
+      await loadBackgroundFile(f);
+      e.target.value = '';
+    });
+    $('bg-clear-btn').addEventListener('click', async () => {
+      const m = currentMap();
+      if (!m.bgData) { toast('There is no lot photo to clear.'); return; }
+      const ok = await openModal({ title: 'Clear lot photo', body: 'Remove the background photo? Your items and cable runs stay where they are.', okLabel: 'Clear photo', danger: true });
+      if (!ok) return;
+      const mm = currentMap();
+      mm.bg = null; mm.bgData = '';
+      persistMap({ bg: true });
+      renderMapBg();
+      toast('Lot photo cleared.');
+    });
+
+    $('map-reset-btn').addEventListener('click', async () => {
+      const ok = await openModal({ title: 'Reset map layout', body: 'Put every item back to the starting layout and remove all cable runs? The lot photo and your tracker readings stay. This cannot be undone.', okLabel: 'Reset layout', danger: true });
+      if (!ok) return;
+      const m = currentMap();
+      const seed = seedMap(current().locations);
+      m.items = seed.items; m.cables = [];
+      mapSelected = null; cableMode = null;
+      persistMap();
+      fitView();
+      renderMapAll();
+      toast('Map layout reset.');
+    });
+
+    // ----- PNG export -----
+    function svgToImage(svgText) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('svg render failed'));
+        img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgText);
+      });
+    }
+
+    function loadImg(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    async function renderMapPngBlob() {
+      const m = currentMap();
+      const locs = current().locations;
+      const pal = mapPalette();
+      const b = contentBounds(m, 30);
+      const head = 44;
+      const W0 = b.w, H0 = b.h + head;
+      const scale = Math.min(2, 4096 / Math.max(W0, H0));
+      const W = Math.round(W0 * scale), H = Math.round(H0 * scale);
+      const open = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W0 + ' ' + H0 + '" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif">';
+      const world = '<g transform="translate(' + (-b.x) + ' ' + (head - b.y) + ')">';
+      const under = open + '<rect width="' + W0 + '" height="' + H0 + '" fill="' + pal.bg + '"/>' + world + gridSvg(pal, b.x, b.y, b.w, b.h) + '</g></svg>';
+      const when = formatWhen(Date.now());
+      const over = open +
+        '<rect width="' + W0 + '" height="' + head + '" fill="' + pal.bg + '"/><line x1="0" y1="' + head + '" x2="' + W0 + '" y2="' + head + '" stroke="' + pal.text + '" stroke-width="2"/>' +
+        '<text x="14" y="28" font-size="18" font-weight="800" fill="' + pal.text + '">Base Camp Map</text>' +
+        '<text x="' + (W0 - 14) + '" y="28" font-size="13" font-weight="600" text-anchor="end" fill="' + pal.text + '">' + esc(when) + '</text>' +
+        world + cableSvgs(m, pal, null) + m.items.map((it) => itemSvg(it, pal, null, locs)).join('') + '</g></svg>';
+      const canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(await svgToImage(under), 0, 0, W, H);
+      if (m.bg && m.bgData) {
+        const photo = await loadImg(m.bgData);
+        ctx.drawImage(photo, (0 - b.x) * scale, (head - b.y) * scale, m.bg.w * scale, m.bg.h * scale);
+      }
+      ctx.drawImage(await svgToImage(over), 0, 0, W, H);
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+      if (!blob) throw new Error('png failed');
+      return { blob: blob, width: W, height: H };
+    }
+
+    async function exportMapPng() {
+      let out;
+      try { out = await renderMapPngBlob(); }
+      catch (err) { toast('Could not make the map image.'); return; }
+      const d = new Date();
+      const name = 'basecamp-map-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.png';
+      let file = null;
+      try { file = new File([out.blob], name, { type: 'image/png' }); } catch (err) {}
+      if (file && navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: 'Base Camp Map' }); return; }
+        catch (err) { if (err && err.name === 'AbortError') return; }
+      }
+      const url = URL.createObjectURL(out.blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      toast('Map image saved.');
+    }
+
+    $('map-export-btn').addEventListener('click', exportMapPng);
+    $('map-share-btn').addEventListener('click', () => shareLink());
+
+    // ----- palette + tabs -----
+    TYPE_ORDER.forEach((type) => {
+      const t = ITEM_TYPES[type];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pal-btn';
+      btn.dataset.type = type;
+      btn.setAttribute('aria-label', 'Add ' + t.label);
+      btn.innerHTML = iconSvg(type) + '<span>' + esc(type === 'honeywagon' ? 'Honeywagon' : t.label) + '</span>';
+      btn.addEventListener('click', () => addMapItem(type));
+      $('map-palette').appendChild(btn);
+    });
+
+    function setTab(tab) {
+      activeTab = tab === 'map' ? 'map' : 'tracker';
+      const isMap = activeTab === 'map';
+      $('tracker-view').hidden = isMap;
+      $('tracker-summary').hidden = isMap;
+      $('map-view').hidden = !isMap;
+      $('tab-tracker').setAttribute('aria-selected', String(!isMap));
+      $('tab-map').setAttribute('aria-selected', String(isMap));
+      try { localStorage.setItem(TAB_KEY, activeTab); } catch (err) {}
+      if (isMap) {
+        const needFit = !currentMap().view;
+        renderMapAll();
+        if (needFit) fitView();
+      } else {
+        mapSelected = null;
+        cableMode = null;
+        renderSheet();
+        updateModeBar();
+        updateSummary();
+      }
+    }
+
+    $('tab-tracker').addEventListener('click', () => setTab('tracker'));
+    $('tab-map').addEventListener('click', () => setTab('map'));
+    try {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => renderMapAll());
+    } catch (err) {}
+
+    function compactMap(m, withImage) {
+      const out = {
+        it: m.items.map((i) => [i.id, i.type, Math.round(i.x), Math.round(i.y), normRot(i.rot), i.label, i.loc]),
+        cb: m.cables.map((c) => [c.id, c.a, c.b, c.color, c.len])
+      };
+      if (withImage && m.bg && m.bgData) out.bg = { w: m.bg.w, h: m.bg.h, d: m.bgData };
+      return out;
+    }
+
+    function expandMap(d) {
+      if (!d || !Array.isArray(d.it)) return null;
+      return hydrateMap({
+        items: d.it.map((a) => ({ id: a[0], type: a[1], x: a[2], y: a[3], rot: a[4], label: a[5], loc: a[6] })),
+        cables: (Array.isArray(d.cb) ? d.cb : []).map((a) => ({ id: a[0], a: a[1], b: a[2], color: a[3], len: a[4] })),
+        bg: d.bg ? { w: d.bg.w, h: d.bg.h } : null,
+        bgData: d.bg && typeof d.bg.d === 'string' ? d.bg.d : '',
+        view: null
+      });
+    }
+
+    function mapForState(state) {
+      return state.map || (state === viewState ? localState.map : null);
+    }
+
+    async function buildShareLink(state) {
+      const url = await shareUrlFor(state);
+      const m = mapForState(state);
+      if (url.length <= MAX_SHARE_URL || !m || !m.bgData) return { url: url, droppedImage: false };
+      return { url: await shareUrlFor(state, { image: false }), droppedImage: true };
     }
 
     $('theme-btn').addEventListener('click', toggleTheme);
@@ -1370,6 +2693,9 @@
     localState = loadLocal();
     renderList();
     applyHash();
+    let savedTab = 'tracker';
+    try { savedTab = localStorage.getItem(TAB_KEY) || 'tracker'; } catch (err) {}
+    if (savedTab === 'map') setTab('map');
 
     window.__phaseTracker = {
       getState: () => cloneState(current()),
@@ -1377,7 +2703,15 @@
       isViewingShare: () => !!viewState,
       encodeShare, decodeShare, shareUrlFor, summaryText, balanceText, totalsOf, persist,
       defaultPairForName, normalizePair, setPair, hydrateLocation,
-      STORAGE_KEY
+      STORAGE_KEY,
+      map: {
+        get: () => cloneState(currentMap()),
+        getLocal: () => cloneState(localState.map),
+        setTab, addItem: addMapItem, fitView, buildShareLink, renderPngBlob: renderMapPngBlob,
+        activeTab: () => activeTab,
+        selected: () => mapSelected,
+        MAP_KEY, MAP_BG_KEY
+      }
     };
   })();
   </script>
