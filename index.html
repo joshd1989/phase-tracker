@@ -535,6 +535,20 @@
     .compact-chev { flex-shrink: 0; font-weight: 800; color: var(--muted); }
 
     .card.collapsed { padding: 6px 10px; }
+    .card.off { border-style: dashed; box-shadow: none; }
+    .card.off h2, .card.off .amp-row, .card.off .compact-name { opacity: 0.55; }
+    .card.off .amp-row.unused { opacity: 0.45; }
+    .compact-off {
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 2px 8px;
+      border: 1px dashed var(--muted);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
     .card.collapsed .card-head, .card.collapsed .amp-row { display: none; }
     .card.collapsed .compact-line { display: flex; }
 
@@ -681,6 +695,179 @@
 
     [hidden] { display: none !important; }
 
+    .gen-legs {
+      margin: 14px 0 0;
+      padding: 10px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 8px;
+    }
+
+    .gen-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 800;
+    }
+
+    .gen-title small { font-weight: 600; font-size: 0.78rem; color: var(--muted); text-align: right; }
+
+    .gen-rows { display: grid; gap: 6px; }
+
+    .gen-row {
+      display: grid;
+      grid-template-columns: 5.4rem minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas: "head amps rating" "bar bar bar";
+      align-items: center;
+      column-gap: 8px;
+      row-gap: 4px;
+      padding: 6px 8px;
+      border: 2px solid var(--hairline);
+      border-radius: 10px;
+    }
+
+    .gen-row.heaviest { border-color: var(--border); box-shadow: inset 4px 0 0 var(--text); }
+    .gen-row.warn { background: var(--banner); border-color: var(--banner-border); }
+    .gen-row.over { background: var(--danger-bg); border-color: var(--danger); }
+
+    .gr-head { grid-area: head; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-weight: 800; }
+    .gr-head .dot { justify-self: auto; }
+    .gr-tag {
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: var(--text);
+      color: var(--bg);
+    }
+    .gr-tag:empty { display: none; }
+
+    .gr-field { display: flex; align-items: center; gap: 4px; min-width: 0; }
+    .gr-amps { grid-area: amps; }
+    .gr-rating { grid-area: rating; }
+    .gr-of { font-size: 0.78rem; font-weight: 650; color: var(--muted); }
+
+    .gr-field input {
+      width: 100%;
+      min-width: 0;
+      min-height: 44px;
+      padding: 6px 8px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      font-size: 16px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .gr-rating input { border-style: dashed; font-weight: 600; }
+    .gr-field input:focus { outline: 3px solid var(--accent); outline-offset: 1px; }
+
+    .gr-barline { grid-area: bar; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; }
+    .gr-barline .bar { height: 12px; }
+    .gr-pct { font-size: 0.8rem; font-weight: 750; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--muted); }
+    .gen-row.warn .gr-pct { color: var(--banner-border); }
+    .gen-row.over .gr-pct { color: var(--danger); }
+
+    .gen-spread { margin: 0; font-size: 0.9rem; font-weight: 700; }
+    .gen-spread:empty, .gen-diff:empty { display: none; }
+    .gen-diff { margin: 0; font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+
+    .fluids { display: grid; gap: 8px; margin-top: 4px; padding-top: 10px; border-top: 2px solid var(--hairline); }
+    .gen-legs { grid-template-columns: minmax(0, 1fr); }
+    .fluids, .fl-box, .fl-box > * { min-width: 0; }
+    .fluids .gen-title { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .fluids .gen-title small { text-align: left; color: var(--text); font-weight: 700; }
+    .fl-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+    @media (min-width: 560px) { .fl-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+    .fl-box { display: grid; gap: 6px; padding: 6px 8px; border: 2px solid var(--hairline); border-radius: 10px; }
+    .fl-box.warn { background: var(--banner); border-color: var(--banner-border); }
+    .fl-box.low, .fl-box.bad { background: var(--danger-bg); border-color: var(--danger); }
+    .fl-lab { font-weight: 800; min-width: 2.6rem; }
+    .fl-box .gr-barline, .fl-box .gr-field { grid-area: auto; }
+    .fl-quick { display: flex; gap: 6px; }
+    .fl-quick .chip { min-width: 0; padding: 0 4px; }
+    .chip { flex: 1; min-height: 44px; border: 2px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font: inherit; font-weight: 750; }
+    .chip.on { background: var(--text); color: var(--bg); }
+    .fuel-gauge { height: 14px; }
+    .fuel-gauge > span { background: #2e7d32; }
+    .fl-box.warn .fuel-gauge > span { background: #f9a825; }
+    .fl-box.low .fuel-gauge > span { background: #c62828; }
+    .fl-range { display: flex; align-items: center; gap: 6px; }
+    .fl-range input { flex: 1; min-width: 0; min-height: 44px; padding: 6px 8px; border: 2px dashed var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font-size: 16px; font-weight: 600; text-align: right; }
+    .fl-small { font-size: 0.8rem; font-weight: 650; color: var(--muted); }
+    .fl-status { margin: 0; font-size: 0.85rem; font-weight: 750; }
+    .fl-status:empty { display: none; }
+    .fl-box.warn .fl-status { color: var(--banner-text, var(--text)); }
+    .fl-box.low .fl-status, .fl-box.bad .fl-status { color: var(--danger); }
+    .fl-log-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+    .fl-log-row input { min-width: 0; min-height: 44px; padding: 6px 10px; border: 2px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font-size: 16px; }
+    .fluid-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; max-height: 260px; overflow-y: auto; }
+    .fluid-list:empty { display: none; }
+    .fl-entry { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; align-items: center; padding: 6px 8px; border: 1px solid var(--hairline); border-radius: 10px; }
+    .fl-entry time { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+    .fl-entry .fe-vals { font-weight: 750; font-variant-numeric: tabular-nums; }
+    .fl-entry .fe-warn { color: var(--danger); }
+    .fl-entry .fe-note { grid-column: 1 / -1; margin: 0; font-size: 0.88rem; overflow-wrap: anywhere; }
+    .fl-entry .ne-del { grid-row: 1 / span 2; grid-column: 2; }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+    .notes-card {
+      margin-top: 16px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 8px;
+    }
+
+    .notes-card h2 { margin: 0; font-size: 1.02rem; }
+    .notes-card .notes-sub { margin: 0; color: var(--muted); font-size: 0.85rem; }
+
+    #notes-input {
+      width: 100%;
+      min-height: 64px;
+      padding: 8px 10px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      color: var(--text);
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.4;
+      resize: vertical;
+    }
+
+    #notes-input:focus { outline: 3px solid var(--accent); outline-offset: 1px; }
+
+    .note-add-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .snap { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 650; cursor: pointer; }
+    .snap input { width: 22px; height: 22px; accent-color: var(--accent); }
+    #note-add-btn { min-width: 6rem; }
+
+    .note-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .note-empty { margin: 0; color: var(--muted); font-size: 0.88rem; }
+    .note-entry { border: 1px solid var(--hairline); border-radius: 10px; padding: 8px 10px; background: var(--bg); display: grid; gap: 4px; }
+    .ne-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .ne-head time { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+    .ne-head .btn { min-height: 36px; min-width: 0; padding: 4px 10px; font-size: 0.8rem; }
+    .ne-text { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .ne-legs { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 0.82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .ne-legs span { display: inline-flex; align-items: center; gap: 4px; }
+    .ne-legs .dot { justify-self: auto; width: 10px; height: 10px; }
+
     .tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -735,7 +922,7 @@
       cursor: pointer;
     }
 
-    .pal-btn svg { width: 40px; height: 28px; overflow: visible; }
+    .pal-btn svg { width: 50px; height: 30px; overflow: visible; }
     .pal-btn.pal-cable { border-style: dashed; }
     .pal-btn.pal-cable.on { background: var(--accent); color: var(--accent-text); border-style: solid; border-color: var(--accent); }
 
@@ -902,12 +1089,73 @@
     </header>
 
     <div id="tracker-view">
+    <section class="gen-legs" id="gen-legs" aria-labelledby="gen-title">
+      <div class="gen-title"><span id="gen-title">Generator legs</span><small id="gen-updated">Not updated yet</small></div>
+      <div class="gen-rows">
+        <div class="gen-row" id="gen-row-red" data-leg="red">
+          <div class="gr-head"><span class="dot dot-red" aria-hidden="true"></span><span class="gr-name">Red</span><span class="gr-tag" id="gen-tag-red"></span></div>
+          <label class="gr-field gr-amps"><span class="sr-only">Red leg amps</span><input id="gen-red" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Amps" aria-label="Generator Red leg amps"><span class="unit">A</span></label>
+          <label class="gr-field gr-rating"><span class="gr-of">of</span><input id="gen-rating-red" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Rating" aria-label="Red leg rating in amps (optional)"><span class="unit">A</span></label>
+          <div class="gr-barline"><div class="bar bar-red" aria-hidden="true"><span id="gen-bar-red"></span></div><span class="gr-pct" id="gen-pct-red"></span></div>
+        </div>
+        <div class="gen-row" id="gen-row-blue" data-leg="blue">
+          <div class="gr-head"><span class="dot dot-blue" aria-hidden="true"></span><span class="gr-name">Blue</span><span class="gr-tag" id="gen-tag-blue"></span></div>
+          <label class="gr-field gr-amps"><span class="sr-only">Blue leg amps</span><input id="gen-blue" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Amps" aria-label="Generator Blue leg amps"><span class="unit">A</span></label>
+          <label class="gr-field gr-rating"><span class="gr-of">of</span><input id="gen-rating-blue" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Rating" aria-label="Blue leg rating in amps (optional)"><span class="unit">A</span></label>
+          <div class="gr-barline"><div class="bar bar-blue" aria-hidden="true"><span id="gen-bar-blue"></span></div><span class="gr-pct" id="gen-pct-blue"></span></div>
+        </div>
+        <div class="gen-row" id="gen-row-black" data-leg="black">
+          <div class="gr-head"><span class="dot dot-black" aria-hidden="true"></span><span class="gr-name">Black</span><span class="gr-tag" id="gen-tag-black"></span></div>
+          <label class="gr-field gr-amps"><span class="sr-only">Black leg amps</span><input id="gen-black" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Amps" aria-label="Generator Black leg amps"><span class="unit">A</span></label>
+          <label class="gr-field gr-rating"><span class="gr-of">of</span><input id="gen-rating-black" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Rating" aria-label="Black leg rating in amps (optional)"><span class="unit">A</span></label>
+          <div class="gr-barline"><div class="bar bar-black" aria-hidden="true"><span id="gen-bar-black"></span></div><span class="gr-pct" id="gen-pct-black"></span></div>
+        </div>
+      </div>
+      <p class="gen-spread" id="gen-spread" aria-live="polite"></p>
+      <p class="gen-diff" id="gen-diff" aria-live="polite"></p>
+      <div class="fluids" id="fluids" role="group" aria-labelledby="fluids-title">
+        <div class="gen-title"><span id="fluids-title">Fuel / Oil pressure</span><small id="fluid-last">No readings logged yet</small></div>
+        <div class="fl-grid">
+          <div class="fl-box" id="fuel-box">
+            <label class="gr-field"><span class="fl-lab">Fuel</span><input id="fuel-input" type="text" inputmode="text" autocomplete="off" enterkeyhint="done" placeholder="% or 1/2" maxlength="12" aria-label="Fuel level, percent or a fraction like 1/2"></label>
+            <div class="fl-quick" role="group" aria-label="Quick fuel levels">
+              <button type="button" class="chip" data-fuel="1/4">1/4</button><button type="button" class="chip" data-fuel="1/2">1/2</button><button type="button" class="chip" data-fuel="3/4">3/4</button><button type="button" class="chip" data-fuel="Full">Full</button>
+            </div>
+            <div class="gr-barline"><div class="bar fuel-gauge" aria-hidden="true"><span id="fuel-bar"></span></div><span class="gr-pct" id="fuel-pct"></span></div>
+            <p class="fl-status" id="fuel-status" aria-live="polite"></p>
+          </div>
+          <div class="fl-box" id="oil-box">
+            <label class="gr-field"><span class="fl-lab">Oil</span><input id="oil-input" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Pressure" maxlength="12" aria-label="Oil pressure in PSI"><span class="unit">PSI</span></label>
+            <div class="fl-range"><span class="fl-small">Normal</span><input id="oil-min" type="text" inputmode="decimal" autocomplete="off" placeholder="min" maxlength="12" aria-label="Normal oil pressure minimum, PSI (optional)"><span class="fl-small">to</span><input id="oil-max" type="text" inputmode="decimal" autocomplete="off" placeholder="max" maxlength="12" aria-label="Normal oil pressure maximum, PSI (optional)"></div>
+            <p class="fl-status" id="oil-status" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="fl-log-row">
+          <input id="fluid-note" type="text" maxlength="300" autocomplete="off" placeholder="Note (optional)" aria-label="Note for this fuel and oil reading">
+          <button type="button" class="btn btn-primary" id="fluid-log-btn">Log reading</button>
+        </div>
+        <ol class="fluid-list" id="fluid-list" aria-label="Fuel and oil history, newest first"></ol>
+      </div>
+    </section>
     <div class="list-tools">
       <button type="button" class="btn" id="rebalance-btn">Suggest rebalance</button>
       <button type="button" class="btn" id="collapse-all-btn">Collapse all</button>
     </div>
     <section id="rebalance-panel" aria-label="Rebalance suggestion" aria-live="polite" hidden></section>
     <section class="list" id="location-list" aria-label="Locations"></section>
+
+    <section class="notes-card" aria-labelledby="notes-title">
+      <h2 id="notes-title">Generator log</h2>
+      <p class="notes-sub">Anomalies and issues. Newest first.</p>
+      <label for="notes-input" class="sr-only">New log entry</label>
+      <textarea id="notes-input" rows="2" maxlength="1000" placeholder="e.g. Black leg spiking, oil light on" autocapitalize="sentences"></textarea>
+      <div class="note-add-row">
+        <label class="snap"><input type="checkbox" id="note-snap"> Snapshot legs</label>
+        <button type="button" class="btn btn-primary" id="note-add-btn">Add</button>
+      </div>
+      <ol class="note-list" id="note-list" aria-label="Log entries"></ol>
+      <p class="saved-line" id="notes-saved"></p>
+    </section>
 
     <section class="actions">
       <button type="button" class="btn btn-primary" id="add-btn">Add location</button>
@@ -939,6 +1187,7 @@
           <option value="black">Black</option>
           <option value="white">White (Neutral)</option>
           <option value="feeder">Feeder</option>
+          <option value="ground">Ground (green)</option>
         </select>
         <button type="button" class="btn" id="map-mode-cancel">Cancel</button>
       </div>
@@ -1020,7 +1269,8 @@
     const PAIRS = [
       { id: 'rb', keys: ['red', 'blue'], label: 'Red + Blue', dots: ['red', 'blue'] },
       { id: 'rk', keys: ['red', 'black'], label: 'Red + Black', dots: ['red', 'black'] },
-      { id: 'bk', keys: ['blue', 'black'], label: 'Blue + Black', dots: ['blue', 'black'] }
+      { id: 'bk', keys: ['blue', 'black'], label: 'Blue + Black', dots: ['blue', 'black'] },
+      { id: 'off', keys: [], label: 'Not in use', dots: [] }
     ];
     const DEFAULT_PAIRS_BY_NAME = {
       'Bathroom': 'rb',
@@ -1053,15 +1303,17 @@
       tower: { label: 'Light tower', w: 48, h: 48, fill: '#fdd835', ink: '#1a1a1a', rot: false },
       honeywagon: { label: 'Honeywagon / Bathroom', short: 'Honeywagon', w: 120, h: 44, fill: '#00838f', ink: '#ffffff', rot: true },
       tent: { label: 'Tent', w: 80, h: 80, fill: '#2e7d32', ink: '#ffffff', rot: true },
+      ground: { label: 'Grounding clamp', short: 'Ground clamp', w: 44, h: 44, fill: '#43a047', ink: '#ffffff', rot: false },
       custom: { label: 'Custom', w: 110, h: 50, fill: '#8d6e63', ink: '#ffffff', rot: true }
     };
-    const TYPE_ORDER = ['generator', 'distro', 'cast', 'truck', 'tower', 'honeywagon', 'tent', 'custom'];
+    const TYPE_ORDER = ['generator', 'distro', 'cast', 'truck', 'tower', 'honeywagon', 'tent', 'ground', 'custom'];
     const CABLE_COLORS = {
       red: { label: 'Red', stroke: '#c62828', width: 5 },
       blue: { label: 'Blue', stroke: '#0d47a1', width: 5 },
       black: { label: 'Black', stroke: '#111111', width: 5 },
       white: { label: 'White', stroke: '#f5f5f5', width: 5 },
-      feeder: { label: 'Feeder', stroke: '#ef6c00', width: 9 }
+      feeder: { label: 'Feeder', stroke: '#ef6c00', width: 9 },
+      ground: { label: 'Ground', stroke: '#2e9e44', width: 5 }
     };
     const PHASE_HEX = { red: '#c62828', blue: '#0d47a1', black: '#111111', white: '#777777' };
     // Portrait-friendly starting layout so it reads well on a phone.
@@ -1084,7 +1336,7 @@
     }
 
     function normalizePair(pair, name) {
-      if (pair === 'rb' || pair === 'rk' || pair === 'bk') return pair;
+      if (pair === 'rb' || pair === 'rk' || pair === 'bk' || pair === 'off') return pair;
       return defaultPairForName(name);
     }
 
@@ -1093,6 +1345,7 @@
     }
 
     function isPhaseActive(loc, key) {
+      if (loc.pair === 'off') return false;
       if (key === 'white') return true;
       return pairInfo(loc.pair).keys.indexOf(key) !== -1;
     }
@@ -1112,11 +1365,135 @@
     let toastTimer = null;
     let modalResolver = null;
 
+    function emptyGen(rating) {
+      return { red: '', blue: '', black: '', updatedAt: null, rating: rating ? Object.assign({}, rating) : { red: '', blue: '', black: '' } };
+    }
+
+    function cleanVal(v) { return v == null ? '' : String(v).slice(0, 12); }
+
+    function hydrateGen(g) {
+      const out = emptyGen();
+      if (Array.isArray(g)) { out.red = g[0]; out.blue = g[1]; out.black = g[2]; }
+      else if (g && Array.isArray(g.a)) {
+        out.red = g.a[0]; out.blue = g.a[1]; out.black = g.a[2];
+        out.updatedAt = Number(g.u) || null;
+        if (Array.isArray(g.r)) out.rating = { red: g.r[0], blue: g.r[1], black: g.r[2] };
+      } else if (g && typeof g === 'object') {
+        out.red = g.red; out.blue = g.blue; out.black = g.black;
+        out.updatedAt = Number(g.updatedAt) || null;
+        if (g.rating && typeof g.rating === 'object') out.rating = { red: g.rating.red, blue: g.rating.blue, black: g.rating.black };
+      }
+      ['red', 'blue', 'black'].forEach((k) => { out[k] = cleanVal(out[k]); out.rating[k] = cleanVal(out.rating[k]); });
+      return out;
+    }
+
+    function emptyFluid() {
+      return { fuel: '', oil: '', min: '', max: '', updatedAt: null, history: [] };
+    }
+
+    function hydrateFluid(f) {
+      const out = emptyFluid();
+      if (!f || typeof f !== 'object') return out;
+      let hist = [];
+      if (Array.isArray(f.c)) {
+        out.fuel = f.c[0]; out.oil = f.c[1];
+        if (Array.isArray(f.r)) { out.min = f.r[0]; out.max = f.r[1]; }
+        out.updatedAt = Number(f.u) || null;
+        hist = Array.isArray(f.h) ? f.h.map((e) => Array.isArray(e) ? { t: e[0], fuel: e[1], oil: e[2], note: e[3], id: e[4] } : e) : [];
+      } else {
+        out.fuel = f.fuel; out.oil = f.oil; out.min = f.min; out.max = f.max;
+        out.updatedAt = Number(f.updatedAt) || null;
+        hist = Array.isArray(f.history) ? f.history : [];
+      }
+      ['fuel', 'oil', 'min', 'max'].forEach((k) => { out[k] = cleanVal(out[k]); });
+      hist.forEach((e, i) => {
+        if (!e || typeof e !== 'object') return;
+        const t = Number(e.t);
+        out.history.push({
+          id: String(e.id || ('fl-x' + i + '-' + (Number.isFinite(t) ? t : i))),
+          t: Number.isFinite(t) && t > 0 ? t : Date.now(),
+          fuel: cleanVal(e.fuel), oil: cleanVal(e.oil),
+          note: String(e.note == null ? '' : e.note).slice(0, 300)
+        });
+      });
+      return out;
+    }
+
+    // Fuel: "50", "50%", "1/2", "3/4", "Full", "Empty". Returns 0..100 or null.
+    function parseFuel(value) {
+      if (value == null) return null;
+      const s = String(value).trim().toLowerCase().replace(/\s+/g, '');
+      if (!s) return null;
+      if (s === 'f' || s === 'full') return 100;
+      if (s === 'e' || s === 'empty') return 0;
+      let m = s.match(/^(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+      if (m) {
+        const a = Number(m[1]), b = Number(m[2]);
+        if (!(b > 0) || a > b) return null;
+        return Math.round((a / b) * 1000) / 10;
+      }
+      m = s.match(/^(\d+(?:\.\d+)?)%?$/);
+      if (m) {
+        const n = Number(m[1]);
+        return n <= 100 ? n : null;
+      }
+      return null;
+    }
+
+    function fuelLevel(pct) {
+      if (pct == null) return '';
+      if (pct < 10) return 'low';
+      if (pct < 25) return 'warn';
+      return 'ok';
+    }
+
+    function fuelText(raw) {
+      const pct = parseFuel(raw);
+      if (pct == null) return '—';
+      const s = String(raw).trim();
+      if (s.indexOf('/') !== -1) return s.replace(/\s+/g, '') + ' (' + formatAmp(pct) + '%)';
+      if (/^(f|full|e|empty)$/i.test(s)) return (pct === 100 ? 'Full' : 'Empty') + ' (' + pct + '%)';
+      return formatAmp(pct) + '%';
+    }
+
+    function oilStatus(oilRaw, minRaw, maxRaw) {
+      const oil = parseAmp(oilRaw), min = parseAmp(minRaw), max = parseAmp(maxRaw);
+      const range = min != null && max != null ? formatAmp(min) + '–' + formatAmp(max) + ' PSI'
+        : min != null ? 'at least ' + formatAmp(min) + ' PSI' : max != null ? 'up to ' + formatAmp(max) + ' PSI' : '';
+      if (oil == null) return { level: '', oil: null, range: range };
+      if (min != null && oil < min) return { level: 'low', oil: oil, range: range };
+      if (max != null && oil > max) return { level: 'high', oil: oil, range: range };
+      return { level: range ? 'ok' : 'norange', oil: oil, range: range };
+    }
+
+    function hydrateLog(arr, legacyText, legacyTime) {
+      const log = [];
+      (Array.isArray(arr) ? arr : []).forEach((e, i) => {
+        if (Array.isArray(e)) e = { t: e[0], text: e[1], legs: e[2] ? { red: e[2][0], blue: e[2][1], black: e[2][2] } : null, id: e[3] };
+        if (!e || typeof e !== 'object') return;
+        const t = Number(e.t);
+        log.push({
+          id: String(e.id || ('note-x' + i + '-' + (Number.isFinite(t) ? t : i))),
+          t: Number.isFinite(t) && t > 0 ? t : Date.now(),
+          text: String(e.text == null ? '' : e.text).slice(0, 4000),
+          legs: e.legs && typeof e.legs === 'object' ? { red: cleanVal(e.legs.red), blue: cleanVal(e.legs.blue), black: cleanVal(e.legs.black) } : null
+        });
+      });
+      // Older versions kept one free-text notes box: carry it over as the first entry.
+      if (!log.length && typeof legacyText === 'string' && legacyText.trim()) {
+        log.push({ id: 'note-migrated', t: Number(legacyTime) || Date.now(), text: legacyText.trim().slice(0, 4000), legs: null });
+      }
+      return log;
+    }
+
     function defaultState() {
       const locations = DEFAULT_NAMES.map((name, i) => makeLocation(name, 'def-' + (i + 1)));
       return {
         savedAt: null,
         locations: locations,
+        gen: emptyGen(),
+        log: [],
+        fluid: emptyFluid(),
         map: seedMap(locations)
       };
     }
@@ -1180,6 +1557,7 @@
         const info = pairInfo(loc.pair);
         info.keys.forEach((k) => { counts[k] += 1; });
         for (const p of PHASES) {
+          if (loc.pair === 'off') continue;
           if (p.key !== 'white' && info.keys.indexOf(p.key) === -1) continue;
           const n = parseAmp(loc[p.key]);
           if (n != null) {
@@ -1221,7 +1599,10 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           savedAt: localState.savedAt,
-          locations: localState.locations
+          locations: localState.locations,
+          gen: localState.gen || emptyGen(),
+          log: localState.log || [],
+          fluid: localState.fluid || emptyFluid()
         }));
       } catch (err) {
         toast('Could not save on this device.');
@@ -1243,7 +1624,7 @@
         const data = JSON.parse(raw);
         if (!data || !Array.isArray(data.locations)) return defaultState();
         const locations = data.locations.map((loc, i) => hydrateLocation(loc, i, 'mig-'));
-        return { savedAt: data.savedAt || null, locations: locations };
+        return { savedAt: data.savedAt || null, locations: locations, gen: hydrateGen(data.gen), log: hydrateLog(data.log, data.notes, data.savedAt), fluid: hydrateFluid(data.fluid) };
       } catch (err) {
         return defaultState();
       }
@@ -1293,6 +1674,8 @@
         '<span></span>';
       summaryEl.appendChild(nRow);
       balanceEl.textContent = balanceText(state);
+      updateGenDiff(state, totals);
+      updateGenVisual(state);
       updateSavedLine();
     }
 
@@ -1338,6 +1721,380 @@
       persist();
       renderList();
     }
+
+    function genOf(state) {
+      if (!state.gen) state.gen = emptyGen();
+      if (!state.gen.rating) state.gen.rating = { red: '', blue: '', black: '' };
+      return state.gen;
+    }
+
+    function logOf(state) {
+      if (!Array.isArray(state.log)) state.log = [];
+      return state.log;
+    }
+
+    function genStats(state) {
+      const g = genOf(state);
+      const legs = HOT.map((p) => ({ key: p.key, label: p.label, amps: parseAmp(g[p.key]), rating: parseAmp(g.rating[p.key]) }));
+      const read = legs.filter((l) => l.amps != null);
+      const max = read.length ? Math.max.apply(null, read.map((l) => l.amps)) : 0;
+      const min = read.length ? Math.min.apply(null, read.map((l) => l.amps)) : 0;
+      legs.forEach((l) => {
+        l.pct = l.amps != null && l.rating ? (l.amps / l.rating) * 100 : null;
+        l.level = l.pct == null ? '' : l.pct > 100 ? 'over' : l.pct > 80 ? 'warn' : '';
+        l.heaviest = read.length >= 2 && max > min && l.amps === max;
+        l.lightest = read.length >= 2 && max > min && l.amps === min;
+      });
+      return { legs: legs, read: read, max: max, min: min, spread: Math.round((max - min) * 10) / 10 };
+    }
+
+    function updateGenDiff(state, totals) {
+      const el = $('gen-diff');
+      if (!el) return;
+      const g = genOf(state);
+      const read = HOT.filter((p) => parseAmp(g[p.key]) != null);
+      if (!read.length) { el.textContent = ''; return; }
+      const parts = read.map((p) => {
+        const d = Math.round((parseAmp(g[p.key]) - totals[p.key]) * 10) / 10;
+        return p.label + ' ' + (d > 0 ? '+' : d < 0 ? '−' : '±') + formatAmp(Math.abs(d)) + ' A';
+      });
+      el.textContent = 'Generator minus location totals: ' + parts.join(' · ');
+    }
+
+    function updateGenVisual(state) {
+      const st = genStats(state);
+      const g = genOf(state);
+      st.legs.forEach((l) => {
+        const row = $('gen-row-' + l.key);
+        if (!row) return;
+        const width = l.amps == null ? 0 : l.rating ? Math.min(100, (l.amps / l.rating) * 100) : (st.max > 0 ? (l.amps / st.max) * 100 : 0);
+        $('gen-bar-' + l.key).style.width = width.toFixed(1) + '%';
+        row.classList.toggle('heaviest', l.heaviest);
+        row.classList.toggle('warn', l.level === 'warn');
+        row.classList.toggle('over', l.level === 'over');
+        $('gen-tag-' + l.key).textContent = l.heaviest ? 'Heaviest' : '';
+        let pct = '';
+        if (l.rating) {
+          pct = (l.pct == null ? '—' : Math.round(l.pct) + '%') + ' of ' + formatAmp(l.rating) + ' A';
+          if (l.level === 'warn') pct = '⚠ ' + pct;
+          if (l.level === 'over') pct = '⚠ ' + pct + ' OVER';
+        } else if (l.amps != null) pct = formatAmp(l.amps) + ' A';
+        $('gen-pct-' + l.key).textContent = pct;
+      });
+      const sp = $('gen-spread');
+      if (st.read.length >= 2) {
+        const heavy = st.legs.filter((l) => l.heaviest), light = st.legs.filter((l) => l.lightest);
+        sp.textContent = st.spread === 0
+          ? 'Spread 0 A · legs are even at ' + formatAmp(st.max) + ' A'
+          : 'Spread ' + formatAmp(st.spread) + ' A · ' + heavy.map((l) => l.label).join(' and ') + ' heaviest (' + formatAmp(st.max) + ' A), ' +
+            light.map((l) => l.label).join(' and ') + ' lightest (' + formatAmp(st.min) + ' A)';
+      } else sp.textContent = '';
+      const up = $('gen-updated');
+      if (g.updatedAt) {
+        const d = new Date(g.updatedAt);
+        up.textContent = 'Last updated ' + (d.toDateString() === new Date().toDateString()
+          ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : formatWhen(g.updatedAt));
+      } else up.textContent = 'Not updated yet';
+    }
+
+    function legsText(legs) {
+      return HOT.map((p) => { const n = parseAmp(legs[p.key]); return p.label + ' ' + (n == null ? '—' : formatAmp(n) + ' A'); }).join(', ');
+    }
+
+    function renderLog() {
+      const list = $('note-list');
+      const log = logOf(current()).slice().sort((a, b) => b.t - a.t);
+      list.innerHTML = '';
+      if (!log.length) {
+        const li = document.createElement('li');
+        li.className = 'note-empty';
+        li.textContent = 'No entries yet.';
+        list.appendChild(li);
+      }
+      log.forEach((e) => {
+        const li = document.createElement('li');
+        li.className = 'note-entry';
+        li.dataset.id = e.id;
+        const head = document.createElement('div');
+        head.className = 'ne-head';
+        const time = document.createElement('time');
+        time.dateTime = new Date(e.t).toISOString();
+        time.textContent = formatWhen(e.t);
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'btn btn-danger ne-del';
+        del.textContent = 'Delete';
+        del.setAttribute('aria-label', 'Delete log entry from ' + formatWhen(e.t));
+        del.addEventListener('click', () => deleteNote(e.id));
+        head.appendChild(time);
+        head.appendChild(del);
+        li.appendChild(head);
+        if (e.text) {
+          const p = document.createElement('p');
+          p.className = 'ne-text';
+          p.textContent = e.text;
+          li.appendChild(p);
+        }
+        if (e.legs) {
+          const legs = document.createElement('div');
+          legs.className = 'ne-legs';
+          legs.setAttribute('aria-label', 'Leg snapshot: ' + legsText(e.legs));
+          HOT.forEach((p) => {
+            const n = parseAmp(e.legs[p.key]);
+            const s = document.createElement('span');
+            s.innerHTML = '<span class="dot dot-' + p.css + '" aria-hidden="true"></span>';
+            s.appendChild(document.createTextNode(p.label + ' ' + (n == null ? '—' : formatAmp(n) + ' A')));
+            legs.appendChild(s);
+          });
+          li.appendChild(legs);
+        }
+        list.appendChild(li);
+      });
+      $('notes-saved').textContent = viewState ? 'Shared log. Changes are not saved on this phone unless you tap Save to my tracker.' : 'The log saves automatically on this phone.';
+    }
+
+    function addNote() {
+      const input = $('notes-input');
+      const text = String(input.value || '').trim().slice(0, 1000);
+      const snap = $('note-snap').checked;
+      if (!text && !snap) { toast('Type a note first.'); input.focus(); return; }
+      const g = genOf(current());
+      const entry = { id: 'note-' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36), t: Date.now(), text: text || 'Leg snapshot', legs: null };
+      if (snap) entry.legs = { red: g.red, blue: g.blue, black: g.black };
+      const log = logOf(current());
+      log.push(entry);
+      if (log.length > 300) log.splice(0, log.length - 300);
+      input.value = '';
+      $('note-snap').checked = false;
+      persist();
+      renderLog();
+      toast('Log entry added.');
+    }
+
+    async function deleteNote(id) {
+      const e = logOf(current()).find((x) => x.id === id);
+      if (!e) return;
+      const ok = await openModal({
+        title: 'Delete log entry',
+        body: 'Delete the entry from ' + formatWhen(e.t) + (e.text ? ': “' + (e.text.length > 80 ? e.text.slice(0, 80) + '…' : e.text) + '”' : '') + '? This cannot be undone.',
+        okLabel: 'Delete',
+        danger: true
+      });
+      if (!ok) return;
+      const state = current();
+      state.log = logOf(state).filter((x) => x.id !== id);
+      persist();
+      renderLog();
+    }
+
+    function renderGenAndNotes() {
+      const state = current();
+      const g = genOf(state);
+      HOT.forEach((p) => {
+        const input = $('gen-' + p.key);
+        if (input && document.activeElement !== input) input.value = g[p.key];
+        const r = $('gen-rating-' + p.key);
+        if (r && document.activeElement !== r) r.value = g.rating[p.key];
+      });
+      updateGenVisual(state);
+      renderFluids(state);
+      renderLog();
+    }
+
+    function cleanAmpInput(input) {
+      const n = parseAmp(input.value);
+      if (n != null) input.value = Number.isInteger(n) ? String(n) : String(Math.round(n * 1000) / 1000);
+      else if (!String(input.value).trim()) input.value = '';
+    }
+
+    function onGenInput(key, input, sanitize) {
+      const g = genOf(current());
+      if (sanitize) cleanAmpInput(input);
+      const v = String(input.value).slice(0, 12);
+      if (v !== g[key]) g.updatedAt = Date.now();
+      g[key] = v;
+      persist();
+      updateSummary();
+    }
+
+    function onRatingInput(key, input, sanitize) {
+      const g = genOf(current());
+      if (sanitize) cleanAmpInput(input);
+      g.rating[key] = String(input.value).slice(0, 12);
+      persist();
+      updateGenVisual(current());
+    }
+
+    HOT.forEach((p) => {
+      const input = $('gen-' + p.key);
+      input.addEventListener('input', () => onGenInput(p.key, input));
+      input.addEventListener('change', () => onGenInput(p.key, input, true));
+      const r = $('gen-rating-' + p.key);
+      r.addEventListener('input', () => onRatingInput(p.key, r));
+      r.addEventListener('change', () => onRatingInput(p.key, r, true));
+    });
+
+    $('note-add-btn').addEventListener('click', addNote);
+
+    function fluidOf(state) {
+      if (!state.fluid || !Array.isArray(state.fluid.history)) state.fluid = hydrateFluid(state.fluid);
+      return state.fluid;
+    }
+
+    function shortWhen(ts) {
+      const d = new Date(ts);
+      return d.toDateString() === new Date().toDateString()
+        ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : formatWhen(ts);
+    }
+
+    function fluidEntryText(e, f) {
+      const parts = [];
+      if (parseFuel(e.fuel) != null) parts.push('Fuel ' + fuelText(e.fuel));
+      if (parseAmp(e.oil) != null) parts.push('Oil ' + formatAmp(parseAmp(e.oil)) + ' PSI');
+      return parts.join(' · ');
+    }
+
+    function renderFluids(state) {
+      const f = fluidOf(state);
+      [['fuel-input', 'fuel'], ['oil-input', 'oil'], ['oil-min', 'min'], ['oil-max', 'max']].forEach((p) => {
+        const el = $(p[0]);
+        if (el && document.activeElement !== el) el.value = f[p[1]];
+      });
+      // Fuel gauge
+      const pct = parseFuel(f.fuel);
+      const lvl = fuelLevel(pct);
+      const fb = $('fuel-box');
+      fb.classList.toggle('warn', lvl === 'warn');
+      fb.classList.toggle('low', lvl === 'low');
+      $('fuel-bar').style.width = (pct == null ? 0 : Math.max(pct, pct > 0 ? 2 : 0)) + '%';
+      $('fuel-pct').textContent = pct == null ? '' : formatAmp(pct) + '%';
+      const fs = $('fuel-status');
+      if (String(f.fuel).trim() && pct == null) fs.textContent = 'Use a percentage (0–100) or a fraction like 1/2.';
+      else if (lvl === 'low') fs.textContent = '⚠ Fuel critically low (under 10%)';
+      else if (lvl === 'warn') fs.textContent = '⚠ Fuel low (under 25%)';
+      else fs.textContent = '';
+      document.querySelectorAll('#fuel-box .chip').forEach((c) => c.classList.toggle('on', pct != null && parseFuel(c.dataset.fuel) === pct));
+      // Oil pressure
+      const os = oilStatus(f.oil, f.min, f.max);
+      const ob = $('oil-box');
+      ob.classList.toggle('bad', os.level === 'low' || os.level === 'high');
+      const ot = $('oil-status');
+      if (String(f.oil).trim() && os.oil == null) ot.textContent = 'Enter the pressure as a number of PSI.';
+      else if (os.level === 'low') ot.textContent = '⚠ Oil pressure LOW: ' + formatAmp(os.oil) + ' PSI (normal ' + os.range + ')';
+      else if (os.level === 'high') ot.textContent = '⚠ Oil pressure HIGH: ' + formatAmp(os.oil) + ' PSI (normal ' + os.range + ')';
+      else if (os.level === 'ok') ot.textContent = '✓ In normal range (' + os.range + ')';
+      else if (os.level === 'norange') ot.textContent = 'Set a normal min/max to get warnings.';
+      else ot.textContent = '';
+      // History + last reading at a glance
+      const hist = f.history.slice().sort((a, b) => b.t - a.t);
+      const last = hist[0];
+      $('fluid-last').textContent = last ? 'Last logged ' + shortWhen(last.t) + ' · ' + (fluidEntryText(last) || 'note only') : 'No readings logged yet';
+      const list = $('fluid-list');
+      list.innerHTML = '';
+      hist.forEach((e) => {
+        const li = document.createElement('li');
+        li.className = 'fl-entry';
+        li.dataset.id = e.id;
+        const time = document.createElement('time');
+        time.dateTime = new Date(e.t).toISOString();
+        time.textContent = formatWhen(e.t);
+        const vals = document.createElement('div');
+        vals.className = 'fe-vals';
+        const ep = parseFuel(e.fuel), eo = oilStatus(e.oil, f.min, f.max);
+        const bits = [];
+        if (ep != null) bits.push({ s: 'Fuel ' + fuelText(e.fuel), warn: ep < 25 });
+        if (eo.oil != null) bits.push({ s: 'Oil ' + formatAmp(eo.oil) + ' PSI', warn: eo.level === 'low' || eo.level === 'high' });
+        bits.forEach((b, i) => {
+          if (i) vals.appendChild(document.createTextNode(' · '));
+          const sp = document.createElement('span');
+          if (b.warn) sp.className = 'fe-warn';
+          sp.textContent = (b.warn ? '⚠ ' : '') + b.s;
+          vals.appendChild(sp);
+        });
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'btn btn-danger ne-del';
+        del.textContent = 'Delete';
+        del.setAttribute('aria-label', 'Delete fuel and oil reading from ' + formatWhen(e.t));
+        del.addEventListener('click', () => deleteFluid(e.id));
+        const head = document.createElement('div');
+        head.appendChild(time);
+        head.appendChild(vals);
+        li.appendChild(head);
+        li.appendChild(del);
+        if (e.note) {
+          const p = document.createElement('p');
+          p.className = 'fe-note';
+          p.textContent = e.note;
+          li.appendChild(p);
+        }
+        list.appendChild(li);
+      });
+    }
+
+    function onFluidInput(key, input, sanitize) {
+      const f = fluidOf(current());
+      if (sanitize && key !== 'fuel') cleanAmpInput(input);
+      if (sanitize && key === 'fuel') input.value = String(input.value).trim();
+      const v = String(input.value).slice(0, 12);
+      if ((key === 'fuel' || key === 'oil') && v !== f[key]) f.updatedAt = Date.now();
+      f[key] = v;
+      persist();
+      renderFluids(current());
+      updateSummary();
+    }
+
+    function logFluid() {
+      const f = fluidOf(current());
+      const fuelOk = parseFuel(f.fuel) != null, oilOk = parseAmp(f.oil) != null;
+      if (String(f.fuel).trim() && !fuelOk) { toast('Fuel should be a percentage or a fraction like 1/2.'); $('fuel-input').focus(); return; }
+      if (!fuelOk && !oilOk) { toast('Enter fuel or oil pressure first.'); $('fuel-input').focus(); return; }
+      const noteEl = $('fluid-note');
+      const entry = {
+        id: 'fl-' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36),
+        t: Date.now(),
+        fuel: fuelOk ? f.fuel : '',
+        oil: oilOk ? f.oil : '',
+        note: String(noteEl.value || '').trim().slice(0, 300)
+      };
+      f.history.push(entry);
+      if (f.history.length > 200) f.history.splice(0, f.history.length - 200);
+      noteEl.value = '';
+      persist();
+      renderFluids(current());
+      toast('Reading logged.');
+    }
+
+    async function deleteFluid(id) {
+      const f = fluidOf(current());
+      const e = f.history.find((x) => x.id === id);
+      if (!e) return;
+      const ok = await openModal({
+        title: 'Delete reading',
+        body: 'Delete the fuel / oil reading from ' + formatWhen(e.t) + (fluidEntryText(e) ? ' (' + fluidEntryText(e) + ')' : '') + '? This cannot be undone.',
+        okLabel: 'Delete',
+        danger: true
+      });
+      if (!ok) return;
+      const ff = fluidOf(current());
+      ff.history = ff.history.filter((x) => x.id !== id);
+      persist();
+      renderFluids(current());
+    }
+
+    [['fuel-input', 'fuel'], ['oil-input', 'oil'], ['oil-min', 'min'], ['oil-max', 'max']].forEach((p) => {
+      const el = $(p[0]);
+      el.addEventListener('input', () => onFluidInput(p[1], el));
+      el.addEventListener('change', () => onFluidInput(p[1], el, true));
+    });
+    document.querySelectorAll('#fuel-box .chip').forEach((c) => c.addEventListener('click', () => {
+      const el = $('fuel-input');
+      el.value = c.dataset.fuel;
+      onFluidInput('fuel', el, true);
+    }));
+    $('fluid-log-btn').addEventListener('click', logFluid);
+    $('fluid-note').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); logFluid(); } });
+
 
     const COLLAPSE_KEY = 'basecamp-phase-tracker-collapsed-v1';
     let collapsedIds = loadCollapsed();
@@ -1409,6 +2166,20 @@
       line.appendChild(name);
       const amps = document.createElement('span');
       amps.className = 'compact-amps';
+      if (loc.pair === 'off') {
+        const off = document.createElement('span');
+        off.className = 'compact-off';
+        off.textContent = 'Not in use';
+        amps.appendChild(off);
+        line.appendChild(amps);
+        const ch = document.createElement('span');
+        ch.className = 'compact-chev';
+        ch.setAttribute('aria-hidden', 'true');
+        ch.textContent = '▸';
+        line.appendChild(ch);
+        line.setAttribute('aria-label', loc.name + ', not in use. Tap to expand.');
+        return;
+      }
       pairInfo(loc.pair).keys.forEach((key) => {
         const p = PHASES.find((x) => x.key === key);
         const ph = document.createElement('span');
@@ -1450,7 +2221,7 @@
       listEl.innerHTML = '';
       state.locations.forEach((loc) => {
         const card = document.createElement('article');
-        card.className = 'card';
+        card.className = 'card' + (loc.pair === 'off' ? ' off' : '');
         card.dataset.id = loc.id;
 
         const compact = document.createElement('button');
@@ -1537,6 +2308,7 @@
         listEl.appendChild(card);
       });
       updateCollapseAllBtn();
+      renderGenAndNotes();
       if (typeof rebalancePlan !== 'undefined' && rebalancePlan) renderRebalance();
       updateSummary();
       updateShareBanner();
@@ -1679,7 +2451,7 @@
     async function clearReadings() {
       const ok = await openModal({
         title: 'Clear all readings',
-        body: 'Clear every amp reading? Locations will stay. This cannot be undone.',
+        body: 'Clear every amp reading, including the generator legs? Locations, leg ratings, the generator log, and fuel / oil readings will stay. This cannot be undone.',
         okLabel: 'Clear readings',
         danger: true
       });
@@ -1687,6 +2459,7 @@
       current().locations.forEach((loc) => {
         loc.red = loc.blue = loc.black = loc.white = '';
       });
+      current().gen = emptyGen(genOf(current()).rating);
       persist();
       renderList();
       toast('Readings cleared.');
@@ -1703,6 +2476,17 @@
           r: loc.red, b: loc.blue, k: loc.black, w: loc.white
         }))
       };
+      const g = state.gen ? hydrateGen(state.gen) : emptyGen();
+      if (g.red || g.blue || g.black || g.rating.red || g.rating.blue || g.rating.black) {
+        out.g = { a: [g.red, g.blue, g.black], u: g.updatedAt || 0, r: [g.rating.red, g.rating.blue, g.rating.black] };
+      }
+      if (Array.isArray(state.log) && state.log.length) {
+        out.n = state.log.map((e) => [e.t, e.text, e.legs ? [e.legs.red, e.legs.blue, e.legs.black] : 0, e.id]);
+      }
+      const fl = state.fluid ? hydrateFluid(state.fluid) : emptyFluid();
+      if (fl.fuel || fl.oil || fl.min || fl.max || fl.history.length) {
+        out.f = { c: [fl.fuel, fl.oil], r: [fl.min, fl.max], u: fl.updatedAt || 0, h: fl.history.map((e) => [e.t, e.fuel, e.oil, e.note, e.id]) };
+      }
       const m = mapForState(state);
       if (m) out.m = compactMap(m, !opts || opts.image !== false);
       return out;
@@ -1718,6 +2502,9 @@
           pair: loc.p,
           red: loc.r, blue: loc.b, black: loc.k, white: loc.w
         }, i, 'share-')),
+        gen: hydrateGen(data.g),
+        log: hydrateLog(Array.isArray(data.n) ? data.n : null, typeof data.n === 'string' ? data.n : '', data.t),
+        fluid: hydrateFluid(data.f),
         map: data.m ? expandMap(data.m) : null
       };
     }
@@ -1820,12 +2607,38 @@
         'Blue: ' + formatAmp(totals.blue) + ' A (' + countLine('blue', 'Blue') + ')',
         'Black: ' + formatAmp(totals.black) + ' A (' + countLine('black', 'Black') + ')',
         'Neutral (White): ' + formatAmp(totals.white) + ' A',
-        balanceText(state),
-        '',
-        'LOCATIONS'
+        balanceText(state)
       ];
+      const gs = genStats(state);
+      const gg = genOf(state);
+      if (gs.read.length || gs.legs.some((l) => l.rating)) {
+        lines.push('', 'GENERATOR LEGS' + (gg.updatedAt ? ' (updated ' + formatWhen(gg.updatedAt) + ')' : ''));
+        gs.legs.forEach((l) => {
+          let line = l.label + ': ' + (l.amps == null ? '—' : formatAmp(l.amps) + ' A');
+          if (l.rating) line += ' of ' + formatAmp(l.rating) + ' A' + (l.pct == null ? '' : ' (' + Math.round(l.pct) + '%' + (l.level === 'over' ? ', OVER RATING' : l.level === 'warn' ? ', over 80%' : '') + ')');
+          if (l.heaviest) line += ' ← heaviest';
+          lines.push(line);
+        });
+        if (gs.read.length >= 2) lines.push('Spread: ' + formatAmp(gs.spread) + ' A');
+      }
+      const ff = fluidOf(state);
+      const fpct = parseFuel(ff.fuel), fos = oilStatus(ff.oil, ff.min, ff.max);
+      if (fpct != null || fos.oil != null || ff.history.length || fos.range) {
+        lines.push('', 'FUEL / OIL' + (ff.updatedAt ? ' (updated ' + formatWhen(ff.updatedAt) + ')' : ''));
+        const fl = fuelLevel(fpct);
+        lines.push('Fuel: ' + fuelText(ff.fuel) + (fl === 'low' ? ' ⚠ CRITICALLY LOW (under 10%)' : fl === 'warn' ? ' ⚠ LOW (under 25%)' : ''));
+        lines.push('Oil pressure: ' + (fos.oil == null ? '—' : formatAmp(fos.oil) + ' PSI') + (fos.range ? ' (normal ' + fos.range + ')' : '') +
+          (fos.level === 'low' ? ' ⚠ LOW' : fos.level === 'high' ? ' ⚠ HIGH' : ''));
+        const fh = ff.history.slice().sort((a, b) => b.t - a.t);
+        if (fh.length) {
+          lines.push('Fuel / oil log (newest first):');
+          fh.forEach((e) => lines.push(formatWhen(e.t) + ' — ' + (fluidEntryText(e) || '—') + (e.note ? ' — ' + e.note : '')));
+        }
+      }
+      lines.push('', 'LOCATIONS');
       state.locations.forEach((loc) => {
         const info = pairInfo(loc.pair);
+        if (loc.pair === 'off') { lines.push(loc.name + ': Not in use (readings not counted)'); return; }
         const parts = [];
         info.keys.forEach((key) => {
           const p = PHASES.find((x) => x.key === key);
@@ -1841,6 +2654,11 @@
         });
         lines.push(loc.name + ' (' + info.label + '): ' + parts.join(', '));
       });
+      const log = Array.isArray(state.log) ? state.log.slice().sort((a, b) => b.t - a.t) : [];
+      if (log.length) {
+        lines.push('', 'GENERATOR LOG (newest first)');
+        log.forEach((e) => lines.push(formatWhen(e.t) + ' — ' + e.text + (e.legs ? ' [Legs: ' + legsText(e.legs) + ']' : '')));
+      }
       return lines.join('\n');
     }
 
@@ -2110,49 +2928,107 @@
       return n == null ? '—' : formatAmp(n) + 'A';
     }
 
+    // Realistic top-down (slight 3/4) icons. Front/tongue end is on the left (−x); trucks face right (+x).
+    const TONGUE = { cast: 20, generator: 18, honeywagon: 20, tower: 10 };
+
     function shapeSvg(type) {
       const t = ITEM_TYPES[type];
       const w = t.w, h = t.h, x = -w / 2, y = -h / 2, f = t.fill, k = t.ink, e = '#1a1a1a';
-      const box = (rx, extra) => '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + rx + '" fill="' + f + '" stroke="' + e + '" stroke-width="2.5"' + (extra || '') + '/>';
-      const txt = (tx, ty, size, s) => '<text x="' + tx + '" y="' + ty + '" font-size="' + size + '" font-weight="800" text-anchor="middle" fill="' + k + '">' + s + '</text>';
+      const R = (rx, ry, rw, rh, fill, extra) => '<rect x="' + rx.toFixed(1) + '" y="' + ry.toFixed(1) + '" width="' + rw.toFixed(1) + '" height="' + rh.toFixed(1) + '" fill="' + fill + '"' + (extra || '') + '/>';
+      const shadow = (rx) => R(x + 2, y + 3, w, h, '#000', ' rx="' + rx + '" opacity="0.22"');
+      const wheel = (cx, top) => R(cx - 7, top ? y - 4 : y + h - 3, 14, 7, '#212121', ' rx="2" stroke="#000" stroke-width="0.8"');
+      const tongue = (len) => '<path d="M' + x + ' ' + (-h * 0.3).toFixed(1) + ' L' + (x - len) + ' 0 L' + x + ' ' + (h * 0.3).toFixed(1) + '" fill="none" stroke="#424242" stroke-width="3.2" stroke-linejoin="round"/>' +
+        '<circle cx="' + (x - len) + '" cy="0" r="3.6" fill="#616161" stroke="#000" stroke-width="1"/>';
+      const txt = (tx, ty, size, s, fill) => '<text x="' + tx + '" y="' + ty + '" font-size="' + size + '" font-weight="800" text-anchor="middle" fill="' + (fill || k) + '">' + s + '</text>';
       switch (type) {
-        case 'generator':
-          return box(7) + '<path d="M-28 -18 L-40 3 L-31 3 L-35 19 L-20 -4 L-29 -4 Z" fill="' + k + '"/>' + txt(12, 6.5, 18, 'GEN');
-        case 'distro':
-          return box(5) + [[-11, -11], [11, -11], [-11, 11], [11, 11]].map((p) => '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3" fill="' + k + '"/>').join('') + txt(0, 5.5, 15, 'D');
-        case 'cast':
-          return '<path d="M' + x + ' -9 L' + (x - 16) + ' 0 L' + x + ' 9" fill="none" stroke="' + e + '" stroke-width="3" stroke-linejoin="round"/>' +
-            '<circle cx="' + (x - 16) + '" cy="0" r="3" fill="' + e + '"/>' + box(6) +
-            '<path d="M' + (x + 10) + ' ' + (y + 7) + ' h' + (w - 20) + '" stroke="' + k + '" stroke-opacity="0.35" stroke-width="2"/>' + txt(0, 7, 19, '★');
+        case 'generator': {
+          let louvres = '';
+          for (let i = 0; i < 6; i++) louvres += R(x + 12 + i * 6, y + 9, 3, h - 18, '#5d4500', ' opacity="0.55" rx="1"');
+          return shadow(7) + tongue(18) + wheel(6, true) + wheel(6, false) +
+            R(x, y, w, h, f, ' rx="7" stroke="' + e + '" stroke-width="2.5"') +
+            R(x + 3, y + 3, w - 6, 5, '#fff', ' rx="2" opacity="0.35"') +
+            louvres +
+            R(x + w - 34, y + 9, 24, h - 18, '#263238', ' rx="3" stroke="#000" stroke-width="1"') +
+            '<circle cx="' + (x + w - 27) + '" cy="' + (y + 16) + '" r="2.4" fill="#66bb6a"/><circle cx="' + (x + w - 17) + '" cy="' + (y + 16) + '" r="2.4" fill="#ef5350"/>' +
+            R(x + w - 31, y + h - 20, 18, 6, '#90a4ae', ' rx="1"') +
+            '<circle cx="' + (x + 58) + '" cy="' + (y + h - 13) + '" r="6.5" fill="#424242" stroke="#000" stroke-width="1.2"/><circle cx="' + (x + 58) + '" cy="' + (y + h - 13) + '" r="3" fill="#111"/>' +
+            '';
+        }
+        case 'distro': {
+          const cams = ['#c62828', '#0d47a1', '#111111', '#f5f5f5', '#2e7d32'];
+          return shadow(5) + R(x, y, w, h, f, ' rx="5" stroke="' + e + '" stroke-width="2.5"') +
+            R(x + 4, y + 4, w - 8, 14, '#ffb74d', ' rx="2" stroke="#7a3d00" stroke-width="0.8"') +
+            txt(0, y + 15, 10, 'D', '#1a1a1a') +
+            cams.map((c, i) => '<circle cx="' + (x + 6 + i * 7) + '" cy="' + (y + h - 8) + '" r="2.8" fill="' + c + '" stroke="#000" stroke-width="0.8"/>').join('');
+        }
+        case 'cast': {
+          let windows = '';
+          [0.18, 0.44, 0.78].forEach((p) => { windows += R(x + w * p, y + h - 3.5, 14, 3, '#b3e5fc', ' rx="1" stroke="#0d47a1" stroke-width="0.6"'); });
+          [0.25, 0.62].forEach((p) => { windows += R(x + w * p, y + 0.5, 14, 3, '#b3e5fc', ' rx="1" stroke="#0d47a1" stroke-width="0.6"'); });
+          return shadow(6) + tongue(20) + wheel(x + w * 0.56, true) + wheel(x + w * 0.56 + 16, true) + wheel(x + w * 0.56, false) + wheel(x + w * 0.56 + 16, false) +
+            R(x, y, w, h, f, ' rx="6" stroke="' + e + '" stroke-width="2.5"') +
+            R(x + 4, y + 5, w - 8, h - 10, '#fff', ' rx="4" opacity="0.14"') +
+            windows +
+            R(x + w * 0.32, y + h - 4.5, 10, 5, '#eeeeee', ' stroke="#000" stroke-width="0.8"') +
+            R(-11, -8, 22, 16, '#cfd8dc', ' rx="2" stroke="#37474f" stroke-width="1"') +
+            '<path d="M-7 -4 H7 M-7 0 H7 M-7 4 H7" stroke="#607d8b" stroke-width="1.2"/>' +
+            txt(x + w - 18, 6, 15, '★');
+        }
         case 'truck': {
-          const cab = 34;
-          return '<rect x="' + x + '" y="' + y + '" width="' + (w - cab - 3) + '" height="' + h + '" rx="4" fill="' + f + '" stroke="' + e + '" stroke-width="2.5"/>' +
-            '<rect x="' + (x + w - cab) + '" y="' + (y + 3) + '" width="' + cab + '" height="' + (h - 6) + '" rx="8" fill="#263238" stroke="' + e + '" stroke-width="2.5"/>' +
-            '<rect x="' + (x + w - 12) + '" y="' + (y + 8) + '" width="7" height="' + (h - 16) + '" rx="2" fill="#90caf9"/>' +
-            txt(x + (w - cab) / 2, 5, 13, 'TRUCK');
+          const cab = 34, box = w - cab - 4;
+          let ribs = '';
+          for (let i = 1; i < 6; i++) ribs += '<path d="M' + (x + (box / 6) * i).toFixed(1) + ' ' + (y + 2) + ' V' + (y + h - 2) + '" stroke="#b0bec5" stroke-width="1.2"/>';
+          return shadow(4) +
+            wheel(x + 16, true) + wheel(x + 32, true) + wheel(x + 16, false) + wheel(x + 32, false) + wheel(x + w - 16, true) + wheel(x + w - 16, false) +
+            R(x, y, box, h, '#eceff1', ' rx="3" stroke="' + e + '" stroke-width="2.5"') + ribs +
+            txt(x + box / 2, 5, 11, 'TRUCK', '#37474f') +
+            R(x + box + 1, y + 8, 4, h - 16, '#455a64') +
+            R(x + w - cab, y + 2, cab, h - 4, f, ' rx="9" stroke="' + e + '" stroke-width="2.5"') +
+            R(x + w - 13, y + 7, 8, h - 14, '#90caf9', ' rx="3" stroke="#0d47a1" stroke-width="0.8"') +
+            R(x + w - 18, y - 3, 6, 5, '#263238', ' rx="1"') + R(x + w - 18, y + h - 2, 6, 5, '#263238', ' rx="1"');
         }
-        case 'tower': {
-          let rays = '';
-          for (let i = 0; i < 8; i++) {
-            const a = i * Math.PI / 4, c = Math.cos(a), s = Math.sin(a);
-            rays += '<line x1="' + (c * 17).toFixed(1) + '" y1="' + (s * 17).toFixed(1) + '" x2="' + (c * 24).toFixed(1) + '" y2="' + (s * 24).toFixed(1) + '" stroke="' + e + '" stroke-width="3" stroke-linecap="round"/>';
+        case 'tower':
+          return '<circle cx="4" cy="-6" r="24" fill="#fff59d" opacity="0.45"/>' +
+            tongue(10) + R(-7, y + 7, 14, 6, '#212121', ' rx="2"') + R(-7, y + h - 13, 14, 6, '#212121', ' rx="2"') +
+            R(x, y + 10, w, h - 20, '#9e9e9e', ' rx="4" stroke="' + e + '" stroke-width="2"') +
+            '<circle cx="0" cy="0" r="4.5" fill="#616161" stroke="#000" stroke-width="1"/>' +
+            R(x + 2, y - 2, w - 4, 11, '#37474f', ' rx="3" stroke="#000" stroke-width="1"') +
+            [0, 1, 2, 3].map((i) => '<circle cx="' + (x + 8 + i * 10.5).toFixed(1) + '" cy="' + (y + 3.5) + '" r="3.6" fill="' + f + '" stroke="#f57f17" stroke-width="1"/>').join('');
+        case 'ground':
+          return '<circle cx="2" cy="3" r="21" fill="#000" opacity="0.22"/>' +
+            '<circle r="21" fill="' + f + '" stroke="' + e + '" stroke-width="2.5"/>' +
+            '<circle cx="0" cy="-14" r="3.2" fill="#b87333" stroke="#5d3a1a" stroke-width="1"/>' +
+            '<path d="M0 -11 V -1 M-11 -1 H11 M-7 5 H7 M-3 11 H3" fill="none" stroke="' + k + '" stroke-width="3" stroke-linecap="round"/>';
+        case 'honeywagon': {
+          let stalls = '';
+          const n = 4, sw = (w - 8) / n;
+          for (let i = 0; i < n; i++) {
+            const sx = x + 4 + i * sw;
+            if (i) stalls += '<path d="M' + sx.toFixed(1) + ' ' + (y + 4) + ' V' + (y + h - 4) + '" stroke="#004d54" stroke-width="1.4"/>';
+            stalls += R(sx + sw / 2 - 5, y + h - 4.5, 10, 5, '#eeeeee', ' stroke="#000" stroke-width="0.8"');
+            stalls += '<circle cx="' + (sx + sw / 2).toFixed(1) + '" cy="' + (y + 11) + '" r="3" fill="#b2dfdb" stroke="#004d54" stroke-width="0.8"/>';
           }
-          return '<circle r="24" fill="#000" fill-opacity="0"/>' + rays + '<circle r="14" fill="' + f + '" stroke="' + e + '" stroke-width="2.5"/><circle r="5" fill="' + e + '"/>';
+          return shadow(6) + tongue(20) + wheel(x + w * 0.5 - 8, true) + wheel(x + w * 0.5 + 8, true) + wheel(x + w * 0.5 - 8, false) + wheel(x + w * 0.5 + 8, false) +
+            R(x, y, w, h, f, ' rx="6" stroke="' + e + '" stroke-width="2.5"') + stalls + txt(0, 8, 13, 'WC');
         }
-        case 'honeywagon':
-          return box(6) + '<path d="M' + (x + 20) + ' ' + y + ' v' + h + ' M' + (x + w - 20) + ' ' + y + ' v' + h + '" stroke="' + k + '" stroke-opacity="0.45" stroke-width="2"/>' + txt(0, 6, 17, 'WC');
         case 'tent':
-          return box(3) + '<path d="M' + x + ' ' + y + ' L' + (-x) + ' ' + (-y) + ' M' + (-x) + ' ' + y + ' L' + x + ' ' + (-y) + '" stroke="' + k + '" stroke-opacity="0.6" stroke-width="2"/><circle r="5" fill="' + k + '"/>';
+          return shadow(3) + R(x, y, w, h, f, ' rx="3" stroke="' + e + '" stroke-width="2.5"') +
+            '<path d="M' + x + ' ' + y + ' L0 0 L' + (-x) + ' ' + y + ' Z" fill="#fff" opacity="0.18"/>' +
+            '<path d="M' + x + ' ' + (-y) + ' L0 0 L' + (-x) + ' ' + (-y) + ' Z" fill="#000" opacity="0.15"/>' +
+            '<path d="M' + x + ' ' + y + ' L' + (-x) + ' ' + (-y) + ' M' + (-x) + ' ' + y + ' L' + x + ' ' + (-y) + '" stroke="#1b5e20" stroke-width="1.6"/>' +
+            '<circle r="4" fill="#e8f5e9" stroke="#1b5e20" stroke-width="1"/>' +
+            [[x, y], [-x, y], [x, -y], [-x, -y]].map((p) => '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3.2" fill="#424242"/>').join('');
         default:
-          return box(12, ' stroke-dasharray="7 4"');
+          return R(x, y, w, h, f, ' rx="12" stroke="' + e + '" stroke-width="2.5" stroke-dasharray="7 4"');
       }
     }
 
     function iconSvg(type) {
       const t = ITEM_TYPES[type];
-      const S = Math.max(t.w + (type === 'cast' ? 34 : 6), t.h * 1.45);
-      const H = S * 0.7;
-      return '<svg viewBox="' + (-S / 2) + ' ' + (-H / 2) + ' ' + S + ' ' + H + '" aria-hidden="true" focusable="false">' + shapeSvg(type) + '</svg>';
+      const tg = TONGUE[type] || 0;
+      const x0 = -t.w / 2 - tg - 5, x1 = t.w / 2 + 5, y0 = -t.h / 2 - 7, y1 = t.h / 2 + 7;
+      const vw = x1 - x0, vh = y1 - y0;
+      return '<svg viewBox="' + x0 + ' ' + y0 + ' ' + vw + ' ' + vh + '" aria-hidden="true" focusable="false">' + shapeSvg(type) + '</svg>';
     }
 
     function labelSvg(name, y, pal) {
@@ -2161,6 +3037,10 @@
     }
 
     function badgeSvg(loc, y) {
+      if (loc.pair === 'off') {
+        return '<g class="map-badge map-badge-off"><rect x="-42" y="' + y.toFixed(1) + '" width="84" height="18" rx="9" fill="#e0e0e0" stroke="#666666" stroke-width="1.2" stroke-dasharray="3 2"/>' +
+          '<text x="0" y="' + (y + 13).toFixed(1) + '" text-anchor="middle" font-size="12" font-weight="700" fill="#444444">Not in use</text></g>';
+      }
       const info = pairInfo(loc.pair);
       const segs = info.keys.concat(['white']).map((k) => ({ dot: k === 'white' ? '○' : '●', col: PHASE_HEX[k], v: ampLabel(loc[k]) }));
       const plain = segs.map((g) => g.dot + ' ' + g.v).join('   ');
@@ -2182,7 +3062,7 @@
     function itemHalfWidth(it) {
       const t = ITEM_TYPES[it.type];
       const r = (it.rot || 0) * Math.PI / 180;
-      return Math.abs(t.w / 2 * Math.cos(r)) + Math.abs(t.h / 2 * Math.sin(r)) + (it.type === 'cast' ? 16 : 0);
+      return Math.abs(t.w / 2 * Math.cos(r)) + Math.abs(t.h / 2 * Math.sin(r)) + (TONGUE[it.type] || 0);
     }
 
     function itemSvg(it, pal, o, locations) {
@@ -2432,8 +3312,11 @@
           return;
         }
         if (cableMode.from === id) { toast('Tap a different item to finish the cable.'); return; }
-        const c = { id: mapUid('cb-'), a: cableMode.from, b: id, color: cableMode.color, len: '' };
-        lastCableColor = cableMode.color;
+        const fromItem = findMapItem(cableMode.from), toItem = findMapItem(id);
+        const touchesGround = (fromItem && fromItem.type === 'ground') || (toItem && toItem.type === 'ground');
+        const color = touchesGround && !cableMode.picked ? 'ground' : cableMode.color;
+        const c = { id: mapUid('cb-'), a: cableMode.from, b: id, color: color, len: '' };
+        if (color !== 'ground') lastCableColor = cableMode.color;
         currentMap().cables.push(c);
         cableMode = null;
         updateModeBar();
@@ -2572,6 +3455,7 @@
     // ----- edit sheet -----
     function linkInfoHtml(loc) {
       if (!loc) return '';
+      if (loc.pair === 'off') return '<span>Not in use. Its readings are kept but not counted.</span>';
       const info = pairInfo(loc.pair);
       const parts = info.keys.map((k) => {
         const p = PHASES.find((x) => x.key === k);
@@ -2724,7 +3608,7 @@
 
     $('cable-btn').addEventListener('click', () => { if (cableMode) cancelCableMode(); else startCableMode(null); });
     $('map-mode-cancel').addEventListener('click', cancelCableMode);
-    $('cable-color').addEventListener('change', (e) => { if (cableMode) cableMode.color = e.target.value; lastCableColor = e.target.value; });
+    $('cable-color').addEventListener('change', (e) => { if (cableMode) { cableMode.color = e.target.value; cableMode.picked = true; } lastCableColor = e.target.value; });
 
     // ----- background photo -----
     function fileToImage(file) {
@@ -2891,7 +3775,7 @@
       btn.className = 'pal-btn';
       btn.dataset.type = type;
       btn.setAttribute('aria-label', 'Add ' + t.label);
-      btn.innerHTML = iconSvg(type) + '<span>' + esc(type === 'honeywagon' ? 'Honeywagon' : t.label) + '</span>';
+      btn.innerHTML = iconSvg(type) + '<span>' + esc(type === 'honeywagon' ? 'Honeywagon' : type === 'ground' ? 'Ground clamp' : t.label) + '</span>';
       btn.addEventListener('click', () => addMapItem(type));
       $('map-palette').appendChild(btn);
     });
@@ -3004,7 +3888,7 @@
     }
 
     function suggestRebalance(state) {
-      const locs = state.locations;
+      const locs = state.locations.filter((l) => l.pair !== 'off');
       const entries = locs.map((loc) => {
         const ld = locLoad(loc);
         return { loc: loc, keys: pairInfo(loc.pair).keys.slice(), legs: ld.legs, est: ld.est, partial: !!ld.partial };
@@ -3017,7 +3901,7 @@
       const alts = entries.map((e) => {
         const list = [];
         PAIRS.forEach((p) => {
-          if (p.id === e.loc.pair) return;
+          if (p.id === e.loc.pair || p.id === 'off') return;
           moveOptions(e.loc.pair, p.id).forEach((keys) => {
             const d = { red: 0, blue: 0, black: 0 };
             d[e.keys[0]] -= e.legs[0]; d[e.keys[1]] -= e.legs[1];
@@ -3073,7 +3957,7 @@
 
     // Totals for the current state, and with the given moves applied (load follows the location).
     function planTotals(state, moves) {
-      const entries = state.locations.map((loc) => {
+      const entries = state.locations.filter((l) => l.pair !== 'off').map((loc) => {
         const ld = locLoad(loc);
         return { id: loc.id, keys: pairInfo(loc.pair).keys.slice(), legs: ld.legs, est: ld.est };
       });
@@ -3218,7 +4102,7 @@
       STORAGE_KEY,
       COLLAPSE_KEY,
       collapsed: () => Array.from(collapsedIds),
-      suggestRebalance, planTotals,
+      suggestRebalance, planTotals, parseFuel, fuelLevel, oilStatus,
       rebalanceMoves: () => rebalancePlan ? JSON.parse(JSON.stringify(rebalancePlan.moves)) : null,
       map: {
         get: () => cloneState(currentMap()),
@@ -3226,7 +4110,7 @@
         setTab, addItem: addMapItem, fitView, buildShareLink, renderPngBlob: renderMapPngBlob,
         activeTab: () => activeTab,
         selected: () => mapSelected,
-        MAP_KEY, MAP_BG_KEY
+        MAP_KEY, MAP_BG_KEY, iconSvg, shapeSvg, ITEM_TYPES
       }
     };
   })();
