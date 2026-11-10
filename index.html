@@ -155,15 +155,33 @@
       padding: 0 12px 12px;
     }
 
-    .sticky {
-      position: sticky;
-      top: 0;
-      z-index: 40;
+    /* The title and the phase totals scroll with the page; only the slim tab bar stays pinned. */
+    .topbar {
+      position: relative;
       background: var(--header-bg);
-      padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
+      padding: calc(10px + env(safe-area-inset-top)) 12px 4px;
       margin: 0 -12px;
-      border-bottom: 2px solid var(--border);
     }
+    .tabbar {
+      position: sticky;
+      top: env(safe-area-inset-top);
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 -12px;
+      padding: 3px 12px;
+      background: var(--header-bg);
+    }
+    /* notch / status bar area stays covered when the page scrolls under it */
+    body::before { content: ""; position: fixed; left: 0; right: 0; top: 0; height: env(safe-area-inset-top); background: var(--header-bg); z-index: 41; pointer-events: none; }
+    .tabbar .tabs { flex: 1 1 auto; margin: 0; padding: 2px !important; }
+    .svc-chip { flex: 0 0 auto; min-height: 44px; min-width: 44px; padding: 0 10px; border: 0; border-radius: 12px; font: inherit; font-size: 0.85rem; font-weight: 900; white-space: nowrap; cursor: pointer; }
+    .svc-chip.warn { background: #f9a825; color: #111; }
+    .svc-chip.due { background: #c62828; color: #fff; }
+    .svc-chip.critical { color: #fff; text-shadow: 0 1px 0 #000; border: 2px solid #111; background: repeating-linear-gradient(45deg, #111 0 8px, #f9c80e 8px 16px); animation: svcFlash 1s steps(2, start) infinite; }
+    @media (prefers-reduced-motion: reduce) { .svc-chip.critical { animation: none; } }
+    .summary-block { position: relative; margin: 0 -12px; padding: 6px 12px 20px; background: var(--header-bg); }
 
     .title-row {
       display: flex;
@@ -1224,23 +1242,16 @@
     body { background: radial-gradient(120% 60% at 50% -10%, var(--surface-2), var(--bg) 60%) fixed, var(--bg); }
 
     /* header: slate title, film strip edge, occasional spotlight sweep */
-    .sticky {
-      border-bottom: 0;
-      padding-bottom: 18px;
-      background: var(--header-bg);
-      -webkit-backdrop-filter: saturate(1.4) blur(10px);
-      backdrop-filter: saturate(1.4) blur(10px);
-      overflow: hidden;
-      isolation: isolate;
-    }
-    .sticky::after {
+    .topbar { overflow: hidden; isolation: isolate; }
+    .tabbar { -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); box-shadow: 0 6px 14px -10px rgba(0, 0, 0, 0.35); }
+    .summary-block::after {
       content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 10px; pointer-events: none;
       background:
         radial-gradient(circle at 7px 5px, var(--film-hole) 0 2.2px, transparent 2.6px) 0 0 / 14px 10px repeat-x,
         var(--film);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
     }
-    .sticky::before {
+    .topbar::before {
       content: ""; position: absolute; top: -40%; bottom: -40%; left: 0; width: 45%; z-index: -1; pointer-events: none;
       background: linear-gradient(100deg, transparent 0%, rgba(255, 240, 200, 0) 30%, rgba(255, 236, 190, 0.28) 50%, rgba(255, 240, 200, 0) 70%, transparent 100%);
       transform: translateX(-120%) skewX(-12deg);
@@ -1312,7 +1323,7 @@
     .bar > span { transition: width 0.35s cubic-bezier(.2,.8,.2,1); }
     /* colour-mix extras only where the browser supports them (older iPhones keep the plain look) */
     @supports (background: color-mix(in srgb, red 50%, blue)) {
-      .sticky { background: color-mix(in srgb, var(--header-bg) 92%, transparent); }
+      .tabbar { background: color-mix(in srgb, var(--header-bg) 88%, transparent); }
       .btn-primary { background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 88%, #fff) 0%, var(--accent) 100%); }
       input[type="text"]:focus, .amp-row input:focus, .gr-field input:focus, #notes-input:focus { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
       .bar-red > span { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 75%, #fff), var(--red)); }
@@ -1337,14 +1348,235 @@
     .modal-card { border-radius: 18px; box-shadow: var(--shadow-lift); }
 
     @media (prefers-reduced-motion: reduce) {
-      .sticky::before, .slate-sub::before, .clapper .clap-arm, .clapper .clap-body { animation: none !important; }
+      .topbar::before, .slate-sub::before, .clapper .clap-arm, .clapper .clap-body { animation: none !important; }
       .bar > span, .btn, .tab, .chip, .pal-btn, .seg-btn, .icon-btn, .sec-chev { transition: none !important; }
     }
-  </style>
+
+    /* ================= Look v3: premium cinematic pass (dark first) ================= */
+    :root {
+      --bg: #f2eee6;
+      --surface: #fffdf9;
+      --surface-2: #f7f3eb;
+      --glass: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.72));
+      --glass-border: rgba(60, 45, 20, 0.12);
+      --glass-hi: inset 0 1px 0 rgba(255,255,255,0.9);
+      --text: #14110d;
+      --muted: #4a443b;
+      --hairline: #e0d8ca;
+      --accent: #1a1f2b;
+      --accent-text: #fff8e6;
+      --gold: #b8860b;
+      --gold-soft: rgba(184, 134, 11, 0.18);
+      --input-bg: #fbf9f4;
+      --input-border: #9a907f;
+      --red: #c62828;
+      --blue: #1456b8;
+      --red-glow: rgba(198, 40, 40, 0.28);
+      --blue-glow: rgba(20, 86, 184, 0.26);
+      --black-glow: rgba(0, 0, 0, 0.2);
+      --black-bar: linear-gradient(90deg, #4a4a4a, #111);
+      --shadow: 0 1px 1px rgba(40, 30, 15, 0.04), 0 8px 24px -6px rgba(40, 30, 15, 0.14);
+      --radius: 18px;
+      --space: 14px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #08090c;
+        --surface: #13151b;
+        --surface-2: #1a1d25;
+        --glass: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018));
+        --glass-border: rgba(255, 255, 255, 0.085);
+        --glass-hi: inset 0 1px 0 rgba(255,255,255,0.07);
+        --text: #f6f3ec;
+        --muted: #c2c4cb;
+        --hairline: #262a33;
+        --border: #aeb3bd;
+        --accent: #f3e7c6;
+        --accent-text: #15120a;
+        --gold: #e9b949;
+        --gold-soft: rgba(233, 185, 73, 0.16);
+        --input-bg: #0c0e12;
+        --input-border: #4a505c;
+        --header-bg: #08090c;
+        --red: #ff5f5f;
+        --blue: #5aa8ff;
+        --black: #e8eaee;
+        --red-glow: rgba(255, 95, 95, 0.45);
+        --blue-glow: rgba(90, 168, 255, 0.42);
+        --black-glow: rgba(232, 234, 238, 0.32);
+        --black-bar: linear-gradient(90deg, #9aa0aa, #f1f3f6);
+        --dot-black-fill: #e8eaee;
+        --dot-black-ring: #e8eaee;
+        --dot-neutral-fill: transparent;
+        --dot-neutral-ring: #9aa0aa;
+        --bar-track: #1d2129;
+        --shadow: 0 1px 0 rgba(255,255,255,0.02), 0 14px 32px -10px rgba(0, 0, 0, 0.8);
+        --film: #000;
+        --film-hole: #1f232b;
+      }
+    }
+    html[data-theme="dark"] {
+      --bg: #08090c;
+      --surface: #13151b;
+      --surface-2: #1a1d25;
+      --glass: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018));
+      --glass-border: rgba(255, 255, 255, 0.085);
+      --glass-hi: inset 0 1px 0 rgba(255,255,255,0.07);
+      --text: #f6f3ec;
+      --muted: #c2c4cb;
+      --hairline: #262a33;
+      --border: #aeb3bd;
+      --accent: #f3e7c6;
+      --accent-text: #15120a;
+      --gold: #e9b949;
+      --gold-soft: rgba(233, 185, 73, 0.16);
+      --input-bg: #0c0e12;
+      --input-border: #4a505c;
+      --header-bg: #08090c;
+      --red: #ff5f5f;
+      --blue: #5aa8ff;
+      --black: #e8eaee;
+      --red-glow: rgba(255, 95, 95, 0.45);
+      --blue-glow: rgba(90, 168, 255, 0.42);
+      --black-glow: rgba(232, 234, 238, 0.32);
+      --black-bar: linear-gradient(90deg, #9aa0aa, #f1f3f6);
+      --dot-black-fill: #e8eaee;
+      --dot-black-ring: #e8eaee;
+      --dot-neutral-fill: transparent;
+      --dot-neutral-ring: #9aa0aa;
+      --bar-track: #1d2129;
+      --shadow: 0 1px 0 rgba(255,255,255,0.02), 0 14px 32px -10px rgba(0, 0, 0, 0.8);
+      --film: #000;
+      --film-hole: #1f232b;
+    }
+
+    /* depth: soft vignette + warm marquee glow at the top */
+    body {
+      background:
+        radial-gradient(90% 40% at 50% 0%, var(--gold-soft), transparent 70%) no-repeat,
+        radial-gradient(140% 80% at 50% 120%, rgba(0,0,0,0.18), transparent 60%) fixed,
+        var(--bg);
+    }
+    .topbar, .summary-block { background: transparent; }
+    .tabbar { background: var(--header-bg); }
+
+    /* slate title with a gold marquee glow; tiny marquee bulbs along the top edge */
+    .slate-top { font-size: 1.2rem; letter-spacing: 0.08em; }
+    .topbar::after {
+      content: ""; position: absolute; left: 12px; right: 12px; top: calc(3px + env(safe-area-inset-top)); height: 4px; pointer-events: none;
+      background: radial-gradient(circle at 5px 2px, var(--gold) 0 1.4px, transparent 1.9px) 0 0 / 12px 4px repeat-x;
+      opacity: 0.55; animation: bulbs 3.2s ease-in-out infinite;
+    }
+    @keyframes bulbs { 50% { opacity: 0.22; } }
+    @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+      .slate-top {
+        background: linear-gradient(180deg, var(--text) 0%, var(--text) 45%, var(--gold) 140%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+    }
+    html[data-theme="dark"] .slate-top { text-shadow: 0 0 18px rgba(233, 185, 73, 0.25); }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .slate-top { text-shadow: 0 0 18px rgba(233, 185, 73, 0.25); } }
+
+    /* glass cards */
+    .card, .gen-legs, .notes-card, .map-stage, .tabs, .summary-card {
+      background: var(--glass), var(--surface);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-hi), var(--shadow);
+    }
+    .card, .gen-legs, .notes-card { border-radius: var(--radius); }
+    .list { gap: var(--space); }
+    .gen-legs { margin-top: var(--space); }
+    .notes-card { margin-top: var(--space); }
+    .gen-row, .fl-box, .sec-sum, .svc-due-big, .svc-readout > div, .compact-line {
+      background: var(--surface-2);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-hi);
+    }
+    .gen-row.heaviest { border-color: var(--gold); box-shadow: var(--glass-hi), inset 3px 0 0 var(--gold), 0 0 0 1px var(--gold-soft); }
+    .gr-tag { background: var(--gold); color: #15120a; }
+
+    /* phase totals block */
+    .phases { gap: 8px; }
+    .phase-row { grid-template-columns: 18px minmax(5.5rem, auto) 5rem 1fr; }
+    .phase-row .amt { font-size: 1.2rem; font-weight: 850; letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+    .balance { font-size: 0.98rem; }
+
+    /* pill bars with a soft glow; fills animate on change */
+    .bar { height: 10px; border-radius: 999px; background: var(--bar-track); box-shadow: inset 0 1px 2px rgba(0,0,0,0.25); overflow: visible; }
+    .bar > span { border-radius: 999px; transition: width 0.45s cubic-bezier(.2,.8,.2,1); }
+    .bar-red > span { box-shadow: 0 0 10px var(--red-glow); }
+    .bar-blue > span { box-shadow: 0 0 10px var(--blue-glow); }
+    .bar-black > span { background: var(--black-bar) !important; box-shadow: 0 0 10px var(--black-glow); }
+    .dot-black { background: var(--dot-black-fill); border-color: var(--dot-black-ring); }
+
+    /* section headers with icons */
+    .sec-ic { width: 20px; height: 20px; flex: 0 0 auto; color: var(--gold); vertical-align: -4px; margin-right: 6px; }
+    .sec-head { font-size: 1.06rem; letter-spacing: 0.005em; }
+    .sec-head > span:nth-child(2), .sec-head > span:nth-child(3) { display: inline-flex; align-items: center; }
+    .notes-card h2 { display: flex; align-items: center; font-size: 1.06rem; }
+    .sec-chev { border-color: var(--glass-border); background: var(--surface-2); color: var(--muted); }
+
+    /* smooth expand (re-runs whenever a section or card opens) */
+    .gsec:not(.collapsed) > .sec-body, .card:not(.collapsed) > .amp-row { animation: secIn 0.24s ease-out both; }
+    @keyframes secIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+    /* inputs: big crisp numbers */
+    .amp-row input, .gr-field input { background: var(--input-bg); border-color: var(--input-border); font-size: 1.32rem; font-weight: 800; letter-spacing: -0.01em; }
+    .gr-field input { font-size: 1.22rem; }
+    .amp-row input::placeholder, .gr-field input::placeholder { font-weight: 600; opacity: 0.55; }
+
+    /* buttons and chips with press feedback */
+    .btn, .icon-btn, .chip, .collapse-btn, .zoom-ctl .btn {
+      background: var(--glass), var(--surface-2);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-hi), 0 1px 2px rgba(0,0,0,0.18);
+    }
+    .btn-primary { background: linear-gradient(180deg, #f4d27a, var(--gold)); color: #15120a; border-color: transparent; text-shadow: none; }
+    .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
+    .btn:active, .icon-btn:active, .chip:active, .tab:active, .pal-btn:active, .seg-btn:active, .collapse-btn:active { transform: scale(0.96); filter: brightness(0.92); }
+    .chip.on { background: var(--accent); color: var(--accent-text); border-color: transparent; box-shadow: 0 0 0 2px var(--gold-soft); }
+
+    /* tabs: marquee style */
+    .tabs { border-radius: 14px; }
+    .tab { color: var(--muted); }
+    .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-text); box-shadow: 0 0 0 1px var(--gold-soft), 0 4px 14px -4px rgba(233, 185, 73, 0.45), inset 0 -2px 0 var(--gold); }
+
+    /* empty states and toasts */
+    .note-empty, .fluid-list:empty + .fl-empty { padding: 12px; border: 1px dashed var(--glass-border); border-radius: 12px; text-align: center; font-style: italic; }
+    .note-empty::before { content: "🎬"; display: block; font-style: normal; font-size: 1.3rem; margin-bottom: 2px; opacity: 0.8; }
+    .toast {
+      background: rgba(18, 20, 26, 0.92); color: #f6f3ec; border: 1px solid rgba(233, 185, 73, 0.35);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      box-shadow: 0 12px 30px -8px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+      padding: 11px 18px; font-weight: 700;
+    }
+    .toast::before { content: "✓"; display: inline-block; margin-right: 8px; color: #e9b949; font-weight: 900; }
+    .modal-card { background: var(--glass), var(--surface); border: 1px solid var(--glass-border); }
+
+    /* map toolbar and palette */
+    .palette { gap: 10px; padding: 4px 2px 12px; scroll-snap-type: x proximity; }
+    .pal-btn { scroll-snap-align: start; background: var(--glass), var(--surface); border: 1px solid var(--glass-border); box-shadow: var(--glass-hi), 0 4px 12px -6px rgba(0,0,0,0.4); border-radius: 16px; }
+    .pal-btn.pal-cable { border: 1.5px dashed var(--gold); }
+    .seg { background: var(--surface-2); border: 1px solid var(--glass-border); border-radius: 14px; padding: 3px; gap: 3px; }
+    .seg-btn { border: 0 !important; border-radius: 11px; background: transparent; color: var(--muted); }
+    .seg-btn.on { background: var(--accent); color: var(--accent-text); box-shadow: inset 0 -2px 0 var(--gold); }
+    .zoom-ctl .btn { border-radius: 14px; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+    .map-attrib { border-radius: 999px; padding: 2px 8px; }
+
+    /* film strip under the totals */
+    .summary-block::after { opacity: 0.9; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .topbar::after, .gsec:not(.collapsed) > .sec-body, .card:not(.collapsed) > .amp-row { animation: none !important; }
+      .bar > span { transition: none !important; }
+    }
+      /* v3: comfortable tap targets for card Rename/Delete */
+    .card-actions .btn { min-height: 40px; padding-top: 8px; padding-bottom: 8px; }
+</style>
 </head>
 <body>
   <div class="wrap">
-    <header class="sticky">
+    <header class="topbar" id="topbar">
       <div class="title-row">
         <h1 class="slate"><svg class="clapper" id="clapper" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
             <g class="clap-body"><rect x="2" y="11" width="30" height="18" rx="2.5" fill="#1b1814" stroke="#f3efe7" stroke-width="1"/>
@@ -1355,10 +1587,15 @@
         <button type="button" class="svc-pill" id="svc-pill"></button>
         <button type="button" class="icon-btn" id="theme-btn" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
       </div>
+    </header>
+    <nav class="tabbar" id="tabbar" aria-label="View">
       <div class="tabs" role="tablist" aria-label="View">
         <button type="button" class="tab" role="tab" id="tab-tracker" aria-selected="true" aria-controls="tracker-view">Tracker<span class="tab-alert" id="svc-tab-alert"></span></button>
         <button type="button" class="tab" role="tab" id="tab-map" aria-selected="false" aria-controls="map-view">Map</button>
       </div>
+      <button type="button" class="svc-chip" id="svc-chip" hidden></button>
+    </nav>
+    <section class="summary-block" id="summary-block" aria-label="Phase totals">
       <div id="tracker-summary">
         <div class="phases" id="summary-phases"></div>
         <p class="balance" id="balance-line">Enter amps to see phase balance.</p>
@@ -1371,12 +1608,12 @@
           <button type="button" class="btn" id="dismiss-shared-btn">Dismiss</button>
         </div>
       </div>
-    </header>
+    </section>
 
     <div id="tracker-view">
     <section class="gen-legs" id="gen-legs" aria-labelledby="gen-title">
       <div class="gsec" id="gsec-legs" data-sec="legs">
-      <button type="button" class="gen-title sec-head" id="legs-head" aria-expanded="true" aria-controls="legs-body"><span class="sec-chev" aria-hidden="true">▾</span><span id="gen-title">Generator legs</span><small id="gen-updated">Not updated yet</small></button>
+      <button type="button" class="gen-title sec-head" id="legs-head" aria-expanded="true" aria-controls="legs-body"><span class="sec-chev" aria-hidden="true">▾</span><span><svg class="sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="11" rx="2"/><path d="M6 18v2M18 18v2M13 9.5l-2.5 3.5h3L11 16.5"/><path d="M7 7V5h4v2"/></svg><span id="gen-title">Generator legs</span></span><small id="gen-updated">Not updated yet</small></button>
       <p class="sec-sum" id="legs-sum" hidden></p>
       <div class="sec-body" id="legs-body">
       <div class="gen-rows">
@@ -1404,7 +1641,7 @@
       </div>
       </div>
       <div class="fluids gsec" id="fluids" role="group" aria-labelledby="fluids-title" data-sec="fluids">
-        <button type="button" class="gen-title sec-head" id="fluids-head" aria-expanded="true" aria-controls="fluids-body"><span class="sec-chev" aria-hidden="true">▾</span><span id="fluids-title">Fuel / Oil pressure</span><small id="fluid-last">No readings logged yet</small></button>
+        <button type="button" class="gen-title sec-head" id="fluids-head" aria-expanded="true" aria-controls="fluids-body"><span class="sec-chev" aria-hidden="true">▾</span><span><svg class="sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.5 4.2 6 7.6 6 10.6A6 6 0 0 1 6 13.6C6 10.6 8.5 7.2 12 3z"/><path d="M9.5 14.5a2.6 2.6 0 0 0 2.5 2.4"/></svg><span id="fluids-title">Fuel / Oil pressure</span></span><small id="fluid-last">No readings logged yet</small></button>
         <p class="sec-sum" id="fluids-sum" hidden></p>
         <div class="sec-body" id="fluids-body">
         <div class="fl-grid">
@@ -1430,7 +1667,7 @@
         </div>
       </div>
       <div class="svc gsec" id="svc" role="group" aria-labelledby="svc-title" data-sec="svc">
-        <button type="button" class="gen-title sec-head" id="svc-head" aria-expanded="true" aria-controls="svc-body"><span class="sec-chev" aria-hidden="true">▾</span><span id="svc-title"><span class="svc-icon" id="svc-icon" aria-hidden="true"></span>Hours until service</span><small id="svc-est-line"></small></button>
+        <button type="button" class="gen-title sec-head" id="svc-head" aria-expanded="true" aria-controls="svc-body"><span class="sec-chev" aria-hidden="true">▾</span><span id="svc-title"><svg class="sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.3 5.3L3.5 17.5a2 2 0 0 0 2.9 2.9l5.9-5.9a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.5-.5-2.4z"/></svg><span class="svc-icon" id="svc-icon" aria-hidden="true"></span>Hours until service</span><small id="svc-est-line"></small></button>
         <p class="sec-sum" id="svc-sum" hidden></p>
         <div class="svc-banner" id="svc-banner" role="alert" hidden></div>
         <div class="sec-body" id="svc-body">
@@ -1462,7 +1699,7 @@
     <section class="list" id="location-list" aria-label="Locations"></section>
 
     <section class="notes-card" aria-labelledby="notes-title">
-      <h2 id="notes-title">Generator log</h2>
+      <h2><svg class="sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h5"/></svg><span id="notes-title">Generator log</span></h2>
       <p class="notes-sub">Anomalies and issues. Newest first.</p>
       <label for="notes-input" class="sr-only">New log entry</label>
       <textarea id="notes-input" rows="2" maxlength="1000" placeholder="e.g. Black leg spiking, oil light on" autocapitalize="sentences"></textarea>
@@ -2747,6 +2984,14 @@
       }
       pill.title = txt;
       pill.setAttribute('aria-label', txt ? txt + '. Show service hours.' : '');
+      const chip = $('svc-chip');
+      if (chip) {
+        chip.className = 'svc-chip ' + st.level;
+        chip.hidden = !txt;
+        chip.textContent = !txt ? '' : st.level === 'critical' ? '🛑 ' + fmtH(st.over) + ' h' : st.level === 'due' ? '⛔ ' + (st.over >= 0.05 ? fmtH(st.over) + ' h' : 'Now') : '⚠ ' + fmtH(st.rem) + ' h';
+        chip.title = txt;
+        chip.setAttribute('aria-label', txt ? txt + '. Show service hours.' : '');
+      }
       // history
       const list = $('svc-hist');
       list.innerHTML = '';
@@ -2803,11 +3048,13 @@
     });
     $('svc-247').addEventListener('change', (e) => { svcOf(current()).run247 = e.target.checked; persist(); renderSvc(); });
     $('svc-mark-btn').addEventListener('click', markServiced);
-    $('svc-pill').addEventListener('click', () => {
+    function showServiceSection() {
       if (activeTab !== 'tracker') setTab('tracker');
       const el = $('svc');
-      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - document.querySelector('header').getBoundingClientRect().height - 8, behavior: 'smooth' });
-    });
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - $('tabbar').getBoundingClientRect().height - 8, behavior: 'smooth' });
+    }
+    $('svc-pill').addEventListener('click', showServiceSection);
+    $('svc-chip').addEventListener('click', showServiceSection);
     setInterval(() => renderSvc(), 60000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) renderSvc(); });
 
