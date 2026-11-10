@@ -599,6 +599,16 @@
 
     .unit { color: var(--muted); font-weight: 650; }
 
+    /* previous committed reading, shown to the right of an input */
+    .prev { display: grid; gap: 1px; min-width: 0; font-size: 0.72rem; line-height: 1.2; font-weight: 650; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .prev[hidden] { display: none; }
+    .prev .pv-v { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .prev .pv-m { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .prev .pv-d { font-weight: 800; color: var(--text); }
+    .fl-prev { flex: 0 0 auto; max-width: 6.4rem; margin-left: 2px; }
+    .card.has-prev .amp-row { grid-template-columns: 8px minmax(4.6rem, 6.6rem) minmax(3.6rem, 1fr) 1rem 5.4rem; gap: 6px; }
+    .card.has-prev .amp-row label { font-size: 0.88rem; }
+
     .actions {
       margin-top: 16px;
       display: grid;
@@ -723,7 +733,7 @@
     .gen-row {
       display: grid;
       grid-template-columns: 5.4rem minmax(0, 1fr) minmax(0, 1fr);
-      grid-template-areas: "head amps rating" "bar bar bar";
+      grid-template-areas: "head amps prev" "bar bar bar";
       align-items: center;
       column-gap: 8px;
       row-gap: 4px;
@@ -752,7 +762,7 @@
 
     .gr-field { display: flex; align-items: center; gap: 4px; min-width: 0; }
     .gr-amps { grid-area: amps; }
-    .gr-rating { grid-area: rating; }
+    .gr-prev { grid-area: prev; justify-self: start; }
     .gr-of { font-size: 0.78rem; font-weight: 650; color: var(--muted); }
 
     .gr-field input {
@@ -769,7 +779,6 @@
       text-align: right;
     }
 
-    .gr-rating input { border-style: dashed; font-weight: 600; }
     .gr-field input:focus { outline: 3px solid var(--accent); outline-offset: 1px; }
 
     .gr-barline { grid-area: bar; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; }
@@ -876,6 +885,7 @@
     .gsec > *, .sec-body > * { min-width: 0; }
     .sec-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
     .sec-body .gr-barline { grid-area: auto; }
+    .sec-body .gen-row > .gr-barline { grid-area: bar; }
     .sec-head { width: 100%; min-height: 44px; margin: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; font-size: 1.02rem; font-weight: 800; text-align: left; cursor: pointer;
       display: grid !important; grid-template-columns: 1.4rem minmax(0, 1fr); align-items: center; column-gap: 4px; row-gap: 0; }
     .sec-head > small { grid-column: 2; text-align: left !important; }
@@ -1140,13 +1150,208 @@
     .map-sheet-spacer { height: 0; }
     body.sheet-open .map-sheet-spacer { height: 44dvh; }
     body.sheet-open .toast { bottom: calc(44dvh + 12px); }
+
+    /* ================= Look v2: "on set" polish ================= */
+    :root {
+      --bg: #f3efe7;
+      --surface: #fffdf8;
+      --surface-2: #f8f4ec;
+      --text: #15120e;
+      --muted: #4b453d;
+      --border: #3a342c;
+      --hairline: #dcd4c6;
+      --accent: #1d2433;
+      --accent-text: #ffffff;
+      --gold: #c9971c;
+      --input-bg: #fbf8f2;
+      --input-border: #8e8576;
+      --header-bg: #f3efe7;
+      --bar-track: #e8e1d4;
+      --shadow: 0 1px 2px rgba(40, 30, 15, 0.06), 0 6px 18px rgba(40, 30, 15, 0.08);
+      --shadow-lift: 0 2px 4px rgba(40, 30, 15, 0.08), 0 10px 26px rgba(40, 30, 15, 0.12);
+      --film: #1b1814;
+      --film-hole: #f3efe7;
+      --radius: 16px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0e0f12;
+        --surface: #181a1f;
+        --surface-2: #1f2228;
+        --text: #f4f2ee;
+        --muted: #c4c6cc;
+        --border: #a9adb5;
+        --hairline: #2f333b;
+        --accent: #ece7dc;
+        --accent-text: #121212;
+        --gold: #e2b84a;
+        --input-bg: #111317;
+        --input-border: #6e737d;
+        --header-bg: #0e0f12;
+        --bar-track: #2a2d34;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 22px rgba(0, 0, 0, 0.45);
+        --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.55), 0 12px 28px rgba(0, 0, 0, 0.55);
+        --film: #050506;
+        --film-hole: #2a2d34;
+      }
+    }
+    html[data-theme="dark"] {
+      --bg: #0e0f12;
+      --surface: #181a1f;
+      --surface-2: #1f2228;
+      --text: #f4f2ee;
+      --muted: #c4c6cc;
+      --border: #a9adb5;
+      --hairline: #2f333b;
+      --accent: #ece7dc;
+      --accent-text: #121212;
+      --gold: #e2b84a;
+      --input-bg: #111317;
+      --input-border: #6e737d;
+      --header-bg: #0e0f12;
+      --bar-track: #2a2d34;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 22px rgba(0, 0, 0, 0.45);
+      --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.55), 0 12px 28px rgba(0, 0, 0, 0.55);
+      --film: #050506;
+      --film-hole: #2a2d34;
+    }
+
+    html, body {
+      font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "tnum" 1;
+    }
+    body { background: radial-gradient(120% 60% at 50% -10%, var(--surface-2), var(--bg) 60%) fixed, var(--bg); }
+
+    /* header: slate title, film strip edge, occasional spotlight sweep */
+    .sticky {
+      border-bottom: 0;
+      padding-bottom: 18px;
+      background: var(--header-bg);
+      -webkit-backdrop-filter: saturate(1.4) blur(10px);
+      backdrop-filter: saturate(1.4) blur(10px);
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .sticky::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 10px; pointer-events: none;
+      background:
+        radial-gradient(circle at 7px 5px, var(--film-hole) 0 2.2px, transparent 2.6px) 0 0 / 14px 10px repeat-x,
+        var(--film);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+    .sticky::before {
+      content: ""; position: absolute; top: -40%; bottom: -40%; left: 0; width: 45%; z-index: -1; pointer-events: none;
+      background: linear-gradient(100deg, transparent 0%, rgba(255, 240, 200, 0) 30%, rgba(255, 236, 190, 0.28) 50%, rgba(255, 240, 200, 0) 70%, transparent 100%);
+      transform: translateX(-120%) skewX(-12deg);
+      animation: spotSweep 16s ease-in-out 2.5s infinite;
+      will-change: transform;
+    }
+    @keyframes spotSweep { 0% { transform: translateX(-120%) skewX(-12deg); } 12% { transform: translateX(260%) skewX(-12deg); } 100% { transform: translateX(260%) skewX(-12deg); } }
+
+    h1.slate { display: flex; align-items: center; gap: 10px; min-width: 0; font-size: 1.12rem; }
+    .clapper { flex: 0 0 auto; width: 34px; height: 30px; overflow: visible; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.25)); }
+    .clapper .clap-arm { transform-origin: 3px 11px; transform: rotate(0deg); }
+    .clapper.clap .clap-arm { animation: clapArm 0.55s cubic-bezier(.3,.9,.4,1.2) 1; }
+    .clapper.clap .clap-body { animation: clapBody 0.55s ease-out 1; transform-origin: 17px 30px; }
+    @keyframes clapArm { 0% { transform: rotate(0); } 35% { transform: rotate(-26deg); } 70% { transform: rotate(2deg); } 100% { transform: rotate(0); } }
+    @keyframes clapBody { 0%, 65% { transform: none; } 75% { transform: translateY(1px) scale(1.02, 0.98); } 100% { transform: none; } }
+    .slate-text { display: grid; line-height: 1.02; min-width: 0; }
+    .slate-top { font-size: 1.12rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+    .slate-sub { font-size: 0.72rem; font-weight: 750; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .slate-sub::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #d32f2f; vertical-align: 1px; animation: recDot 2.4s ease-in-out infinite; }
+    @keyframes recDot { 50% { opacity: 0.35; } }
+
+    /* buttons, tabs, inputs */
+    .icon-btn, .btn, .tab, .chip, .seg-btn, .pal-btn {
+      transition: transform 0.08s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+    .icon-btn, .btn { border-width: 1.5px; border-radius: 12px; box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
+    .btn:active, .icon-btn:active, .tab:active, .chip:active, .pal-btn:active, .seg-btn:active { transform: scale(0.97); }
+    .btn-primary { box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
+    .tabs { background: var(--surface-2); border: 1px solid var(--hairline); border-radius: 14px; padding: 4px; gap: 4px; }
+    .tab { border: 0; border-radius: 10px; background: transparent; font-weight: 800; letter-spacing: 0.02em; }
+    .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-text); box-shadow: 0 2px 8px rgba(0,0,0,0.18), inset 0 -3px 0 var(--gold); }
+    input[type="text"], .amp-row input, .gr-field input, #notes-input, .map-mode select, .map-sheet select, .map-sheet input[type="text"] {
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 12px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    input[type="text"]:focus, .amp-row input:focus, .gr-field input:focus, #notes-input:focus {
+      outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent);
+    }
+    .amp-row input, .gr-field input { font-weight: 800; letter-spacing: 0.01em; }
+    .amp-row input { font-size: 1.25rem; }
+    .chip { border-width: 1.5px; border-radius: 12px; }
+
+    /* cards and sections */
+    .card, .gen-legs, .notes-card, .map-stage {
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .card { padding: 12px 12px 10px; }
+    .gen-legs, .notes-card { padding: 22px 12px 12px; position: relative; overflow: hidden; }
+    .gen-legs::before, .notes-card::before {
+      content: ""; position: absolute; left: 0; right: 0; top: 0; height: 10px; pointer-events: none;
+      background: radial-gradient(circle at 7px 5px, var(--surface) 0 2px, transparent 2.4px) 0 0 / 14px 10px repeat-x, var(--film);
+      opacity: 0.92;
+    }
+    .gen-row, .fl-box { border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface-2); }
+    .gen-row.heaviest { border-color: var(--border); box-shadow: inset 4px 0 0 var(--text); }
+    .sec-head { letter-spacing: 0.01em; }
+    .sec-chev { border-width: 1.5px; border-radius: 7px; background: var(--surface-2); transition: transform 0.2s ease; }
+    .sec-sum { border-width: 1px; background: var(--surface-2); }
+    .collapse-btn { border-width: 1.5px !important; border-radius: 12px !important; }
+    .card h2 { letter-spacing: -0.01em; }
+    .compact-line { border-radius: 12px; }
+
+    /* phase accents */
+    .bar { border: 0; height: 10px; background: var(--bar-track); box-shadow: inset 0 1px 2px rgba(0,0,0,0.12); }
+    .bar > span { transition: width 0.35s cubic-bezier(.2,.8,.2,1); }
+    /* colour-mix extras only where the browser supports them (older iPhones keep the plain look) */
+    @supports (background: color-mix(in srgb, red 50%, blue)) {
+      .sticky { background: color-mix(in srgb, var(--header-bg) 92%, transparent); }
+      .btn-primary { background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 88%, #fff) 0%, var(--accent) 100%); }
+      input[type="text"]:focus, .amp-row input:focus, .gr-field input:focus, #notes-input:focus { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
+      .bar-red > span { background: linear-gradient(90deg, color-mix(in srgb, var(--red) 75%, #fff), var(--red)); }
+      .bar-blue > span { background: linear-gradient(90deg, color-mix(in srgb, var(--blue) 75%, #fff), var(--blue)); }
+      .dot-red { box-shadow: 0 0 0 3px color-mix(in srgb, var(--red) 22%, transparent); }
+      .dot-blue { box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 22%, transparent); }
+      .slate-sub::before { box-shadow: 0 0 0 2px color-mix(in srgb, #d32f2f 25%, transparent); }
+    }
+    .stripe { width: 5px; border-radius: 999px; }
+    .phase-row { font-weight: 750; }
+    .phase-row .amt { font-weight: 850; font-size: 1.05rem; letter-spacing: -0.01em; }
+    .balance { font-weight: 750; }
+    .gr-name { letter-spacing: 0.01em; }
+
+    /* map */
+    .map-stage { overflow: hidden; }
+    .pal-btn { border-width: 1.5px; border-radius: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+    .seg { border-width: 1.5px; border-radius: 14px; }
+    .seg-btn { border-left-width: 1.5px; }
+
+    .toast { border-radius: 999px; box-shadow: var(--shadow-lift); }
+    .modal-card { border-radius: 18px; box-shadow: var(--shadow-lift); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sticky::before, .slate-sub::before, .clapper .clap-arm, .clapper .clap-body { animation: none !important; }
+      .bar > span, .btn, .tab, .chip, .pal-btn, .seg-btn, .icon-btn, .sec-chev { transition: none !important; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header class="sticky">
       <div class="title-row">
-        <h1>Base Camp Phase Tracker</h1>
+        <h1 class="slate"><svg class="clapper" id="clapper" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
+            <g class="clap-body"><rect x="2" y="11" width="30" height="18" rx="2.5" fill="#1b1814" stroke="#f3efe7" stroke-width="1"/>
+            <rect x="5" y="16" width="24" height="1.6" rx=".8" fill="#f3efe7" opacity=".85"/><rect x="5" y="20.5" width="16" height="1.6" rx=".8" fill="#f3efe7" opacity=".6"/><rect x="5" y="25" width="20" height="1.6" rx=".8" fill="#f3efe7" opacity=".6"/></g>
+            <g class="clap-arm"><rect x="2" y="5" width="30" height="6" rx="1.5" fill="#1b1814" stroke="#f3efe7" stroke-width="1"/>
+            <path d="M7 5 L11 5 L8 11 L4 11 Z M15 5 L19 5 L16 11 L12 11 Z M23 5 L27 5 L24 11 L20 11 Z" fill="#f3efe7"/></g>
+          </svg><span class="slate-text"><span class="slate-top">Base Camp</span> <span class="slate-sub">Phase Tracker</span></span></h1>
         <button type="button" class="svc-pill" id="svc-pill"></button>
         <button type="button" class="icon-btn" id="theme-btn" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
       </div>
@@ -1178,19 +1383,19 @@
         <div class="gen-row" id="gen-row-red" data-leg="red">
           <div class="gr-head"><span class="dot dot-red" aria-hidden="true"></span><span class="gr-name">Red</span><span class="gr-tag" id="gen-tag-red"></span></div>
           <label class="gr-field gr-amps"><span class="sr-only">Red leg amps</span><input id="gen-red" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Amps" aria-label="Generator Red leg amps"><span class="unit">A</span></label>
-          <label class="gr-field gr-rating"><span class="gr-of">of</span><input id="gen-rating-red" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Rating" aria-label="Red leg rating in amps (optional)"><span class="unit">A</span></label>
+          <span class="prev gr-prev" id="gen-prev-red" hidden></span>
           <div class="gr-barline"><div class="bar bar-red" aria-hidden="true"><span id="gen-bar-red"></span></div><span class="gr-pct" id="gen-pct-red"></span></div>
         </div>
         <div class="gen-row" id="gen-row-blue" data-leg="blue">
           <div class="gr-head"><span class="dot dot-blue" aria-hidden="true"></span><span class="gr-name">Blue</span><span class="gr-tag" id="gen-tag-blue"></span></div>
           <label class="gr-field gr-amps"><span class="sr-only">Blue leg amps</span><input id="gen-blue" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Amps" aria-label="Generator Blue leg amps"><span class="unit">A</span></label>
-          <label class="gr-field gr-rating"><span class="gr-of">of</span><input id="gen-rating-blue" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Rating" aria-label="Blue leg rating in amps (optional)"><span class="unit">A</span></label>
+          <span class="prev gr-prev" id="gen-prev-blue" hidden></span>
           <div class="gr-barline"><div class="bar bar-blue" aria-hidden="true"><span id="gen-bar-blue"></span></div><span class="gr-pct" id="gen-pct-blue"></span></div>
         </div>
         <div class="gen-row" id="gen-row-black" data-leg="black">
           <div class="gr-head"><span class="dot dot-black" aria-hidden="true"></span><span class="gr-name">Black</span><span class="gr-tag" id="gen-tag-black"></span></div>
           <label class="gr-field gr-amps"><span class="sr-only">Black leg amps</span><input id="gen-black" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Amps" aria-label="Generator Black leg amps"><span class="unit">A</span></label>
-          <label class="gr-field gr-rating"><span class="gr-of">of</span><input id="gen-rating-black" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Rating" aria-label="Black leg rating in amps (optional)"><span class="unit">A</span></label>
+          <span class="prev gr-prev" id="gen-prev-black" hidden></span>
           <div class="gr-barline"><div class="bar bar-black" aria-hidden="true"><span id="gen-bar-black"></span></div><span class="gr-pct" id="gen-pct-black"></span></div>
         </div>
       </div>
@@ -1204,7 +1409,7 @@
         <div class="sec-body" id="fluids-body">
         <div class="fl-grid">
           <div class="fl-box" id="fuel-box">
-            <label class="gr-field"><span class="fl-lab">Fuel</span><input id="fuel-input" type="text" inputmode="text" autocomplete="off" enterkeyhint="done" placeholder="% or 1/2" maxlength="12" aria-label="Fuel level, percent or a fraction like 1/2"></label>
+            <label class="gr-field"><span class="fl-lab">Fuel</span><input id="fuel-input" type="text" inputmode="text" autocomplete="off" enterkeyhint="done" placeholder="% or 1/2" maxlength="12" aria-label="Fuel level, percent or a fraction like 1/2"><span class="prev fl-prev" id="fuel-prev" hidden></span></label>
             <div class="fl-quick" role="group" aria-label="Quick fuel levels">
               <button type="button" class="chip" data-fuel="1/4">1/4</button><button type="button" class="chip" data-fuel="1/2">1/2</button><button type="button" class="chip" data-fuel="3/4">3/4</button><button type="button" class="chip" data-fuel="Full">Full</button>
             </div>
@@ -1212,7 +1417,7 @@
             <p class="fl-status" id="fuel-status" aria-live="polite"></p>
           </div>
           <div class="fl-box" id="oil-box">
-            <label class="gr-field"><span class="fl-lab">Oil</span><input id="oil-input" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Pressure" maxlength="12" aria-label="Oil pressure in PSI"><span class="unit">PSI</span></label>
+            <label class="gr-field"><span class="fl-lab">Oil</span><input id="oil-input" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Pressure" maxlength="12" aria-label="Oil pressure in PSI"><span class="unit">PSI</span><span class="prev fl-prev" id="oil-prev" hidden></span></label>
             <div class="fl-range"><span class="fl-small">Normal</span><input id="oil-min" type="text" inputmode="decimal" autocomplete="off" placeholder="min" maxlength="12" aria-label="Normal oil pressure minimum, PSI (optional)"><span class="fl-small">to</span><input id="oil-max" type="text" inputmode="decimal" autocomplete="off" placeholder="max" maxlength="12" aria-label="Normal oil pressure maximum, PSI (optional)"></div>
             <p class="fl-status" id="oil-status" aria-live="polite"></p>
           </div>
@@ -1683,6 +1888,7 @@
         log: [],
         fluid: emptyFluid(),
         svc: emptySvc(),
+        rd: {},
         map: seedMap(locations)
       };
     }
@@ -1782,8 +1988,20 @@
       return join(heaviest) + heavyVerb + ', ' + join(lightest) + lightVerb + ', ' + formatAmp(gap) + ' A apart.';
     }
 
+    let clapAt = 0;
+    function clap(force) {
+      const el = document.getElementById('clapper');
+      if (!el) return;
+      const now = Date.now();
+      if (!force && now - clapAt < 4000) return;
+      clapAt = now;
+      el.classList.remove('clap');
+      void el.getBoundingClientRect();
+      el.classList.add('clap');
+    }
     function persist() {
       if (viewState) return;
+      clap();
       localState.savedAt = Date.now();
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
@@ -1792,7 +2010,8 @@
           gen: localState.gen || emptyGen(),
           log: localState.log || [],
           fluid: localState.fluid || emptyFluid(),
-          svc: localState.svc || emptySvc()
+          svc: localState.svc || emptySvc(),
+          rd: localState.rd || {}
         }));
       } catch (err) {
         toast('Could not save on this device.');
@@ -1814,7 +2033,7 @@
         const data = JSON.parse(raw);
         if (!data || !Array.isArray(data.locations)) return defaultState();
         const locations = data.locations.map((loc, i) => hydrateLocation(loc, i, 'mig-'));
-        return { savedAt: data.savedAt || null, locations: locations, gen: hydrateGen(data.gen), log: hydrateLog(data.log, data.notes, data.savedAt), fluid: hydrateFluid(data.fluid), svc: hydrateSvc(data.svc) };
+        return { savedAt: data.savedAt || null, locations: locations, gen: hydrateGen(data.gen), log: hydrateLog(data.log, data.notes, data.savedAt), fluid: hydrateFluid(data.fluid), svc: hydrateSvc(data.svc), rd: hydrateRd(data.rd) };
       } catch (err) {
         return defaultState();
       }
@@ -1923,9 +2142,114 @@
       return state.log;
     }
 
+    // ----- previous readings -----
+    // rd[key] = { c: last committed value, ct: when, p: the committed value before it, pt: when }
+    // keys: g.red / g.blue / g.black, l.<locationId>.<phase>, f.fuel, f.oil
+    function hydrateRd(raw) {
+      const out = {};
+      if (!raw || typeof raw !== 'object') return out;
+      Object.keys(raw).slice(0, 500).forEach((k) => {
+        const r = raw[k];
+        if (!r || typeof r !== 'object' || !/^(g|l|f)\./.test(k)) return;
+        out[String(k).slice(0, 80)] = {
+          c: r.c == null ? '' : String(r.c).slice(0, 12), ct: Number(r.ct) || null,
+          p: r.p == null ? '' : String(r.p).slice(0, 12), pt: Number(r.pt) || null
+        };
+      });
+      return out;
+    }
+    function rdOf(state) {
+      if (!state.rd || typeof state.rd !== 'object') state.rd = {};
+      return state.rd;
+    }
+    function commitReading(key, before, beforeAt, after, state) {
+      before = String(before == null ? '' : before).trim(); after = String(after == null ? '' : after).trim();
+      if (before === after) return false;
+      const rd = rdOf(state || current());
+      const r = rd[key] || (rd[key] = { c: '', ct: null, p: '', pt: null });
+      if (before !== '') { r.p = before; r.pt = (r.c === before && r.ct) ? r.ct : (beforeAt || r.ct || null); }
+      r.c = after; r.ct = Date.now();
+      return true;
+    }
+    // Remember the committed value when editing starts; commit once on change (not per keystroke).
+    function trackCommits(input, key, getVal, getAt) {
+      input._rd = { key: key, getVal: getVal, getAt: getAt, base: undefined, baseAt: null };
+      input.addEventListener('focus', () => beginCommit(input, true));
+      input.addEventListener('input', () => beginCommit(input), true);
+    }
+    // While a box is being edited, the value it had when editing began is shown as "prev".
+    const rdEditing = {};
+    function beginCommit(input, force) {
+      const t = input._rd;
+      if (!t || (t.base !== undefined && !force)) return;
+      t.base = String(t.getVal() == null ? '' : t.getVal());
+      t.baseAt = t.getAt();
+      const r = rdOf(current())[t.key];
+      rdEditing[t.key] = { v: t.base.trim(), t: r && r.c === t.base.trim() && r.ct ? r.ct : t.baseAt };
+      if (!input._rdBlur) {
+        input._rdBlur = true;
+        input.addEventListener('blur', () => { delete rdEditing[t.key]; });
+      }
+    }
+    function commitInput(input, value) {
+      const t = input._rd;
+      if (!t) return;
+      if (t.base === undefined) { t.base = String(value); t.baseAt = t.getAt(); }
+      commitReading(t.key, t.base, t.baseAt, value);
+      t.base = String(value);
+      t.baseAt = Date.now();
+      delete rdEditing[t.key];
+    }
+    function prevWhen(ts) {
+      const d = new Date(ts);
+      return d.toDateString() === new Date().toDateString()
+        ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })
+        : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    }
+    function locHasPrev(id) {
+      const rd = rdOf(current());
+      const loc = current().locations.find((l) => l.id === id);
+      return PHASES.some((p) => {
+        const k = 'l.' + id + '.' + p.key, r = rd[k], ed = rdEditing[k];
+        return (r && r.p !== '') || (ed && ed.v !== '' && loc && String(loc[p.key]).trim() !== ed.v);
+      });
+    }
+    function prevInfo(key, cur, kind, state) {
+      let r = rdOf(state || current())[key];
+      const ed = rdEditing[key];
+      if (ed && ed.v !== '' && String(cur == null ? '' : cur).trim() !== ed.v) r = { p: ed.v, pt: ed.t };
+      if (!r || r.p === '') return null;
+      const parse = kind === 'fuel' ? parseFuel : parseAmp;
+      const unit = kind === 'fuel' ? '%' : kind === 'psi' ? ' PSI' : ' A';
+      const pn = parse(r.p), cn = parse(cur);
+      const val = pn == null ? r.p : formatAmp(pn) + unit;
+      let diff = '', dir = '';
+      if (pn != null && cn != null) {
+        const d = Math.round((cn - pn) * 10) / 10;
+        dir = d > 0 ? 'up' : d < 0 ? 'down' : 'same';
+        diff = (d > 0 ? '+' : d < 0 ? '−' : '±') + formatAmp(Math.abs(d)) + (kind === 'fuel' ? '%' : '');
+      }
+      return { val: val, when: r.pt ? prevWhen(r.pt) : '', diff: diff, dir: dir };
+    }
+    function paintPrev(el, key, cur, kind, state) {
+      if (!el) return;
+      const info = prevInfo(key, cur, kind, state);
+      if (!info) { el.hidden = true; el.textContent = ''; el.removeAttribute('title'); el.removeAttribute('aria-label'); return; }
+      el.hidden = false;
+      el.innerHTML = '<span class="pv-v"></span><span class="pv-m"></span>';
+      el.firstChild.textContent = 'prev ' + info.val;
+      const m = el.lastChild;
+      if (info.diff) { const b = document.createElement('b'); b.className = 'pv-d ' + info.dir; b.textContent = info.diff; m.appendChild(b); }
+      if (info.when) m.appendChild(document.createTextNode((info.diff ? ' · ' : '') + info.when));
+      if (!m.childNodes.length) m.remove();
+      const label = 'Previous reading ' + info.val + (info.when ? ' at ' + info.when : '') + (info.diff ? ', change ' + info.diff : '');
+      el.title = label;
+      el.setAttribute('aria-label', label);
+    }
+
     function genStats(state) {
       const g = genOf(state);
-      const legs = HOT.map((p) => ({ key: p.key, label: p.label, amps: parseAmp(g[p.key]), rating: parseAmp(g.rating[p.key]) }));
+      const legs = HOT.map((p) => ({ key: p.key, label: p.label, amps: parseAmp(g[p.key]), rating: null }));
       const read = legs.filter((l) => l.amps != null);
       const max = read.length ? Math.max.apply(null, read.map((l) => l.amps)) : 0;
       const min = read.length ? Math.min.apply(null, read.map((l) => l.amps)) : 0;
@@ -1963,13 +2287,8 @@
         row.classList.toggle('warn', l.level === 'warn');
         row.classList.toggle('over', l.level === 'over');
         $('gen-tag-' + l.key).textContent = l.heaviest ? 'Heaviest' : '';
-        let pct = '';
-        if (l.rating) {
-          pct = (l.pct == null ? '—' : Math.round(l.pct) + '%') + ' of ' + formatAmp(l.rating) + ' A';
-          if (l.level === 'warn') pct = '⚠ ' + pct;
-          if (l.level === 'over') pct = '⚠ ' + pct + ' OVER';
-        } else if (l.amps != null) pct = formatAmp(l.amps) + ' A';
-        $('gen-pct-' + l.key).textContent = pct;
+        $('gen-pct-' + l.key).textContent = '';
+        paintPrev($('gen-prev-' + l.key), 'g.' + l.key, g[l.key], 'amp', state);
       });
       const sp = $('gen-spread');
       if (st.read.length >= 2) {
@@ -2084,8 +2403,6 @@
       HOT.forEach((p) => {
         const input = $('gen-' + p.key);
         if (input && document.activeElement !== input) input.value = g[p.key];
-        const r = $('gen-rating-' + p.key);
-        if (r && document.activeElement !== r) r.value = g.rating[p.key];
       });
       updateGenVisual(state);
       renderFluids(state);
@@ -2105,8 +2422,10 @@
       const v = String(input.value).slice(0, 12);
       if (v !== g[key]) g.updatedAt = Date.now();
       g[key] = v;
+      if (sanitize) commitInput(input, v);
       persist();
       updateSummary();
+      paintPrev($('gen-prev-' + key), 'g.' + key, v, 'amp');
     }
 
     function onRatingInput(key, input, sanitize) {
@@ -2119,11 +2438,9 @@
 
     HOT.forEach((p) => {
       const input = $('gen-' + p.key);
+      trackCommits(input, 'g.' + p.key, () => genOf(current())[p.key], () => genOf(current()).updatedAt);
       input.addEventListener('input', () => onGenInput(p.key, input));
       input.addEventListener('change', () => onGenInput(p.key, input, true));
-      const r = $('gen-rating-' + p.key);
-      r.addEventListener('input', () => onRatingInput(p.key, r));
-      r.addEventListener('change', () => onRatingInput(p.key, r, true));
     });
 
     $('note-add-btn').addEventListener('click', addNote);
@@ -2214,6 +2531,8 @@
         const el = $(p[0]);
         if (el && document.activeElement !== el) el.value = f[p[1]];
       });
+      paintPrev($('fuel-prev'), 'f.fuel', f.fuel, 'fuel', state);
+      paintPrev($('oil-prev'), 'f.oil', f.oil, 'psi', state);
       // Fuel gauge
       const pct = parseFuel(f.fuel);
       const lvl = fuelLevel(pct);
@@ -2294,6 +2613,7 @@
       const v = String(input.value).slice(0, 12);
       if ((key === 'fuel' || key === 'oil') && v !== f[key]) f.updatedAt = Date.now();
       f[key] = v;
+      if (sanitize && (key === 'fuel' || key === 'oil')) commitInput(input, v);
       persist();
       renderFluids(current());
       updateSummary();
@@ -2337,6 +2657,7 @@
       renderFluids(current());
     }
 
+    [['fuel-input', 'fuel'], ['oil-input', 'oil']].forEach((p) => trackCommits($(p[0]), 'f.' + p[1], () => fluidOf(current())[p[1]], () => fluidOf(current()).updatedAt));
     [['fuel-input', 'fuel'], ['oil-input', 'oil'], ['oil-min', 'min'], ['oil-max', 'max']].forEach((p) => {
       const el = $(p[0]);
       el.addEventListener('input', () => onFluidInput(p[1], el));
@@ -2344,6 +2665,7 @@
     });
     document.querySelectorAll('#fuel-box .chip').forEach((c) => c.addEventListener('click', () => {
       const el = $('fuel-input');
+      beginCommit(el);
       el.value = c.dataset.fuel;
       onFluidInput('fuel', el, true);
     }));
@@ -2688,18 +3010,25 @@
           input.enterKeyHint = 'done';
           input.setAttribute('aria-label', loc.name + ' ' + p.label + ' amps');
           input.value = loc[p.key];
+          trackCommits(input, 'l.' + loc.id + '.' + p.key, () => { const l = current().locations.find((x) => x.id === loc.id); return l ? l[p.key] : ''; }, () => null);
           input.addEventListener('input', () => onAmpInput(loc.id, p.key, input));
           input.addEventListener('change', () => onAmpInput(loc.id, p.key, input, true));
           const unit = document.createElement('span');
           unit.className = 'unit';
           unit.textContent = 'A';
+          const prev = document.createElement('span');
+          prev.className = 'prev amp-prev';
+          prev.id = 'prev-' + inputId;
+          paintPrev(prev, 'l.' + loc.id + '.' + p.key, loc[p.key], 'amp');
           row.appendChild(stripe);
           row.appendChild(label);
           row.appendChild(input);
           row.appendChild(unit);
+          row.appendChild(prev);
           card.appendChild(row);
         });
 
+        card.classList.toggle('has-prev', locHasPrev(loc.id));
         applyCollapsed(card, collapsedIds.has(loc.id));
         listEl.appendChild(card);
       });
@@ -2726,9 +3055,15 @@
         else if (!String(input.value).trim()) { input.value = ''; v = ''; }
       }
       loc[key] = input.value;
+      if (sanitize) commitInput(input, loc[key]);
       persist();
       updateSummary();
       refreshCompactLine(id);
+      const card = listEl.querySelector('article[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+      if (card) {
+        card.classList.toggle('has-prev', locHasPrev(id));
+        paintPrev(card.querySelector('#' + (window.CSS && CSS.escape ? CSS.escape('prev-' + id + '-' + key) : 'prev-' + id + '-' + key)), 'l.' + id + '.' + key, loc[key], 'amp');
+      }
       if (rebalancePlan) renderRebalance();
     }
 
@@ -2839,6 +3174,7 @@
       if (!ok) return;
       const state = current();
       state.locations = state.locations.filter((l) => l.id !== id);
+      Object.keys(rdOf(state)).forEach((k) => { if (k.indexOf('l.' + id + '.') === 0) delete state.rd[k]; });
       if (!viewState && collapsedIds.has(id)) { collapsedIds.delete(id); saveCollapsed(); }
       persist();
       renderList();
@@ -2847,18 +3183,22 @@
     async function clearReadings() {
       const ok = await openModal({
         title: 'Clear all readings',
-        body: 'Clear every amp reading, including the generator legs? Locations, leg ratings, the generator log, and fuel / oil readings will stay. This cannot be undone.',
+        body: 'Clear every amp reading, including the generator legs? Each cleared value stays visible as its “prev” reading. Locations, the generator log, and fuel / oil readings will stay.',
         okLabel: 'Clear readings',
         danger: true
       });
       if (!ok) return;
-      current().locations.forEach((loc) => {
+      const st = current();
+      st.locations.forEach((loc) => {
+        PHASES.forEach((p) => commitReading('l.' + loc.id + '.' + p.key, loc[p.key], null, '', st));
         loc.red = loc.blue = loc.black = loc.white = '';
       });
-      current().gen = emptyGen(genOf(current()).rating);
+      const g0 = genOf(st);
+      HOT.forEach((p) => commitReading('g.' + p.key, g0[p.key], g0.updatedAt, '', st));
+      st.gen = emptyGen(g0.rating);
       persist();
       renderList();
-      toast('Readings cleared.');
+      toast('Readings cleared. The old values show as “prev”.');
     }
 
     function compactState(state, opts) {
@@ -4680,6 +5020,7 @@
     window.addEventListener('hashchange', applyHash);
 
     localState = loadLocal();
+    setTimeout(() => clap(true), 400);
     renderList();
     applyHash();
     let savedTab = 'tracker';
