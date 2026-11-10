@@ -820,6 +820,58 @@
     .fl-entry .fe-note { grid-column: 1 / -1; margin: 0; font-size: 0.88rem; overflow-wrap: anywhere; }
     .fl-entry .ne-del { grid-row: 1 / span 2; grid-column: 2; }
 
+    .svc { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 4px; padding-top: 10px; border-top: 2px solid var(--hairline); min-width: 0; }
+    .svc > * { min-width: 0; }
+    .svc .gr-barline { grid-area: auto; }
+    .svc .gen-title { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .svc .gen-title small { text-align: left; color: var(--text); font-weight: 700; }
+    .svc-icon:empty { display: none; }
+    .svc-icon { margin-right: 6px; }
+    .svc-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px; }
+    .svc-f { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; column-gap: 4px; align-items: center; min-width: 0; }
+    .svc-f span { grid-column: 1 / -1; font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+    .svc-f input { min-width: 0; width: 100%; min-height: 44px; padding: 6px 8px; border: 2px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font-size: 16px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+    .svc-f em { font-style: normal; font-weight: 700; color: var(--muted); }
+    #svc-due.auto { border-style: dashed; font-weight: 600; }
+    .svc-small { margin: 0; font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+    .svc-small:empty { display: none; }
+    .svc-toggle { display: flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 700; }
+    .svc-toggle input { width: 22px; height: 22px; }
+    .svc-readout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px; }
+    .svc-readout > div:nth-child(3) { grid-column: 1 / -1; }
+    .svc-readout[hidden] { display: none; }
+    .svc-readout > div { display: grid; gap: 2px; padding: 6px; border: 2px solid var(--hairline); border-radius: 10px; min-width: 0; }
+    .svc-readout strong { font-size: 0.95rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .svc-k { font-size: 0.72rem; font-weight: 700; color: var(--muted); }
+    .svc-bar { height: 14px; }
+    .svc-bar > span { background: #2e7d32; }
+    .svc.warn .svc-bar > span { background: #f9a825; }
+    .svc.due .svc-bar > span, .svc.critical .svc-bar > span { background: #c62828; }
+    .svc.warn .svc-readout > div:nth-child(2) { background: var(--banner); border-color: var(--banner-border); }
+    .svc.due .svc-readout > div:nth-child(2) { background: var(--danger-bg); border-color: var(--danger); }
+    .svc-banner { margin: 0; padding: 8px 10px; border-radius: 10px; font-weight: 850; }
+    .svc-banner.warn { background: var(--banner); border: 2px solid var(--banner-border); }
+    .svc-banner.due { background: #c62828; color: #fff; border: 2px solid #7f0000; }
+    .svc-banner.critical, .svc-pill.critical {
+      color: #fff; border: 3px solid #111; text-shadow: 0 1px 0 #000;
+      background: repeating-linear-gradient(45deg, #111 0 12px, #f9c80e 12px 24px);
+      animation: svcFlash 1s steps(2, start) infinite;
+    }
+    .svc-banner.critical span, .svc-pill.critical span { background: #6d0000; padding: 2px 6px; border-radius: 6px; }
+    @keyframes svcFlash { 50% { filter: brightness(1.6); } }
+    @media (prefers-reduced-motion: reduce) { .svc-banner.critical, .svc-pill.critical { animation: none; } }
+    .svc-actions { display: flex; justify-content: flex-end; }
+    .svc-hist { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 0.85rem; }
+    .svc-hist:empty { display: none; }
+    .svc-hist li { padding: 4px 8px; border: 1px solid var(--hairline); border-radius: 8px; font-weight: 650; }
+    .title-row { flex-wrap: wrap; }
+    .svc-pill { order: 3; flex-basis: 100%; justify-content: center; display: none; align-items: center; gap: 4px; margin: 0; padding: 4px 8px; border-radius: 999px; font-size: 0.8rem; font-weight: 850; border: 0; font-family: inherit; white-space: nowrap; }
+    .svc-pill.warn, .svc-pill.due, .svc-pill.critical { display: inline-flex; }
+    .svc-pill.warn { background: #f9a825; color: #111; }
+    .svc-pill.due { background: #c62828; color: #fff; }
+    .tab-alert { margin-left: 4px; }
+    .tab-alert:empty { display: none; }
+
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
     .notes-card {
@@ -982,6 +1034,11 @@
     #map-svg .map-item, #map-svg .map-cable { cursor: pointer; }
     #map-svg .rot-handle { cursor: alias; }
 
+    .map-attrib { position: absolute; left: 6px; bottom: 6px; max-width: calc(100% - 70px); padding: 2px 6px; border-radius: 6px; background: rgba(255,255,255,0.82); color: #111; font-size: 0.68rem; font-weight: 600; pointer-events: none; }
+    .seg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 8px; border: 2px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .seg-btn { min-height: 44px; border: 0; border-left: 2px solid var(--border); background: var(--surface); color: var(--text); font: inherit; font-weight: 750; font-size: 0.92rem; padding: 0 4px; }
+    .seg-btn:first-child { border-left: 0; }
+    .seg-btn.on { background: var(--accent); color: #fff; }
     .zoom-ctl {
       position: absolute;
       bottom: 8px;
@@ -1068,10 +1125,11 @@
     <header class="sticky">
       <div class="title-row">
         <h1>Base Camp Phase Tracker</h1>
+        <button type="button" class="svc-pill" id="svc-pill"></button>
         <button type="button" class="icon-btn" id="theme-btn" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
       </div>
       <div class="tabs" role="tablist" aria-label="View">
-        <button type="button" class="tab" role="tab" id="tab-tracker" aria-selected="true" aria-controls="tracker-view">Tracker</button>
+        <button type="button" class="tab" role="tab" id="tab-tracker" aria-selected="true" aria-controls="tracker-view">Tracker<span class="tab-alert" id="svc-tab-alert"></span></button>
         <button type="button" class="tab" role="tab" id="tab-map" aria-selected="false" aria-controls="map-view">Map</button>
       </div>
       <div id="tracker-summary">
@@ -1136,6 +1194,26 @@
         </div>
         <ol class="fluid-list" id="fluid-list" aria-label="Fuel and oil history, newest first"></ol>
       </div>
+      <div class="svc" id="svc" role="group" aria-labelledby="svc-title">
+        <div class="gen-title"><span id="svc-title"><span class="svc-icon" id="svc-icon" aria-hidden="true"></span>Hours until service</span><small id="svc-est-line"></small></div>
+        <div class="svc-banner" id="svc-banner" role="alert" hidden></div>
+        <div class="svc-grid">
+          <label class="svc-f"><span>Last service</span><input id="svc-last" type="text" inputmode="decimal" autocomplete="off" maxlength="12" aria-label="Last service at, hours"><em>h</em></label>
+          <label class="svc-f"><span>Interval</span><input id="svc-interval" type="text" inputmode="decimal" autocomplete="off" maxlength="12" aria-label="Service interval, hours"><em>h</em></label>
+          <label class="svc-f"><span>Due at</span><input id="svc-due" type="text" inputmode="decimal" autocomplete="off" maxlength="12" aria-label="Service due at, hours (computed, editable)"><em>h</em></label>
+          <label class="svc-f"><span>Hour meter now</span><input id="svc-cur" type="text" inputmode="decimal" autocomplete="off" maxlength="12" aria-label="Current hour meter reading"><em>h</em></label>
+        </div>
+        <p class="svc-small" id="svc-cur-at"></p>
+        <label class="svc-toggle"><input type="checkbox" id="svc-247"> Running 24/7 (estimate hours live)</label>
+        <div class="svc-readout" id="svc-readout">
+          <div><span class="svc-k">Est. hours now</span><strong id="svc-est"></strong></div>
+          <div><span class="svc-k">Remaining</span><strong id="svc-rem"></strong></div>
+          <div><span class="svc-k">Due</span><strong id="svc-when"></strong></div>
+        </div>
+        <div class="gr-barline"><div class="bar svc-bar" aria-hidden="true"><span id="svc-bar"></span></div><span class="gr-pct" id="svc-pct"></span></div>
+        <div class="svc-actions"><button type="button" class="btn" id="svc-mark-btn">Mark serviced</button></div>
+        <ol class="svc-hist" id="svc-hist" aria-label="Service history, newest first"></ol>
+      </div>
     </section>
     <div class="list-tools">
       <button type="button" class="btn" id="rebalance-btn">Suggest rebalance</button>
@@ -1198,11 +1276,18 @@
             <g id="map-items"></g>
           </g>
         </svg>
+        <div class="map-attrib" id="map-attrib" hidden></div>
         <div class="zoom-ctl">
           <button type="button" class="btn" id="zoom-in" aria-label="Zoom in">+</button>
           <button type="button" class="btn" id="zoom-out" aria-label="Zoom out">−</button>
           <button type="button" class="btn small" id="zoom-fit" aria-label="Fit map to screen">Fit</button>
         </div>
+      </div>
+      <div class="seg" id="bg-mode" role="radiogroup" aria-label="Map background">
+        <button type="button" class="seg-btn" role="radio" data-mode="lot">Lot</button>
+        <button type="button" class="seg-btn" role="radio" data-mode="grid">Grid</button>
+        <button type="button" class="seg-btn" role="radio" data-mode="photo">Photo</button>
+        <button type="button" class="seg-btn" role="radio" data-mode="sat">Satellite</button>
       </div>
       <p class="saved-line" id="map-status"></p>
       <section class="actions">
@@ -1222,6 +1307,7 @@
         <p>Tap an item in the row above the map to add it. Drag items to move them. Drag an empty spot to pan. Pinch, or use + and −, to zoom.</p>
         <p>Tap an item to label it, link it to a tracker location, rotate it, or delete it. A linked item shows its phase pair and amps from the Tracker tab.</p>
         <p>Tap <strong>Cable run</strong>, pick a colour, then tap the two items it connects. Tap a cable to change its colour or add a length.</p>
+        <p>The map starts on <strong>Lot</strong>: the Days Inn parking lot at 50 Brady St, Sudbury, drawn to scale from OpenStreetMap, so a 40 ft trailer is the right size. <strong>Grid</strong> is a blank grid. <strong>Satellite</strong> shows Esri aerial imagery of the same lot (needs data).</p>
         <p><strong>Load lot photo</strong> puts a photo or screenshot of the lot behind the map. It is shrunk so it fits on your phone. Share links carry the layout. A photo is usually too big for a link, so it is left out when needed.</p>
       </details>
       <div class="map-sheet-spacer"></div>
@@ -1292,6 +1378,14 @@
     const TAB_KEY = 'basecamp-phase-tracker-tab';
     const WORLD_W = 1200;
     const WORLD_H = 800;
+    // Days Inn, 50 Brady St, Sudbury ON. Vector lot drawn from OpenStreetMap data (© OpenStreetMap contributors, ODbL).
+    // World units: 11.4829 per metre (a 40 ft trailer body = 140). Rotated so the hotel and lot run up the phone screen.
+    const LOT = {"w": 1848, "h": 3927, "k": 11.4829, "sat": {"z": 18, "m": [3.162753, -3.505204, 3.505204, 3.162753, -3279.16, 2362.99], "tx": [72089, 72093], "ty": [92744, 92748]}};
+    LOT.svg = "<rect x=\"0\" y=\"0\" width=\"1848\" height=\"3927\" fill=\"#7d9a63\"/><path d=\"M1005 -343 L1038 -459 L1030 -527 L1005 -567 L869 -677 L667 -863 L316 -1188 L72 -1411 L282 -1637 L-123 -2003 L-328 -1781 L-401 -1707 L-995 -1059 L-1054 -989 L-939 -946 L-609 -845 L-279 -742 L794 -400 L1005 -343 Z\" fill=\"#86a06c\"/><path d=\"M482 -487 L797 -379 L1195 -274 L1458 -202 L1677 -174 L1795 -171 L1836 -164 L1947 -157 L1963 106 L2488 163 L2508 412 L1783 340 L1739 343 L1615 351 L1636 150 L1367 87 L548 -65 L269 -127 L178 -149 L216 -192 L-257 -307 L-286 -219 L-1636 -490 L-1710 -199 L-2313 -349 L-2180 -684 L-3311 -983 L-3969 -1168 L-3993 -1167 L-4248 -1230 L-4608 -1317 L-4949 -1360 L-5126 -1390 L-5325 -1401 L-5397 -1388 L-5696 -1374 L-5808 -1379 L-6745 -1245 L-6766 -1243 L-7684 -986 L-9180 -657 L-9994 -334 L-12638 -9 L-13105 53 L-13132 140 L-13241 121 L-13424 51 L-13617 74 L-13815 156 L-13909 181 L-14215 -84 L-14297 -150 L-13405 -205 L-13278 -514 L-13649 -547 L-13938 -645 L-14294 -732 L-14668 -811 L-15076 -816 L-15108 -659 L-15244 -669 L-15557 -692 L-15686 -694 L-15756 -708 L-15786 -729 L-15810 -794 L-16191 -626 L-16342 -609 L-17766 -316 L-18075 -332 L-18866 -160 L-19118 -8 L-19657 126 L-19701 148 L-19784 192 L-19868 249 L-19991 146 L-20233 211 L-20594 318 L-21004 437 L-21485 604 L-21775 733 L-21970 847 L-22044 909 L-22442 1278 L-22608 1131 L-23187 1648 L-23239 1699 L-23686 2108 L-24071 2435 L-24636 2960 L-25766 4021 L-26850 5033 L-27254 5416 L-27493 5601 L-27813 5798 L-28108 5961 L-29141 6406 L-30934 7182 L-33789 8390 L-34721 8793 L-35910 9338 L-36021 9387 L-35977 10213 L-36104 10750 L-36422 11547 L-36700 12123 L-37241 13087 L-37478 13608 L-38176 14956 L-38408 15287 L-38516 15225 L-38527 15034 L-38370 14794 L-38184 14412 L-38012 14249 L-37810 13967 L-36731 11869 L-36348 11013 L-36242 10524 L-36246 9871 L-36272 9515 L-36603 9591 L-37303 9702 L-38513 9819 L-40293 9973 L-40932 10058 L-41483 10045 L-41290 10181 L-40989 10394 L-40761 10645 L-40424 11083 L-40208 11551 L-40065 11959 L-39834 12990 L-39649 13849 L-39433 14870 L-39373 15460 L-39398 16304 L-39646 16739 L-39571 15757 L-39637 15061 L-39853 14026 L-40482 11422 L-40540 11296 L-40661 11108 L-40798 10930 L-41035 10658 L-41201 10502 L-41510 10268 L-41718 10158 L-41938 10098 L-42114 10059 L-42620 10018 L-43089 10002 L-44036 9999 L-44629 9988 L-45197 10039 L-45855 10202 L-46386 10420 L-46705 10602 L-47015 10844 L-47117 10936 L-47356 11180 L-47555 11418 L-47681 11324 L-47369 10963 L-48247 11395 L-48959 11701 L-49563 11923 L-50657 12183 L-51316 12295 L-51940 12328 L-52948 12312 L-53380 12266 L-54232 12143 L-55145 11948 L-55832 11748 L-59898 10513 L-60497 10429 L-61221 10377 L-61989 10350 L-62535 10448 L-63370 10646 L-64744 11049 L-66054 11423 L-66082 11168 L-62849 10264 L-62018 10148 L-61240 10132 L-60565 10168 L-59585 10383 L-55467 11633 L-54866 11813 L-53867 12008 L-52790 12116 L-51928 12105 L-50834 11991 L-49873 11765 L-48892 11448 L-48346 11228 L-47143 10559 L-46297 10083 L-45681 9862 L-44808 9678 L-44007 9631 L-42889 9679 L-41932 9787 L-41173 9758 L-39217 9570 L-36776 9350 L-36291 9252 L-36073 9172 L-34746 8613 L-34578 8539 L-33758 8180 L-32532 7648 L-31137 7070 L-29182 6240 L-28202 5816 L-27762 5560 L-27427 5333 L-27043 5000 L-26289 4284 L-24952 3026 L-23781 1920 L-23112 1312 L-22351 727 L-21884 504 L-21495 327 L-21056 166 L-20523 6 L-19980 -131 L-19907 -382 L-19827 -362 L-19271 -499 L-18834 -594 L-18749 -613 L-18324 -690 L-18180 -716 L-17514 -906 L-16881 -1085 L-16782 -1077 L-16378 -1125 L-16254 -1147 L-15874 -1174 L-15870 -1014 L-15764 -1161 L-15702 -1207 L-15643 -1238 L-15515 -1285 L-15361 -1242 L-14843 -1206 L-14098 -1092 L-14058 -1087 L-13289 -913 L-13125 -1704 L-13025 -2053 L-12962 -2218 L-12858 -2445 L-12764 -2640 L-12679 -2850 L-12572 -3230 L-12525 -3569 L-12533 -3733 L-12537 -3837 L-12526 -4041 L-12547 -4337 L-12560 -4567 L-12618 -4874 L-12731 -5173 L-12749 -5152 L-12797 -5249 L-12966 -5552 L-13043 -5695 L-13093 -5795 L-13127 -5863 L-13150 -5905 L-13180 -5943 L-13289 -6789 L-13354 -7532 L-13371 -7888 L-13362 -8150 L-13465 -8309 L-13431 -8368 L-13424 -8423 L-13291 -8680 L-13196 -9739 L-13062 -10438 L-12977 -11061 L-12960 -11189 L-12855 -12111 L-12918 -12151 L-12889 -12210 L-12879 -12275 L-12897 -12328 L-12822 -12411 L-12720 -13789 L-12692 -13989 L-12822 -14106 L-12791 -14164 L-12792 -14238 L-12661 -14304 L-12561 -15350 L-12534 -16057 L-12517 -16252 L-12438 -17159 L-12398 -17616 L-12212 -19438 L-12178 -19814 L-12143 -20235 L-12067 -20939 L-12047 -21149 L-12027 -21361 L-11989 -21610 L-11929 -21956 L-11834 -21980 L-11881 -21792 L-11917 -21630 L-11933 -21496 L-11944 -21286 L-11956 -20985 L-11978 -20646 L-12020 -20232 L-12035 -20083 L-11872 -19942 L-11875 -19936 L-11907 -19783 L-12042 -18187 L-12186 -16451 L-12344 -14664 L-12346 -14640 L-12425 -13777 L-12507 -12871 L-12582 -12091 L-12671 -11130 L-12693 -10903 L-12691 -10838 L-12669 -10785 L-12883 -10563 L-12953 -10200 L-13043 -9599 L-13137 -8942 L-13066 -8792 L-13108 -8337 L-13086 -8148 L-13086 -8134 L-13089 -7658 L-13077 -7171 L-12998 -6789 L-12919 -6454 L-12897 -6401 L-12886 -6168 L-12861 -5955 L-12807 -5700 L-12729 -5467 L-12658 -5256 L-12605 -5148 L-12549 -5067 L-12574 -5038 L-12545 -4926 L-12462 -4651 L-12424 -4438 L-12407 -4236 L-12386 -3891 L-12383 -3450 L-12431 -3003 L-12484 -2792 L-12659 -2323 L-12729 -2098 L-12796 -1861 L-12826 -1714 L-12835 -1590 L-12857 -1362 L-12882 -1117 L-12948 -855 L-12608 -774 L-12261 -709 L-12272 -670 L-11995 -636 L-11539 -612 L-11030 -657 L-10799 -687 L-10570 -736 L-10120 -832 L-9652 -943 L-9413 -996 L-8646 -1211 L-7930 -1385 L-7427 -1503 L-6836 -1656 L-6323 -1748 L-5868 -1825 L-5814 -1591 L-5292 -1600 L-5107 -1587 L-4508 -1477 L-3845 -1335 L-3833 -1326 L-3685 -1286 L-1401 -734 L290 -270 L482 -487 Z\" fill=\"#8a8172\"/><path d=\"M1761 10600 L1771 10559 L1510 10502 L1359 10404 L1156 10234 L1027 10111 L839 9920 L732 9804 L703 9682 L711 9441 L767 9278 L828 9054 L873 8936 L995 8728 L1129 8569 L1355 8284 L1403 8105 L1436 7911 L1472 7594 L1564 7267 L1577 6977 L1566 6671 L1553 6573 L1754 6347 L1807 6251 L1803 6240 L1776 6187 L1725 6057 L1693 5915 L1696 5797 L1728 5650 L1821 5317 L1912 5019 L2043 4662 L2119 4456 L2166 4077 L2235 3709 L2279 3500 L2305 3396 L2326 3315 L2338 3206 L2325 3131 L2257 2959 L2247 2931 L2182 2722 L2168 2681 L2117 2492 L2095 2314 L2105 2052 L2150 1607 L2210 1127 L2581 1152 L2617 554 L2624 411 L2508 412 L1783 340 L1739 343 L1704 622 L1629 743 L1600 899 L1551 1222 L1508 1508 L1475 1871 L1467 2073 L1457 2263 L1460 2485 L1478 2723 L1506 3014 L1539 3251 L1553 3502 L1563 3612 L1563 3782 L1550 4060 L1529 4224 L1389 4801 L1353 4966 L1333 5118 L1325 5348 L1330 5488 L1353 5692 L1396 5904 L1426 6094 L1438 6286 L1430 6402 L1412 6479 L1379 6592 L1316 6723 L1230 6844 L872 7237 L1127 7457 L1092 7564 L999 7654 L909 7832 L900 8000 L757 8100 L701 8145 L648 8304 L622 8381 L612 8413 L555 8621 L496 8843 L397 9047 L315 9160 L236 9232 L224 9243 L945 10706 L1694 10886 L1761 10600 Z\" fill=\"#6f8f57\"/><path d=\"M-286 -219 L-257 -307 L216 -192 L178 -149 L269 -127 L548 -65 L1367 87 L1636 150 L1615 351 Z\" fill=\"#8a8172\"/><path d=\"M1370 367 L1143 420 L715 593 L408 758 L208 899 L52 1041 L-76 1190 L-209 1413 L-296 1636 L-439 1994 L-534 2301 L-590 2519 L-653 2802 L-637 3078 Z\" fill=\"#8a8172\"/><path d=\"M-6554 -1366 L-6342 -1401 L-6102 -1438 L-5847 -1453 L-5665 -1458 L-5449 -1458 L-5248 -1448 L-5044 -1427 L-4801 -1394 L-4595 -1355 L-4291 -1287 L-4045 -1220 L-3955 -1199 L-3850 -1174 L-3800 -1162 L-3137 -983 L-2384 -797 L-1274 -517 L-466 -313 L297 -137 L870 -13 L1196 62 L1268 80 L1694 186 L1891 231 L2175 288\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-6554 -1366 L-6342 -1401 L-6102 -1438 L-5847 -1453 L-5665 -1458 L-5449 -1458 L-5248 -1448 L-5044 -1427 L-4801 -1394 L-4595 -1355 L-4291 -1287 L-4045 -1220 L-3955 -1199 L-3850 -1174 L-3800 -1162 L-3137 -983 L-2384 -797 L-1274 -517 L-466 -313 L297 -137 L870 -13 L1196 62 L1268 80 L1694 186 L1891 231 L2175 288\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M-1078 9424 L-1186 9208 L-1540 8482 L-1778 8002 L-2207 7160 L-2415 6733 L-2507 6529 L-2596 6342 L-2695 6090 L-2770 5847 L-2820 5613 L-2856 5375 L-2890 5092 L-2913 4847 L-2914 4561 L-2903 4321 L-2884 4076 L-2852 3831 L-2809 3590 L-2761 3387 L-2697 3151 L-2629 2948 L-2550 2743 L-2465 2542 L-2372 2346 L-2275 2163 L-2173 1985 L-2066 1814 L-1948 1646 L-1821 1479 L-1657 1285 L-1508 1121 L-1339 947 L-1167 790 L-1003 657 L-841 532 L-672 410 L-484 283 L-333 191 L-182 117 L-21 51 L110 6 L251 -31 L368 -50 L482 -55 L627 -42 L870 -13\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-1078 9424 L-1186 9208 L-1540 8482 L-1778 8002 L-2207 7160 L-2415 6733 L-2507 6529 L-2596 6342 L-2695 6090 L-2770 5847 L-2820 5613 L-2856 5375 L-2890 5092 L-2913 4847 L-2914 4561 L-2903 4321 L-2884 4076 L-2852 3831 L-2809 3590 L-2761 3387 L-2697 3151 L-2629 2948 L-2550 2743 L-2465 2542 L-2372 2346 L-2275 2163 L-2173 1985 L-2066 1814 L-1948 1646 L-1821 1479 L-1657 1285 L-1508 1121 L-1339 947 L-1167 790 L-1003 657 L-841 532 L-672 410 L-484 283 L-333 191 L-182 117 L-21 51 L110 6 L251 -31 L368 -50 L482 -55 L627 -42 L870 -13\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M1196 62 L865 10 L703 -7 L551 -14 L379 -2 L198 32 L-6 103 L-220 195 L-406 300 L-580 413 L-755 541 L-947 689 L-1157 862 L-1357 1051 L-1554 1252 L-1725 1446 L-1884 1644 L-2018 1841 L-2146 2040 L-2286 2294 L-2391 2507 L-2484 2717 L-2562 2922 L-2631 3129 L-2691 3337 L-2743 3563 L-2788 3796 L-2826 4060 L-2850 4352 L-2859 4635 L-2849 4918 L-2825 5205 L-2780 5517 L-2733 5760 L-2662 5992 L-2603 6144 L-2448 6494 L-2267 6901 L-2180 7068 L-1925 7567 L-1614 8182\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M1196 62 L865 10 L703 -7 L551 -14 L379 -2 L198 32 L-6 103 L-220 195 L-406 300 L-580 413 L-755 541 L-947 689 L-1157 862 L-1357 1051 L-1554 1252 L-1725 1446 L-1884 1644 L-2018 1841 L-2146 2040 L-2286 2294 L-2391 2507 L-2484 2717 L-2562 2922 L-2631 3129 L-2691 3337 L-2743 3563 L-2788 3796 L-2826 4060 L-2850 4352 L-2859 4635 L-2849 4918 L-2825 5205 L-2780 5517 L-2733 5760 L-2662 5992 L-2603 6144 L-2448 6494 L-2267 6901 L-2180 7068 L-1925 7567 L-1614 8182\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M-2448 6494 L-2597 6059 L-2664 5830 L-2713 5607 L-2749 5395 L-2779 5142 L-2797 4931 L-2807 4731 L-2807 4536 L-2798 4343 L-2785 4166 L-2762 3981 L-2734 3789 L-2700 3603 L-2655 3411 L-2600 3213 L-2536 3016 L-2473 2838 L-2395 2644 L-2323 2479 L-2241 2320 L-2163 2174 L-2078 2027 L-1967 1854 L-1869 1716 L-1765 1579 L-1663 1454 L-1562 1341 L-1432 1201 L-1294 1063 L-1138 916 L-990 788 L-835 664 L-630 505 L-389 333 L-198 208 L-6 103\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-2448 6494 L-2597 6059 L-2664 5830 L-2713 5607 L-2749 5395 L-2779 5142 L-2797 4931 L-2807 4731 L-2807 4536 L-2798 4343 L-2785 4166 L-2762 3981 L-2734 3789 L-2700 3603 L-2655 3411 L-2600 3213 L-2536 3016 L-2473 2838 L-2395 2644 L-2323 2479 L-2241 2320 L-2163 2174 L-2078 2027 L-1967 1854 L-1869 1716 L-1765 1579 L-1663 1454 L-1562 1341 L-1432 1201 L-1294 1063 L-1138 916 L-990 788 L-835 664 L-630 505 L-389 333 L-198 208 L-6 103\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M-1416 2457 L-787 1273 L-678 1097 L-593 980 L-485 851 L-375 746 L-233 625 L-72 514 L80 429 L232 354 L384 303 L541 261 L725 235 L905 224 L1233 236 L1490 242 L1547 244 L1825 258 L2175 288\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-1416 2457 L-787 1273 L-678 1097 L-593 980 L-485 851 L-375 746 L-233 625 L-72 514 L80 429 L232 354 L384 303 L541 261 L725 235 L905 224 L1233 236 L1490 242 L1547 244 L1825 258 L2175 288\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M1825 258 L1655 268 L1509 283 L1311 331 L1141 373 L944 435 L742 506 L556 582 L394 674 L250 772 L130 869 L-7 998 L-141 1150 L-256 1312 L-382 1532 L-483 1756 L-563 1964 L-632 2158 L-692 2343 L-739 2585 L-767 2853 L-806 3262 L-898 3902 L-1043 4686 L-1106 4953 L-1148 5113 L-1220 5269 L-1311 5448 L-1419 5634 L-1526 5822 L-1602 5966 L-1723 6290 L-1763 6427 L-1838 6743 L-1864 6904 L-1870 7042 L-1868 7170 L-1848 7320 L-1817 7500 L-1765 7766 L-1725 7903 L-1677 8022 L-1614 8182 L-1502 8431 L-1376 8718 L-1340 8820 L-1304 8924 L-1186 9208\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M1825 258 L1655 268 L1509 283 L1311 331 L1141 373 L944 435 L742 506 L556 582 L394 674 L250 772 L130 869 L-7 998 L-141 1150 L-256 1312 L-382 1532 L-483 1756 L-563 1964 L-632 2158 L-692 2343 L-739 2585 L-767 2853 L-806 3262 L-898 3902 L-1043 4686 L-1106 4953 L-1148 5113 L-1220 5269 L-1311 5448 L-1419 5634 L-1526 5822 L-1602 5966 L-1723 6290 L-1763 6427 L-1838 6743 L-1864 6904 L-1870 7042 L-1868 7170 L-1848 7320 L-1817 7500 L-1765 7766 L-1725 7903 L-1677 8022 L-1614 8182 L-1502 8431 L-1376 8718 L-1340 8820 L-1304 8924 L-1186 9208\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M865 10 L555 17 L388 47 L232 89 L57 169 L-135 277 L-306 394 L-585 627 L-948 941 L-1114 1096 L-1278 1262 L-1438 1432 L-1618 1645 L-1770 1846 L-1921 2069 L-2043 2275 L-2158 2499 L-2289 2774 L-2397 3038 L-2500 3333 L-2567 3610 L-2621 3895 L-2652 4222 L-2666 4503 L-2658 4768 L-2644 5031 L-2621 5284 L-2582 5556 L-2520 5831 L-2428 6171 L-2300 6598 L-2168 6990 L-2066 7247 L-1925 7567\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M865 10 L555 17 L388 47 L232 89 L57 169 L-135 277 L-306 394 L-585 627 L-948 941 L-1114 1096 L-1278 1262 L-1438 1432 L-1618 1645 L-1770 1846 L-1921 2069 L-2043 2275 L-2158 2499 L-2289 2774 L-2397 3038 L-2500 3333 L-2567 3610 L-2621 3895 L-2652 4222 L-2666 4503 L-2658 4768 L-2644 5031 L-2621 5284 L-2582 5556 L-2520 5831 L-2428 6171 L-2300 6598 L-2168 6990 L-2066 7247 L-1925 7567\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M1509 283 L1102 347 L907 394 L724 453 L556 526 L394 613 L213 737 L61 863 L-60 979 L-181 1118 L-273 1248 L-361 1386 L-445 1547 L-526 1729 L-597 1916 L-677 2136 L-728 2314 L-827 2630 L-1274 4175 L-1331 4383 L-1387 4618 L-1437 4850 L-1473 5023 L-1495 5116\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M1509 283 L1102 347 L907 394 L724 453 L556 526 L394 613 L213 737 L61 863 L-60 979 L-181 1118 L-273 1248 L-361 1386 L-445 1547 L-526 1729 L-597 1916 L-677 2136 L-728 2314 L-827 2630 L-1274 4175 L-1331 4383 L-1387 4618 L-1437 4850 L-1473 5023 L-1495 5116\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M-2062 4403 L-1919 4162 L-1834 4006 L-1383 3122 L-924 2254 L-471 1380 L-392 1238 L-308 1105 L-221 986 L-120 869 L-6 758 L131 656 L261 575 L416 499 L544 434 L670 390 L742 364 L832 342 L973 309 L1151 276 L1318 260 L1490 242\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-2062 4403 L-1919 4162 L-1834 4006 L-1383 3122 L-924 2254 L-471 1380 L-392 1238 L-308 1105 L-221 986 L-120 869 L-6 758 L131 656 L261 575 L416 499 L544 434 L670 390 L742 364 L832 342 L973 309 L1151 276 L1318 260 L1490 242\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M416 499 L254 604 L132 694 L24 791 L-81 902 L-179 1017 L-262 1131 L-346 1254 L-412 1366 L-477 1489 L-536 1614 L-597 1762 L-664 1927 L-730 2077 L-816 2256 L-1065 2745 L-1279 3166 L-1451 3499 L-1522 3623 L-1591 3738 L-1693 3885 L-1813 4048 L-2062 4403 L-2164 4546 L-2261 4695 L-2311 4803 L-2354 4921 L-2388 5035 L-2418 5163 L-2442 5297 L-2454 5411 L-2453 5596 L-2406 5946\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M416 499 L254 604 L132 694 L24 791 L-81 902 L-179 1017 L-262 1131 L-346 1254 L-412 1366 L-477 1489 L-536 1614 L-597 1762 L-664 1927 L-730 2077 L-816 2256 L-1065 2745 L-1279 3166 L-1451 3499 L-1522 3623 L-1591 3738 L-1693 3885 L-1813 4048 L-2062 4403 L-2164 4546 L-2261 4695 L-2311 4803 L-2354 4921 L-2388 5035 L-2418 5163 L-2442 5297 L-2454 5411 L-2453 5596 L-2406 5946\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M-2261 4695 L-2180 4537 L-2084 4369 L-1984 4192 L-1876 3987 L-1432 3098 L-956 2206 L-468 1262 L-394 1131 L-317 1008 L-214 883 L-107 780 L1 689 L124 602 L249 536 L369 483 L505 432 L742 364\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-2261 4695 L-2180 4537 L-2084 4369 L-1984 4192 L-1876 3987 L-1432 3098 L-956 2206 L-468 1262 L-394 1131 L-317 1008 L-214 883 L-107 780 L1 689 L124 602 L249 536 L369 483 L505 432 L742 364\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M-1206 2312 L-714 1387 L-644 1260 L-572 1149 L-499 1047 L-418 949 L-328 856 L-212 753 L-93 665 L22 591 L128 530 L236 477 L341 431 L458 389 L606 349 L800 313 L961 291 L1151 276\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-1206 2312 L-714 1387 L-644 1260 L-572 1149 L-499 1047 L-418 949 L-328 856 L-212 753 L-93 665 L22 591 L128 530 L236 477 L341 431 L458 389 L606 349 L800 313 L961 291 L1151 276\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M-2548 4329 L-2548 4138 L-2535 3943 L-2498 3715 L-2447 3487 L-2389 3287 L-2319 3089 L-2219 2864 L-1923 2273 L-1790 2040 L-1674 1859 L-1540 1686 L-1401 1521 L-1271 1387 L-1052 1179 L-325 547 L-191 442 L-78 370 L39 302 L165 244 L293 210 L428 180 L572 167 L701 168 L828 177 L1233 236\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-2548 4329 L-2548 4138 L-2535 3943 L-2498 3715 L-2447 3487 L-2389 3287 L-2319 3089 L-2219 2864 L-1923 2273 L-1790 2040 L-1674 1859 L-1540 1686 L-1401 1521 L-1271 1387 L-1052 1179 L-325 547 L-191 442 L-78 370 L39 302 L165 244 L293 210 L428 180 L572 167 L701 168 L828 177 L1233 236\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M1337 44 L1122 -11 L912 -62 L673 -114 L387 -169 L132 -220 L-77 -269 L-279 -318 L-1469 -620 L-2650 -914 L-3819 -1213 L-3919 -1241 L-4008 -1261 L-4286 -1331 L-4574 -1397 L-4806 -1444 L-5013 -1475 L-5199 -1497 L-5454 -1512 L-5688 -1513 L-5894 -1504 L-6259 -1466 L-6553 -1418 L-6888 -1349 L-7497 -1210\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M1337 44 L1122 -11 L912 -62 L673 -114 L387 -169 L132 -220 L-77 -269 L-279 -318 L-1469 -620 L-2650 -914 L-3819 -1213 L-3919 -1241 L-4008 -1261 L-4286 -1331 L-4574 -1397 L-4806 -1444 L-5013 -1475 L-5199 -1497 L-5454 -1512 L-5688 -1513 L-5894 -1504 L-6259 -1466 L-6553 -1418 L-6888 -1349 L-7497 -1210\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M-7512 -1254 L-7049 -1369 L-6617 -1457 L-6230 -1515 L-5893 -1554 L-5678 -1565 L-5397 -1562 L-5161 -1545 L-4929 -1512 L-4674 -1466 L-4405 -1405 L-3969 -1301 L-3886 -1281 L-3783 -1254 L-2003 -807 L-1302 -633 L-262 -360 L-40 -308 L175 -260 L385 -218 L606 -173 L859 -120 L1107 -61 L1580 59 L1810 118 L1966 146 L2134 173\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M-7512 -1254 L-7049 -1369 L-6617 -1457 L-6230 -1515 L-5893 -1554 L-5678 -1565 L-5397 -1562 L-5161 -1545 L-4929 -1512 L-4674 -1466 L-4405 -1405 L-3969 -1301 L-3886 -1281 L-3783 -1254 L-2003 -807 L-1302 -633 L-262 -360 L-40 -308 L175 -260 L385 -218 L606 -173 L859 -120 L1107 -61 L1580 59 L1810 118 L1966 146 L2134 173\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M2061 216 L1837 173 L1337 44\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M2061 216 L1837 173 L1337 44\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M1268 80 L1423 103 L1624 131 L1837 173\" fill=\"none\" stroke=\"#5c5346\" stroke-width=\"21.8\"/><path d=\"M1268 80 L1423 103 L1624 131 L1837 173\" fill=\"none\" stroke=\"#b9b2a3\" stroke-width=\"17.2\" stroke-dasharray=\"2.9 5.2\"/><path d=\"M2180 386 L2171 429 L2105 824 L2041 1074 L1993 1508 L1966 1941 L1951 2212 L2007 2604\" fill=\"none\" stroke=\"#5b8fb0\" stroke-width=\"45.9\" stroke-linecap=\"round\"/><path d=\"M2007 2604 L2104 3121\" fill=\"none\" stroke=\"#5b8fb0\" stroke-width=\"45.9\" stroke-linecap=\"round\"/><path d=\"M2104 3121 L2119 3230 L2144 3361 L2110 3534 L2010 3873 L1879 4305 L1806 4589 L1713 4870 L1585 5156\" fill=\"none\" stroke=\"#5b8fb0\" stroke-width=\"45.9\" stroke-linecap=\"round\"/><path d=\"M2456 -252 L2116 -165 L2046 -151 L1978 -149 L1838 -158 L1455 -214\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"132.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1815 -567 L1736 -469 L1701 -297\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"132.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1800 -284 L1840 -455 L1815 -567\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"132.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1701 -297 L1625 330\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"132.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1730 339 L1800 -284\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"132.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1638 739 L1696 620 L1730 339\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"132.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1625 330 L1593 610 L1638 739\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"132.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1638 739 L1610 886 L1557 1236\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"212.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2691 2841 L2605 2859 L2562 2868 L2447 2891 L2221 2942 L2125 2944 L2036 2927 L1919 2878 L1843 2819 L1777 2751 L1739 2675 L1712 2583 L1697 2456 L1666 2171\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"132.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1557 3421 L1561 3491 L1571 3610 L1569 3780 L1560 3979 L1557 4062 L1537 4222 L1504 4367 L1460 4541 L1399 4788 L1362 4961 L1341 5111 L1337 5212 L1332 5334 L1339 5487 L1360 5681 L1404 5902 L1435 6095 L1446 6285\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"212.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1557 1236 L1518 1502 L1485 1867 L1483 1904\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"212.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1455 -214 L1200 -285 L1010 -335\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"172.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1464 2258 L1466 2483 L1485 2722 L1513 3009 L1547 3248 L1557 3421\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"212.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1483 1904 L1474 2076 L1464 2258\" fill=\"none\" stroke=\"#c9c6bf\" stroke-width=\"212.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2456 -252 L2116 -165 L2046 -151 L1978 -149 L1838 -158 L1455 -214\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"89.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1455 -214 L1485 -306 L1496 -340 L1612 -698 L1622 -775 L1617 -798 L1607 -851\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"83.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1455 -214 L1348 -302 L1254 -385 L1162 -463 L1091 -516 L1023 -551\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"60.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1815 -567 L1736 -469 L1701 -297\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"89.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1800 -284 L1840 -455 L1815 -567\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"89.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1701 -297 L1625 330\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"89.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1730 339 L1800 -284\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"89.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1638 739 L1696 620 L1730 339\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"89.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1625 330 L1593 610 L1638 739\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"89.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1638 739 L1610 886 L1557 1236\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"169.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1055 2207 L1117 2215 L1464 2258\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"122.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1055 2207 L1091 2004 L1148 1925 L1184 1652 L1159 1630 L1092 1700 L1089 1721\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"122.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M-585 3073 L-541 2888 L-502 2754 L-416 2641 L-324 2556 L-254 2504 L-168 2461 L-91 2448 L18 2387 L57 2344 L89 2302 L116 2199 L136 2074 L186 1963 L207 1891 L218 1795 L239 1432 L257 1216 L322 1126 L385 1053 L433 1032 L495 1022 L605 1057 L676 1060 L822 1049\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"49.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1557 3421 L1460 3796 L1436 3861 L1408 3896 L1377 3919 L1337 3946 L1219 3979\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"87.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2691 2841 L2605 2859 L2562 2868 L2447 2891 L2221 2942 L2125 2944 L2036 2927 L1919 2878 L1843 2819 L1777 2751 L1739 2675 L1712 2583 L1697 2456 L1666 2171\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"89.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1483 1904 L1517 1917 L1576 1967 L1620 2033 L1666 2171\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"83.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1089 1721 L1073 1833\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"122.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1073 1833 L1062 1904 L1091 2004\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"122.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1557 3421 L1561 3491 L1571 3610 L1569 3780 L1560 3979 L1557 4062 L1537 4222 L1504 4367 L1460 4541 L1399 4788 L1362 4961 L1341 5111 L1337 5212 L1332 5334 L1339 5487 L1360 5681 L1404 5902 L1435 6095 L1446 6285\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"169.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1666 2171 L1674 2009 L1654 1736 L1630 1549 L1618 1437 L1557 1236\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"83.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1557 1236 L1518 1502 L1485 1867 L1483 1904\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"169.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1455 -214 L1200 -285 L1010 -335\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"129.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1464 2258 L1466 2483 L1485 2722 L1513 3009 L1547 3248 L1557 3421\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"169.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1483 1904 L1474 2076 L1464 2258\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"169.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M-1112 5193 L-1002 5040 L-879 4433 L-803 3669 L-721 2958 L-659 2530 L-532 2051 L-358 1612 L-240 1373 L-55 1099 L163 887 L373 747 L716 569 L1035 450\" fill=\"none\" stroke=\"#d9d6cf\" stroke-width=\"87.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2456 -252 L2116 -165 L2046 -151 L1978 -149 L1838 -158 L1455 -214\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"80.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1455 -214 L1485 -306 L1496 -340 L1612 -698 L1622 -775 L1617 -798 L1607 -851\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"74.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1455 -214 L1348 -302 L1254 -385 L1162 -463 L1091 -516 L1023 -551\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"51.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1815 -567 L1736 -469 L1701 -297\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"80.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1800 -284 L1840 -455 L1815 -567\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"80.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1701 -297 L1625 330\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"80.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1730 339 L1800 -284\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"80.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1638 739 L1696 620 L1730 339\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"80.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1625 330 L1593 610 L1638 739\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"80.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1638 739 L1610 886 L1557 1236\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"160.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1055 2207 L1117 2215 L1464 2258\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"113.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1055 2207 L1091 2004 L1148 1925 L1184 1652 L1159 1630 L1092 1700 L1089 1721\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"113.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M-585 3073 L-541 2888 L-502 2754 L-416 2641 L-324 2556 L-254 2504 L-168 2461 L-91 2448 L18 2387 L57 2344 L89 2302 L116 2199 L136 2074 L186 1963 L207 1891 L218 1795 L239 1432 L257 1216 L322 1126 L385 1053 L433 1032 L495 1022 L605 1057 L676 1060 L822 1049\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"40.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1557 3421 L1460 3796 L1436 3861 L1408 3896 L1377 3919 L1337 3946 L1219 3979\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"78.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2691 2841 L2605 2859 L2562 2868 L2447 2891 L2221 2942 L2125 2944 L2036 2927 L1919 2878 L1843 2819 L1777 2751 L1739 2675 L1712 2583 L1697 2456 L1666 2171\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"80.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1483 1904 L1517 1917 L1576 1967 L1620 2033 L1666 2171\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"74.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1089 1721 L1073 1833\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"113.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1073 1833 L1062 1904 L1091 2004\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"113.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1557 3421 L1561 3491 L1571 3610 L1569 3780 L1560 3979 L1557 4062 L1537 4222 L1504 4367 L1460 4541 L1399 4788 L1362 4961 L1341 5111 L1337 5212 L1332 5334 L1339 5487 L1360 5681 L1404 5902 L1435 6095 L1446 6285\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"160.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1666 2171 L1674 2009 L1654 1736 L1630 1549 L1618 1437 L1557 1236\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"74.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1557 1236 L1518 1502 L1485 1867 L1483 1904\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"160.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1455 -214 L1200 -285 L1010 -335\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"120.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1464 2258 L1466 2483 L1485 2722 L1513 3009 L1547 3248 L1557 3421\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"160.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M1483 1904 L1474 2076 L1464 2258\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"160.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M-1112 5193 L-1002 5040 L-879 4433 L-803 3669 L-721 2958 L-659 2530 L-532 2051 L-358 1612 L-240 1373 L-55 1099 L163 887 L373 747 L716 569 L1035 450\" fill=\"none\" stroke=\"#3e4144\" stroke-width=\"78.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2456 -252 L2116 -165 L2046 -151 L1978 -149 L1838 -158 L1455 -214\" fill=\"none\" stroke=\"#f2c230\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1815 -567 L1736 -469 L1701 -297\" fill=\"none\" stroke=\"#f4f4f4\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1800 -284 L1840 -455 L1815 -567\" fill=\"none\" stroke=\"#f4f4f4\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1701 -297 L1625 330\" fill=\"none\" stroke=\"#f4f4f4\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1730 339 L1800 -284\" fill=\"none\" stroke=\"#f4f4f4\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1638 739 L1696 620 L1730 339\" fill=\"none\" stroke=\"#f4f4f4\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1625 330 L1593 610 L1638 739\" fill=\"none\" stroke=\"#f4f4f4\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1638 739 L1610 886 L1557 1236\" fill=\"none\" stroke=\"#f2c230\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M2691 2841 L2605 2859 L2562 2868 L2447 2891 L2221 2942 L2125 2944 L2036 2927 L1919 2878 L1843 2819 L1777 2751 L1739 2675 L1712 2583 L1697 2456 L1666 2171\" fill=\"none\" stroke=\"#f2c230\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1557 3421 L1561 3491 L1571 3610 L1569 3780 L1560 3979 L1557 4062 L1537 4222 L1504 4367 L1460 4541 L1399 4788 L1362 4961 L1341 5111 L1337 5212 L1332 5334 L1339 5487 L1360 5681 L1404 5902 L1435 6095 L1446 6285\" fill=\"none\" stroke=\"#f2c230\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1557 1236 L1518 1502 L1485 1867 L1483 1904\" fill=\"none\" stroke=\"#f2c230\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1455 -214 L1200 -285 L1010 -335\" fill=\"none\" stroke=\"#f2c230\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1464 2258 L1466 2483 L1485 2722 L1513 3009 L1547 3248 L1557 3421\" fill=\"none\" stroke=\"#f2c230\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><path d=\"M1483 1904 L1474 2076 L1464 2258\" fill=\"none\" stroke=\"#f2c230\" stroke-width=\"1.7\" stroke-dasharray=\"34.4 68.9\"/><defs><clipPath id=\"lotClip\"><path d=\"M1268 3238 L1239 2777 L1262 2356 L1098 2328 L1117 2215 L1142 2104 L1241 2110 L1319 1526 L1256 1495 L1322 606 L1331 459 L1043 628 L932 706 L839 781 L784 849 L736 902 L709 1156 L1083 1183 L1035 1645 L1146 1656 L1113 1919 L1029 1907 L971 1950 L842 3010 L646 2983 L652 3169 L1268 3238 Z\"/><path d=\"M1161 4964 L1311 4352 L1348 4032 L1309 4026 L1291 4000 L1265 3878 L1083 3908 L896 3920 L861 3889 L685 3899 L614 3904 L680 4877 L732 4886 L744 4947 L943 4974 L975 4911 L1007 4924 L1004 4952 L1049 4956 L1161 4964 Z\"/></clipPath></defs><path d=\"M1268 3238 L1239 2777 L1262 2356 L1098 2328 L1117 2215 L1142 2104 L1241 2110 L1319 1526 L1256 1495 L1322 606 L1331 459 L1043 628 L932 706 L839 781 L784 849 L736 902 L709 1156 L1083 1183 L1035 1645 L1146 1656 L1113 1919 L1029 1907 L971 1950 L842 3010 L646 2983 L652 3169 L1268 3238 Z\" fill=\"#45484c\" stroke=\"#d8d5ce\" stroke-width=\"5.7\" stroke-linejoin=\"round\"/><path d=\"M1161 4964 L1311 4352 L1348 4032 L1309 4026 L1291 4000 L1265 3878 L1083 3908 L896 3920 L861 3889 L685 3899 L614 3904 L680 4877 L732 4886 L744 4947 L943 4974 L975 4911 L1007 4924 L1004 4952 L1049 4956 L1161 4964 Z\" fill=\"#45484c\" stroke=\"#d8d5ce\" stroke-width=\"5.7\" stroke-linejoin=\"round\"/><path d=\"M972 3124 L1035 3132 M976 3092 L1039 3101 M980 3061 L1043 3069 M985 3030 L1047 3038 M989 2998 L1051 3007 M993 2967 L1056 2975 M997 2936 L1060 2944 M1001 2905 L1064 2913 M1005 2873 L1068 2882 M1009 2842 L1072 2850 M1014 2811 L1076 2819 M1018 2779 L1080 2788 M1022 2748 L1085 2756 M1026 2717 L1089 2725 M1030 2685 L1093 2694 M1034 2654 L1097 2662 M1039 2623 L1101 2631 M1043 2591 L1105 2600 M1047 2560 L1109 2568 M1051 2529 L1114 2537 M1055 2498 L1118 2506 M1059 2466 L1122 2475 M1063 2435 L1126 2443 M897 3114 L834 3105 M901 3082 L839 3074 M905 3051 L843 3043 M909 3020 L847 3012 M914 2988 L851 2980 M918 2957 L855 2949 M922 2926 L859 2918 M926 2895 L863 2886 M930 2863 L868 2855 M934 2832 L872 2824 M938 2801 L876 2792 M943 2769 L880 2761 M947 2738 L884 2730 M951 2707 L888 2698 M955 2675 L892 2667 M959 2644 L897 2636 M963 2613 L901 2605 M968 2582 L905 2573 M972 2550 L909 2542 M976 2519 L913 2511 M980 2488 L917 2479 M984 2456 L921 2448 M988 2425 L926 2417 M1069 2394 L1131 2402 M1073 2362 L1136 2371 M1077 2331 L1140 2339 M1081 2300 L1144 2308 M1085 2268 L1148 2277 M1090 2237 L1152 2245 M994 2384 L931 2375 M998 2352 L935 2344 M1002 2321 L939 2313 M1006 2290 L944 2282 M1010 2259 L948 2250 M1014 2227 L952 2219 M1035 2439 L1024 2502 M1066 2445 L1055 2507 M1097 2450 L1087 2512 M1128 2455 L1118 2517 M1047 2365 L1058 2302 M1079 2370 L1089 2308 M1110 2375 L1120 2313 M1141 2380 L1151 2318 M1126 2432 L1062 2429 M1124 2464 L1061 2461 M1122 2495 L1059 2492 M1121 2527 L1058 2524 M1119 2558 L1056 2555 M1118 2590 L1055 2587 M1116 2622 L1053 2618 M1115 2653 L1052 2650 M1113 2685 L1050 2681 M1112 2716 L1048 2713 M1110 2748 L1047 2745 M1201 2436 L1264 2439 M1200 2468 L1263 2471 M1198 2499 L1261 2502 M1197 2531 L1260 2534 M1195 2562 L1258 2565 M1193 2594 L1257 2597 M1192 2625 L1255 2628 M1190 2657 L1253 2660 M1189 2688 L1252 2691 M1187 2720 L1250 2723 M1186 2751 L1249 2755 M1108 2794 L1045 2795 M1109 2825 L1046 2826 M1109 2857 L1046 2858 M1110 2889 L1047 2889 M1110 2920 L1047 2921 M1111 2952 L1047 2953 M1111 2983 L1048 2984 M1111 3015 L1048 3016 M1112 3046 L1049 3047 M1112 3078 L1049 3079 M1113 3110 L1050 3110 M1113 3141 L1050 3142 M1184 2793 L1247 2792 M1185 2824 L1248 2824 M1185 2856 L1248 2855 M1186 2888 L1249 2887 M1186 2919 L1249 2918 M1186 2951 L1250 2950 M1187 2982 L1250 2981 M1187 3014 L1250 3013 M1188 3045 L1251 3045 M1188 3077 L1251 3076 M1189 3109 L1252 3108 M1189 3140 L1252 3139 M1147 3129 L1158 3067 M1116 3123 L1126 3061 M1084 3118 L1095 3056 M1053 3113 L1064 3050 M1022 3107 L1033 3045 M991 3102 L1002 3040 M960 3096 L971 3034 M1134 3204 L1123 3266 M1103 3198 L1092 3260 M1071 3193 L1061 3255 M1040 3187 L1029 3249 M1009 3182 L998 3244 M978 3176 L967 3239 M947 3171 L936 3233 M927 3091 L937 3028 M896 3086 L905 3024 M865 3082 L874 3019 M834 3077 L843 3014 M802 3072 L812 3010 M771 3068 L780 3005 M740 3063 L749 3001 M709 3058 L718 2996 M916 3166 L907 3228 M885 3161 L876 3224 M854 3157 L844 3219 M822 3152 L813 3214 M791 3147 L782 3210 M760 3143 L751 3205 M729 3138 L719 3200 M698 3133 L688 3196 M1186 1022 L1188 958 M1155 1021 L1157 957 M1123 1020 L1125 957 M1092 1019 L1094 956 M1060 1018 L1062 955 M1029 1017 L1031 954 M997 1016 L999 953 M966 1015 L967 952 M934 1014 L936 951 M902 1013 L904 950 M871 1012 L873 949 M839 1011 L841 948 M1184 1097 L1182 1160 M1153 1096 L1151 1159 M1121 1095 L1119 1159 M1090 1094 L1088 1158 M1058 1094 L1056 1157 M1026 1093 L1025 1156 M995 1092 L993 1155 M963 1091 L961 1154 M932 1090 L930 1153 M900 1089 L898 1152 M869 1088 L867 1151 M837 1087 L835 1150 M861 1044 L923 1055 M867 1013 L929 1024 M872 982 L934 993 M878 951 L940 962 M786 1031 L724 1019 M792 999 L730 988 M798 968 L736 957 M803 937 L741 926 M879 944 L925 988 M901 921 L947 965 M923 899 L968 943 M945 876 L990 920 M967 853 L1012 897 M989 831 L1034 874 M825 891 L779 847 M847 868 L801 825 M869 846 L823 802 M891 823 L845 779 M913 800 L867 757 M935 778 L889 734 M1009 812 L1041 866 M1037 796 L1069 850 M1064 780 L1096 834 M1091 764 L1123 818 M1118 748 L1150 802 M1146 732 L1178 786 M1173 716 L1205 770 M1200 700 L1232 754 M971 747 L939 692 M998 731 L966 676 M1026 715 L994 660 M1053 699 L1021 644 M1080 683 L1048 628 M1107 667 L1075 612 M1135 651 L1103 596 M1162 635 L1130 580 M1171 661 L1107 659 M1170 693 L1107 691 M1169 724 L1106 723 M1168 756 L1105 754 M1167 788 L1104 786 M1166 819 L1103 817 M1165 851 L1102 849 M1164 882 L1101 880 M1163 914 L1100 912 M1162 945 L1099 944 M1161 977 L1098 975 M1160 1008 L1097 1007 M1160 1040 L1096 1038 M1246 663 L1309 665 M1245 695 L1309 697 M1245 727 L1308 728 M1244 758 L1307 760 M1243 790 L1306 792 M1242 821 L1305 823 M1241 853 L1304 855 M1240 884 L1303 886 M1239 916 L1302 918 M1238 948 L1301 949 M1237 979 L1300 981 M1236 1011 L1299 1013 M1235 1042 L1298 1044 M1158 1069 L1095 1065 M1156 1100 L1093 1096 M1154 1132 L1091 1128 M1152 1163 L1089 1159 M1150 1195 L1087 1191 M1148 1226 L1085 1222 M1146 1258 L1083 1254 M1144 1289 L1081 1285 M1142 1321 L1079 1317 M1140 1352 L1077 1348 M1137 1384 L1074 1380 M1135 1415 L1072 1411 M1133 1447 L1070 1443 M1131 1478 L1068 1474 M1129 1510 L1066 1506 M1127 1541 L1064 1537 M1125 1573 L1062 1569 M1123 1604 L1060 1600 M1234 1074 L1297 1078 M1232 1105 L1295 1109 M1230 1137 L1293 1141 M1228 1168 L1291 1172 M1226 1200 L1289 1204 M1223 1231 L1286 1235 M1221 1263 L1284 1267 M1219 1294 L1282 1298 M1217 1326 L1280 1330 M1215 1357 L1278 1361 M1213 1389 L1276 1393 M1211 1420 L1274 1424 M1209 1452 L1272 1456 M1207 1483 L1270 1487 M1205 1515 L1268 1519 M1203 1546 L1266 1550 M1201 1578 L1264 1582 M1198 1609 L1262 1614 M1088 4954 L1150 4970 M1096 4923 L1157 4939 M1104 4893 L1165 4909 M1015 4935 L954 4919 M1023 4904 L962 4889 M1031 4874 L970 4858 M1116 4846 L1178 4862 M1124 4815 L1185 4831 M1132 4785 L1193 4800 M1140 4754 L1201 4770 M1148 4724 L1209 4739 M1156 4693 L1217 4709 M1163 4662 L1225 4678 M1043 4827 L982 4811 M1051 4796 L990 4781 M1059 4766 L997 4750 M1067 4735 L1005 4720 M1074 4705 L1013 4689 M1082 4674 L1021 4658 M1090 4644 L1029 4628 M1176 4614 L1237 4630 M1184 4584 L1245 4599 M1192 4553 L1253 4569 M1200 4522 L1261 4538 M1207 4492 L1269 4508 M1103 4595 L1041 4579 M1110 4565 L1049 4549 M1118 4534 L1057 4518 M1126 4503 L1065 4488 M1134 4473 L1073 4457 M1213 4463 L1276 4470 M1217 4431 L1279 4439 M1138 4454 L1075 4447 M1141 4423 L1079 4415 M1223 4380 L1285 4387 M1226 4348 L1289 4355 M1230 4317 L1293 4324 M1234 4285 L1296 4293 M1237 4254 L1300 4261 M1147 4371 L1085 4363 M1151 4339 L1088 4332 M1155 4308 L1092 4301 M1158 4277 L1096 4269 M1162 4245 L1099 4238 M1244 4174 L1307 4178 M1246 4143 L1309 4147 M1248 4111 L1311 4115 M1250 4080 L1313 4084 M1252 4048 L1315 4052 M1254 4017 L1317 4021 M1169 4169 L1105 4165 M1171 4138 L1108 4134 M1173 4106 L1110 4102 M1175 4075 L1112 4071 M1177 4043 L1114 4039 M1179 4012 L1116 4008 M1205 3942 L1202 3879 M1174 3943 L1171 3880 M1142 3945 L1139 3882 M1111 3946 L1108 3883 M1079 3948 L1076 3885 M1048 3949 L1045 3886 M1016 3951 L1013 3888 M985 3952 L982 3889 M953 3954 L950 3891 M922 3955 L919 3892 M890 3957 L887 3894 M858 3959 L855 3895 M827 3960 L824 3897 M795 3962 L792 3898 M764 3963 L761 3900 M1209 4018 L1212 4081 M1177 4019 L1181 4082 M1146 4021 L1149 4084 M1114 4022 L1117 4085 M1083 4024 L1086 4087 M1051 4025 L1054 4088 M1020 4027 L1023 4090 M988 4028 L991 4091 M957 4030 L960 4093 M925 4031 L928 4094 M894 4033 L897 4096 M862 4034 L865 4097 M831 4036 L834 4099 M799 4037 L802 4100 M767 4039 L770 4102 M690 4017 L627 4021 M692 4048 L629 4052 M694 4080 L631 4084 M696 4111 L633 4115 M698 4143 L635 4147 M700 4174 L637 4178 M765 4012 L828 4008 M767 4043 L830 4039 M770 4075 L833 4071 M772 4106 L835 4102 M774 4138 L837 4134 M776 4169 L839 4165 M703 4224 L640 4228 M706 4256 L643 4260 M708 4287 L645 4291 M710 4319 L647 4323 M712 4350 L649 4354 M714 4382 L651 4386 M716 4413 L653 4417 M779 4219 L842 4215 M781 4251 L844 4247 M783 4282 L846 4278 M785 4314 L848 4310 M787 4345 L850 4341 M790 4377 L853 4373 M792 4408 L855 4404 M718 4445 L655 4449 M720 4476 L657 4481 M722 4508 L659 4512 M724 4539 L661 4544 M726 4571 L663 4575 M728 4602 L665 4607 M794 4440 L857 4436 M796 4471 L859 4467 M798 4503 L861 4499 M800 4534 L863 4530 M802 4566 L865 4562 M804 4598 L867 4593 M731 4643 L668 4647 M733 4674 L670 4678 M735 4706 L672 4710 M737 4737 L674 4741 M739 4769 L676 4773 M741 4800 L678 4804 M807 4638 L870 4633 M809 4669 L872 4665 M811 4701 L874 4696 M813 4732 L876 4728 M815 4764 L878 4760 M817 4795 L880 4791 M791 4873 L789 4936 M823 4874 L820 4937 M855 4876 L852 4939 M886 4877 L883 4940 M918 4878 L915 4942 M949 4880 L946 4943 M981 4881 L978 4944 M1012 4883 L1009 4946 M1044 4884 L1041 4947 M795 4797 L798 4734 M826 4798 L829 4735 M858 4800 L861 4737 M890 4801 L892 4738 M921 4803 L924 4740 M953 4804 L955 4741 M984 4806 L987 4742 M1016 4807 L1019 4744 M1047 4808 L1050 4745\" stroke=\"#f4f4f4\" stroke-width=\"1.6\" fill=\"none\" clip-path=\"url(#lotClip)\" opacity=\"0.9\"/><path d=\"M10053 -1766 L8646 -1421 L8191 -1307 L8043 -1267 L7563 -1249 L7381 -1250 L7156 -1245 L6553 -1253 L6422 -1244 L6380 -1240 L6282 -1217 L5968 -1132 L5506 -1004 L5227 -918 L4888 -805 L4450 -694 L4252 -667 L4116 -636 L4091 -586 L3714 -477 L3625 -507 L3130 -358 L3065 -336 L2606 -187 L2274 -89 L2072 -39 L1962 -30 L1875 -45\" fill=\"none\" stroke=\"#d8cdb6\" stroke-width=\"20.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M2017 3021 L1915 3012 L1872 3024 L1829 3058 L1798 3116 L1755 3235 L1737 3335 L1727 3500 L1729 3690 L1728 3825 L1721 4004 L1700 4198 L1669 4366 L1610 4571 L1562 4765 L1532 4892 L1514 5031 L1502 5170 L1511 5340 L1530 5522 L1568 5770 L1598 5950 L1613 6097 L1610 6164 L1595 6220 L1576 6299\" fill=\"none\" stroke=\"#d8cdb6\" stroke-width=\"20.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M824 2990 L936 2072 L849 2062 L871 1880 L979 1892 L988 1824 L1029 1828 L1041 1716 L988 1711 L1051 1202 L816 1174 L801 1304 L730 1296 L726 1331 L536 1309 L517 1467 L558 1472 L534 1668 L607 1676 L579 1904 L613 1908 L578 2194 L693 2208 L601 2964 L824 2990 Z\" fill=\"#000\" opacity=\"0.25\" transform=\"translate(9.2 13.8)\"/><path d=\"M824 2990 L936 2072 L849 2062 L871 1880 L979 1892 L988 1824 L1029 1828 L1041 1716 L988 1711 L1051 1202 L816 1174 L801 1304 L730 1296 L726 1331 L536 1309 L517 1467 L558 1472 L534 1668 L607 1676 L579 1904 L613 1908 L578 2194 L693 2208 L601 2964 L824 2990 Z\" fill=\"#d3bf9c\" stroke=\"#6d5a3f\" stroke-width=\"5.7\" stroke-linejoin=\"round\"/><path d=\"M1118 1837 L1130 1725 L1089 1721 L1041 1716 L1029 1828 L1073 1833 L1118 1837 Z\" fill=\"#b9b2a5\" stroke=\"#6b665d\" stroke-width=\"3.4\" stroke-dasharray=\"11.5 6.9\"/><path d=\"M1174 3465 L1163 3316 L860 3271 L559 3286 L592 3879 L652 3872 L685 3899 L861 3889 L896 3920 L1083 3908 L1094 3470 L1174 3465 Z\" fill=\"#000\" opacity=\"0.2\" transform=\"translate(6.9 11.5)\"/><path d=\"M1174 3465 L1163 3316 L860 3271 L559 3286 L592 3879 L652 3872 L685 3899 L861 3889 L896 3920 L1083 3908 L1094 3470 L1174 3465 Z\" fill=\"#c8c1b6\" stroke=\"#6b665d\" stroke-width=\"4.6\" stroke-linejoin=\"round\"/><path d=\"M-314 5044 L307 5004 L235 3729 L-386 3768 L-314 5044 Z\" fill=\"#000\" opacity=\"0.2\" transform=\"translate(6.9 11.5)\"/><path d=\"M-314 5044 L307 5004 L235 3729 L-386 3768 L-314 5044 Z\" fill=\"#c8c1b6\" stroke=\"#6b665d\" stroke-width=\"4.6\" stroke-linejoin=\"round\"/><path d=\"M231 3603 L226 3486 L-424 3515 L-420 3632 L231 3603 Z\" fill=\"#b9b2a5\" stroke=\"#6b665d\" stroke-width=\"3.4\" stroke-dasharray=\"11.5 6.9\"/><text x=\"1501\" y=\"1684\" transform=\"rotate(-84.9 1501 1684)\" font-size=\"57\" font-weight=\"800\" fill=\"#f4f1ea\" stroke=\"#3e4144\" stroke-width=\"10.3\" paint-order=\"stroke\" text-anchor=\"middle\" dominant-baseline=\"central\" letter-spacing=\"4.6\">BRADY STREET</text><text x=\"1681\" y=\"2313\" transform=\"rotate(83.8 1681 2313)\" font-size=\"44\" font-weight=\"800\" fill=\"#f4f1ea\" stroke=\"#3e4144\" stroke-width=\"8.0\" paint-order=\"stroke\" text-anchor=\"middle\" dominant-baseline=\"central\" letter-spacing=\"3.5\">BROADWAY STREET</text><g transform=\"translate(1342 2243) rotate(-172.9)\"><path d=\"M34 0 L-17 -25 L-17 25 Z\" fill=\"#ffffff\" opacity=\"0.9\"/></g><text x=\"1342\" y=\"2243\" font-size=\"28\" font-weight=\"800\" fill=\"#fff\" stroke=\"#2e7d32\" stroke-width=\"8.0\" paint-order=\"stroke\" text-anchor=\"middle\" transform=\"rotate(0.0 1342 2243) translate(0 -40)\">ENTRANCE</text><g transform=\"translate(1523 3552) rotate(104.6)\"><path d=\"M34 0 L-17 -25 L-17 25 Z\" fill=\"#ffffff\" opacity=\"0.9\"/></g><text x=\"1523\" y=\"3552\" font-size=\"28\" font-weight=\"800\" fill=\"#fff\" stroke=\"#2e7d32\" stroke-width=\"8.0\" paint-order=\"stroke\" text-anchor=\"middle\" transform=\"rotate(0.0 1523 3552) translate(0 -40)\">ENTRANCE</text><text x=\"778\" y=\"1962\" font-size=\"69\" font-weight=\"900\" fill=\"#4a3b25\" text-anchor=\"middle\" letter-spacing=\"4.6\">DAYS INN</text><text x=\"778\" y=\"2010\" font-size=\"32\" font-weight=\"700\" fill=\"#4a3b25\" text-anchor=\"middle\">50 Brady St \u00b7 Sudbury</text><text x=\"845\" y=\"3579\" font-size=\"32\" font-weight=\"800\" fill=\"#3f3b35\" text-anchor=\"middle\">Local 6500 Centre</text><g transform=\"translate(1687 160)\"><circle r=\"80\" fill=\"#ffffff\" opacity=\"0.85\" stroke=\"#333\" stroke-width=\"3.4\"/><g transform=\"rotate(-47.9)\"><path d=\"M0 -63 L30 40 L0 17 L-30 40 Z\" fill=\"#c62828\"/><text y=\"-75\" font-size=\"32\" font-weight=\"900\" text-anchor=\"middle\" fill=\"#111\">N</text></g></g><g transform=\"translate(114 3835)\"><rect x=\"-23\" y=\"-63\" width=\"276\" height=\"92\" rx=\"11\" fill=\"#fff\" opacity=\"0.85\"/><rect width=\"115\" height=\"11\" fill=\"#111\"/><rect x=\"115\" width=\"115\" height=\"11\" fill=\"#fff\" stroke=\"#111\" stroke-width=\"1.7\"/><text y=\"-17\" font-size=\"28\" font-weight=\"800\" fill=\"#111\">0</text><text x=\"230\" y=\"-17\" font-size=\"28\" font-weight=\"800\" fill=\"#111\" text-anchor=\"end\">20 m \u00b7 66 ft</text></g>";
+    const SVC_DEFAULT_AT = Date.UTC(2026, 10, 10, 15, 38);
+    let svcClock = null; // tests can freeze the clock
+    const BG_MODES = ['lot', 'grid', 'photo', 'sat'];
+    const ESRI_TILE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/';
     const MAX_SHARE_URL = 12000;
     const MIN_ZOOM = 0.15;
     const MAX_ZOOM = 6;
@@ -1299,6 +1393,7 @@
       generator: { label: 'Generator', w: 100, h: 56, fill: '#f2b705', ink: '#1a1a1a', rot: true },
       distro: { label: 'Distro box', w: 40, h: 40, fill: '#ef6c00', ink: '#ffffff', rot: false },
       cast: { label: 'Cast Trailer', w: 140, h: 44, fill: '#6a1b9a', ink: '#ffffff', rot: true },
+      trailer: { label: 'Trailer', w: 140, h: 44, fill: '#eceff1', ink: '#263238', rot: true },
       truck: { label: 'Truck', w: 130, h: 44, fill: '#455a64', ink: '#ffffff', rot: true },
       tower: { label: 'Light tower', w: 48, h: 48, fill: '#fdd835', ink: '#1a1a1a', rot: false },
       honeywagon: { label: 'Honeywagon / Bathroom', short: 'Honeywagon', w: 120, h: 44, fill: '#00838f', ink: '#ffffff', rot: true },
@@ -1306,7 +1401,7 @@
       ground: { label: 'Grounding clamp', short: 'Ground clamp', w: 44, h: 44, fill: '#43a047', ink: '#ffffff', rot: false },
       custom: { label: 'Custom', w: 110, h: 50, fill: '#8d6e63', ink: '#ffffff', rot: true }
     };
-    const TYPE_ORDER = ['generator', 'distro', 'cast', 'truck', 'tower', 'honeywagon', 'tent', 'ground', 'custom'];
+    const TYPE_ORDER = ['generator', 'distro', 'cast', 'trailer', 'truck', 'tower', 'honeywagon', 'tent', 'ground', 'custom'];
     const CABLE_COLORS = {
       red: { label: 'Red', stroke: '#c62828', width: 5 },
       blue: { label: 'Blue', stroke: '#0d47a1', width: 5 },
@@ -1317,18 +1412,20 @@
     };
     const PHASE_HEX = { red: '#c62828', blue: '#0d47a1', black: '#111111', white: '#777777' };
     // Portrait-friendly starting layout so it reads well on a phone.
+    const MAP_SEED_GEN = { x: 1050, y: 760 };
+    // Starting layout sits in the north end of the Days Inn lot (world units, see LOT).
     const MAP_SEED = [
-      ['Cast Trailer · SW245', 'cast', 110, 200],
-      ['Cast Trailer · SW323', 'cast', 110, 300],
-      ['Cast Trailer · SW327G', 'cast', 110, 400],
-      ['Cast Trailer · SW328G', 'cast', 110, 500],
-      ['Cast Trailer · SW806', 'cast', 110, 600],
-      ['Hair & Makeup', 'custom', 420, 200],
-      ['Wardrobe', 'custom', 420, 300],
-      ['AD Office', 'custom', 420, 400],
-      ['Workout Gym', 'custom', 420, 500],
-      ['Bathroom', 'honeywagon', 420, 600],
-      ['Transport', 'truck', 265, 710]
+      ['Cast Trailer · SW245', 'cast', 875, 880, 0],
+      ['Cast Trailer · SW323', 'cast', 1050, 880, 0],
+      ['Cast Trailer · SW327G', 'cast', 1215, 880, 0],
+      ['Cast Trailer · SW328G', 'cast', 860, 1000, 0],
+      ['Cast Trailer · SW806', 'cast', 1035, 1000, 0],
+      ['Hair & Makeup', 'trailer', 1210, 1000, 0],
+      ['Wardrobe', 'trailer', 850, 1115, 0],
+      ['AD Office', 'trailer', 1025, 1115, 0],
+      ['Workout Gym', 'trailer', 1200, 1115, 0],
+      ['Bathroom', 'honeywagon', 1215, 760, 0],
+      ['Transport', 'truck', 1170, 1420, 90]
     ];
 
     function defaultPairForName(name) {
@@ -1385,6 +1482,61 @@
       }
       ['red', 'blue', 'black'].forEach((k) => { out[k] = cleanVal(out[k]); out.rating[k] = cleanVal(out.rating[k]); });
       return out;
+    }
+
+    // Service hours. Defaults from Joshua: last service 8666 h, 250 h interval, meter 8714 h at 2026-11-10 10:38 AM Toronto.
+    function emptySvc() {
+      return { last: '8666', interval: '250', due: '', cur: '8714', curAt: SVC_DEFAULT_AT, run247: true, history: [] };
+    }
+
+    function hydrateSvc(v) {
+      const out = emptySvc();
+      if (!v || typeof v !== 'object') return out;
+      if (Array.isArray(v.a)) v = { last: v.a[0], interval: v.a[1], due: v.a[2], cur: v.a[3], curAt: v.a[4], run247: v.a[5], history: (v.h || []).map((e) => ({ t: e[0], hours: e[1], id: e[2] })) };
+      ['last', 'interval', 'due', 'cur'].forEach((k) => { if (v[k] != null) out[k] = cleanVal(v[k]); });
+      if (Number(v.curAt) > 0) out.curAt = Number(v.curAt);
+      if (v.run247 != null) out.run247 = v.run247 === true || v.run247 === 1;
+      out.history = (Array.isArray(v.history) ? v.history : []).filter((e) => e && Number(e.t) > 0).map((e, i) => ({
+        id: String(e.id || ('svc-x' + i)), t: Number(e.t), hours: cleanVal(e.hours)
+      }));
+      return out;
+    }
+
+    function svcNow() { return svcClock != null ? svcClock : Date.now(); }
+
+    function svcDue(v) {
+      const o = parseAmp(v.due);
+      if (o != null) return o;
+      const l = parseAmp(v.last), iv = parseAmp(v.interval);
+      return l != null && iv != null ? l + iv : null;
+    }
+
+    function svcStats(v, now) {
+      now = now == null ? svcNow() : now;
+      const last = parseAmp(v.last), cur = parseAmp(v.cur), due = svcDue(v);
+      const elapsed = v.run247 && cur != null && v.curAt ? Math.max(0, (now - v.curAt) / 3600000) : 0;
+      const est = cur == null ? null : cur + elapsed;
+      const rem = est == null || due == null ? null : due - est;
+      const span = due != null && last != null ? due - last : null;
+      const pct = span > 0 && est != null ? Math.max(0, Math.min(100, ((est - last) / span) * 100)) : null;
+      const dueAt = v.run247 && rem != null && v.curAt ? v.curAt + (due - cur) * 3600000 : null;
+      let level = '';
+      if (rem != null) {
+        if (rem < -50) level = 'critical';
+        else if (rem <= 0) level = 'due';
+        else if (rem <= 24) level = 'warn';
+        else level = 'ok';
+      }
+      return { last, cur, due, est, rem, pct, dueAt, level, live: !!v.run247, over: rem != null && rem < 0 ? -rem : 0 };
+    }
+
+    function fmtH(n) { return n == null ? '—' : (Math.round(n * 10) / 10).toLocaleString(undefined, { maximumFractionDigits: 1 }); }
+
+    function svcAlertText(st) {
+      if (st.level === 'critical') return '🛑 CRITICAL: 50+ h overdue (' + fmtH(st.over) + ' h past service)';
+      if (st.level === 'due') return st.over >= 0.05 ? '⛔ OVERDUE by ' + fmtH(st.over) + ' h' : '⛔ SERVICE DUE';
+      if (st.level === 'warn') return '⚠ Service due in ' + fmtH(st.rem) + ' h';
+      return '';
     }
 
     function emptyFluid() {
@@ -1494,6 +1646,7 @@
         gen: emptyGen(),
         log: [],
         fluid: emptyFluid(),
+        svc: emptySvc(),
         map: seedMap(locations)
       };
     }
@@ -1602,7 +1755,8 @@
           locations: localState.locations,
           gen: localState.gen || emptyGen(),
           log: localState.log || [],
-          fluid: localState.fluid || emptyFluid()
+          fluid: localState.fluid || emptyFluid(),
+          svc: localState.svc || emptySvc()
         }));
       } catch (err) {
         toast('Could not save on this device.');
@@ -1624,7 +1778,7 @@
         const data = JSON.parse(raw);
         if (!data || !Array.isArray(data.locations)) return defaultState();
         const locations = data.locations.map((loc, i) => hydrateLocation(loc, i, 'mig-'));
-        return { savedAt: data.savedAt || null, locations: locations, gen: hydrateGen(data.gen), log: hydrateLog(data.log, data.notes, data.savedAt), fluid: hydrateFluid(data.fluid) };
+        return { savedAt: data.savedAt || null, locations: locations, gen: hydrateGen(data.gen), log: hydrateLog(data.log, data.notes, data.savedAt), fluid: hydrateFluid(data.fluid), svc: hydrateSvc(data.svc) };
       } catch (err) {
         return defaultState();
       }
@@ -1898,6 +2052,7 @@
       });
       updateGenVisual(state);
       renderFluids(state);
+      renderSvc(state);
       renderLog();
     }
 
@@ -2093,6 +2248,127 @@
       onFluidInput('fuel', el, true);
     }));
     $('fluid-log-btn').addEventListener('click', logFluid);
+
+    function svcOf(state) {
+      if (!state.svc || !Array.isArray(state.svc.history)) state.svc = hydrateSvc(state.svc);
+      return state.svc;
+    }
+
+    function fmtWhenShort(ts) {
+      return new Date(ts).toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    }
+
+    function renderSvc(state) {
+      state = state || current();
+      const v = svcOf(state);
+      const st = svcStats(v);
+      [['svc-last', 'last'], ['svc-interval', 'interval'], ['svc-cur', 'cur']].forEach((p) => {
+        const el = $(p[0]);
+        if (el && document.activeElement !== el) el.value = v[p[1]];
+      });
+      const dueEl = $('svc-due');
+      if (document.activeElement !== dueEl) dueEl.value = st.due == null ? '' : fmtH(st.due).replace(/,/g, '');
+      dueEl.classList.toggle('auto', parseAmp(v.due) == null);
+      $('svc-247').checked = !!v.run247;
+      $('svc-cur-at').textContent = v.curAt && parseAmp(v.cur) != null ? 'Meter reading entered ' + formatWhen(v.curAt) : '';
+      const box = $('svc');
+      ['ok', 'warn', 'due', 'critical'].forEach((l) => box.classList.toggle(l, st.level === l));
+      // when not running 24/7 only the entered values are shown
+      $('svc-readout').hidden = !st.live;
+      $('svc-est').textContent = st.est == null ? '—' : fmtH(st.est) + ' h';
+      $('svc-rem').textContent = st.rem == null ? '—' : st.rem >= 0 ? fmtH(st.rem) + ' h' : 'Over ' + fmtH(-st.rem) + ' h';
+      $('svc-when').textContent = st.dueAt ? fmtWhenShort(st.dueAt) : '—';
+      $('svc-bar').style.width = (st.pct == null ? 0 : st.pct) + '%';
+      $('svc-pct').textContent = st.pct == null ? '' : Math.round(st.pct) + '%';
+      $('svc-est-line').textContent = st.rem == null ? 'Enter last service, interval and hour meter'
+        : st.live ? 'Est. ' + fmtH(st.est) + ' h now · ' + (st.rem >= 0 ? fmtH(st.rem) + ' h to service' : fmtH(-st.rem) + ' h past service')
+        : 'Meter ' + fmtH(st.cur) + ' h · due at ' + fmtH(st.due) + ' h · ' + (st.rem >= 0 ? fmtH(st.rem) + ' h left' : fmtH(-st.rem) + ' h over');
+      const icon = st.level === 'critical' ? '🛑' : st.level === 'due' ? '⛔' : st.level === 'warn' ? '⚠' : '';
+      $('svc-icon').textContent = icon;
+      const ban = $('svc-banner'), txt = svcAlertText(st);
+      ban.className = 'svc-banner ' + st.level;
+      ban.hidden = !txt;
+      if (st.level === 'critical') { ban.innerHTML = ''; const sp = document.createElement('span'); sp.textContent = txt; ban.appendChild(sp); }
+      else ban.textContent = txt;
+      // visible from anywhere: Tracker tab icon + pinned header pill
+      const tabA = $('svc-tab-alert');
+      tabA.textContent = icon;
+      tabA.className = 'tab-alert ' + st.level;
+      tabA.setAttribute('aria-label', txt || '');
+      const pill = $('svc-pill');
+      pill.className = 'svc-pill ' + st.level;
+      pill.innerHTML = '';
+      if (txt) {
+        const sp = document.createElement('span');
+        sp.textContent = st.level === 'critical' ? '🛑 CRITICAL ' + fmtH(st.over) + ' h over' : st.level === 'due' ? (st.over >= 0.05 ? '⛔ Overdue ' + fmtH(st.over) + ' h' : '⛔ Service due') : '⚠ Service ' + fmtH(st.rem) + ' h';
+        pill.appendChild(sp);
+      }
+      pill.title = txt;
+      pill.setAttribute('aria-label', txt ? txt + '. Show service hours.' : '');
+      // history
+      const list = $('svc-hist');
+      list.innerHTML = '';
+      v.history.slice().sort((a, b) => b.t - a.t).slice(0, 10).forEach((e) => {
+        const li = document.createElement('li');
+        li.textContent = 'Serviced ' + formatWhen(e.t) + ' at ' + fmtH(parseAmp(e.hours)) + ' h';
+        list.appendChild(li);
+      });
+      return st;
+    }
+
+    function onSvcInput(key, el, sanitize) {
+      const v = svcOf(current());
+      if (sanitize) cleanAmpInput(el);
+      const val = String(el.value).slice(0, 12);
+      if (key === 'due') {
+        // the due value is computed from last + interval unless typed over
+        const auto = parseAmp(v.last) != null && parseAmp(v.interval) != null ? parseAmp(v.last) + parseAmp(v.interval) : null;
+        v.due = parseAmp(val) != null && parseAmp(val) !== auto ? val : '';
+      } else {
+        if (key === 'cur' && val !== v.cur) v.curAt = svcNow();
+        if ((key === 'last' || key === 'interval') && val !== v[key]) v.due = '';
+        v[key] = val;
+      }
+      persist();
+      renderSvc();
+    }
+
+    async function markServiced() {
+      const v = svcOf(current());
+      const st = svcStats(v);
+      if (st.est == null) { toast('Enter the hour meter reading first.'); $('svc-cur').focus(); return; }
+      const hrs = Math.round(st.est * 10) / 10;
+      const ok = await openModal({
+        title: 'Mark serviced',
+        body: 'Record a service now at ' + fmtH(hrs) + ' h? Last service becomes ' + fmtH(hrs) + ' h and the next one is due at ' + fmtH(hrs + (parseAmp(v.interval) || 0)) + ' h.',
+        okLabel: 'Mark serviced'
+      });
+      if (!ok) return;
+      const vv = svcOf(current());
+      const now = svcNow();
+      vv.history.push({ id: 'svc-' + Math.random().toString(36).slice(2, 9), t: now, hours: String(hrs) });
+      if (vv.history.length > 20) vv.history.splice(0, vv.history.length - 20);
+      vv.last = String(hrs); vv.cur = String(hrs); vv.curAt = now; vv.due = '';
+      persist();
+      renderSvc();
+      toast('Service recorded at ' + fmtH(hrs) + ' h.');
+    }
+
+    [['svc-last', 'last'], ['svc-interval', 'interval'], ['svc-due', 'due'], ['svc-cur', 'cur']].forEach((p) => {
+      const el = $(p[0]);
+      el.addEventListener('input', () => { if (p[1] !== 'due') onSvcInput(p[1], el); });
+      el.addEventListener('change', () => onSvcInput(p[1], el, true));
+    });
+    $('svc-247').addEventListener('change', (e) => { svcOf(current()).run247 = e.target.checked; persist(); renderSvc(); });
+    $('svc-mark-btn').addEventListener('click', markServiced);
+    $('svc-pill').addEventListener('click', () => {
+      if (activeTab !== 'tracker') setTab('tracker');
+      const el = $('svc');
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - document.querySelector('header').getBoundingClientRect().height - 8, behavior: 'smooth' });
+    });
+    setInterval(() => renderSvc(), 60000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) renderSvc(); });
+
     $('fluid-note').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); logFluid(); } });
 
 
@@ -2487,6 +2763,8 @@
       if (fl.fuel || fl.oil || fl.min || fl.max || fl.history.length) {
         out.f = { c: [fl.fuel, fl.oil], r: [fl.min, fl.max], u: fl.updatedAt || 0, h: fl.history.map((e) => [e.t, e.fuel, e.oil, e.note, e.id]) };
       }
+      const sv = state.svc ? hydrateSvc(state.svc) : emptySvc();
+      out.s = { a: [sv.last, sv.interval, sv.due, sv.cur, sv.curAt, sv.run247 ? 1 : 0], h: sv.history.map((e) => [e.t, e.hours, e.id]) };
       const m = mapForState(state);
       if (m) out.m = compactMap(m, !opts || opts.image !== false);
       return out;
@@ -2505,6 +2783,7 @@
         gen: hydrateGen(data.g),
         log: hydrateLog(Array.isArray(data.n) ? data.n : null, typeof data.n === 'string' ? data.n : '', data.t),
         fluid: hydrateFluid(data.f),
+        svc: hydrateSvc(data.s),
         map: data.m ? expandMap(data.m) : null
       };
     }
@@ -2635,6 +2914,15 @@
           fh.forEach((e) => lines.push(formatWhen(e.t) + ' — ' + (fluidEntryText(e) || '—') + (e.note ? ' — ' + e.note : '')));
         }
       }
+      const sv = svcOf(state), sst = svcStats(sv);
+      lines.push('', 'SERVICE HOURS');
+      lines.push('Last service: ' + fmtH(sst.last) + ' h · interval ' + fmtH(parseAmp(sv.interval)) + ' h · due at ' + fmtH(sst.due) + ' h');
+      lines.push('Hour meter: ' + fmtH(sst.cur) + ' h (entered ' + (sv.curAt ? formatWhen(sv.curAt) : '—') + ')');
+      if (sst.live && sst.est != null) lines.push('Running 24/7 · est. now ' + fmtH(sst.est) + ' h · ' + (sst.rem >= 0 ? fmtH(sst.rem) + ' h remaining' : fmtH(-sst.rem) + ' h past due') + (sst.dueAt ? ' · due ' + formatWhen(sst.dueAt) : ''));
+      else if (sst.rem != null) lines.push(sst.rem >= 0 ? fmtH(sst.rem) + ' h remaining' : fmtH(-sst.rem) + ' h past due');
+      const sat = svcAlertText(sst);
+      if (sat) lines.push(sat);
+      if (sv.history.length) lines.push('Service history: ' + sv.history.slice().sort((a, b) => b.t - a.t).map((e) => formatWhen(e.t) + ' at ' + fmtH(parseAmp(e.hours)) + ' h').join('; '));
       lines.push('', 'LOCATIONS');
       state.locations.forEach((loc) => {
         const info = pairInfo(loc.pair);
@@ -2806,12 +3094,12 @@
     function normRot(r) { let a = Math.round(num(r, 0)) % 360; if (a < 0) a += 360; return a; }
 
     function seedMap(locations) {
-      const items = [{ id: 'gen-1', type: 'generator', x: 265, y: 70, rot: 0, label: 'Generator', loc: '' }];
+      const items = [{ id: 'gen-1', type: 'generator', x: MAP_SEED_GEN.x, y: MAP_SEED_GEN.y, rot: 0, label: 'Generator', loc: '' }];
       MAP_SEED.forEach((row, i) => {
         const loc = (locations || []).find((l) => l.name === row[0]);
-        items.push({ id: 'mi-' + (i + 1), type: row[1], x: row[2], y: row[3], rot: 0, label: loc ? '' : row[0], loc: loc ? loc.id : '' });
+        items.push({ id: 'mi-' + (i + 1), type: row[1], x: row[2], y: row[3], rot: row[4] || 0, label: loc ? '' : row[0], loc: loc ? loc.id : '' });
       });
-      return { items: items, cables: [], bg: null, bgData: '', view: null };
+      return { items: items, cables: [], bg: null, bgData: '', view: null, bgMode: 'lot' };
     }
 
     function hydrateMap(m) {
@@ -2837,7 +3125,10 @@
       const bgData = typeof m.bgData === 'string' && m.bgData.indexOf('data:image/') === 0 ? m.bgData : '';
       const bg = bgData && m.bg && num(m.bg.w, 0) > 0 && num(m.bg.h, 0) > 0 ? { w: num(m.bg.w), h: num(m.bg.h) } : null;
       const view = m.view && num(m.view.s, 0) > 0 ? { s: num(m.view.s), tx: num(m.view.tx, 0), ty: num(m.view.ty, 0) } : null;
-      return { items: items, cables: cables, bg: bg, bgData: bg ? bgData : '', view: view };
+      // Maps saved before the Lot background existed keep their own layout on the grid (or their photo).
+      let bgMode = ['lot', 'grid', 'photo', 'sat'].indexOf(m.bgMode) !== -1 ? m.bgMode : (bg ? 'photo' : 'grid');
+      if (bgMode === 'photo' && !bg) bgMode = 'lot';
+      return { items: items, cables: cables, bg: bg, bgData: bg ? bgData : '', view: view, bgMode: bgMode };
     }
 
     function loadMap(locations) {
@@ -2847,6 +3138,14 @@
       try { raw.bgData = localStorage.getItem(MAP_BG_KEY) || ''; } catch (err) { raw.bgData = ''; }
       const m = hydrateMap(raw);
       if (!m) return seedMap(locations);
+      // Older layouts drew these four as plain custom boxes: give them the trailer icon.
+      const TRAILER_NAMES = ['Hair & Makeup', 'Wardrobe', 'AD Office', 'Workout Gym'];
+      m.items.forEach((it) => {
+        if (it.type !== 'custom') return;
+        const loc = it.loc && (locations || []).find((l) => l.id === it.loc);
+        const name = loc ? loc.name : it.label;
+        if (TRAILER_NAMES.indexOf(name) !== -1) it.type = 'trailer';
+      });
       mapSavedAt = raw.savedAt || null;
       return m;
     }
@@ -2862,7 +3161,7 @@
       if (viewState && viewState.map) return true;
       const m = currentMap();
       try {
-        localStorage.setItem(MAP_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), items: m.items, cables: m.cables, bg: m.bg, view: m.view }));
+        localStorage.setItem(MAP_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), items: m.items, cables: m.cables, bg: m.bg, view: m.view, bgMode: bgModeOf(m) }));
       } catch (err) {
         toast('Could not save the map on this device.');
         return false;
@@ -2898,7 +3197,12 @@
       return m.view;
     }
 
-    function worldSize(m) { return m.bg ? { w: m.bg.w, h: m.bg.h } : { w: WORLD_W, h: WORLD_H }; }
+    function worldSize(m) {
+      const mode = bgModeOf(m);
+      if (mode === 'photo') return { w: m.bg.w, h: m.bg.h };
+      if (mode === 'lot' || mode === 'sat') return { w: LOT.w, h: LOT.h };
+      return { w: WORLD_W, h: WORLD_H };
+    }
 
     function mapPalette() {
       const cs = getComputedStyle(document.documentElement);
@@ -2929,7 +3233,7 @@
     }
 
     // Realistic top-down (slight 3/4) icons. Front/tongue end is on the left (−x); trucks face right (+x).
-    const TONGUE = { cast: 20, generator: 18, honeywagon: 20, tower: 10 };
+    const TONGUE = { cast: 20, trailer: 20, generator: 18, honeywagon: 20, tower: 10 };
 
     function shapeSvg(type) {
       const t = ITEM_TYPES[type];
@@ -2973,6 +3277,20 @@
             R(-11, -8, 22, 16, '#cfd8dc', ' rx="2" stroke="#37474f" stroke-width="1"') +
             '<path d="M-7 -4 H7 M-7 0 H7 M-7 4 H7" stroke="#607d8b" stroke-width="1.2"/>' +
             txt(x + w - 18, 6, 15, '★');
+        }
+        case 'trailer': {
+          let windows = '';
+          [0.2, 0.5, 0.8].forEach((p) => { windows += R(x + w * p - 6, y + h - 3.5, 12, 3, '#90caf9', ' rx="1" stroke="#0d47a1" stroke-width="0.6"'); });
+          return shadow(6) + tongue(20) + wheel(x + w * 0.56, true) + wheel(x + w * 0.56 + 16, true) + wheel(x + w * 0.56, false) + wheel(x + w * 0.56 + 16, false) +
+            R(x, y, w, h, f, ' rx="6" stroke="' + e + '" stroke-width="2.5"') +
+            R(x + 4, y + 5, w - 8, h - 10, '#ffffff', ' rx="4" opacity="0.55"') +
+            '<path d="M' + (x + 10) + ' ' + (y + 9) + ' H' + (x + w - 10) + ' M' + (x + 10) + ' ' + (y + h - 9) + ' H' + (x + w - 10) + '" stroke="#b0bec5" stroke-width="1"/>' +
+            R(x, y + h / 2 - 2, w, 4, '#1565c0', ' opacity="0.85"') +
+            windows +
+            R(x + w * 0.35, y + h - 4.5, 10, 5, '#f5f5f5', ' stroke="#000" stroke-width="0.8"') +
+            R(-30, -8, 20, 16, '#cfd8dc', ' rx="2" stroke="#37474f" stroke-width="1"') +
+            '<path d="M-26 -4 H-14 M-26 0 H-14 M-26 4 H-14" stroke="#607d8b" stroke-width="1.2"/>' +
+            R(18, -6, 14, 12, '#cfd8dc', ' rx="2" stroke="#37474f" stroke-width="1"');
         }
         case 'truck': {
           const cab = 34, box = w - cab - 4;
@@ -3032,7 +3350,7 @@
     }
 
     function labelSvg(name, y, pal) {
-      return '<text x="0" y="' + y.toFixed(1) + '" text-anchor="middle" font-size="14" font-weight="700" fill="' + pal.text + '" stroke="' + pal.halo +
+      return '<text class="map-label" x="0" y="' + y.toFixed(1) + '" text-anchor="middle" font-size="14" font-weight="700" fill="' + pal.text + '" stroke="' + pal.halo +
         '" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">' + esc(name) + '</text>';
     }
 
@@ -3084,8 +3402,14 @@
           '<path d="M' + (-5 * k).toFixed(1) + ' ' + cy.toFixed(1) + ' a ' + (5 * k).toFixed(1) + ' ' + (5 * k).toFixed(1) + ' 0 1 1 ' + (5 * k).toFixed(1) + ' ' + (5 * k).toFixed(1) +
           '" fill="none" stroke="#ffffff" stroke-width="' + (2 * k).toFixed(2) + '"/></g>';
       }
-      s += '</g>' + labelSvg(displayName(it, loc), hh + 17, pal);
-      if (loc) s += badgeSvg(loc, hh + 23);
+      // Keep names and badges legible when zoomed out over the whole lot.
+      const ls = o && o.s ? Math.min(2.2, Math.max(1, 0.45 / o.s)) : 1;
+      s += '</g>';
+      if (ls > 1) s += '<g class="map-tag" transform="translate(0 ' + hh.toFixed(1) + ') scale(' + ls.toFixed(3) + ')">' + labelSvg(displayName(it, loc), 17, pal) + (loc ? badgeSvg(loc, 23) : '') + '</g>';
+      else {
+        s += labelSvg(displayName(it, loc), hh + 17, pal);
+        if (loc) s += badgeSvg(loc, hh + 23);
+      }
       return s + '</g>';
     }
 
@@ -3138,12 +3462,16 @@
     function renderMapBg() {
       const m = currentMap();
       const pal = mapPalette();
-      let s = gridSvg(pal, -4000, -4000, 10000, 10000);
-      if (m.bg && m.bgData) {
+      let s = gridSvg(pal, -4000, -4000, 12000, 12000);
+      const mode = bgModeOf(m);
+      if (mode === 'lot') s += LOT.svg + lotFrame(pal);
+      else if (mode === 'sat') s += '<rect x="0" y="0" width="' + LOT.w + '" height="' + LOT.h + '" fill="#55584f"/>' + satSvg() + lotFrame(pal);
+      else if (mode === 'photo' && m.bg && m.bgData) {
         s += '<image href="' + m.bgData + '" x="0" y="0" width="' + m.bg.w + '" height="' + m.bg.h + '" preserveAspectRatio="none"/>' +
           '<rect x="0" y="0" width="' + m.bg.w + '" height="' + m.bg.h + '" fill="none" stroke="' + pal.gridMajor + '" stroke-width="2"/>';
       }
       mapBgLayer.innerHTML = s;
+      updateBgControls();
     }
 
     function renderMapContent() {
@@ -3178,7 +3506,7 @@
 
     function contentBounds(m, pad) {
       let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-      if (m.bg || !m.items.length) {
+      if ((bgModeOf(m) === 'photo') || !m.items.length) {
         const ws = worldSize(m);
         minX = 0; minY = 0; maxX = ws.w; maxY = ws.h;
       }
@@ -3649,6 +3977,7 @@
       const m = currentMap();
       m.bg = iw >= ih ? { w: WORLD_W, h: Math.round(WORLD_W * ih / iw) } : { w: Math.round(WORLD_W * iw / ih), h: WORLD_W };
       m.bgData = data;
+      m.bgMode = 'photo';
       let saved = persistMap({ bg: true });
       if (!saved && !(viewState && viewState.map)) {
         m.bgData = data = compressImage(img, 900, 0.5);
@@ -3672,18 +4001,22 @@
       const ok = await openModal({ title: 'Clear lot photo', body: 'Remove the background photo? Your items and cable runs stay where they are.', okLabel: 'Clear photo', danger: true });
       if (!ok) return;
       const mm = currentMap();
+      const wasPhoto = bgModeOf(mm) === 'photo';
       mm.bg = null; mm.bgData = '';
+      if (wasPhoto) mm.bgMode = 'lot';
       persistMap({ bg: true });
       renderMapBg();
+      if (wasPhoto) fitView();
       toast('Lot photo cleared.');
     });
 
     $('map-reset-btn').addEventListener('click', async () => {
-      const ok = await openModal({ title: 'Reset map layout', body: 'Put every item back to the starting layout and remove all cable runs? The lot photo and your tracker readings stay. This cannot be undone.', okLabel: 'Reset layout', danger: true });
+      const ok = await openModal({ title: 'Reset map layout', body: 'Put every item back to the starting layout in the Days Inn lot and remove all cable runs? The lot photo and your tracker readings stay. This cannot be undone.', okLabel: 'Reset layout', danger: true });
       if (!ok) return;
       const m = currentMap();
       const seed = seedMap(current().locations);
       m.items = seed.items; m.cables = [];
+      if (bgModeOf(m) === 'grid') m.bgMode = 'lot';
       mapSelected = null; cableMode = null;
       persistMap();
       fitView();
@@ -3721,18 +4054,36 @@
       const W = Math.round(W0 * scale), H = Math.round(H0 * scale);
       const open = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W0 + ' ' + H0 + '" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif">';
       const world = '<g transform="translate(' + (-b.x) + ' ' + (head - b.y) + ')">';
-      const under = open + '<rect width="' + W0 + '" height="' + H0 + '" fill="' + pal.bg + '"/>' + world + gridSvg(pal, b.x, b.y, b.w, b.h) + '</g></svg>';
+      const mode = bgModeOf(m);
+      const under = open + '<rect width="' + W0 + '" height="' + H0 + '" fill="' + pal.bg + '"/>' + world + gridSvg(pal, b.x, b.y, b.w, b.h) +
+        (mode === 'lot' || mode === 'sat' ? LOT.svg : '') + '</g></svg>';
+      const attrib = mode === 'sat' ? 'Imagery © Esri' : mode === 'lot' ? '© OpenStreetMap contributors' : '';
       const when = formatWhen(Date.now());
       const over = open +
         '<rect width="' + W0 + '" height="' + head + '" fill="' + pal.bg + '"/><line x1="0" y1="' + head + '" x2="' + W0 + '" y2="' + head + '" stroke="' + pal.text + '" stroke-width="2"/>' +
         '<text x="14" y="28" font-size="18" font-weight="800" fill="' + pal.text + '">Base Camp Map</text>' +
         '<text x="' + (W0 - 14) + '" y="28" font-size="13" font-weight="600" text-anchor="end" fill="' + pal.text + '">' + esc(when) + '</text>' +
-        world + cableSvgs(m, pal, null) + m.items.map((it) => itemSvg(it, pal, null, locs)).join('') + '</g></svg>';
+        world + cableSvgs(m, pal, null) + m.items.map((it) => itemSvg(it, pal, null, locs)).join('') + '</g>' +
+        (attrib ? '<text x="' + (W0 - 8) + '" y="' + (H0 - 8) + '" font-size="11" font-weight="600" text-anchor="end" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">' + esc(attrib) + '</text>' : '') + '</svg>';
       const canvas = document.createElement('canvas');
       canvas.width = W; canvas.height = H;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(await svgToImage(under), 0, 0, W, H);
-      if (m.bg && m.bgData) {
+      if (mode === 'sat') {
+        const tiles = await Promise.all(satTiles().map((t) => new Promise((resolve) => {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => resolve({ t: t, img: img });
+          img.onerror = () => resolve(null);
+          img.src = t.url;
+        })));
+        const mm = LOT.sat.m;
+        ctx.save();
+        ctx.setTransform(scale * mm[0], scale * mm[1], scale * mm[2], scale * mm[3], scale * (mm[4] - b.x), scale * (mm[5] + head - b.y));
+        tiles.forEach((r) => { if (r) ctx.drawImage(r.img, r.t.x, r.t.y, 257, 257); });
+        ctx.restore();
+      }
+      if (mode === 'photo' && m.bg && m.bgData) {
         const photo = await loadImg(m.bgData);
         ctx.drawImage(photo, (0 - b.x) * scale, (head - b.y) * scale, m.bg.w * scale, m.bg.h * scale);
       }
@@ -3766,6 +4117,60 @@
 
     $('map-export-btn').addEventListener('click', exportMapPng);
     $('map-share-btn').addEventListener('click', () => shareLink());
+
+    // ----- background modes: Lot (vector, default), Grid, Photo, Satellite -----
+
+    function bgModeOf(m) {
+      const mode = m && BG_MODES.indexOf(m.bgMode) !== -1 ? m.bgMode : 'grid';
+      if (mode === 'photo' && !(m.bg && m.bgData)) return 'lot';
+      return mode;
+    }
+
+    function satTiles() {
+      const t = LOT.sat, out = [];
+      for (let ty = t.ty[0]; ty <= t.ty[1]; ty++) {
+        for (let tx = t.tx[0]; tx <= t.tx[1]; tx++) out.push({ url: ESRI_TILE + t.z + '/' + ty + '/' + tx, x: (tx - t.tx[0]) * 256, y: (ty - t.ty[0]) * 256 });
+      }
+      return out;
+    }
+
+    function satSvg() {
+      return '<g transform="matrix(' + LOT.sat.m.join(' ') + ')">' + satTiles().map((t) =>
+        '<image href="' + t.url + '" x="' + t.x + '" y="' + t.y + '" width="257" height="257" preserveAspectRatio="none"/>').join('') + '</g>';
+    }
+
+    function lotFrame(pal) {
+      return '<rect x="0" y="0" width="' + LOT.w + '" height="' + LOT.h + '" fill="none" stroke="' + pal.gridMajor + '" stroke-width="3"/>';
+    }
+
+    function updateBgControls() {
+      const m = currentMap();
+      const mode = bgModeOf(m);
+      document.querySelectorAll('#bg-mode .seg-btn').forEach((b) => {
+        const on = b.dataset.mode === mode;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+      const at = $('map-attrib');
+      if (at) {
+        at.textContent = mode === 'sat' ? 'Imagery © Esri' : mode === 'lot' ? 'Days Inn lot · © OpenStreetMap contributors' : '';
+        at.hidden = !at.textContent;
+      }
+    }
+
+    function setBgMode(mode) {
+      const m = currentMap();
+      if (BG_MODES.indexOf(mode) === -1) return;
+      if (mode === 'photo' && !(m.bg && m.bgData)) { $('bg-file').click(); return; }
+      const before = bgModeOf(m);
+      m.bgMode = mode;
+      persistMap();
+      renderMapBg();
+      if ((before === 'grid') !== (mode === 'grid') || mode === 'photo' || before === 'photo') fitView();
+      if (mode === 'sat') toast('Satellite imagery needs a data connection.');
+    }
+
+    document.querySelectorAll('#bg-mode .seg-btn').forEach((b) => b.addEventListener('click', () => setBgMode(b.dataset.mode)));
 
     // ----- palette + tabs -----
     TYPE_ORDER.forEach((type) => {
@@ -3814,6 +4219,7 @@
         cb: m.cables.map((c) => [c.id, c.a, c.b, c.color, c.len])
       };
       if (withImage && m.bg && m.bgData) out.bg = { w: m.bg.w, h: m.bg.h, d: m.bgData };
+      out.bm = bgModeOf(m);
       return out;
     }
 
@@ -3824,7 +4230,8 @@
         cables: (Array.isArray(d.cb) ? d.cb : []).map((a) => ({ id: a[0], a: a[1], b: a[2], color: a[3], len: a[4] })),
         bg: d.bg ? { w: d.bg.w, h: d.bg.h } : null,
         bgData: d.bg && typeof d.bg.d === 'string' ? d.bg.d : '',
-        view: null
+        view: null,
+        bgMode: d.bm
       });
     }
 
@@ -4103,6 +4510,7 @@
       COLLAPSE_KEY,
       collapsed: () => Array.from(collapsedIds),
       suggestRebalance, planTotals, parseFuel, fuelLevel, oilStatus,
+      svc: { stats: (now) => svcStats(svcOf(current()), now), setNow: (t) => { svcClock = t; renderSvc(); }, render: () => renderSvc(), DEFAULT_AT: SVC_DEFAULT_AT },
       rebalanceMoves: () => rebalancePlan ? JSON.parse(JSON.stringify(rebalancePlan.moves)) : null,
       map: {
         get: () => cloneState(currentMap()),
@@ -4110,7 +4518,7 @@
         setTab, addItem: addMapItem, fitView, buildShareLink, renderPngBlob: renderMapPngBlob,
         activeTab: () => activeTab,
         selected: () => mapSelected,
-        MAP_KEY, MAP_BG_KEY, iconSvg, shapeSvg, ITEM_TYPES
+        MAP_KEY, MAP_BG_KEY, iconSvg, shapeSvg, ITEM_TYPES, LOT
       }
     };
   })();
