@@ -402,6 +402,148 @@
 
     .card-actions { display: flex; gap: 6px; flex-shrink: 0; }
 
+    .list { grid-template-columns: minmax(0, 1fr); }
+
+    .card-head.has-collapse {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+      align-items: start;
+      column-gap: 8px;
+      row-gap: 6px;
+    }
+    .card-head.has-collapse .card-title-block { display: contents; }
+    .card-head.has-collapse .collapse-btn { grid-column: 1; grid-row: 1; }
+    .card-head.has-collapse h2 { grid-column: 2; grid-row: 1; align-self: center; overflow-wrap: anywhere; }
+    .card-head.has-collapse .card-actions { grid-column: 3; grid-row: 1; }
+    .card-head.has-collapse .pair-picker { grid-column: 2 / 4; grid-row: 2; justify-self: start; }
+
+    .collapse-btn {
+      flex-shrink: 0;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      font-size: 1.1rem;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .list-tools {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+
+    .list-tools .btn { min-height: 40px; padding: 6px 12px; font-size: 0.9rem; }
+
+    .list-tools + .list { margin-top: 8px; }
+    .list-tools { gap: 8px; flex-wrap: wrap; }
+
+    #rebalance-panel {
+      margin-top: 10px;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 10px;
+    }
+
+    .rb-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .rb-head h2 { margin: 0; font-size: 1.05rem; }
+    #rebalance-panel p { margin: 0; font-size: 0.92rem; }
+    .rb-basis { color: var(--muted); }
+    .rb-est { padding: 8px 10px; background: var(--banner); border: 2px solid var(--banner-border); border-radius: 10px; color: var(--text) !important; }
+    .rb-estmark { font-weight: 600; font-size: 0.75rem; color: var(--muted); }
+
+    .rb-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 0.9rem; }
+    .rb-table th, .rb-table td { padding: 6px 4px; text-align: right; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
+    .rb-table th:first-child { text-align: left; }
+    .rb-table thead th { font-size: 0.8rem; }
+    .rb-table .dot { display: inline-block; width: 10px; height: 10px; vertical-align: -1px; }
+    .rb-red { color: var(--red); font-weight: 700; }
+    .rb-blue { color: var(--blue); font-weight: 700; }
+    .rb-black { font-weight: 700; }
+    .rb-gap { font-weight: 800; }
+    .rb-after th, .rb-after td { border-bottom: 0; }
+
+    .rb-moves { margin: 0; padding-left: 1.3rem; display: grid; gap: 8px; }
+    .rb-move { padding-left: 2px; }
+    .rb-move { display: list-item; }
+    .rb-move > .rb-move-text { display: grid; gap: 2px; }
+    .rb-move-detail { font-size: 0.82rem; color: var(--muted); }
+    .rb-move .rb-apply { margin-top: 6px; min-height: 40px; padding: 6px 14px; }
+    .rb-note { color: var(--muted); font-size: 0.82rem !important; }
+
+
+    .compact-line {
+      display: none;
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+      min-height: 44px;
+      padding: 2px 0;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      font-variant-numeric: tabular-nums;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .compact-name {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-weight: 750;
+      font-size: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .compact-amps { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+    .compact-phase {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 750;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .compact-phase.red { color: var(--red); }
+    .compact-phase.blue { color: var(--blue); }
+    .compact-phase.black { color: var(--text); }
+    .compact-phase .dot { justify-self: auto; }
+    .compact-phase .ph-name { font-weight: 650; }
+
+    .compact-neutral {
+      font-size: 0.75rem;
+      font-weight: 650;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .compact-chev { flex-shrink: 0; font-weight: 800; color: var(--muted); }
+
+    .card.collapsed { padding: 6px 10px; }
+    .card.collapsed .card-head, .card.collapsed .amp-row { display: none; }
+    .card.collapsed .compact-line { display: flex; }
+
+    /* On phone widths the coloured dot + coloured amps carry the phase, so the long name always fits. */
+    @media (max-width: 429px) {
+      .compact-phase .ph-name { display: none; }
+      .compact-amps { gap: 8px; }
+    }
+
     .card-actions .btn {
       min-width: 0;
       min-height: 36px;
@@ -760,6 +902,11 @@
     </header>
 
     <div id="tracker-view">
+    <div class="list-tools">
+      <button type="button" class="btn" id="rebalance-btn">Suggest rebalance</button>
+      <button type="button" class="btn" id="collapse-all-btn">Collapse all</button>
+    </div>
+    <section id="rebalance-panel" aria-label="Rebalance suggestion" aria-live="polite" hidden></section>
     <section class="list" id="location-list" aria-label="Locations"></section>
 
     <section class="actions">
@@ -1192,6 +1339,111 @@
       renderList();
     }
 
+    const COLLAPSE_KEY = 'basecamp-phase-tracker-collapsed-v1';
+    let collapsedIds = loadCollapsed();
+
+    function loadCollapsed() {
+      try {
+        const arr = JSON.parse(localStorage.getItem(COLLAPSE_KEY) || '[]');
+        return new Set(Array.isArray(arr) ? arr.map(String) : []);
+      } catch (err) {
+        return new Set();
+      }
+    }
+
+    function saveCollapsed() {
+      try { localStorage.setItem(COLLAPSE_KEY, JSON.stringify(Array.from(collapsedIds))); } catch (err) {}
+    }
+
+    function setCollapsed(id, collapsed) {
+      if (collapsed) collapsedIds.add(id); else collapsedIds.delete(id);
+      saveCollapsed();
+      const card = listEl.querySelector('article[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+      if (card) applyCollapsed(card, collapsed);
+      updateCollapseAllBtn();
+    }
+
+    function applyCollapsed(card, collapsed) {
+      card.classList.toggle('collapsed', collapsed);
+      const name = card.querySelector('h2') ? card.querySelector('h2').textContent : '';
+      const btn = card.querySelector('.collapse-btn');
+      if (btn) {
+        btn.setAttribute('aria-expanded', String(!collapsed));
+        btn.setAttribute('aria-label', (collapsed ? 'Expand ' : 'Minimize ') + name);
+      }
+      const line = card.querySelector('.compact-line');
+      if (line) {
+        line.setAttribute('aria-expanded', String(!collapsed));
+        line.tabIndex = collapsed ? 0 : -1;
+      }
+    }
+
+    function updateCollapseAllBtn() {
+      const btn = $('collapse-all-btn');
+      if (!btn) return;
+      const locs = current().locations;
+      const allCollapsed = locs.length > 0 && locs.every((l) => collapsedIds.has(l.id));
+      btn.textContent = allCollapsed ? 'Expand all' : 'Collapse all';
+      btn.disabled = locs.length === 0;
+    }
+
+    function toggleCollapseAll() {
+      const locs = current().locations;
+      const allCollapsed = locs.length > 0 && locs.every((l) => collapsedIds.has(l.id));
+      locs.forEach((l) => { if (allCollapsed) collapsedIds.delete(l.id); else collapsedIds.add(l.id); });
+      saveCollapsed();
+      listEl.querySelectorAll('article.card').forEach((card) => applyCollapsed(card, !allCollapsed));
+      updateCollapseAllBtn();
+    }
+
+    function compactAmp(v) {
+      const n = parseAmp(v);
+      return n == null ? '—' : formatAmp(n) + 'A';
+    }
+
+    function fillCompactLine(line, loc) {
+      line.innerHTML = '';
+      const name = document.createElement('span');
+      name.className = 'compact-name';
+      name.textContent = loc.name;
+      line.appendChild(name);
+      const amps = document.createElement('span');
+      amps.className = 'compact-amps';
+      pairInfo(loc.pair).keys.forEach((key) => {
+        const p = PHASES.find((x) => x.key === key);
+        const ph = document.createElement('span');
+        ph.className = 'compact-phase ' + p.css;
+        ph.dataset.phase = key;
+        ph.innerHTML = '<span class="dot dot-' + p.css + '" aria-hidden="true"></span><span class="ph-name">' + p.label + '</span> <span class="ph-amp"></span>';
+        ph.querySelector('.ph-amp').textContent = compactAmp(loc[key]);
+        amps.appendChild(ph);
+      });
+      const n = document.createElement('span');
+      n.className = 'compact-neutral';
+      n.dataset.phase = 'white';
+      n.textContent = 'N ' + compactAmp(loc.white);
+      amps.appendChild(n);
+      line.appendChild(amps);
+      const chev = document.createElement('span');
+      chev.className = 'compact-chev';
+      chev.setAttribute('aria-hidden', 'true');
+      chev.textContent = '▸';
+      line.appendChild(chev);
+      const info = pairInfo(loc.pair);
+      line.setAttribute('aria-label', loc.name + ', ' + info.keys.map((k) => {
+        const p = PHASES.find((x) => x.key === k);
+        const a = parseAmp(loc[k]);
+        return p.label + ' ' + (a == null ? 'no reading' : formatAmp(a) + ' amps');
+      }).join(', ') + ', Neutral ' + (parseAmp(loc.white) == null ? 'no reading' : formatAmp(parseAmp(loc.white)) + ' amps') + '. Tap to expand.');
+    }
+
+    function refreshCompactLine(id) {
+      const loc = current().locations.find((l) => l.id === id);
+      const card = listEl.querySelector('article[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+      const line = card && card.querySelector('.compact-line');
+      if (loc && line) fillCompactLine(line, loc);
+    }
+
     function renderList() {
 
       const state = current();
@@ -1201,8 +1453,22 @@
         card.className = 'card';
         card.dataset.id = loc.id;
 
+        const compact = document.createElement('button');
+        compact.type = 'button';
+        compact.className = 'compact-line';
+        fillCompactLine(compact, loc);
+        compact.addEventListener('click', () => setCollapsed(loc.id, false));
+        card.appendChild(compact);
+
         const head = document.createElement('div');
-        head.className = 'card-head';
+        head.className = 'card-head has-collapse';
+        const collapseBtn = document.createElement('button');
+        collapseBtn.type = 'button';
+        collapseBtn.className = 'collapse-btn';
+        collapseBtn.textContent = '▾';
+        collapseBtn.title = 'Minimize to one line';
+        collapseBtn.addEventListener('click', () => setCollapsed(loc.id, true));
+        head.appendChild(collapseBtn);
         const titleBlock = document.createElement('div');
         titleBlock.className = 'card-title-block';
         const h2 = document.createElement('h2');
@@ -1267,8 +1533,11 @@
           card.appendChild(row);
         });
 
+        applyCollapsed(card, collapsedIds.has(loc.id));
         listEl.appendChild(card);
       });
+      updateCollapseAllBtn();
+      if (typeof rebalancePlan !== 'undefined' && rebalancePlan) renderRebalance();
       updateSummary();
       updateShareBanner();
       if (activeTab === 'map') {
@@ -1291,6 +1560,8 @@
       loc[key] = input.value;
       persist();
       updateSummary();
+      refreshCompactLine(id);
+      if (rebalancePlan) renderRebalance();
     }
 
     function updateShareBanner() {
@@ -1400,6 +1671,7 @@
       if (!ok) return;
       const state = current();
       state.locations = state.locations.filter((l) => l.id !== id);
+      if (!viewState && collapsedIds.has(id)) { collapsedIds.delete(id); saveCollapsed(); }
       persist();
       renderList();
     }
@@ -1624,6 +1896,7 @@
       if (payload.startsWith('share=')) payload = payload.slice(6);
       try {
         const shared = await decodeShare(decodeURIComponent(payload));
+        rebalancePlan = null;
         mapSelected = null;
         cableMode = null;
         viewState = shared;
@@ -1665,7 +1938,8 @@
     }
 
     function dismissShared() {
-      mapSelected = null;
+      rebalancePlan = null;
+        mapSelected = null;
       cableMode = null;
       viewState = null;
       sharedAt = null;
@@ -2681,7 +2955,245 @@
       return { url: await shareUrlFor(state, { image: false }), droppedImage: true };
     }
 
+    // ======================= REBALANCE =======================
+    const EST_HEAVY = 30;
+    const EST_LIGHT = 12;
+    const REBALANCE_MAX_MOVES = 4;
+    let rebalancePlan = null; // { moves: [...] } while the panel is open
+
+    function isHeavyLoad(name) {
+      return /wardrobe|hair|make\s*-?up|cast\s*trailer/i.test(String(name || ''));
+    }
+
+    // Per-leg load for a location's two active lines, using readings when present.
+    function locLoad(loc) {
+      const keys = pairInfo(loc.pair).keys;
+      const a = parseAmp(loc[keys[0]]), b = parseAmp(loc[keys[1]]);
+      if (a != null && b != null) return { legs: [a, b], est: false };
+      if (a != null) return { legs: [a, a], est: true, partial: true };
+      if (b != null) return { legs: [b, b], est: true, partial: true };
+      const w = isHeavyLoad(loc.name) ? EST_HEAVY : EST_LIGHT;
+      return { legs: [w, w], est: true, partial: false };
+    }
+
+    // The two ways to land a location's legs on a new pair.
+    // leg i of the old pair goes to phase map[i] of the new pair.
+    function moveOptions(fromPair, toPair) {
+      const to = pairInfo(toPair).keys;
+      return [[to[0], to[1]], [to[1], to[0]]];
+    }
+
+    function phaseTotals(entries) {
+      const t = { red: 0, blue: 0, black: 0 };
+      entries.forEach((e) => { t[e.keys[0]] += e.legs[0]; t[e.keys[1]] += e.legs[1]; });
+      return t;
+    }
+
+    function spread(t) {
+      const v = [t.red, t.blue, t.black];
+      return Math.max.apply(null, v) - Math.min.apply(null, v);
+    }
+
+    function sqDev(t) {
+      const m = (t.red + t.blue + t.black) / 3;
+      return (t.red - m) ** 2 + (t.blue - m) ** 2 + (t.black - m) ** 2;
+    }
+
+    function legsChanged(fromKeys, toKeys) {
+      return (fromKeys[0] !== toKeys[0] ? 1 : 0) + (fromKeys[1] !== toKeys[1] ? 1 : 0);
+    }
+
+    function suggestRebalance(state) {
+      const locs = state.locations;
+      const entries = locs.map((loc) => {
+        const ld = locLoad(loc);
+        return { loc: loc, keys: pairInfo(loc.pair).keys.slice(), legs: ld.legs, est: ld.est, partial: !!ld.partial };
+      });
+      const base = phaseTotals(entries);
+      const baseSpread = spread(base);
+      const total = base.red + base.blue + base.black;
+      const tol = Math.max(2, total * 0.02);
+      // candidate alternatives per location
+      const alts = entries.map((e) => {
+        const list = [];
+        PAIRS.forEach((p) => {
+          if (p.id === e.loc.pair) return;
+          moveOptions(e.loc.pair, p.id).forEach((keys) => {
+            const d = { red: 0, blue: 0, black: 0 };
+            d[e.keys[0]] -= e.legs[0]; d[e.keys[1]] -= e.legs[1];
+            d[keys[0]] += e.legs[0]; d[keys[1]] += e.legs[1];
+            list.push({ to: p.id, keys: keys, d: d, relanded: legsChanged(e.keys, keys) });
+          });
+        });
+        return list;
+      });
+      const n = entries.length;
+      const maxK = Math.min(n, n > 16 ? 2 : n > 12 ? 3 : REBALANCE_MAX_MOVES);
+      const bestByK = [{ spread: baseSpread, sq: sqDev(base), relanded: 0, moves: [] }];
+      for (let k = 1; k <= maxK; k++) {
+        let best = null;
+        const pick = [];
+        const rec = (start, t, relanded) => {
+          if (pick.length === k) {
+            const sp = spread(t), sq = sqDev(t);
+            if (!best || sp < best.spread - 1e-9 || (Math.abs(sp - best.spread) < 1e-9 && (sq < best.sq - 1e-9 || (Math.abs(sq - best.sq) < 1e-9 && relanded < best.relanded)))) {
+              best = { spread: sp, sq: sq, relanded: relanded, moves: pick.slice() };
+            }
+            return;
+          }
+          for (let i = start; i < n; i++) {
+            for (const alt of alts[i]) {
+              pick.push({ i: i, alt: alt });
+              rec(i + 1, { red: t.red + alt.d.red, blue: t.blue + alt.d.blue, black: t.black + alt.d.black }, relanded + alt.relanded);
+              pick.pop();
+            }
+          }
+        };
+        rec(0, base, 0);
+        bestByK.push(best);
+      }
+      const overall = Math.min.apply(null, bestByK.map((b) => b ? b.spread : Infinity));
+      let chosen = bestByK[0];
+      if (baseSpread > tol) {
+        for (let k = 1; k < bestByK.length; k++) {
+          const b = bestByK[k];
+          if (b && b.spread <= overall + tol && b.spread < baseSpread - 0.5) { chosen = b; break; }
+        }
+      }
+      const moves = chosen.moves.map((m) => {
+        const e = entries[m.i];
+        return { id: e.loc.id, name: e.loc.name, from: e.loc.pair, fromKeys: e.keys.slice(), to: m.alt.to, toKeys: m.alt.keys.slice(), legs: e.legs.slice(), est: e.est };
+      });
+      return {
+        moves: moves,
+        estimated: entries.filter((e) => e.est).map((e) => ({ name: e.loc.name, partial: e.partial, heavy: isHeavyLoad(e.loc.name) })),
+        allEstimated: entries.length > 0 && entries.every((e) => e.est && !e.partial)
+      };
+    }
+
+    // Totals for the current state, and with the given moves applied (load follows the location).
+    function planTotals(state, moves) {
+      const entries = state.locations.map((loc) => {
+        const ld = locLoad(loc);
+        return { id: loc.id, keys: pairInfo(loc.pair).keys.slice(), legs: ld.legs, est: ld.est };
+      });
+      const before = phaseTotals(entries);
+      const after = phaseTotals(entries.map((e) => {
+        const mv = moves.find((m) => m.id === e.id);
+        return mv ? { keys: mv.toKeys, legs: e.legs } : e;
+      }));
+      return { before: before, after: after, anyEst: entries.some((e) => e.est) };
+    }
+
+    function validMoves(state, moves) {
+      return moves.filter((m) => {
+        const loc = state.locations.find((l) => l.id === m.id);
+        return loc && loc.pair === m.from;
+      });
+    }
+
+    function moveText(m) {
+      return 'Move ' + m.name + ' from ' + pairInfo(m.from).label + ' to ' + pairInfo(m.to).label;
+    }
+
+    function moveDetail(m) {
+      const label = (k) => PHASES.find((p) => p.key === k).label;
+      const parts = [];
+      m.fromKeys.forEach((k, i) => {
+        const amp = m.est ? '' : ' ' + formatAmp(m.legs[i]) + ' A';
+        if (k === m.toKeys[i]) parts.push(label(k) + ' line' + amp + ' stays on ' + label(k));
+        else parts.push(label(k) + ' line' + amp + ' moves to ' + label(m.toKeys[i]));
+      });
+      return parts.join(' · ');
+    }
+
+    function applyMove(m) {
+      const loc = current().locations.find((l) => l.id === m.id);
+      if (!loc || loc.pair !== m.from) return false;
+      const oldVals = m.fromKeys.map((k) => loc[k]);
+      HOT.forEach((p) => { if (m.fromKeys.indexOf(p.key) !== -1 || m.toKeys.indexOf(p.key) !== -1) loc[p.key] = ''; });
+      m.toKeys.forEach((k, i) => { loc[k] = oldVals[i]; });
+      loc.pair = m.to;
+      return true;
+    }
+
+    function fmtTotals(t) { return { red: formatAmp(Math.round(t.red * 10) / 10), blue: formatAmp(Math.round(t.blue * 10) / 10), black: formatAmp(Math.round(t.black * 10) / 10), gap: formatAmp(Math.round(spread(t) * 10) / 10) }; }
+
+    function renderRebalance() {
+      const panel = $('rebalance-panel');
+      if (!rebalancePlan) { panel.hidden = true; panel.innerHTML = ''; return; }
+      const state = current();
+      const moves = validMoves(state, rebalancePlan.moves);
+      rebalancePlan.moves = moves;
+      const tt = planTotals(state, moves);
+      const b = fmtTotals(tt.before), a = fmtTotals(tt.after);
+      const est = rebalancePlan.estimated;
+      let basis;
+      if (rebalancePlan.allEstimated) {
+        basis = '<p class="rb-basis rb-est"><strong>Based on estimates, not readings.</strong> There are no amp readings yet, so heavy loads (Wardrobe, Hair &amp; Makeup, Cast Trailers) count as about ' + EST_HEAVY + ' A per line and the rest as about ' + EST_LIGHT + ' A. Enter readings for a real suggestion.</p>';
+      } else if (est.length) {
+        basis = '<p class="rb-basis rb-est"><strong>Partly based on estimates.</strong> ' + est.length + (est.length === 1 ? ' location is' : ' locations are') + ' missing readings: ' +
+          est.map((e) => esc(e.name) + (e.partial ? ' (one line read, other assumed the same)' : ' (est. ' + (e.heavy ? EST_HEAVY : EST_LIGHT) + ' A per line)')).join(', ') + '.</p>';
+      } else {
+        basis = '<p class="rb-basis">Based on your readings. Each location’s two line readings move with it.</p>';
+      }
+      const estMark = tt.anyEst ? ' <span class="rb-estmark">(est.)</span>' : '';
+      const row = (label, t, cls) => '<tr class="' + cls + '"><th scope="row">' + label + '</th><td class="rb-red">' + t.red + ' A</td><td class="rb-blue">' + t.blue + ' A</td><td class="rb-black">' + t.black + ' A</td><td class="rb-gap">' + t.gap + ' A</td></tr>';
+      let html = '<div class="rb-head"><h2>Rebalance suggestion</h2><button type="button" class="btn" id="rb-close">Close</button></div>' + basis +
+        '<table class="rb-table"><thead><tr><th></th><th><span class="dot dot-red" aria-hidden="true"></span> Red</th><th><span class="dot dot-blue" aria-hidden="true"></span> Blue</th><th><span class="dot dot-black" aria-hidden="true"></span> Black</th><th>Imbalance</th></tr></thead><tbody>' +
+        row('Now' + estMark, b, 'rb-before') + row(moves.length ? 'After' + estMark : 'After', moves.length ? a : b, 'rb-after') + '</tbody></table>';
+      if (!moves.length) {
+        html += '<p class="rb-none" id="rb-none">' + (rebalancePlan.applied ? 'All suggested moves are applied.' : 'No moves needed. This is already about as even as it gets by moving whole locations.') + '</p>';
+      } else {
+        html += '<p class="rb-count">' + moves.length + (moves.length === 1 ? ' suggested move' : ' suggested moves') + ' (fewest moves that get close to the best balance):</p><ol class="rb-moves">' +
+          moves.map((m, i) => '<li class="rb-move" data-id="' + esc(m.id) + '"><div class="rb-move-text"><strong>' + esc(moveText(m)) + '</strong><span class="rb-move-detail">' + esc(moveDetail(m)) + '</span></div>' +
+            '<button type="button" class="btn btn-primary rb-apply" data-index="' + i + '">Apply</button></li>').join('') + '</ol>';
+        if (moves.length > 1) html += '<button type="button" class="btn btn-primary" id="rb-apply-all">Apply all ' + moves.length + ' moves</button>';
+        html += '<p class="rb-note">Nothing changes until you apply a move. Re-land the cables on site to match.</p>';
+      }
+      panel.innerHTML = html;
+      panel.hidden = false;
+      $('rb-close').addEventListener('click', closeRebalance);
+      panel.querySelectorAll('.rb-apply').forEach((btn) => btn.addEventListener('click', () => applySuggested([rebalancePlan.moves[Number(btn.dataset.index)]])));
+      if ($('rb-apply-all')) $('rb-apply-all').addEventListener('click', () => applySuggested(rebalancePlan.moves.slice()));
+    }
+
+    async function applySuggested(moves) {
+      moves = moves.filter(Boolean);
+      if (!moves.length) return;
+      const ok = await openModal({
+        title: moves.length === 1 ? 'Apply this move?' : 'Apply all ' + moves.length + ' moves?',
+        body: moves.map((m) => moveText(m) + '.').join(' ') + ' The two line readings move with each location.',
+        okLabel: moves.length === 1 ? 'Apply move' : 'Apply all'
+      });
+      if (!ok || !rebalancePlan) return;
+      let n = 0;
+      moves.forEach((m) => { if (applyMove(m)) n += 1; });
+      const ids = moves.map((m) => m.id);
+      rebalancePlan.moves = rebalancePlan.moves.filter((m) => ids.indexOf(m.id) === -1);
+      rebalancePlan.applied = true;
+      persist();
+      renderList();
+      toast(n === 1 ? 'Move applied.' : n + ' moves applied.');
+    }
+
+    function openRebalance() {
+      const plan = suggestRebalance(current());
+      rebalancePlan = { moves: plan.moves, estimated: plan.estimated, allEstimated: plan.allEstimated, applied: false };
+      renderRebalance();
+      const panel = $('rebalance-panel');
+      if (panel.scrollIntoView) panel.scrollIntoView({ block: 'nearest' });
+    }
+
+    function closeRebalance() {
+      rebalancePlan = null;
+      renderRebalance();
+    }
+
+    $('rebalance-btn').addEventListener('click', openRebalance);
+
     $('theme-btn').addEventListener('click', toggleTheme);
+    $('collapse-all-btn').addEventListener('click', toggleCollapseAll);
     $('add-btn').addEventListener('click', addLocation);
     $('clear-btn').addEventListener('click', clearReadings);
     $('share-link-btn').addEventListener('click', shareLink);
@@ -2704,6 +3216,10 @@
       encodeShare, decodeShare, shareUrlFor, summaryText, balanceText, totalsOf, persist,
       defaultPairForName, normalizePair, setPair, hydrateLocation,
       STORAGE_KEY,
+      COLLAPSE_KEY,
+      collapsed: () => Array.from(collapsedIds),
+      suggestRebalance, planTotals,
+      rebalanceMoves: () => rebalancePlan ? JSON.parse(JSON.stringify(rebalancePlan.moves)) : null,
       map: {
         get: () => cloneState(currentMap()),
         getLocal: () => cloneState(localState.map),
