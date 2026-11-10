@@ -5019,6 +5019,34 @@
     $('dismiss-shared-btn').addEventListener('click', dismissShared);
     window.addEventListener('hashchange', applyHash);
 
+    // ----- number boxes: put the caret at the end of the value on focus / tap (iOS Safari too) -----
+    const CARET_END_SEL = 'input[inputmode="decimal"], input[inputmode="numeric"], #fuel-input, input[data-caret-end]';
+    let caretFocusAt = 0;
+    function caretToEnd(el) {
+      if (!el || document.activeElement !== el || typeof el.setSelectionRange !== 'function') return;
+      const n = String(el.value).length;
+      try { if (el.selectionStart !== n || el.selectionEnd !== n) el.setSelectionRange(n, n); } catch (err) {}
+    }
+    function caretSoon(el) {
+      caretToEnd(el);
+      requestAnimationFrame(() => caretToEnd(el));
+      setTimeout(() => caretToEnd(el), 0);
+      setTimeout(() => caretToEnd(el), 60);
+    }
+    document.addEventListener('focusin', (e) => {
+      const el = e.target;
+      if (!el || !el.matches || !el.matches(CARET_END_SEL)) return;
+      caretFocusAt = Date.now();
+      caretSoon(el);
+    });
+    // The tap that focuses the box can drop the caret where the finger landed: move it back to the end.
+    // Later taps inside an already-focused box are left alone so the caret can still be placed by hand.
+    ['mouseup', 'touchend', 'pointerup'].forEach((type) => document.addEventListener(type, (e) => {
+      const el = e.target;
+      if (!el || !el.matches || !el.matches(CARET_END_SEL)) return;
+      if (Date.now() - caretFocusAt < 600) caretSoon(el);
+    }, true));
+
     localState = loadLocal();
     setTimeout(() => clap(true), 400);
     renderList();
