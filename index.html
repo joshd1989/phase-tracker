@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Phase Tracker">
+  <meta name="application-name" content="Phase Tracker">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Track generator phase amperage for film-set base camp wiring.">
+  <title>Base Camp Phase Tracker</title>
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('basecamp-phase-tracker-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --surface: #ffffff;
+      --text: #111111;
+      --muted: #333333;
+      --border: #1a1a1a;
+      --hairline: #cfc9bd;
+      --accent: #0b4f8a;
+      --accent-text: #ffffff;
+      --danger: #8b1212;
+      --danger-bg: #f8e6e6;
+      --ok: #134d28;
+      --ok-bg: #e4f3e8;
+      --banner: #fff4cc;
+      --banner-border: #8a6d00;
+      --red: #c62828;
+      --blue: #0d47a1;
+      --black: #111111;
+      --neutral: #bdbdbd;
+      --neutral-ink: #333333;
+      --bar-track: #e6e2d8;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+      --header-bg: #f6f4ef;
+      --dot-black-fill: #111111;
+      --dot-black-ring: #111111;
+      --dot-neutral-fill: #f5f5f5;
+      --dot-neutral-ring: #666666;
+      color-scheme: light;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) { color-scheme: dark; }
+      :root:not([data-theme="light"]) {
+        --bg: #0c0c0c;
+        --surface: #1c1c1c;
+        --text: #f3f3f3;
+        --muted: #d0d0d0;
+        --border: #d0d0d0;
+        --hairline: #555555;
+        --accent: #7eb6ef;
+        --accent-text: #0c0c0c;
+        --danger: #ff8a80;
+        --danger-bg: #3a1515;
+        --ok: #9be7b0;
+        --ok-bg: #14301c;
+        --banner: #3a3008;
+        --banner-border: #f0d36a;
+        --red: #ff6b6b;
+        --blue: #64b5f6;
+        --black: #f5f5f5;
+        --neutral: #e0e0e0;
+        --neutral-ink: #f0f0f0;
+        --bar-track: #2a2a2a;
+        --shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+        --header-bg: #0c0c0c;
+        --dot-black-fill: #111111;
+        --dot-black-ring: #f0f0f0;
+        --dot-neutral-fill: #ececec;
+        --dot-neutral-ring: #c8c8c8;
+      }
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0c0c0c;
+      --surface: #1c1c1c;
+      --text: #f3f3f3;
+      --muted: #d0d0d0;
+      --border: #d0d0d0;
+      --hairline: #555555;
+      --accent: #7eb6ef;
+      --accent-text: #0c0c0c;
+      --danger: #ff8a80;
+      --danger-bg: #3a1515;
+      --ok: #9be7b0;
+      --ok-bg: #14301c;
+      --banner: #3a3008;
+      --banner-border: #f0d36a;
+      --red: #ff6b6b;
+      --blue: #64b5f6;
+      --black: #f5f5f5;
+      --neutral: #e0e0e0;
+      --neutral-ink: #f0f0f0;
+      --bar-track: #2a2a2a;
+      --shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+      --header-bg: #0c0c0c;
+      --dot-black-fill: #111111;
+      --dot-black-ring: #f0f0f0;
+      --dot-neutral-fill: #ececec;
+      --dot-neutral-ring: #c8c8c8;
+    }
+
+    html[data-theme="dark"] .bar-black > span { background: #f2f2f2; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .bar-black > span { background: #f2f2f2; }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.35;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100dvh;
+      padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    }
+
+    button, input {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .wrap {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 0 12px 12px;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--header-bg);
+      padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
+      margin: 0 -12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.15rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .icon-btn, .btn {
+      min-height: 44px;
+      min-width: 44px;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .icon-btn { display: inline-flex; align-items: center; justify-content: center; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+    }
+
+    .btn-danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-row .btn { flex: 1 1 auto; }
+
+    .phases {
+      display: grid;
+      gap: 6px;
+    }
+
+    .phase-row {
+      display: grid;
+      grid-template-columns: 18px minmax(5.5rem, auto) 4.2rem 1fr;
+      align-items: center;
+      gap: 8px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 650;
+    }
+
+    .phase-row.neutral-row {
+      margin-top: 4px;
+      padding-top: 6px;
+      border-top: 1px solid var(--hairline);
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .phase-row .amt { text-align: right; }
+
+    .bar {
+      height: 10px;
+      background: var(--bar-track);
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+    }
+
+    .bar-red > span { background: var(--red); }
+    .bar-blue > span { background: var(--blue); }
+    .bar-black > span { background: #111; }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      justify-self: center;
+    }
+    .dot-red { background: var(--red); }
+    .dot-blue { background: var(--blue); }
+    .dot-black { background: var(--dot-black-fill); border-color: var(--dot-black-ring); }
+    .dot-neutral { background: var(--dot-neutral-fill); border-color: var(--dot-neutral-ring); }
+
+    .stripe {
+      display: block;
+      width: 6px;
+      align-self: stretch;
+      border-radius: 4px;
+      background: currentColor;
+    }
+
+    .balance {
+      margin: 8px 0 0;
+      font-size: 0.95rem;
+      font-weight: 650;
+    }
+
+    .saved-line {
+      margin: 4px 0 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    #share-banner {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background: var(--banner);
+      border: 2px solid var(--banner-border);
+      border-radius: 10px;
+    }
+
+    #share-banner.visible { display: block; }
+
+    #share-banner p { margin: 0 0 8px; font-weight: 650; }
+
+    .list { display: grid; gap: 12px; margin-top: 14px; }
+
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 10px 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .card-title-block {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .card-head h2 {
+      margin: 0;
+      font-size: 1.02rem;
+      letter-spacing: -0.01em;
+    }
+
+    .pair-picker {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 28px 0 10px;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      background: var(--bg);
+      font-weight: 650;
+      font-size: 0.88rem;
+      flex-shrink: 0;
+    }
+
+    .pair-picker .pair-visual {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .pair-picker select {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      font-size: 16px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .pair-picker::after {
+      content: "";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      width: 7px;
+      height: 7px;
+      border-right: 2px solid var(--text);
+      border-bottom: 2px solid var(--text);
+      transform: translateY(-60%) rotate(45deg);
+      pointer-events: none;
+    }
+
+    .amp-row.unused {
+      opacity: 0.48;
+    }
+
+    .unused-tag {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 750;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .phase-count {
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    .card-actions .btn {
+      min-width: 0;
+      min-height: 36px;
+      padding: 6px 8px;
+      font-size: 0.82rem;
+    }
+
+    .amp-row {
+      display: grid;
+      grid-template-columns: 8px minmax(6.6rem, 7.8rem) 1fr 1.2rem;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+
+    .amp-row label {
+      font-weight: 650;
+      font-size: 0.95rem;
+      line-height: 1.15;
+    }
+
+    .amp-row input {
+      width: 100%;
+      min-height: 46px;
+      padding: 8px 10px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      font-size: 1.15rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 650;
+      text-align: right;
+    }
+
+    .amp-row input:focus {
+      outline: 3px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .unit { color: var(--muted); font-weight: 650; }
+
+    .actions {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .hint {
+      margin-top: 16px;
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: var(--surface);
+    }
+
+    .hint summary {
+      cursor: pointer;
+      font-weight: 650;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hint p { margin: 8px 0; color: var(--muted); font-size: 0.92rem; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+    }
+
+    .modal.hidden { display: none; }
+
+    .modal-card {
+      width: min(28rem, 100%);
+      background: var(--surface);
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    @media (min-width: 540px) {
+      .modal { align-items: center; }
+    }
+
+    .modal-card h2 { margin: 0 0 8px; font-size: 1.1rem; }
+    .modal-card p { margin: 0 0 12px; }
+
+    #modal-input {
+      width: 100%;
+      min-height: 46px;
+      margin-bottom: 12px;
+      padding: 8px 10px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      font-size: 1.05rem;
+    }
+
+    #modal-input.hidden { display: none; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(20px + env(safe-area-inset-bottom));
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: var(--bg);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 650;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 90;
+      max-width: calc(100% - 32px);
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (min-width: 640px) {
+      .phase-row { grid-template-columns: 18px minmax(5.5rem, auto) 5rem 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="sticky">
+      <div class="title-row">
+        <h1>Base Camp Phase Tracker</h1>
+        <button type="button" class="icon-btn" id="theme-btn" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
+      </div>
+      <div class="phases" id="summary-phases"></div>
+      <p class="balance" id="balance-line">Enter amps to see phase balance.</p>
+      <p class="saved-line" id="saved-line">Not saved yet</p>
+      <div id="share-banner" role="status">
+        <p id="share-banner-text"></p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="save-shared-btn">Save to my tracker</button>
+          <button type="button" class="btn" id="dismiss-shared-btn">Dismiss</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="list" id="location-list" aria-label="Locations"></section>
+
+    <section class="actions">
+      <button type="button" class="btn btn-primary" id="add-btn">Add location</button>
+      <div class="btn-row">
+        <button type="button" class="btn" id="share-link-btn">Share link</button>
+        <button type="button" class="btn" id="share-text-btn">Share summary</button>
+      </div>
+      <button type="button" class="btn btn-danger" id="clear-btn">Clear all readings</button>
+    </section>
+
+    <details class="hint">
+      <summary>How to install and share</summary>
+      <p>On iPhone: open this page in Safari, tap the Share button, then <strong>Add to Home Screen</strong>. Your readings stay saved on this phone as long as you keep using this same address.</p>
+      <p>Each person who opens the app URL gets their own copy on their own phone. Use <strong>Share link</strong> to send a snapshot of your current readings. Opening a shared link never overwrites the other person’s saved data unless they choose <strong>Save to my tracker</strong>.</p>
+      <p>If you opened a shared link, add the plain app address to your Home Screen — not the long shared URL.</p>
+    </details>
+  </div>
+
+  <div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <h2 id="modal-title">Confirm</h2>
+      <p id="modal-body"></p>
+      <input id="modal-input" class="hidden" type="text" maxlength="80" autocomplete="off" autocapitalize="words">
+      <div class="btn-row">
+        <button type="button" class="btn" id="modal-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modal-ok">OK</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function () {
+    const STORAGE_KEY = 'basecamp-phase-tracker-v1';
+    const THEME_KEY = 'basecamp-phase-tracker-theme';
+    const PHASES = [
+      { key: 'red', label: 'Red', css: 'red' },
+      { key: 'blue', label: 'Blue', css: 'blue' },
+      { key: 'black', label: 'Black', css: 'black' },
+      { key: 'white', label: 'Neutral (White)', short: 'Neutral', css: 'neutral' }
+    ];
+    const HOT = PHASES.slice(0, 3);
+    const DEFAULT_NAMES = [
+      'Cast Trailer · SW245',
+      'Cast Trailer · SW323',
+      'Cast Trailer · SW327G',
+      'Cast Trailer · SW328G',
+      'Cast Trailer · SW806',
+      'Hair & Makeup',
+      'Wardrobe',
+      'AD Office',
+      'Transport',
+      'Bathroom',
+      'Workout Gym'
+    ];
+    const PAIRS = [
+      { id: 'rb', keys: ['red', 'blue'], label: 'Red + Blue', dots: ['red', 'blue'] },
+      { id: 'rk', keys: ['red', 'black'], label: 'Red + Black', dots: ['red', 'black'] },
+      { id: 'bk', keys: ['blue', 'black'], label: 'Blue + Black', dots: ['blue', 'black'] }
+    ];
+    const DEFAULT_PAIRS_BY_NAME = {
+      'Bathroom': 'rb',
+      'Hair & Makeup': 'rb',
+      'Wardrobe': 'rb',
+      'Transport': 'rk',
+      'Cast Trailer · SW327G': 'rk',
+      'AD Office': 'rk',
+      'Cast Trailer · SW323': 'bk',
+      'Cast Trailer · SW245': 'bk',
+      'Workout Gym': 'bk',
+      'Cast Trailer · SW328G': 'bk',
+      'Cast Trailer · SW806': 'bk'
+    };
+
+    function defaultPairForName(name) {
+      return DEFAULT_PAIRS_BY_NAME[name] || 'rb';
+    }
+
+    function normalizePair(pair, name) {
+      if (pair === 'rb' || pair === 'rk' || pair === 'bk') return pair;
+      return defaultPairForName(name);
+    }
+
+    function pairInfo(pair) {
+      return PAIRS.find((p) => p.id === pair) || PAIRS[0];
+    }
+
+    function isPhaseActive(loc, key) {
+      if (key === 'white') return true;
+      return pairInfo(loc.pair).keys.indexOf(key) !== -1;
+    }
+
+    const $ = (id) => document.getElementById(id);
+    const listEl = $('location-list');
+    const summaryEl = $('summary-phases');
+    const balanceEl = $('balance-line');
+    const savedEl = $('saved-line');
+    const bannerEl = $('share-banner');
+    const bannerTextEl = $('share-banner-text');
+    const toastEl = $('toast');
+
+    let localState = defaultState();
+    let viewState = null;
+    let sharedAt = null;
+    let toastTimer = null;
+    let modalResolver = null;
+
+    function defaultState() {
+      return {
+        savedAt: null,
+        locations: DEFAULT_NAMES.map((name, i) => makeLocation(name, 'def-' + (i + 1)))
+      };
+    }
+
+    function makeLocation(name, id, pair) {
+      return {
+        id: id || ('loc-' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36)),
+        name: name,
+        pair: normalizePair(pair, name),
+        red: '', blue: '', black: '', white: ''
+      };
+    }
+
+    function hydrateLocation(loc, i, idPrefix) {
+      const name = String((loc && loc.name) || 'Untitled');
+      return {
+        id: String((loc && loc.id) || ((idPrefix || 'mig-') + i)),
+        name: name,
+        pair: normalizePair(loc && loc.pair, name),
+        red: !loc || loc.red == null ? '' : String(loc.red),
+        blue: !loc || loc.blue == null ? '' : String(loc.blue),
+        black: !loc || loc.black == null ? '' : String(loc.black),
+        white: !loc || loc.white == null ? '' : String(loc.white)
+      };
+    }
+
+    function current() { return viewState || localState; }
+
+    function cloneState(state) {
+      return JSON.parse(JSON.stringify(state));
+    }
+
+    function parseAmp(value) {
+      if (value == null) return null;
+      const s = String(value).trim();
+      if (s === '') return null;
+      const n = Number(s);
+      if (!Number.isFinite(n) || n < 0) return null;
+      return n;
+    }
+
+    function formatAmp(n) {
+      if (n == null) return '0';
+      return Number.isInteger(n) ? String(n) : String(Math.round(n * 10) / 10);
+    }
+
+    function formatWhen(ts) {
+      const d = new Date(ts);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleString(undefined, {
+        year: 'numeric', month: 'short', day: 'numeric',
+        hour: 'numeric', minute: '2-digit'
+      });
+    }
+
+    function totalsOf(state) {
+      const t = { red: 0, blue: 0, black: 0, white: 0 };
+      const used = { red: false, blue: false, black: false, white: false };
+      const counts = { red: 0, blue: 0, black: 0 };
+      for (const loc of state.locations) {
+        const info = pairInfo(loc.pair);
+        info.keys.forEach((k) => { counts[k] += 1; });
+        for (const p of PHASES) {
+          if (p.key !== 'white' && info.keys.indexOf(p.key) === -1) continue;
+          const n = parseAmp(loc[p.key]);
+          if (n != null) {
+            t[p.key] += n;
+            used[p.key] = true;
+          }
+        }
+      }
+      return { totals: t, used, counts };
+    }
+
+    function balanceText(state) {
+      const { totals, used } = totalsOf(state);
+      const active = HOT.filter((p) => used[p.key]);
+      if (active.length === 0) return 'Enter amps to see phase balance.';
+      if (active.length === 1) {
+        const p = active[0];
+        return 'Only ' + p.label + ' has readings (' + formatAmp(totals[p.key]) + ' A).';
+      }
+      const values = active.map((p) => ({ label: p.label, n: totals[p.key] }));
+      const max = Math.max.apply(null, values.map((v) => v.n));
+      const min = Math.min.apply(null, values.map((v) => v.n));
+      const heaviest = values.filter((v) => v.n === max).map((v) => v.label);
+      const lightest = values.filter((v) => v.n === min).map((v) => v.label);
+      const join = (arr) => arr.length === 1 ? arr[0] : arr.length === 2 ? arr[0] + ' and ' + arr[1] : arr[0] + ', ' + arr[1] + ', and ' + arr[2];
+      if (max === min) {
+        if (active.length === 3) return 'Red, Blue, and Black are balanced at ' + formatAmp(max) + ' A.';
+        return join(heaviest) + ' are balanced at ' + formatAmp(max) + ' A.';
+      }
+      const gap = Math.round((max - min) * 10) / 10;
+      const heavyVerb = heaviest.length > 1 ? ' are heaviest' : ' is heaviest';
+      const lightVerb = lightest.length > 1 ? ' are lightest' : ' is lightest';
+      return join(heaviest) + heavyVerb + ', ' + join(lightest) + lightVerb + ', ' + formatAmp(gap) + ' A apart.';
+    }
+
+    function persist() {
+      if (viewState) return;
+      localState.savedAt = Date.now();
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          savedAt: localState.savedAt,
+          locations: localState.locations
+        }));
+      } catch (err) {
+        toast('Could not save on this device.');
+        return;
+      }
+      updateSavedLine();
+    }
+
+    function loadLocal() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultState();
+        const data = JSON.parse(raw);
+        if (!data || !Array.isArray(data.locations)) return defaultState();
+        const locations = data.locations.map((loc, i) => hydrateLocation(loc, i, 'mig-'));
+        return { savedAt: data.savedAt || null, locations: locations };
+      } catch (err) {
+        return defaultState();
+      }
+    }
+
+    function updateSavedLine() {
+      if (viewState) {
+        savedEl.textContent = 'These shared readings are not saved on this phone yet.';
+        return;
+      }
+      if (!localState.savedAt) {
+        savedEl.textContent = 'Not saved yet';
+        return;
+      }
+      const d = new Date(localState.savedAt);
+      const now = new Date();
+      const t = d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+      if (d.toDateString() === now.toDateString()) savedEl.textContent = 'Last saved ' + t;
+      else savedEl.textContent = 'Last saved ' + formatWhen(localState.savedAt);
+    }
+
+    function updateSummary() {
+      const state = current();
+      const { totals, used, counts } = totalsOf(state);
+      const maxHot = Math.max(0, totals.red, totals.blue, totals.black);
+      const scale = Math.max(maxHot, 1);
+      summaryEl.innerHTML = '';
+      HOT.forEach((p) => {
+        const row = document.createElement('div');
+        row.className = 'phase-row';
+        const pct = Math.min(100, (totals[p.key] / scale) * 100);
+        const nLoc = counts[p.key];
+        const countWord = nLoc === 1 ? 'location' : 'locations';
+        row.innerHTML =
+          '<span class="dot dot-' + p.css + '" aria-hidden="true"></span>' +
+          '<span>' + p.label + ' <span class="phase-count">· ' + nLoc + ' ' + countWord + '</span></span>' +
+          '<span class="amt">' + formatAmp(totals[p.key]) + ' A</span>' +
+          '<div class="bar bar-' + p.css + '" aria-hidden="true"><span style="width:' + pct + '%"></span></div>';
+        summaryEl.appendChild(row);
+      });
+      const nRow = document.createElement('div');
+      nRow.className = 'phase-row neutral-row';
+      nRow.innerHTML =
+        '<span class="dot dot-neutral" aria-hidden="true"></span>' +
+        '<span>Neutral</span>' +
+        '<span class="amt">' + formatAmp(totals.white) + ' A</span>' +
+        '<span></span>';
+      summaryEl.appendChild(nRow);
+      balanceEl.textContent = balanceText(state);
+      updateSavedLine();
+    }
+
+    function pairVisual(pair) {
+      const info = pairInfo(pair);
+      const visual = document.createElement('span');
+      visual.className = 'pair-visual';
+      info.dots.forEach((css) => {
+        const dot = document.createElement('span');
+        dot.className = 'dot dot-' + css;
+        dot.setAttribute('aria-hidden', 'true');
+        visual.appendChild(dot);
+      });
+      const text = document.createElement('span');
+      text.className = 'pair-label';
+      text.textContent = info.label;
+      visual.appendChild(text);
+      return visual;
+    }
+
+    function buildPairPicker(loc) {
+      const wrap = document.createElement('label');
+      wrap.className = 'pair-picker';
+      wrap.appendChild(pairVisual(loc.pair));
+      const sel = document.createElement('select');
+      sel.setAttribute('aria-label', 'Phases for ' + loc.name);
+      PAIRS.forEach((p) => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.label;
+        if (p.id === loc.pair) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', () => setPair(loc.id, sel.value));
+      wrap.appendChild(sel);
+      return wrap;
+    }
+
+    function setPair(id, pair) {
+      const loc = current().locations.find((l) => l.id === id);
+      if (!loc) return;
+      loc.pair = normalizePair(pair, loc.name);
+      persist();
+      renderList();
+    }
+
+    function renderList() {
+
+      const state = current();
+      listEl.innerHTML = '';
+      state.locations.forEach((loc) => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.dataset.id = loc.id;
+
+        const head = document.createElement('div');
+        head.className = 'card-head';
+        const titleBlock = document.createElement('div');
+        titleBlock.className = 'card-title-block';
+        const h2 = document.createElement('h2');
+        h2.textContent = loc.name;
+        titleBlock.appendChild(h2);
+        titleBlock.appendChild(buildPairPicker(loc));
+        const actions = document.createElement('div');
+        actions.className = 'card-actions';
+        const renameBtn = document.createElement('button');
+        renameBtn.type = 'button';
+        renameBtn.className = 'btn';
+        renameBtn.textContent = 'Rename';
+        renameBtn.addEventListener('click', () => renameLocation(loc.id));
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'btn btn-danger';
+        delBtn.textContent = 'Delete';
+        delBtn.addEventListener('click', () => deleteLocation(loc.id));
+        actions.appendChild(renameBtn);
+        actions.appendChild(delBtn);
+        head.appendChild(titleBlock);
+        head.appendChild(actions);
+        card.appendChild(head);
+
+        PHASES.forEach((p) => {
+          const row = document.createElement('div');
+          const active = isPhaseActive(loc, p.key);
+          row.className = 'amp-row' + (active ? '' : ' unused');
+          const stripe = document.createElement('span');
+          stripe.className = 'stripe';
+          stripe.style.background = p.key === 'red' ? 'var(--red)' : p.key === 'blue' ? 'var(--blue)' : p.key === 'black' ? 'var(--dot-black-fill)' : 'var(--dot-neutral-fill)';
+          stripe.style.border = p.key === 'black' ? '2px solid var(--dot-black-ring)' : p.key === 'white' ? '2px solid var(--dot-neutral-ring)' : '0';
+          const label = document.createElement('label');
+          const inputId = loc.id + '-' + p.key;
+          label.setAttribute('for', inputId);
+          label.textContent = p.short || p.label;
+          if (!active) {
+            const tag = document.createElement('span');
+            tag.className = 'unused-tag';
+            tag.textContent = 'not in use';
+            label.appendChild(tag);
+          }
+          const input = document.createElement('input');
+          input.id = inputId;
+          input.type = 'text';
+          input.inputMode = 'decimal';
+          input.autocomplete = 'off';
+          input.autocorrect = 'off';
+          input.spellcheck = false;
+          input.enterKeyHint = 'done';
+          input.setAttribute('aria-label', loc.name + ' ' + p.label + ' amps');
+          input.value = loc[p.key];
+          input.addEventListener('input', () => onAmpInput(loc.id, p.key, input));
+          input.addEventListener('change', () => onAmpInput(loc.id, p.key, input, true));
+          const unit = document.createElement('span');
+          unit.className = 'unit';
+          unit.textContent = 'A';
+          row.appendChild(stripe);
+          row.appendChild(label);
+          row.appendChild(input);
+          row.appendChild(unit);
+          card.appendChild(row);
+        });
+
+        listEl.appendChild(card);
+      });
+      updateSummary();
+      updateShareBanner();
+    }
+
+    function onAmpInput(id, key, input, sanitize) {
+      const loc = current().locations.find((l) => l.id === id);
+      if (!loc) return;
+      let v = input.value;
+      if (sanitize) {
+        const n = parseAmp(v);
+        v = n == null && String(input.value).trim() !== '' ? input.value.trim() : (n == null ? '' : (Number.isInteger(n) ? String(n) : String(n)));
+        if (n != null) input.value = Number.isInteger(n) ? String(n) : String(Math.round(n * 1000) / 1000);
+        else if (!String(input.value).trim()) { input.value = ''; v = ''; }
+      }
+      loc[key] = input.value;
+      persist();
+      updateSummary();
+    }
+
+    function updateShareBanner() {
+      if (viewState) {
+        bannerEl.classList.add('visible');
+        const when = sharedAt ? formatWhen(sharedAt) : 'an unknown time';
+        bannerTextEl.textContent = 'Viewing shared readings from ' + when;
+      } else {
+        bannerEl.classList.remove('visible');
+      }
+    }
+
+    function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2400);
+    }
+
+    function openModal({ title, body, okLabel, danger, value, placeholder, confirmText }) {
+      return new Promise((resolve) => {
+        modalResolver = resolve;
+        $('modal-title').textContent = title;
+        $('modal-body').textContent = body || '';
+        const input = $('modal-input');
+        if (value != null) {
+          input.classList.remove('hidden');
+          input.value = value;
+          input.placeholder = placeholder || '';
+        } else {
+          input.classList.add('hidden');
+          input.value = '';
+        }
+        const ok = $('modal-ok');
+        ok.textContent = okLabel || 'OK';
+        ok.className = 'btn ' + (danger ? 'btn-danger' : 'btn-primary');
+        $('modal').classList.remove('hidden');
+        if (value != null) setTimeout(() => { input.focus(); input.select(); }, 50);
+      });
+    }
+
+    function closeModal(result) {
+      $('modal').classList.add('hidden');
+      const r = modalResolver;
+      modalResolver = null;
+      if (r) r(result);
+    }
+
+    $('modal-cancel').addEventListener('click', () => closeModal(null));
+    $('modal-ok').addEventListener('click', () => {
+      const input = $('modal-input');
+      if (!input.classList.contains('hidden')) closeModal(input.value);
+      else closeModal(true);
+    });
+    $('modal-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        closeModal($('modal-input').value);
+      }
+    });
+    $('modal').addEventListener('click', (e) => {
+      if (e.target === $('modal')) closeModal(null);
+    });
+
+    async function addLocation() {
+      const name = await openModal({
+        title: 'Add location',
+        body: 'Name this location.',
+        okLabel: 'Add',
+        value: '',
+        placeholder: 'Location name'
+      });
+      if (name == null) return;
+      const trimmed = String(name).trim();
+      if (!trimmed) { toast('Enter a name first.'); return; }
+      current().locations.push(makeLocation(trimmed));
+      persist();
+      renderList();
+    }
+
+    async function renameLocation(id) {
+      const loc = current().locations.find((l) => l.id === id);
+      if (!loc) return;
+      const name = await openModal({
+        title: 'Rename location',
+        body: 'Choose a new name.',
+        okLabel: 'Save',
+        value: loc.name
+      });
+      if (name == null) return;
+      const trimmed = String(name).trim();
+      if (!trimmed) { toast('Name cannot be empty.'); return; }
+      loc.name = trimmed;
+      persist();
+      renderList();
+    }
+
+    async function deleteLocation(id) {
+      const loc = current().locations.find((l) => l.id === id);
+      if (!loc) return;
+      const ok = await openModal({
+        title: 'Delete location',
+        body: 'Delete “' + loc.name + '”? This cannot be undone.',
+        okLabel: 'Delete',
+        danger: true
+      });
+      if (!ok) return;
+      const state = current();
+      state.locations = state.locations.filter((l) => l.id !== id);
+      persist();
+      renderList();
+    }
+
+    async function clearReadings() {
+      const ok = await openModal({
+        title: 'Clear all readings',
+        body: 'Clear every amp reading? Locations will stay. This cannot be undone.',
+        okLabel: 'Clear readings',
+        danger: true
+      });
+      if (!ok) return;
+      current().locations.forEach((loc) => {
+        loc.red = loc.blue = loc.black = loc.white = '';
+      });
+      persist();
+      renderList();
+      toast('Readings cleared.');
+    }
+
+    function compactState(state) {
+      return {
+        v: 1,
+        t: state.savedAt || Date.now(),
+        l: state.locations.map((loc) => ({
+          i: loc.id,
+          n: loc.name,
+          p: loc.pair,
+          r: loc.red, b: loc.blue, k: loc.black, w: loc.white
+        }))
+      };
+    }
+
+    function expandState(data) {
+      if (!data || !Array.isArray(data.l)) throw new Error('bad share');
+      return {
+        savedAt: data.t || null,
+        locations: data.l.map((loc, i) => hydrateLocation({
+          id: loc.i,
+          name: loc.n,
+          pair: loc.p,
+          red: loc.r, blue: loc.b, black: loc.k, white: loc.w
+        }, i, 'share-'))
+      };
+    }
+
+    function toB64url(bytes) {
+      const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+      let s = '';
+      for (let i = 0; i < arr.length; i++) s += String.fromCharCode(arr[i]);
+      return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    function fromB64url(str) {
+      const pad = str.length % 4 === 0 ? '' : '='.repeat(4 - (str.length % 4));
+      const b64 = str.replace(/-/g, '+').replace(/_/g, '/') + pad;
+      const bin = atob(b64);
+      const arr = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      return arr;
+    }
+
+    async function encodeShare(state) {
+      const json = JSON.stringify(compactState(state));
+      if (typeof CompressionStream !== 'undefined') {
+        try {
+          const stream = new Blob([json]).stream().pipeThrough(new CompressionStream('gzip'));
+          const buf = await new Response(stream).arrayBuffer();
+          return 'v1g.' + toB64url(buf);
+        } catch (err) {}
+      }
+      const bytes = new TextEncoder().encode(json);
+      return 'v1u.' + toB64url(bytes);
+    }
+
+    async function decodeShare(payload) {
+      if (!payload) throw new Error('empty');
+      const isGzip = payload.startsWith('v1g.');
+      const isPlain = payload.startsWith('v1u.');
+      if (!isGzip && !isPlain) throw new Error('bad prefix');
+      const raw = fromB64url(payload.slice(4));
+      let json;
+      if (isGzip) {
+        if (typeof DecompressionStream === 'undefined') throw new Error('no gunzip');
+        const stream = new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'));
+        json = await new Response(stream).text();
+      } else {
+        json = new TextDecoder().decode(raw);
+      }
+      return expandState(JSON.parse(json));
+    }
+
+    function appBaseUrl() {
+      const url = new URL(window.location.href);
+      url.hash = '';
+      url.search = '';
+      let href = url.toString();
+      if (href.endsWith('#')) href = href.slice(0, -1);
+      return href;
+    }
+
+    async function shareUrlFor(state) {
+      const payload = await encodeShare(state);
+      const base = appBaseUrl();
+      const join = base.endsWith('/') || base.indexOf('?') >= 0 ? '' : '';
+      return base + join + '#share=' + payload;
+    }
+
+    async function copyText(text) {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+      } catch (err) {}
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch (err) {
+        return false;
+      }
+    }
+
+    function summaryText(state) {
+      const { totals, counts } = totalsOf(state);
+      const when = formatWhen(state.savedAt || Date.now());
+      const countLine = (key, label) => label + ' · ' + counts[key] + (counts[key] === 1 ? ' location' : ' locations');
+      const lines = [
+        'Base Camp Phase Tracker',
+        'Readings as of ' + when,
+        '',
+        'TOTALS',
+        'Red: ' + formatAmp(totals.red) + ' A (' + countLine('red', 'Red') + ')',
+        'Blue: ' + formatAmp(totals.blue) + ' A (' + countLine('blue', 'Blue') + ')',
+        'Black: ' + formatAmp(totals.black) + ' A (' + countLine('black', 'Black') + ')',
+        'Neutral (White): ' + formatAmp(totals.white) + ' A',
+        balanceText(state),
+        '',
+        'LOCATIONS'
+      ];
+      state.locations.forEach((loc) => {
+        const info = pairInfo(loc.pair);
+        const parts = [];
+        info.keys.forEach((key) => {
+          const p = PHASES.find((x) => x.key === key);
+          const n = parseAmp(loc[key]);
+          parts.push((p.short || p.label) + ' ' + (n == null ? '—' : formatAmp(n) + ' A'));
+        });
+        const nN = parseAmp(loc.white);
+        parts.push('Neutral ' + (nN == null ? '—' : formatAmp(nN) + ' A'));
+        const unused = HOT.filter((p) => info.keys.indexOf(p.key) === -1);
+        unused.forEach((p) => {
+          const n = parseAmp(loc[p.key]);
+          if (n != null) parts.push(p.label + ' ' + formatAmp(n) + ' A (not in use)');
+        });
+        lines.push(loc.name + ' (' + info.label + '): ' + parts.join(', '));
+      });
+      return lines.join('\n');
+    }
+
+    async function shareLink() {
+      let url;
+      try { url = await shareUrlFor(current()); }
+      catch (err) { toast('Could not build a share link.'); return; }
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Base Camp Phase Tracker',
+            text: 'Base camp phase readings' + (current().savedAt ? ' (' + formatWhen(current().savedAt) + ')' : ''),
+            url: url
+          });
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+      const ok = await copyText(url);
+      toast(ok ? 'Share link copied.' : 'Could not copy the link.');
+    }
+
+    async function shareSummary() {
+      const text = summaryText(current());
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Base Camp Phase Tracker',
+            text: text
+          });
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+      const ok = await copyText(text);
+      toast(ok ? 'Summary copied.' : 'Could not copy the summary.');
+    }
+
+    async function applyHash() {
+      const hash = (window.location.hash || '').replace(/^#/, '');
+      if (!hash) {
+        if (viewState) {
+          viewState = null;
+          sharedAt = null;
+          renderList();
+        }
+        return;
+      }
+      let payload = hash;
+      if (payload.startsWith('share=')) payload = payload.slice(6);
+      try {
+        const shared = await decodeShare(decodeURIComponent(payload));
+        viewState = shared;
+        sharedAt = shared.savedAt || Date.now();
+        renderList();
+      } catch (err) {
+        toast('This share link is invalid or damaged.');
+        viewState = null;
+        sharedAt = null;
+        history.replaceState(null, '', appBaseUrl());
+        renderList();
+      }
+    }
+
+    async function saveShared() {
+      if (!viewState) return;
+      const ok = await openModal({
+        title: 'Save to my tracker',
+        body: 'This will replace all locations and readings currently saved on this phone with the shared copy. This cannot be undone.',
+        okLabel: 'Save and replace',
+        danger: true
+      });
+      if (!ok) return;
+      localState = cloneState(viewState);
+      viewState = null;
+      sharedAt = null;
+      persist();
+      history.replaceState(null, '', appBaseUrl());
+      renderList();
+      toast('Shared readings saved on this phone.');
+    }
+
+    function dismissShared() {
+      viewState = null;
+      sharedAt = null;
+      localState = loadLocal();
+      history.replaceState(null, '', appBaseUrl());
+      renderList();
+    }
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const currentTheme = root.getAttribute('data-theme');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      let next;
+      if (!currentTheme) next = systemDark ? 'light' : 'dark';
+      else if (currentTheme === 'dark') next = 'light';
+      else next = 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (err) {}
+      const meta = document.querySelectorAll('meta[name="theme-color"]');
+      meta.forEach((m) => { m.setAttribute('content', next === 'dark' ? '#0c0c0c' : '#f6f4ef'); });
+    }
+
+    $('theme-btn').addEventListener('click', toggleTheme);
+    $('add-btn').addEventListener('click', addLocation);
+    $('clear-btn').addEventListener('click', clearReadings);
+    $('share-link-btn').addEventListener('click', shareLink);
+    $('share-text-btn').addEventListener('click', shareSummary);
+    $('save-shared-btn').addEventListener('click', saveShared);
+    $('dismiss-shared-btn').addEventListener('click', dismissShared);
+    window.addEventListener('hashchange', applyHash);
+
+    localState = loadLocal();
+    renderList();
+    applyHash();
+
+    window.__phaseTracker = {
+      getState: () => cloneState(current()),
+      getLocal: () => cloneState(localState),
+      isViewingShare: () => !!viewState,
+      encodeShare, decodeShare, shareUrlFor, summaryText, balanceText, totalsOf, persist,
+      defaultPairForName, normalizePair, setPair, hydrateLocation,
+      STORAGE_KEY
+    };
+  })();
+  </script>
+</body>
+</html>
