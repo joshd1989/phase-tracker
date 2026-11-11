@@ -1572,6 +1572,55 @@
     }
       /* v3: comfortable tap targets for card Rename/Delete */
     .card-actions .btn { min-height: 40px; padding-top: 8px; padding-bottom: 8px; }
+    /* pt43u: collapsed cards show phase pills instead of amps */
+    .compact-line { flex-wrap: wrap; row-gap: 6px; column-gap: 10px; padding: 6px 0; }
+    .compact-line .compact-name { flex: 0 1 auto; max-width: 100%; }
+    .compact-phases { margin-left: auto; gap: 6px !important; flex-wrap: nowrap; }
+    .ph-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      min-height: 30px; padding: 3px 11px 3px 8px;
+      border-radius: 999px; border: 1px solid currentColor;
+      font-size: 0.88rem; font-weight: 800; letter-spacing: 0.01em;
+      background: var(--surface-2);
+      white-space: nowrap;
+    }
+    .ph-pill .dot { width: 12px; height: 12px; flex-shrink: 0; }
+    .ph-pill .ph-name { display: inline !important; font-weight: 800; }
+    .ph-pill.red { color: var(--red); }
+    .ph-pill.blue { color: var(--blue); }
+    .ph-pill.black { color: var(--text); }
+    .ph-pill.neutral { color: var(--muted); padding: 3px 9px 3px 7px; font-size: 0.78rem; border-style: solid; opacity: 0.9; }
+    @supports (background: color-mix(in srgb, red 50%, transparent)) {
+      .ph-pill.red { background: color-mix(in srgb, var(--red) 15%, transparent); border-color: color-mix(in srgb, var(--red) 55%, transparent); }
+      .ph-pill.blue { background: color-mix(in srgb, var(--blue) 15%, transparent); border-color: color-mix(in srgb, var(--blue) 55%, transparent); }
+      .ph-pill.black { background: color-mix(in srgb, var(--text) 10%, transparent); border-color: color-mix(in srgb, var(--text) 45%, transparent); }
+      .ph-pill.neutral { background: transparent; border-color: color-mix(in srgb, var(--muted) 45%, transparent); }
+    }
+    html[data-theme="dark"] .ph-pill.red, html[data-theme="dark"] .ph-pill.blue, html[data-theme="dark"] .ph-pill.black { box-shadow: 0 0 12px -4px currentColor; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ph-pill.red, :root:not([data-theme="light"]) .ph-pill.blue, :root:not([data-theme="light"]) .ph-pill.black { box-shadow: 0 0 12px -4px currentColor; } }
+    .compact-nophase { font-size: 0.78rem; font-weight: 700; text-transform: none; letter-spacing: 0.01em; opacity: 0.85; border-style: dashed; padding: 4px 10px; }
+    .compact-phases .compact-chev { margin-left: 2px; }
+    /* pt44: fuel check-in */
+    .fc-card { display: grid; gap: 8px; padding: 12px; border-radius: var(--radius, 16px); border: 1px solid var(--glass-border, var(--border)); background: var(--glass, var(--surface)); box-shadow: 0 0 0 1px var(--glass-hi, transparent) inset; }
+    .fc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .fc-title { font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.78rem; color: var(--gold, var(--accent)); }
+    .fc-age { font-size: 0.8rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--gold, var(--border)); color: var(--gold, var(--text)); background: var(--gold-soft, transparent); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .fc-age[hidden] { display: none; }
+    .fc-last { margin: 0; font-size: 1.12rem; font-weight: 850; line-height: 1.3; font-variant-numeric: tabular-nums; }
+    .fc-low .fc-last { color: var(--danger); }
+    .fc-stale .fc-age { border-color: #f9a825; color: #f9a825; background: transparent; }
+    .fc-levels { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+    .fc-levels .chip { min-width: 0; padding: 0 2px; font-size: 0.92rem; }
+    .fc-levels .chip.on { background: var(--gold, var(--text)); border-color: var(--gold, var(--text)); color: #1a1408; }
+    .fc-btn { min-height: 52px; font-size: 1.08rem; font-weight: 850; width: 100%; }
+    .fc-hist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; max-height: 300px; overflow-y: auto; }
+    .fc-hist:empty { display: none; }
+    .fc-entry { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px 8px; border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface-2, transparent); }
+    .fc-elv { min-width: 3.4em; text-align: center; font-weight: 850; font-variant-numeric: tabular-nums; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+    .fc-entry.fc-lowlvl .fc-elv, .sec-sum .fc-lowlvl { color: var(--danger); border-color: var(--danger); }
+    .fc-entry time { font-size: 0.8rem; font-weight: 700; color: var(--muted); min-width: 0; }
+    .fc-entry .fc-del { min-height: 40px; }
+    .sec-sum .ss-check { flex-basis: 100%; }
 </style>
 </head>
 <body>
@@ -1644,6 +1693,15 @@
         <button type="button" class="gen-title sec-head" id="fluids-head" aria-expanded="true" aria-controls="fluids-body"><span class="sec-chev" aria-hidden="true">▾</span><span><svg class="sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.5 4.2 6 7.6 6 10.6A6 6 0 0 1 6 13.6C6 10.6 8.5 7.2 12 3z"/><path d="M9.5 14.5a2.6 2.6 0 0 0 2.5 2.4"/></svg><span id="fluids-title">Fuel / Oil pressure</span></span><small id="fluid-last">No readings logged yet</small></button>
         <p class="sec-sum" id="fluids-sum" hidden></p>
         <div class="sec-body" id="fluids-body">
+        <div class="fc-card" id="fuel-check" role="group" aria-labelledby="fc-title">
+          <div class="fc-top"><span class="fc-title" id="fc-title">Fuel check-in</span><span class="fc-age" id="fc-age"></span></div>
+          <p class="fc-last" id="fc-last" aria-live="polite">Not checked yet</p>
+          <div class="fc-levels" id="fc-levels" role="radiogroup" aria-label="Fuel level for this check-in">
+            <button type="button" class="chip fc-lv" role="radio" aria-checked="false" data-lv="Empty">Empty</button><button type="button" class="chip fc-lv" role="radio" aria-checked="false" data-lv="1/4">1/4</button><button type="button" class="chip fc-lv" role="radio" aria-checked="false" data-lv="1/2">1/2</button><button type="button" class="chip fc-lv" role="radio" aria-checked="false" data-lv="3/4">3/4</button><button type="button" class="chip fc-lv" role="radio" aria-checked="false" data-lv="Full">Full</button>
+          </div>
+          <button type="button" class="btn btn-primary fc-btn" id="fc-btn">Check in</button>
+          <ol class="fc-hist" id="fc-hist" aria-label="Recent fuel check-ins, newest first"></ol>
+        </div>
         <div class="fl-grid">
           <div class="fl-box" id="fuel-box">
             <label class="gr-field"><span class="fl-lab">Fuel</span><input id="fuel-input" type="text" inputmode="text" autocomplete="off" enterkeyhint="done" placeholder="% or 1/2" maxlength="12" aria-label="Fuel level, percent or a fraction like 1/2"><span class="prev fl-prev" id="fuel-prev" hidden></span></label>
@@ -2017,8 +2075,11 @@
       return '';
     }
 
+    const FC_LEVELS = ['Empty', '1/4', '1/2', '3/4', 'Full'];
+    const FC_KEEP = 20, FC_SHOW = 10;
+
     function emptyFluid() {
-      return { fuel: '', oil: '', min: '', max: '', updatedAt: null, history: [] };
+      return { fuel: '', oil: '', min: '', max: '', updatedAt: null, history: [], checks: [] };
     }
 
     function hydrateFluid(f) {
@@ -2046,6 +2107,16 @@
           note: String(e.note == null ? '' : e.note).slice(0, 300)
         });
       });
+      // Fuel check-ins (pt44): long form f.checks [{id,t,lvl}], compact form f.k [[t,lvl,id]]. Older data has neither.
+      const ck = Array.isArray(f.checks) ? f.checks : Array.isArray(f.k) ? f.k.map((e) => Array.isArray(e) ? { t: e[0], lvl: e[1], id: e[2] } : e) : [];
+      ck.forEach((e, i) => {
+        if (!e || typeof e !== 'object') return;
+        const t = Number(e.t), lvl = FC_LEVELS.indexOf(e.lvl) !== -1 ? e.lvl : null;
+        if (!lvl || !(t > 0)) return;
+        out.checks.push({ id: String(e.id || ('fc-x' + i + '-' + t)), t: t, lvl: lvl });
+      });
+      out.checks.sort((a, b) => b.t - a.t);
+      out.checks = out.checks.slice(0, FC_KEEP);
       return out;
     }
 
@@ -2735,6 +2806,13 @@
       const b = document.createElement('span');
       b.textContent = ((os.level === 'low' || os.level === 'high') ? '⚠ ' : '') + 'Oil ' + (os.oil == null ? '—' : formatAmp(os.oil) + ' PSI');
       el.appendChild(a); el.appendChild(b);
+      const lc = lastCheck(f);
+      if (!lc) return;
+      const c = document.createElement('span');
+      c.className = 'ss-check' + (lc && parseFuel(lc.lvl) <= 25 ? ' fc-lowlvl' : '');
+      c.dataset.check = lc ? lc.lvl : '';
+      c.textContent = 'Last checked: ' + shortWhen(lc.t) + ' · ' + lc.lvl + ' · ' + relAge(lc.t);
+      el.appendChild(c);
     }
 
     Object.keys(GEN_SECS).forEach((k) => {
@@ -2746,6 +2824,7 @@
 
     function fluidOf(state) {
       if (!state.fluid || !Array.isArray(state.fluid.history)) state.fluid = hydrateFluid(state.fluid);
+      if (!Array.isArray(state.fluid.checks)) state.fluid.checks = [];
       return state.fluid;
     }
 
@@ -2840,8 +2919,91 @@
         }
         list.appendChild(li);
       });
+      renderFuelCheck(state);
       fillFluidsSum(state);
     }
+
+    // ----- Fuel check-in (pt44) -----
+    let fcClock = null; // test hook: fixed "now"
+    let fcPick = null;
+    const fcNow = () => fcClock == null ? Date.now() : fcClock;
+    function lastCheck(f) { return (f.checks || []).slice().sort((a, b) => b.t - a.t)[0] || null; }
+    function relAge(t, now) {
+      const d = Math.max(0, (now == null ? fcNow() : now) - t);
+      const m = Math.floor(d / 60000);
+      if (m < 1) return 'just now';
+      if (m < 60) return m + ' min ago';
+      const h = Math.floor(m / 60);
+      if (h < 24) return h + ' h ' + (h < 6 && m % 60 ? (m % 60) + ' min ' : '') + 'ago';
+      const dd = Math.floor(h / 24);
+      return dd + ' d ago';
+    }
+    function renderFuelCheck(state) {
+      const f = fluidOf(state);
+      const lc = lastCheck(f);
+      const card = $('fuel-check');
+      const low = lc && parseFuel(lc.lvl) <= 25;
+      card.classList.toggle('fc-low', !!(lc && parseFuel(lc.lvl) <= 25));
+      card.classList.toggle('fc-stale', !!(lc && fcNow() - lc.t > 12 * 3600e3));
+      $('fc-last').textContent = lc ? 'Last checked: ' + shortWhen(lc.t) + ' · ' + lc.lvl : 'Not checked yet. Pick a level and tap Check in.';
+      $('fc-age').textContent = lc ? relAge(lc.t) : '';
+      $('fc-age').hidden = !lc;
+      const sel = fcPick || (lc ? lc.lvl : null);
+      document.querySelectorAll('#fc-levels .fc-lv').forEach((b) => {
+        const on = b.dataset.lv === sel;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+      const list = $('fc-hist');
+      list.innerHTML = '';
+      f.checks.slice().sort((a, b) => b.t - a.t).slice(0, FC_SHOW).forEach((e) => {
+        const li = document.createElement('li');
+        li.className = 'fc-entry' + (parseFuel(e.lvl) <= 25 ? ' fc-lowlvl' : '');
+        li.dataset.id = e.id;
+        const lv = document.createElement('strong');
+        lv.className = 'fc-elv';
+        lv.textContent = e.lvl;
+        const tm = document.createElement('time');
+        tm.dateTime = new Date(e.t).toISOString();
+        tm.textContent = formatWhen(e.t) + ' · ' + relAge(e.t);
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'btn btn-danger ne-del fc-del';
+        del.textContent = 'Delete';
+        del.setAttribute('aria-label', 'Delete fuel check-in ' + e.lvl + ' from ' + formatWhen(e.t));
+        del.addEventListener('click', () => deleteCheck(e.id));
+        li.appendChild(lv); li.appendChild(tm); li.appendChild(del);
+        list.appendChild(li);
+      });
+      void low;
+    }
+    function fuelCheckIn() {
+      const f = fluidOf(current());
+      const lc = lastCheck(f);
+      const lvl = fcPick || (lc ? lc.lvl : null);
+      if (!lvl) { toast('Pick a fuel level first.'); return; }
+      f.checks.unshift({ id: 'fc-' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36), t: fcNow(), lvl: lvl });
+      f.checks.sort((a, b) => b.t - a.t);
+      f.checks = f.checks.slice(0, FC_KEEP);
+      fcPick = null;
+      persist();
+      renderFluids(current());
+      toast('Fuel checked in: ' + lvl);
+    }
+    async function deleteCheck(id) {
+      const f = fluidOf(current());
+      const e = f.checks.find((x) => x.id === id);
+      if (!e) return;
+      const ok = await openModal({ title: 'Delete check-in', body: 'Delete the fuel check-in from ' + formatWhen(e.t) + ' (' + e.lvl + ')?', okLabel: 'Delete', danger: true });
+      if (!ok) return;
+      const ff = fluidOf(current());
+      ff.checks = ff.checks.filter((x) => x.id !== id);
+      persist();
+      renderFluids(current());
+    }
+    document.querySelectorAll('#fc-levels .fc-lv').forEach((b) => b.addEventListener('click', () => { fcPick = b.dataset.lv; renderFuelCheck(current()); }));
+    $('fc-btn').addEventListener('click', fuelCheckIn);
+    setInterval(() => { renderFuelCheck(current()); fillFluidsSum(current()); }, 30000);
 
     function onFluidInput(key, input, sanitize) {
       const f = fluidOf(current());
@@ -3123,6 +3285,7 @@
       return n == null ? '—' : formatAmp(n) + 'A';
     }
 
+    // Collapsed cards say which phase(s) a location is on, not its amps (pt43u).
     function fillCompactLine(line, loc) {
       line.innerHTML = '';
       const name = document.createElement('span');
@@ -3130,47 +3293,38 @@
       name.textContent = loc.name;
       line.appendChild(name);
       const amps = document.createElement('span');
-      amps.className = 'compact-amps';
-      if (loc.pair === 'off') {
+      amps.className = 'compact-amps compact-phases';
+      const keys = loc.pair === 'off' ? [] : (pairInfo(loc.pair).keys || []);
+      if (!keys.length) {
         const off = document.createElement('span');
-        off.className = 'compact-off';
-        off.textContent = 'Not in use';
+        off.className = 'compact-off compact-nophase';
+        off.textContent = 'No phase';
         amps.appendChild(off);
-        line.appendChild(amps);
-        const ch = document.createElement('span');
-        ch.className = 'compact-chev';
-        ch.setAttribute('aria-hidden', 'true');
-        ch.textContent = '▸';
-        line.appendChild(ch);
-        line.setAttribute('aria-label', loc.name + ', not in use. Tap to expand.');
-        return;
+      } else {
+        keys.forEach((key) => {
+          const p = PHASES.find((x) => x.key === key);
+          const ph = document.createElement('span');
+          ph.className = 'compact-phase ph-pill ' + p.css;
+          ph.dataset.phase = key;
+          ph.innerHTML = '<span class="dot dot-' + p.css + '" aria-hidden="true"></span><span class="ph-name">' + p.label + '</span>';
+          amps.appendChild(ph);
+        });
+        const n = document.createElement('span');
+        n.className = 'compact-neutral ph-pill neutral';
+        n.dataset.phase = 'white';
+        n.title = 'Neutral';
+        n.innerHTML = '<span class="dot dot-neutral" aria-hidden="true"></span><span class="ph-name">N</span>';
+        amps.appendChild(n);
       }
-      pairInfo(loc.pair).keys.forEach((key) => {
-        const p = PHASES.find((x) => x.key === key);
-        const ph = document.createElement('span');
-        ph.className = 'compact-phase ' + p.css;
-        ph.dataset.phase = key;
-        ph.innerHTML = '<span class="dot dot-' + p.css + '" aria-hidden="true"></span><span class="ph-name">' + p.label + '</span> <span class="ph-amp"></span>';
-        ph.querySelector('.ph-amp').textContent = compactAmp(loc[key]);
-        amps.appendChild(ph);
-      });
-      const n = document.createElement('span');
-      n.className = 'compact-neutral';
-      n.dataset.phase = 'white';
-      n.textContent = 'N ' + compactAmp(loc.white);
-      amps.appendChild(n);
-      line.appendChild(amps);
       const chev = document.createElement('span');
       chev.className = 'compact-chev';
       chev.setAttribute('aria-hidden', 'true');
       chev.textContent = '▸';
-      line.appendChild(chev);
-      const info = pairInfo(loc.pair);
-      line.setAttribute('aria-label', loc.name + ', ' + info.keys.map((k) => {
-        const p = PHASES.find((x) => x.key === k);
-        const a = parseAmp(loc[k]);
-        return p.label + ' ' + (a == null ? 'no reading' : formatAmp(a) + ' amps');
-      }).join(', ') + ', Neutral ' + (parseAmp(loc.white) == null ? 'no reading' : formatAmp(parseAmp(loc.white)) + ' amps') + '. Tap to expand.');
+      amps.appendChild(chev);
+      line.appendChild(amps);
+      line.setAttribute('aria-label', loc.name + ', ' + (keys.length
+        ? 'on ' + keys.map((k) => PHASES.find((x) => x.key === k).label).join(' and ') + ' phase' + (keys.length > 1 ? 's' : '') + ' plus Neutral'
+        : 'no phase assigned (not in use)') + '. Tap to expand.');
     }
 
     function refreshCompactLine(id) {
@@ -3467,8 +3621,9 @@
         out.n = state.log.map((e) => [e.t, e.text, e.legs ? [e.legs.red, e.legs.blue, e.legs.black] : 0, e.id]);
       }
       const fl = state.fluid ? hydrateFluid(state.fluid) : emptyFluid();
-      if (fl.fuel || fl.oil || fl.min || fl.max || fl.history.length) {
+      if (fl.fuel || fl.oil || fl.min || fl.max || fl.history.length || fl.checks.length) {
         out.f = { c: [fl.fuel, fl.oil], r: [fl.min, fl.max], u: fl.updatedAt || 0, h: fl.history.map((e) => [e.t, e.fuel, e.oil, e.note, e.id]) };
+        if (fl.checks.length) out.f.k = fl.checks.map((e) => [e.t, e.lvl, e.id]);
       }
       const sv = state.svc ? hydrateSvc(state.svc) : emptySvc();
       out.s = { a: [sv.last, sv.interval, sv.due, sv.cur, sv.curAt, sv.run247 ? 1 : 0], h: sv.history.map((e) => [e.t, e.hours, e.id]) };
@@ -3609,8 +3764,10 @@
       }
       const ff = fluidOf(state);
       const fpct = parseFuel(ff.fuel), fos = oilStatus(ff.oil, ff.min, ff.max);
-      if (fpct != null || fos.oil != null || ff.history.length || fos.range) {
+      const flc = lastCheck(ff);
+      if (fpct != null || fos.oil != null || ff.history.length || fos.range || flc) {
         lines.push('', 'FUEL / OIL' + (ff.updatedAt ? ' (updated ' + formatWhen(ff.updatedAt) + ')' : ''));
+        if (flc) lines.push('Fuel check-in: ' + flc.lvl + ' at ' + formatWhen(flc.t) + ' (' + relAge(flc.t) + ')');
         const fl = fuelLevel(fpct);
         lines.push('Fuel: ' + fuelText(ff.fuel) + (fl === 'low' ? ' ⚠ CRITICALLY LOW (under 10%)' : fl === 'warn' ? ' ⚠ LOW (under 25%)' : ''));
         lines.push('Oil pressure: ' + (fos.oil == null ? '—' : formatAmp(fos.oil) + ' PSI') + (fos.range ? ' (normal ' + fos.range + ')' : '') +
@@ -5313,6 +5470,7 @@
       collapsed: () => Array.from(collapsedIds),
       suggestRebalance, planTotals, parseFuel, fuelLevel, oilStatus,
       genCollapseKey: GEN_COLLAPSE_KEY,
+      fuelCheck: { setNow: (t) => { fcClock = t; renderFluids(current()); }, relAge, last: () => { const l = lastCheck(fluidOf(current())); return l ? Object.assign({}, l) : null; }, list: () => fluidOf(current()).checks.map((e) => Object.assign({}, e)), LEVELS: FC_LEVELS, KEEP: FC_KEEP, SHOW: FC_SHOW },
       svc: { stats: (now) => svcStats(svcOf(current()), now), setNow: (t) => { svcClock = t; renderSvc(); }, render: () => renderSvc(), DEFAULT_AT: SVC_DEFAULT_AT },
       rebalanceMoves: () => rebalancePlan ? JSON.parse(JSON.stringify(rebalancePlan.moves)) : null,
       map: {
