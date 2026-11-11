@@ -1690,6 +1690,20 @@
     .bal-note, .bal-skip { margin: 0; font-size: 0.8rem; color: var(--muted); }
     .bal-undo { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 6px 6px 10px; border-radius: 12px; border: 1px dashed var(--hairline); font-size: 0.85rem; font-weight: 700; }
     .bal-undo .btn { min-height: 40px; flex-shrink: 0; }
+    .hero-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 2px 0 8px; }
+    .hero-title { margin: 0; font-size: 0.78rem; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold, var(--muted)); }
+    .hero-time { font-size: 0.8rem; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .phase-row .amt.empty { color: var(--muted); }
+    .hero-hint { margin: 6px 0 0; font-size: 0.82rem; font-weight: 650; color: var(--muted); }
+    .hero-neutral { color: #b77900; }
+    html[data-theme="dark"] .hero-neutral { color: #f0b429; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero-neutral { color: #f0b429; } }
+    .hero-neutral::before { content: "⚠ "; }
+    .loc-totals { margin-top: var(--space); padding: 12px; border-radius: var(--radius); background: var(--glass), var(--surface); border: 1px solid var(--glass-border); box-shadow: var(--glass-hi), var(--shadow); }
+    .lt-title { margin: 0 0 10px; font-size: 1rem; font-weight: 850; }
+    .lt-sub { font-weight: 600; color: var(--muted); font-size: 0.85rem; }
+    .gen-row-neutral { grid-template-areas: "head amps prev"; }
+    .gbal-src { margin: 0 0 8px; font-size: 0.82rem; color: var(--muted); font-weight: 650; }
     .tips-card { margin-top: 10px; border-radius: 14px; border: 1px solid var(--hairline); background: var(--surface-2, transparent); }
     .tips-card > summary { cursor: pointer; list-style: none; min-height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-weight: 800; }
     .tips-card > summary::-webkit-details-marker { display: none; }
@@ -1719,24 +1733,16 @@
       </div>
       <button type="button" class="svc-chip" id="svc-chip" hidden></button>
     </nav>
-    <section class="summary-block" id="summary-block" aria-label="Phase totals">
-      <div id="tracker-summary">
-        <div class="phases" id="summary-phases"></div>
-        <p class="balance" id="balance-line">Enter amps to see phase balance.</p>
+    <section class="summary-block" id="summary-block" aria-label="Generator legs">
+      <div id="gen-hero">
+        <div class="hero-head"><h2 class="hero-title" id="hero-title">Generator legs</h2><span class="hero-time" id="hero-time">No reading yet</span></div>
+        <div class="phases" id="hero-phases" aria-labelledby="hero-title"></div>
+        <p class="balance hero-spread" id="hero-spread"></p>
+        <p class="hero-hint hero-neutral" id="hero-neutral" hidden>High neutral, phases unbalanced</p>
+        <p class="hero-hint hero-diff" id="hero-diff" hidden></p>
         <p class="saved-line" id="saved-line">Not saved yet</p>
-        <div class="bal-row"><button type="button" class="btn bal-btn" id="bal-btn" aria-expanded="false" aria-controls="bal-card">⚖ Suggest balance</button></div>
-        <section class="bal-card" id="bal-card" aria-label="Balance suggestion" aria-live="polite" hidden></section>
-        <details class="tips-card" id="tips-card">
-          <summary>Balancing tips</summary>
-          <ul>
-            <li>Balance by <strong>readings, not ratings</strong>. Aim to keep the phases within about <strong>10–15%</strong> of each other at peak.</li>
-            <li>Watch the <strong>neutral</strong>: it should be low. A high neutral means the legs are uneven.</li>
-            <li><strong>Rebalance seasonally</strong>: heaters dominate in winter and AC in summer.</li>
-            <li>Use the small units (<strong>Workout, Transport, AD Office</strong>) for fine-tuning.</li>
-            <li>Keep each leg at or below <strong>80% of its panel</strong> for continuous load.</li>
-            <li>Only swap at a <strong>disconnect with it off</strong>, then update the pair on the map.</li>
-          </ul>
-        </details>
+        <div class="bal-row"><button type="button" class="btn bal-btn" id="gbal-btn" aria-expanded="false" aria-controls="gbal-card">⚖ Suggest balance</button></div>
+        <section class="bal-card" id="gbal-card" aria-label="Generator balance suggestion" aria-live="polite" hidden></section>
       </div>
       <div id="share-banner" role="status">
         <p id="share-banner-text"></p>
@@ -1771,6 +1777,11 @@
           <label class="gr-field gr-amps"><span class="sr-only">Black leg amps</span><input id="gen-black" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Amps" aria-label="Generator Black leg amps"><span class="unit">A</span></label>
           <span class="prev gr-prev" id="gen-prev-black" hidden></span>
           <div class="gr-barline"><div class="bar bar-black" aria-hidden="true"><span id="gen-bar-black"></span></div><span class="gr-pct" id="gen-pct-black"></span></div>
+        </div>
+        <div class="gen-row gen-row-neutral" id="gen-row-white" data-leg="white">
+          <div class="gr-head"><span class="dot dot-neutral" aria-hidden="true"></span><span class="gr-name">Neutral</span></div>
+          <label class="gr-field gr-amps"><span class="sr-only">Neutral amps</span><input id="gen-white" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="Amps" aria-label="Generator Neutral amps"><span class="unit">A</span></label>
+          <span class="prev gr-prev" id="gen-prev-white" hidden></span>
         </div>
       </div>
       <p class="gen-spread" id="gen-spread" aria-live="polite"></p>
@@ -1837,6 +1848,24 @@
         </div>
       </div>
     </section>
+      <section class="loc-totals" id="tracker-summary" aria-labelledby="lt-title">
+        <h2 class="lt-title" id="lt-title">Location totals <span class="lt-sub">(sum of trailers)</span></h2>
+        <div class="phases" id="summary-phases"></div>
+        <p class="balance" id="balance-line">Enter amps to see phase balance.</p>
+        <div class="bal-row"><button type="button" class="btn bal-btn" id="bal-btn" aria-expanded="false" aria-controls="bal-card">⚖ Suggest balance</button></div>
+        <section class="bal-card" id="bal-card" aria-label="Balance suggestion" aria-live="polite" hidden></section>
+        <details class="tips-card" id="tips-card">
+          <summary>Balancing tips</summary>
+          <ul>
+            <li>Balance by <strong>readings, not ratings</strong>. Aim to keep the phases within about <strong>10–15%</strong> of each other at peak.</li>
+            <li>Watch the <strong>neutral</strong>: it should be low. A high neutral means the legs are uneven.</li>
+            <li><strong>Rebalance seasonally</strong>: heaters dominate in winter and AC in summer.</li>
+            <li>Use the small units (<strong>Workout, Transport, AD Office</strong>) for fine-tuning.</li>
+            <li>Keep each leg at or below <strong>80% of its panel</strong> for continuous load.</li>
+            <li>Only swap at a <strong>disconnect with it off</strong>, then update the pair on the map.</li>
+          </ul>
+        </details>
+      </section>
     <div class="list-tools">
       <button type="button" class="btn" id="rebalance-btn">Suggest rebalance</button>
       <button type="button" class="btn" id="collapse-all-btn">Collapse all</button>
@@ -2136,7 +2165,7 @@
     let modalResolver = null;
 
     function emptyGen(rating) {
-      return { red: '', blue: '', black: '', updatedAt: null, rating: rating ? Object.assign({}, rating) : { red: '', blue: '', black: '' } };
+      return { red: '', blue: '', black: '', white: '', updatedAt: null, rating: rating ? Object.assign({}, rating) : { red: '', blue: '', black: '' } };
     }
 
     function cleanVal(v) { return v == null ? '' : String(v).slice(0, 12); }
@@ -2145,15 +2174,16 @@
       const out = emptyGen();
       if (Array.isArray(g)) { out.red = g[0]; out.blue = g[1]; out.black = g[2]; }
       else if (g && Array.isArray(g.a)) {
-        out.red = g.a[0]; out.blue = g.a[1]; out.black = g.a[2];
+        out.red = g.a[0]; out.blue = g.a[1]; out.black = g.a[2]; out.white = g.a[3];
         out.updatedAt = Number(g.u) || null;
         if (Array.isArray(g.r)) out.rating = { red: g.r[0], blue: g.r[1], black: g.r[2] };
       } else if (g && typeof g === 'object') {
-        out.red = g.red; out.blue = g.blue; out.black = g.black;
+        out.red = g.red; out.blue = g.blue; out.black = g.black; out.white = g.white;
         out.updatedAt = Number(g.updatedAt) || null;
         if (g.rating && typeof g.rating === 'object') out.rating = { red: g.rating.red, blue: g.rating.blue, black: g.rating.black };
       }
       ['red', 'blue', 'black'].forEach((k) => { out[k] = cleanVal(out[k]); out.rating[k] = cleanVal(out.rating[k]); });
+      out.white = cleanVal(out.white);
       return out;
     }
 
@@ -2576,7 +2606,69 @@
       balanceEl.textContent = balanceText(state);
       updateGenDiff(state, totals);
       updateGenVisual(state);
+      renderHero(state, totals);
+      if (typeof renderGenBalance === 'function' && typeof gbalOpen !== 'undefined' && gbalOpen) renderGenBalance();
       updateSavedLine();
+    }
+
+    // ----- top-of-page hero: the generator leg readings, same style as the location totals -----
+    function genLegTotals(state) {
+      const g = genOf(state);
+      const v = {}; let any = false;
+      PHASES.forEach((p) => { v[p.key] = parseAmp(g[p.key]); if (p.key !== 'white' && v[p.key] != null) any = true; });
+      return { v, any, missing: HOT.filter((p) => v[p.key] == null).map((p) => p.label), at: g.updatedAt || null };
+    }
+    function genVsLocations(state, totals) {
+      const gt = genLegTotals(state);
+      totals = totals || totalsOf(state).totals;
+      if (!gt.any || !(totals.red || totals.blue || totals.black)) return [];
+      return HOT.filter((p) => {
+        const gv = gt.v[p.key]; if (gv == null) return false;
+        const lv = totals[p.key] || 0; const mx = Math.max(gv, lv);
+        return mx > 0 && Math.abs(gv - lv) > 0.15 * mx;
+      }).map((p) => p.label);
+    }
+    function heroWhen(t) {
+      const d = new Date(t);
+      return d.toDateString() === new Date().toDateString() ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : formatWhen(t);
+    }
+    function renderHero(state, totals) {
+      const box = $('hero-phases'); if (!box) return;
+      const gt = genLegTotals(state);
+      const hot = HOT.map((p) => gt.v[p.key]).filter((n) => n != null);
+      const scale = Math.max(1, hot.length ? Math.max.apply(null, hot) : 0);
+      box.innerHTML = '';
+      HOT.forEach((p) => {
+        const n = gt.v[p.key];
+        const row = document.createElement('div');
+        row.className = 'phase-row'; row.dataset.leg = p.key;
+        const pct = n == null ? 0 : Math.min(100, (n / scale) * 100);
+        row.innerHTML =
+          '<span class="dot dot-' + p.css + '" aria-hidden="true"></span>' +
+          '<span>' + p.label + '</span>' +
+          '<span class="amt' + (n == null ? ' empty' : '') + '">' + (n == null ? '—' : formatAmp(n) + ' A') + '</span>' +
+          '<div class="bar bar-' + p.css + '" aria-hidden="true"><span style="width:' + pct + '%"></span></div>';
+        box.appendChild(row);
+      });
+      const nw = gt.v.white;
+      const nRow = document.createElement('div');
+      nRow.className = 'phase-row neutral-row'; nRow.dataset.leg = 'white';
+      nRow.innerHTML = '<span class="dot dot-neutral" aria-hidden="true"></span><span>Neutral</span><span class="amt' + (nw == null ? ' empty' : '') + '">' + (nw == null ? '—' : formatAmp(nw) + ' A') + '</span><span></span>';
+      box.appendChild(nRow);
+      $('hero-time').textContent = gt.at ? 'Read ' + heroWhen(gt.at) : 'No reading yet';
+      const st = genStats(state);
+      const sp = $('hero-spread');
+      if (st.read.length >= 2) {
+        const heavy = st.legs.filter((l) => l.heaviest).map((l) => l.label);
+        sp.textContent = st.spread === 0 ? 'Spread 0 A · legs even' : 'Spread ' + formatAmp(st.spread) + ' A · ' + heavy.join(' and ') + ' heaviest';
+      } else if (st.read.length === 1) sp.textContent = 'Enter all three legs to see the spread.';
+      else sp.textContent = 'Enter generator leg readings below.';
+      const lightest = hot.length ? Math.min.apply(null, hot) : null;
+      $('hero-neutral').hidden = !(nw != null && lightest != null && nw > lightest);
+      const diff = genVsLocations(state, totals);
+      const dEl = $('hero-diff');
+      dEl.hidden = !diff.length;
+      dEl.textContent = diff.length ? 'Generator and location totals differ by more than 15% on ' + diff.join(', ') + ' (unlogged loads or stale readings).' : '';
     }
 
     function pairVisual(pair) {
@@ -2781,6 +2873,7 @@
         $('gen-pct-' + l.key).textContent = '';
         paintPrev($('gen-prev-' + l.key), 'g.' + l.key, g[l.key], 'amp', state);
       });
+      paintPrev($('gen-prev-white'), 'g.white', g.white || '', 'amp', state);
       const sp = $('gen-spread');
       if (st.read.length >= 2) {
         const heavy = st.legs.filter((l) => l.heaviest), light = st.legs.filter((l) => l.lightest);
@@ -2891,9 +2984,9 @@
     function renderGenAndNotes() {
       const state = current();
       const g = genOf(state);
-      HOT.forEach((p) => {
+      PHASES.forEach((p) => {
         const input = $('gen-' + p.key);
-        if (input && document.activeElement !== input) input.value = g[p.key];
+        if (input && document.activeElement !== input) input.value = g[p.key] || '';
       });
       updateGenVisual(state);
       renderFluids(state);
@@ -2927,7 +3020,7 @@
       updateGenVisual(current());
     }
 
-    HOT.forEach((p) => {
+    PHASES.forEach((p) => {
       const input = $('gen-' + p.key);
       trackCommits(input, 'g.' + p.key, () => genOf(current())[p.key], () => genOf(current()).updatedAt);
       input.addEventListener('input', () => onGenInput(p.key, input));
@@ -3940,8 +4033,8 @@
         }))
       };
       const g = state.gen ? hydrateGen(state.gen) : emptyGen();
-      if (g.red || g.blue || g.black || g.rating.red || g.rating.blue || g.rating.black) {
-        out.g = { a: [g.red, g.blue, g.black], u: g.updatedAt || 0, r: [g.rating.red, g.rating.blue, g.rating.black] };
+      if (g.red || g.blue || g.black || g.white || g.rating.red || g.rating.blue || g.rating.black) {
+        out.g = { a: g.white ? [g.red, g.blue, g.black, g.white] : [g.red, g.blue, g.black], u: g.updatedAt || 0, r: [g.rating.red, g.rating.blue, g.rating.black] };
       }
       if (Array.isArray(state.log) && state.log.length) {
         out.n = state.log.map((e) => [e.t, e.text, e.legs ? [e.legs.red, e.legs.blue, e.legs.black] : 0, e.id]);
@@ -4079,7 +4172,7 @@
       ];
       const gs = genStats(state);
       const gg = genOf(state);
-      if (gs.read.length || gs.legs.some((l) => l.rating)) {
+      if (gs.read.length || parseAmp(gg.white) != null || gs.legs.some((l) => l.rating)) {
         lines.push('', 'GENERATOR LEGS' + (gg.updatedAt ? ' (updated ' + formatWhen(gg.updatedAt) + ')' : ''));
         gs.legs.forEach((l) => {
           let line = l.label + ': ' + (l.amps == null ? '—' : formatAmp(l.amps) + ' A');
@@ -4087,6 +4180,7 @@
           if (l.heaviest) line += ' ← heaviest';
           lines.push(line);
         });
+        if (parseAmp(gg.white) != null) lines.push('Neutral: ' + formatAmp(parseAmp(gg.white)) + ' A');
         if (gs.read.length >= 2) lines.push('Spread: ' + formatAmp(gs.spread) + ' A');
       }
       const ff = fluidOf(state);
@@ -5473,7 +5567,7 @@
       activeTab = tab === 'map' ? 'map' : 'tracker';
       const isMap = activeTab === 'map';
       $('tracker-view').hidden = isMap;
-      $('tracker-summary').hidden = isMap;
+      $('gen-hero').hidden = isMap;
       $('map-view').hidden = !isMap;
       $('tab-tracker').setAttribute('aria-selected', String(!isMap));
       $('tab-map').setAttribute('aria-selected', String(isMap));
@@ -5785,11 +5879,11 @@
     }
     function balTotals(entries) { return phaseTotals(entries); }
     function balWell(t) { const mx = Math.max(t.red, t.blue, t.black); return spread(t) <= Math.max(10, mx * 0.1); }
-    function suggestBalance(state) {
+    function suggestBalance(state, baseOverride) {
       const { used, skipped } = balEntries(state);
-      const base = balTotals(used);
+      const base = baseOverride ? { red: baseOverride.red || 0, blue: baseOverride.blue || 0, black: baseOverride.black || 0 } : balTotals(used);
       const baseSpread = spread(base);
-      const out = { base, baseSpread, skipped, partial: used.filter((e) => e.partial).map((e) => e.loc.name), moves: [], after: base, afterSpread: baseSpread, well: balWell(base), count: used.length };
+      const out = { base, baseSpread, skipped, partial: used.filter((e) => e.partial).map((e) => e.loc.name), moves: [], after: base, afterSpread: baseSpread, well: balWell(base), count: used.length, source: baseOverride ? 'gen' : 'loc' };
       if (!used.length || out.well) return out;
       const opts = used.map((e) => PAIRS.filter((p) => p.id !== 'off' && p.id !== e.loc.pair).map((p) => {
         const to = p.keys.slice();
@@ -5878,6 +5972,82 @@
     }
     $('bal-btn').addEventListener('click', () => { balOpen = !balOpen; if (!balOpen) balUndo = null; renderBalance(); });
 
+    // ----- Suggest balance on the generator readings (hero) -----
+    var gbalOpen = false;
+    var gbalUndo = null; // { snap, text, sig, after, afterSpread, source }
+    function genSig(state) { const g = genOf(state); return [g.red, g.blue, g.black, g.updatedAt].join('|'); }
+    function suggestGenBalance(state) {
+      const gt = genLegTotals(state);
+      const sg = gt.any ? suggestBalance(state, { red: gt.v.red, blue: gt.v.blue, black: gt.v.black }) : suggestBalance(state);
+      sg.genMissing = gt.any ? gt.missing : [];
+      sg.diff = genVsLocations(state);
+      return sg;
+    }
+    function renderGenBalance() {
+      const card = $('gbal-card');
+      $('gbal-btn').setAttribute('aria-expanded', gbalOpen ? 'true' : 'false');
+      if (!gbalOpen) { card.hidden = true; card.innerHTML = ''; return; }
+      const state = current();
+      const sg = suggestGenBalance(state);
+      const tot = (t) => '<span class="bt-red">' + fa(t.red) + '</span><span class="bt-blue">' + fa(t.blue) + '</span><span class="bt-black">' + fa(t.black) + '</span>';
+      const applied = gbalUndo && gbalUndo.source === 'gen' && gbalUndo.sig === genSig(state);
+      let html = '<div class="bal-head"><h3>Generator balance</h3><button type="button" class="btn bal-close" id="gbal-close">Close</button></div>';
+      html += '<p class="gbal-src" id="gbal-src">' + (sg.source === 'gen'
+        ? 'Based on the generator leg readings' + (sg.genMissing.length ? ' (' + esc(sg.genMissing.join(', ')) + ' empty, counted as 0 A)' : '') + '. Each move uses that trailer’s latest leg readings.'
+        : 'No generator readings yet, so this uses the location totals (sum of trailers).') + '</p>';
+      if (applied) {
+        html += '<div class="bal-spreads"><div class="bs-after"><span class="bs-k">Expected after</span><strong id="gbal-after">' + fa(gbalUndo.afterSpread) + ' A</strong><span class="bs-t">' + tot(gbalUndo.after) + '</span></div></div>' +
+          '<p class="bal-msg" id="gbal-msg">Take a fresh generator reading to confirm the new balance.</p>';
+      } else if (!sg.count) {
+        html += '<p class="bal-msg" id="gbal-msg">Enter some trailer leg readings first. Each move is worked out from that trailer’s latest readings.</p>';
+      } else {
+        html += '<div class="bal-spreads"><div class="bs-now"><span class="bs-k">Spread now</span><strong id="gbal-now">' + fa(sg.baseSpread) + ' A</strong><span class="bs-t">' + tot(sg.base) + '</span></div>' +
+          (sg.moves.length ? '<span class="bs-arrow" aria-hidden="true">→</span><div class="bs-after"><span class="bs-k">After</span><strong id="gbal-after">' + fa(sg.afterSpread) + ' A</strong><span class="bs-t">' + tot(sg.after) + '</span></div>' : '') + '</div>';
+        if (sg.well) html += '<p class="bal-msg bal-ok" id="gbal-msg">✓ Already well balanced (within 10% of the heaviest phase or 10 A).</p>';
+        else if (!sg.moves.length) html += '<p class="bal-msg" id="gbal-msg">No single move or pair of moves makes it more even.</p>';
+        else {
+          html += '<ol class="bal-moves" id="gbal-moves">' + sg.moves.map((m) => '<li data-id="' + esc(m.id) + '">' + esc(balMoveLine(m)) +
+            (m.panel != null ? ' <span class="bal-panel">panel ' + esc(fa(m.panel)) + ' A</span>' : '') + '</li>').join('') + '</ol>' +
+            '<button type="button" class="btn btn-primary bal-apply" id="gbal-apply">Apply ' + (sg.moves.length === 1 ? 'move' : 'both moves') + '</button>' +
+            '<p class="bal-note">Readings move with the trailer: its two legs land, in order, on the new pair. Swap only at a disconnect with it off.</p>';
+        }
+        const skip = sg.skipped.map((x) => esc(x.name) + ' (' + x.why + ')');
+        if (skip.length) html += '<p class="bal-skip" id="gbal-skip">Not counted: ' + skip.join(', ') + '.</p>';
+        if (sg.partial.length) html += '<p class="bal-skip">One leg missing, counted as 0 A: ' + sg.partial.map(esc).join(', ') + '.</p>';
+      }
+      if (sg.source === 'gen' && sg.diff.length) html += '<p class="bal-skip" id="gbal-diff">Generator and location totals differ by more than 15% on ' + esc(sg.diff.join(', ')) + ' (unlogged loads or stale readings).</p>';
+      if (gbalUndo) html += '<div class="bal-undo" id="gbal-undo-row"><span>' + esc(gbalUndo.text) + '</span><button type="button" class="btn" id="gbal-undo">Undo</button></div>';
+      card.innerHTML = html;
+      card.hidden = false;
+      $('gbal-close').addEventListener('click', () => { gbalOpen = false; gbalUndo = null; renderGenBalance(); });
+      if ($('gbal-apply')) $('gbal-apply').addEventListener('click', () => applyGenBalance(sg));
+      if ($('gbal-undo')) $('gbal-undo').addEventListener('click', undoGenBalance);
+    }
+    function applyGenBalance(sg) {
+      const st = current();
+      const moves = sg.moves;
+      const snap = moves.map((m) => { const l = st.locations.find((x) => x.id === m.id); return l ? { id: l.id, pair: l.pair, red: l.red, blue: l.blue, black: l.black } : null; }).filter(Boolean);
+      let n = 0;
+      moves.forEach((m) => { if (applyMove(m)) n++; });
+      if (!n) return;
+      gbalUndo = { snap, text: 'Applied: ' + moves.map((m) => m.name + ' → ' + pairInfo(m.to).label).join(', ') + '.', sig: genSig(st), after: sg.after, afterSpread: sg.afterSpread, source: sg.source };
+      persist();
+      renderList();
+      renderGenBalance();
+      toast(n === 1 ? 'Balance move applied.' : n + ' balance moves applied.');
+    }
+    function undoGenBalance() {
+      if (!gbalUndo) return;
+      const st = current();
+      gbalUndo.snap.forEach((sn) => { const l = st.locations.find((x) => x.id === sn.id); if (l) { l.pair = sn.pair; l.red = sn.red; l.blue = sn.blue; l.black = sn.black; } });
+      gbalUndo = null;
+      persist();
+      renderList();
+      renderGenBalance();
+      toast('Balance move undone.');
+    }
+    $('gbal-btn').addEventListener('click', () => { gbalOpen = !gbalOpen; if (!gbalOpen) gbalUndo = null; renderGenBalance(); });
+
     $('theme-btn').addEventListener('click', toggleTheme);
     $('collapse-all-btn').addEventListener('click', toggleCollapseAll);
     $('add-btn').addEventListener('click', addLocation);
@@ -5960,6 +6130,7 @@
       suggestRebalance, planTotals, parseFuel, fuelLevel, oilStatus,
       genCollapseKey: GEN_COLLAPSE_KEY,
       balance: { suggest: () => JSON.parse(JSON.stringify(suggestBalance(current()))), line: balMoveLine },
+      hero: { suggest: () => suggestGenBalance(current()), diff: () => genVsLocations(current()) },
       panel: { SORT_KEY, VOLTS: PANEL_VOLTS, SEEDS: PANEL_SEEDS.map((x) => ({ v: x.v, panel: Object.assign({}, x.panel) })), SEED_V: PANEL_SEED_V, LAYOUT_V: LAYOUT_V, text: panelText, sortMode: () => sortMode, setSort: setSortMode, ordered: () => orderedLocations(current()).map((l) => l.id) },
       fuelCheck: { setNow: (t) => { fcClock = t; renderFluids(current()); }, relAge, last: () => { const l = lastCheck(fluidOf(current())); return l ? Object.assign({}, l) : null; }, list: () => fluidOf(current()).checks.map((e) => Object.assign({}, e)), LEVELS: FC_LEVELS, KEEP: FC_KEEP, SHOW: FC_SHOW },
       svc: { stats: (now) => svcStats(svcOf(current()), now), setNow: (t) => { svcClock = t; renderSvc(); }, render: () => renderSvc(), DEFAULT_AT: SVC_DEFAULT_AT },
