@@ -1633,6 +1633,69 @@
     /* pt47: live hour meter */
     #svc-cur.live { border-style: dashed; border-color: var(--gold, var(--accent)); }
     #svc-cur.live:focus { border-style: solid; }
+    /* pt49u: panel info */
+    .panel-block { margin: 2px 0 6px; }
+    .card.collapsed .panel-block { display: none; }
+    .panel-line { margin: 0; display: flex; align-items: center; gap: 8px; padding: 4px 4px 4px 10px; border-radius: 12px; border: 1px solid var(--hairline); background: var(--surface-2, transparent); font-size: 0.9rem; font-weight: 700; color: var(--text); min-height: 44px; box-sizing: border-box; }
+    .panel-line .pl-text { flex: 1; min-width: 0; line-height: 1.3; font-variant-numeric: tabular-nums; }
+    .panel-line .pl-text b { color: var(--gold, var(--muted)); font-weight: 850; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; margin-right: 2px; }
+    .pl-ic { width: 18px; height: 18px; flex-shrink: 0; color: var(--gold, var(--muted)); }
+    .panel-line .pl-edit { min-height: 40px; padding: 4px 12px; font-size: 0.82rem; flex-shrink: 0; }
+    .pl-add { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 4px 12px; border-radius: 999px; border: 1px dashed var(--hairline); background: transparent; color: var(--muted); font: inherit; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+    .pl-add .pl-ic { color: var(--muted); }
+    .panel-block.editing { display: grid; gap: 8px; padding: 10px; border-radius: 14px; border: 1px solid var(--gold, var(--border)); background: var(--surface-2, transparent); }
+    .pe-title { display: flex; align-items: center; gap: 6px; font-weight: 850; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.76rem; color: var(--gold, var(--text)); }
+    .pe-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 8px; }
+    .pe-f { display: grid; gap: 4px; font-size: 0.78rem; font-weight: 750; color: var(--muted); min-width: 0; }
+    .pe-make { grid-column: 1 / -1; }
+    .pe-in { display: flex; align-items: center; gap: 4px; }
+    .pe-in em { font-style: normal; font-weight: 800; color: var(--muted); }
+    .pe-f input, .pe-f select { min-height: 46px; width: 100%; min-width: 0; box-sizing: border-box; border-radius: 12px; border: 1px solid var(--border); background: var(--surface, var(--bg)); color: var(--text); font: inherit; font-size: 1rem; font-weight: 750; padding: 0 10px; }
+    .pe-amps-in { text-align: right; font-size: 1.15rem !important; font-variant-numeric: tabular-nums; }
+    .pe-actions .btn { min-height: 44px; }
+    .compact-panel { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; min-height: 24px; border-radius: 6px; border: 1px solid var(--hairline); color: var(--muted); font-size: 0.74rem; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; background: transparent; }
+    .compact-panel .pl-ic { width: 12px; height: 12px; color: var(--muted); }
+    .leg-load { display: block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.02em; margin-top: 1px; }
+    .leg-load.warn { color: #e0a100; }
+    .leg-load.over { color: var(--danger); }
+    .amp-row.load-warn input { box-shadow: inset 0 0 0 1px rgba(224, 161, 0, 0.55); }
+    .amp-row.load-over input { box-shadow: inset 0 0 0 1px var(--danger); }
+    .sort-seg { margin: 0 0 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sort-seg .seg-btn { min-height: 44px; }
+    .panel-group { display: flex; align-items: center; justify-content: space-between; margin: 12px 4px 4px; font-size: 0.8rem; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold, var(--text)); }
+    .panel-group:first-child { margin-top: 2px; }
+    .panel-group.unknown { color: var(--muted); }
+    .panel-group .pg-n { font-size: 0.72rem; color: var(--muted); padding: 1px 8px; border-radius: 999px; border: 1px solid var(--hairline); }
+    /* pt52: suggest balance + tips */
+    .bal-row { display: flex; justify-content: flex-start; margin-top: 8px; }
+    .bal-btn { min-height: 44px; font-weight: 800; border-color: var(--gold, var(--border)); color: var(--gold, var(--text)); }
+    .bal-btn[aria-expanded="true"] { background: var(--gold-soft, var(--surface-2)); }
+    .bal-card { margin-top: 10px; display: grid; gap: 10px; padding: 12px; border-radius: var(--radius, 16px); border: 1px solid var(--gold, var(--border)); background: var(--glass, none), var(--surface); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); }
+    .bal-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .bal-head h3 { margin: 0; font-size: 0.82rem; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold, var(--text)); }
+    .bal-close { min-height: 40px; padding: 4px 12px; font-size: 0.85rem; }
+    .bal-spreads { display: flex; align-items: stretch; gap: 8px; }
+    .bal-spreads > div { flex: 1; display: grid; gap: 2px; padding: 8px 10px; border-radius: 12px; border: 1px solid var(--hairline); background: var(--surface-2, transparent); min-width: 0; }
+    .bs-after { border-color: var(--gold, var(--hairline)) !important; }
+    .bs-k { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .bal-spreads strong { font-size: 1.5rem; font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .bs-t { display: flex; gap: 8px; font-size: 0.78rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .bt-red { color: var(--red); } .bt-blue { color: var(--blue); } .bt-black { color: var(--text); }
+    .bs-arrow { align-self: center; font-weight: 900; color: var(--gold, var(--muted)); }
+    .bal-moves { margin: 0; padding-left: 1.2rem; display: grid; gap: 6px; font-weight: 750; line-height: 1.35; }
+    .bal-panel { display: inline-block; font-size: 0.72rem; font-weight: 800; color: var(--muted); border: 1px solid var(--hairline); border-radius: 6px; padding: 0 6px; }
+    .bal-apply { min-height: 48px; font-weight: 850; }
+    .bal-msg { margin: 0; font-weight: 750; }
+    .bal-ok { color: #2e9e44; }
+    .bal-note, .bal-skip { margin: 0; font-size: 0.8rem; color: var(--muted); }
+    .bal-undo { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 6px 6px 10px; border-radius: 12px; border: 1px dashed var(--hairline); font-size: 0.85rem; font-weight: 700; }
+    .bal-undo .btn { min-height: 40px; flex-shrink: 0; }
+    .tips-card { margin-top: 10px; border-radius: 14px; border: 1px solid var(--hairline); background: var(--surface-2, transparent); }
+    .tips-card > summary { cursor: pointer; list-style: none; min-height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-weight: 800; }
+    .tips-card > summary::-webkit-details-marker { display: none; }
+    .tips-card > summary::before { content: '▸'; color: var(--gold, var(--muted)); font-weight: 900; }
+    .tips-card[open] > summary::before { content: '▾'; }
+    .tips-card ul { margin: 0; padding: 0 14px 12px 30px; display: grid; gap: 6px; font-size: 0.88rem; line-height: 1.4; }
 </style>
 </head>
 <body>
@@ -1661,6 +1724,19 @@
         <div class="phases" id="summary-phases"></div>
         <p class="balance" id="balance-line">Enter amps to see phase balance.</p>
         <p class="saved-line" id="saved-line">Not saved yet</p>
+        <div class="bal-row"><button type="button" class="btn bal-btn" id="bal-btn" aria-expanded="false" aria-controls="bal-card">⚖ Suggest balance</button></div>
+        <section class="bal-card" id="bal-card" aria-label="Balance suggestion" aria-live="polite" hidden></section>
+        <details class="tips-card" id="tips-card">
+          <summary>Balancing tips</summary>
+          <ul>
+            <li>Balance by <strong>readings, not ratings</strong>. Aim to keep the phases within about <strong>10–15%</strong> of each other at peak.</li>
+            <li>Watch the <strong>neutral</strong>: it should be low. A high neutral means the legs are uneven.</li>
+            <li><strong>Rebalance seasonally</strong>: heaters dominate in winter and AC in summer.</li>
+            <li>Use the small units (<strong>Workout, Transport, AD Office</strong>) for fine-tuning.</li>
+            <li>Keep each leg at or below <strong>80% of its panel</strong> for continuous load.</li>
+            <li>Only swap at a <strong>disconnect with it off</strong>, then update the pair on the map.</li>
+          </ul>
+        </details>
       </div>
       <div id="share-banner" role="status">
         <p id="share-banner-text"></p>
@@ -1766,6 +1842,10 @@
       <button type="button" class="btn" id="collapse-all-btn">Collapse all</button>
     </div>
     <section id="rebalance-panel" aria-label="Rebalance suggestion" aria-live="polite" hidden></section>
+    <div class="seg sort-seg" id="sort-seg" role="radiogroup" aria-label="Location order">
+      <button type="button" class="seg-btn" role="radio" data-sort="default" id="sort-default">Default order</button>
+      <button type="button" class="seg-btn" role="radio" data-sort="panel" id="sort-panel">Biggest panel first</button>
+    </div>
     <section class="list" id="location-list" aria-label="Locations"></section>
 
     <section class="notes-card" aria-labelledby="notes-title">
@@ -1898,6 +1978,28 @@
       'Bathroom',
       'Workout Gym'
     ];
+    const PANEL_VOLTS = [
+      { id: '240-1', label: '120/240 V 1Ø', long: '120/240 V single phase' },
+      { id: '120', label: '120 V', long: '120 V' },
+      { id: '208-3', label: '208/120 V 3Ø', long: '208/120 V 3-phase' },
+      { id: '600-3', label: '600/347 V 3Ø', long: '600/347 V 3-phase' }
+    ];
+    // Panel photos Joshua sent. v = seed version; each entry lands once, only on a location with no panel info.
+    const PANEL_SEEDS = [
+      { v: 1, match: (n) => isHairMakeup(n), panel: { amps: '100', volt: '240-1', make: 'Rich Trailers' } },
+      { v: 2, match: (n) => /sw\s*-?\s*323/i.test(n), panel: { amps: '100', volt: '240-1', make: 'Siemens · 3 AC, 9 electric heaters' } },
+      { v: 3, match: (n) => /^\s*a\.?\s*d\.?\s*office\b/i.test(n) || /\bAD\b/.test(n), panel: { amps: '100', volt: '240-1', make: 'Interiors in Motion (Mobile Office)' } },
+      { v: 4, match: (n) => /wardrobe/i.test(n), panel: { amps: '125', volt: '240-1', make: 'Square D QO (washer, dryer, heaters)' } },
+      { v: 5, match: (n) => /workout|\bgym\b/i.test(n), panel: { amps: '30', volt: '240-1', make: 'Eaton · Fed by 30 A 2-pole marked FEED; no separate main' } },
+      { v: 6, match: (n) => /sw\s*-?\s*245/i.test(n), panel: { amps: '100', volt: '240-1', make: 'Rich Trailers (2-room Starwagon)' } },
+      { v: 7, match: (n) => /sw\s*-?\s*327/i.test(n), panel: { amps: '100', volt: '240-1', make: 'Siemens · 2 inverters' } },
+      { v: 7, match: (n) => /washroom/i.test(n), panel: { amps: '100', volt: '240-1', make: 'Schneider · Washroom trailer' } },
+      { v: 7, match: (n) => /sw\s*-?\s*806/i.test(n), panel: { amps: '100', volt: '240-1', make: 'Schneider · faded GTS label; 4 AC, 8 heaters' } },
+      { v: 8, match: (n) => /sw\s*-?\s*328/i.test(n), panel: { amps: '100', volt: '240-1', make: 'Same as SW323' } },
+      { v: 9, match: (n) => /craft/i.test(n), panel: { amps: '100', volt: '240-1', make: 'Camlock feed via 100 A disconnect · fridge, freezer, fridge 2' } },
+      { v: 10, match: (n) => /bathroom/i.test(n), panel: { amps: '100', volt: '240-1', make: 'Schneider · Washroom trailer' } }
+    ];
+    const PANEL_SEED_V = 10;
     const PAIRS = [
       { id: 'rb', keys: ['red', 'blue'], label: 'Red + Blue', dots: ['red', 'blue'] },
       { id: 'rk', keys: ['red', 'black'], label: 'Red + Black', dots: ['red', 'black'] },
@@ -1905,18 +2007,42 @@
       { id: 'off', keys: [], label: 'Not in use', dots: [] }
     ];
     const DEFAULT_PAIRS_BY_NAME = {
-      'Bathroom': 'rb',
-      'Hair & Makeup': 'rb',
       'Wardrobe': 'rb',
-      'Transport': 'rk',
+      'Cast Trailer · SW328G': 'rb',
+      'AD Office': 'rb',
+      'Workout Gym': 'rb',
+      'Hair & Makeup': 'bk',
+      'Cast Trailer · SW806': 'bk',
+      'Transport': 'bk',
+      'Bathroom': 'bk',
+      'Cast Trailer · SW323': 'rk',
       'Cast Trailer · SW327G': 'rk',
-      'AD Office': 'rk',
-      'Cast Trailer · SW323': 'bk',
-      'Cast Trailer · SW245': 'bk',
-      'Workout Gym': 'bk',
-      'Cast Trailer · SW328G': 'bk',
-      'Cast Trailer · SW806': 'bk'
+      'Cast Trailer · SW245': 'rk'
     };
+    // One-time "new balance layout" (Joshua physically rebalanced the trailers). Runs once per phone (layoutV), then his own changes stick.
+    const LAYOUT_V = 1;
+    const LAYOUT_PAIRS = [
+      { pair: 'rb', match: (n) => /wardrobe/i.test(n) },
+      { pair: 'rb', match: (n) => /sw\s*-?\s*328/i.test(n) },
+      { pair: 'rb', match: (n) => /^\s*a\.?\s*d\.?\s*office\b/i.test(n) },
+      { pair: 'rb', match: (n) => /workout|\bgym\b/i.test(n) },
+      { pair: 'bk', match: (n) => isHairMakeup(n) },
+      { pair: 'bk', match: (n) => /sw\s*-?\s*806/i.test(n) },
+      { pair: 'bk', match: (n) => /^\s*transport\b/i.test(n) },
+      { pair: 'bk', match: (n) => /bathroom|washroom/i.test(n) },
+      { pair: 'rk', match: (n) => /sw\s*-?\s*323/i.test(n) },
+      { pair: 'rk', match: (n) => /sw\s*-?\s*327/i.test(n) },
+      { pair: 'rk', match: (n) => /sw\s*-?\s*245/i.test(n) },
+      { pair: 'rk', match: (n) => /craft/i.test(n) }
+    ];
+    function applyLayout(locations) {
+      const done = [];
+      locations.forEach((l) => {
+        const rule = LAYOUT_PAIRS.find((r) => r.match(l.name || ''));
+        if (rule) { if (l.pair !== rule.pair) l.pair = rule.pair; done.push(l.id); }
+      });
+      return done;
+    }
 
     // ---------- Map constants ----------
     const MAP_KEY = 'basecamp-phase-tracker-map-v1';
@@ -2201,6 +2327,7 @@
 
     function defaultState() {
       const locations = DEFAULT_NAMES.map((name, i) => makeLocation(name, 'def-' + (i + 1)));
+      seedPanels(locations, 0);
       return {
         savedAt: null,
         locations: locations,
@@ -2224,7 +2351,7 @@
 
     function hydrateLocation(loc, i, idPrefix) {
       const name = String((loc && loc.name) || 'Untitled');
-      return {
+      const out = {
         id: String((loc && loc.id) || ((idPrefix || 'mig-') + i)),
         name: name,
         pair: normalizePair(loc && loc.pair, name),
@@ -2233,7 +2360,45 @@
         black: !loc || loc.black == null ? '' : String(loc.black),
         white: !loc || loc.white == null ? '' : String(loc.white)
       };
+      const pn = hydratePanel(loc && loc.panel);
+      if (pn) out.panel = pn;
+      return out;
     }
+
+    // ----- panel info (pt49u): optional per location { amps, volt, make } -----
+    function hydratePanel(p) {
+      if (Array.isArray(p)) p = { amps: p[0], volt: p[1], make: p[2] };
+      if (!p || typeof p !== 'object') return null;
+      const a = parseAmp(p.amps);
+      const out = {
+        amps: a == null || a > 5000 ? '' : String(Math.round(a * 10) / 10),
+        volt: PANEL_VOLTS.some((v) => v.id === p.volt) ? p.volt : '',
+        make: String(p.make == null ? '' : p.make).trim().slice(0, 60)
+      };
+      return out.amps || out.volt || out.make ? out : null;
+    }
+    function panelAmps(loc) { return loc && loc.panel ? parseAmp(loc.panel.amps) : null; }
+    function panelVoltLabel(id, long) { const v = PANEL_VOLTS.find((x) => x.id === id); return v ? (long ? v.long : v.label) : ''; }
+    function panelText(pn, long) {
+      if (!pn) return '';
+      const bits = [];
+      if (parseAmp(pn.amps) != null) bits.push(formatAmp(parseAmp(pn.amps)) + ' A');
+      if (pn.volt) bits.push(panelVoltLabel(pn.volt, long));
+      if (pn.make) bits.push(pn.make);
+      return bits.join(' · ');
+    }
+    function isHairMakeup(name) { return /hair/i.test(name) && /make\s*-?\s*up/i.test(name); }
+    // One-time seed of the Hair & Makeup panel photo info; never touches a panel already set.
+    function seedPanels(locations, fromV) {
+      const done = [];
+      PANEL_SEEDS.forEach((sd) => {
+        if (sd.v <= (fromV || 0)) return;
+        const loc = locations.find((l) => sd.match(l.name));
+        if (loc && !loc.panel) { loc.panel = Object.assign({}, sd.panel); done.push(loc.id); }
+      });
+      return done;
+    }
+    function storedSeedV(data) { return Number(data && data.panelSeedV) || (data && data.panelSeeded ? 1 : 0); }
 
     function current() { return viewState || localState; }
 
@@ -2331,7 +2496,9 @@
           log: localState.log || [],
           fluid: localState.fluid || emptyFluid(),
           svc: localState.svc || emptySvc(),
-          rd: localState.rd || {}
+          rd: localState.rd || {},
+          panelSeedV: PANEL_SEED_V,
+          layoutV: LAYOUT_V
         }));
       } catch (err) {
         toast('Could not save on this device.');
@@ -2353,7 +2520,10 @@
         const data = JSON.parse(raw);
         if (!data || !Array.isArray(data.locations)) return defaultState();
         const locations = data.locations.map((loc, i) => hydrateLocation(loc, i, 'mig-'));
-        return { savedAt: data.savedAt || null, locations: locations, gen: hydrateGen(data.gen), log: hydrateLog(data.log, data.notes, data.savedAt), fluid: hydrateFluid(data.fluid), svc: hydrateSvc(data.svc), rd: hydrateRd(data.rd) };
+        const fromV = storedSeedV(data);
+        const seededNow = fromV < PANEL_SEED_V ? seedPanels(locations, fromV) : [];
+        const layoutNow = (Number(data.layoutV) || 0) < LAYOUT_V ? applyLayout(locations) : null;
+        return { panelMigrated: fromV < PANEL_SEED_V, seededNow: seededNow, layoutNow: layoutNow, savedAt: data.savedAt || null, locations: locations, gen: hydrateGen(data.gen), log: hydrateLog(data.log, data.notes, data.savedAt), fluid: hydrateFluid(data.fluid), svc: hydrateSvc(data.svc), rd: hydrateRd(data.rd) };
       } catch (err) {
         return defaultState();
       }
@@ -2376,6 +2546,7 @@
     }
 
     function updateSummary() {
+      if (typeof renderBalance === 'function' && typeof balOpen !== 'undefined' && balOpen) renderBalance();
       const state = current();
       const { totals, used, counts } = totalsOf(state);
       const maxHot = Math.max(0, totals.red, totals.blue, totals.black);
@@ -3318,6 +3489,14 @@
       const amps = document.createElement('span');
       amps.className = 'compact-amps compact-phases';
       const keys = loc.pair === 'off' ? [] : (pairInfo(loc.pair).keys || []);
+      const pa = panelAmps(loc);
+      if (pa != null) {
+        const pb = document.createElement('span');
+        pb.className = 'compact-panel';
+        pb.title = 'Panel main breaker ' + formatAmp(pa) + ' A';
+        pb.innerHTML = PANEL_IC + '<span>' + esc(formatAmp(pa)) + ' A</span>';
+        amps.appendChild(pb);
+      }
       if (!keys.length) {
         const off = document.createElement('span');
         off.className = 'compact-off compact-nophase';
@@ -3347,7 +3526,7 @@
       line.appendChild(amps);
       line.setAttribute('aria-label', loc.name + ', ' + (keys.length
         ? 'on ' + keys.map((k) => PHASES.find((x) => x.key === k).label).join(' and ') + ' phase' + (keys.length > 1 ? 's' : '') + ' plus Neutral'
-        : 'no phase assigned (not in use)') + '. Tap to expand.');
+        : 'no phase assigned (not in use)') + (pa != null ? ', panel ' + formatAmp(pa) + ' amp main' : '') + '. Tap to expand.');
     }
 
     function refreshCompactLine(id) {
@@ -3357,11 +3536,125 @@
       if (loc && line) fillCompactLine(line, loc);
     }
 
+    // ----- panel UI (pt49u) -----
+    const SORT_KEY = 'basecamp-phase-tracker-sort-v1';
+    let sortMode = 'default';
+    try { sortMode = localStorage.getItem(SORT_KEY) === 'panel' ? 'panel' : 'default'; } catch (err) {}
+    let panelEditId = null;
+    function orderedLocations(state) {
+      const locs = state.locations.slice();
+      if (sortMode !== 'panel') return locs;
+      return locs.map((l, i) => ({ l, i, a: panelAmps(l) }))
+        .sort((x, y) => (x.a == null) - (y.a == null) || (y.a || 0) - (x.a || 0) || x.i - y.i)
+        .map((o) => o.l);
+    }
+    function setSortMode(mode) {
+      sortMode = mode === 'panel' ? 'panel' : 'default';
+      try { localStorage.setItem(SORT_KEY, sortMode); } catch (err) {}
+      paintSortSeg();
+      renderList();
+    }
+    function paintSortSeg() {
+      document.querySelectorAll('#sort-seg .seg-btn').forEach((b) => {
+        const on = b.dataset.sort === sortMode;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+    }
+    const PANEL_IC = '<svg class="pl-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7v4M15 7v4M8 15h8"/></svg>';
+    function buildPanelBlock(loc) {
+      const wrap = document.createElement('div');
+      wrap.className = 'panel-block';
+      if (panelEditId === loc.id) {
+        const pn = loc.panel || { amps: '', volt: '', make: '' };
+        wrap.classList.add('editing');
+        wrap.innerHTML =
+          '<div class="pe-title">' + PANEL_IC + '<span>Panel</span></div>' +
+          '<div class="pe-grid">' +
+          '<label class="pe-f pe-amps"><span>Main breaker</span><span class="pe-in"><input type="text" inputmode="numeric" maxlength="5" autocomplete="off" class="pe-amps-in" aria-label="Main breaker amps for ' + esc(loc.name) + '" placeholder="100" value="' + esc(pn.amps) + '"><em>A</em></span></label>' +
+          '<label class="pe-f pe-volt"><span>Voltage</span><select class="pe-volt-in" aria-label="Panel voltage for ' + esc(loc.name) + '"><option value="">Not set</option>' +
+          PANEL_VOLTS.map((v) => '<option value="' + v.id + '"' + (v.id === pn.volt ? ' selected' : '') + '>' + esc(v.label) + '</option>').join('') + '</select></label>' +
+          '<label class="pe-f pe-make"><span>Make / notes (optional)</span><input type="text" maxlength="60" autocomplete="off" class="pe-make-in" aria-label="Panel make or notes for ' + esc(loc.name) + '" placeholder="e.g. Rich Trailers" value="' + esc(pn.make) + '"></label>' +
+          '</div>' +
+          '<div class="btn-row pe-actions"><button type="button" class="btn btn-primary pe-save">Save</button><button type="button" class="btn pe-cancel">Cancel</button>' +
+          (loc.panel ? '<button type="button" class="btn btn-danger pe-clear">Clear</button>' : '') + '</div>';
+        wrap.querySelector('.pe-save').addEventListener('click', () => {
+          const l = current().locations.find((x) => x.id === loc.id);
+          if (!l) return;
+          const raw = String(wrap.querySelector('.pe-amps-in').value).trim();
+          if (raw && (parseAmp(raw) == null || parseAmp(raw) > 5000)) { toast('Main breaker should be a number of amps, like 100.'); wrap.querySelector('.pe-amps-in').focus(); return; }
+          const pn2 = hydratePanel({ amps: raw, volt: wrap.querySelector('.pe-volt-in').value, make: wrap.querySelector('.pe-make-in').value });
+          if (pn2) l.panel = pn2; else delete l.panel;
+          panelEditId = null;
+          persist();
+          renderList();
+          toast(pn2 ? l.name + ': panel ' + panelText(pn2) : l.name + ': panel info cleared');
+        });
+        wrap.querySelector('.pe-cancel').addEventListener('click', () => { panelEditId = null; renderList(); });
+        const clr = wrap.querySelector('.pe-clear');
+        if (clr) clr.addEventListener('click', () => {
+          const l = current().locations.find((x) => x.id === loc.id);
+          if (l) delete l.panel;
+          panelEditId = null;
+          persist();
+          renderList();
+          toast(loc.name + ': panel info cleared');
+        });
+        wrap.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); wrap.querySelector('.pe-save').click(); } });
+        return wrap;
+      }
+      if (loc.panel) {
+        wrap.innerHTML = '<p class="panel-line">' + PANEL_IC + '<span class="pl-text"><b>Panel</b> ' + esc(panelText(loc.panel)) + '</span>' +
+          '<button type="button" class="btn pl-edit" aria-label="Edit panel info for ' + esc(loc.name) + '">Edit</button></p>';
+      } else {
+        wrap.innerHTML = '<button type="button" class="pl-add" aria-label="Add panel info for ' + esc(loc.name) + '">' + PANEL_IC + '<span>Add panel info</span></button>';
+      }
+      wrap.querySelector('.pl-edit, .pl-add').addEventListener('click', () => {
+        panelEditId = loc.id;
+        renderList();
+        const card = listEl.querySelector('article[data-id="' + (window.CSS && CSS.escape ? CSS.escape(loc.id) : loc.id) + '"]');
+        const inp = card && card.querySelector('.pe-amps-in');
+        if (inp) inp.focus();
+      });
+      return wrap;
+    }
+    // Soft per-leg hint against the panel main (per leg for 120/240 V).
+    function paintLegLoad(card, loc) {
+      const a = panelAmps(loc);
+      card.querySelectorAll('.leg-load').forEach((el) => {
+        const row = el.closest('.amp-row');
+        const n = parseAmp(loc[el.dataset.leg]);
+        const pct = a && n != null ? (n / a) * 100 : null;
+        const lvl = pct == null || loc.pair === 'off' ? '' : pct > 100 ? 'over' : pct > 80 ? 'warn' : '';
+        el.hidden = !lvl;
+        el.className = 'leg-load' + (lvl ? ' ' + lvl : '');
+        el.textContent = !lvl ? '' : lvl === 'over' ? 'over ' + formatAmp(a) + ' A panel' : Math.round(pct) + '% of panel';
+        if (row) { row.classList.toggle('load-warn', lvl === 'warn'); row.classList.toggle('load-over', lvl === 'over'); }
+      });
+    }
+
     function renderList() {
 
       const state = current();
       listEl.innerHTML = '';
-      state.locations.forEach((loc) => {
+      listEl.classList.toggle('sorted-panel', sortMode === 'panel');
+      let lastGroup = null;
+      orderedLocations(state).forEach((loc) => {
+        if (sortMode === 'panel') {
+          const a = panelAmps(loc);
+          const g = a == null ? 'Unknown' : formatAmp(a) + ' A';
+          if (g !== lastGroup) {
+            lastGroup = g;
+            const gh = document.createElement('div');
+            gh.className = 'panel-group' + (a == null ? ' unknown' : '');
+            gh.setAttribute('role', 'heading');
+            gh.setAttribute('aria-level', '3');
+            gh.dataset.group = g;
+            const n = state.locations.filter((l) => { const b = panelAmps(l); return (b == null ? 'Unknown' : formatAmp(b) + ' A') === g; }).length;
+            gh.innerHTML = '<span class="pg-name">' + (a == null ? 'Unknown panel' : esc(g) + ' panel' + (n === 1 ? '' : 's')) + '</span><span class="pg-n">' + n + '</span>';
+            listEl.appendChild(gh);
+          }
+        }
         const card = document.createElement('article');
         card.className = 'card' + (loc.pair === 'off' ? ' off' : '');
         card.dataset.id = loc.id;
@@ -3405,6 +3698,7 @@
         head.appendChild(titleBlock);
         head.appendChild(actions);
         card.appendChild(head);
+        card.appendChild(buildPanelBlock(loc));
 
         PHASES.forEach((p) => {
           const row = document.createElement('div');
@@ -3423,6 +3717,12 @@
             tag.className = 'unused-tag';
             tag.textContent = 'not in use';
             label.appendChild(tag);
+          } else if (p.key !== 'white') {
+            const ll = document.createElement('span');
+            ll.className = 'leg-load';
+            ll.dataset.leg = p.key;
+            ll.hidden = true;
+            label.appendChild(ll);
           }
           const input = document.createElement('input');
           input.id = inputId;
@@ -3453,6 +3753,7 @@
         });
 
         card.classList.toggle('has-prev', locHasPrev(loc.id));
+        paintLegLoad(card, loc);
         applyCollapsed(card, collapsedIds.has(loc.id));
         listEl.appendChild(card);
       });
@@ -3487,6 +3788,7 @@
       if (card) {
         card.classList.toggle('has-prev', locHasPrev(id));
         paintPrev(card.querySelector('#' + (window.CSS && CSS.escape ? CSS.escape('prev-' + id + '-' + key) : 'prev-' + id + '-' + key)), 'l.' + id + '.' + key, loc[key], 'amp');
+        paintLegLoad(card, loc);
       }
       if (rebalancePlan) renderRebalance();
     }
@@ -3633,7 +3935,8 @@
           i: loc.id,
           n: loc.name,
           p: loc.pair,
-          r: loc.red, b: loc.blue, k: loc.black, w: loc.white
+          r: loc.red, b: loc.blue, k: loc.black, w: loc.white,
+          ...(loc.panel ? { pn: [loc.panel.amps, loc.panel.volt, loc.panel.make] } : {})
         }))
       };
       const g = state.gen ? hydrateGen(state.gen) : emptyGen();
@@ -3663,7 +3966,8 @@
           id: loc.i,
           name: loc.n,
           pair: loc.p,
-          red: loc.r, blue: loc.b, black: loc.k, white: loc.w
+          red: loc.r, blue: loc.b, black: loc.k, white: loc.w,
+          panel: loc.pn
         }, i, 'share-')),
         gen: hydrateGen(data.g),
         log: hydrateLog(Array.isArray(data.n) ? data.n : null, typeof data.n === 'string' ? data.n : '', data.t),
@@ -3813,7 +4117,8 @@
       lines.push('', 'LOCATIONS');
       state.locations.forEach((loc) => {
         const info = pairInfo(loc.pair);
-        if (loc.pair === 'off') { lines.push(loc.name + ': Not in use (readings not counted)'); return; }
+        const pnTxt = loc.panel ? ' · Panel ' + panelText(loc.panel) : '';
+        if (loc.pair === 'off') { lines.push(loc.name + ': Not in use (readings not counted)' + pnTxt); return; }
         const parts = [];
         info.keys.forEach((key) => {
           const p = PHASES.find((x) => x.key === key);
@@ -3827,7 +4132,7 @@
           const n = parseAmp(loc[p.key]);
           if (n != null) parts.push(p.label + ' ' + formatAmp(n) + ' A (not in use)');
         });
-        lines.push(loc.name + ' (' + info.label + '): ' + parts.join(', '));
+        lines.push(loc.name + ' (' + info.label + '): ' + parts.join(', ') + pnTxt);
       });
       const log = Array.isArray(state.log) ? state.log.slice().sort((a, b) => b.t - a.t) : [];
       if (log.length) {
@@ -5464,6 +5769,115 @@
 
     $('rebalance-btn').addEventListener('click', openRebalance);
 
+    // ----- Suggest balance (pt52): readings-only, one or two moves, readings move with the trailer -----
+    var balOpen = false;
+    var balUndo = null; // { snap: [{id, pair, red, blue, black}], text }
+    function balEntries(state) {
+      const used = [], skipped = [];
+      state.locations.forEach((loc) => {
+        if (loc.pair === 'off') { skipped.push({ name: loc.name, why: 'not in use' }); return; }
+        const keys = pairInfo(loc.pair).keys.slice();
+        const r = keys.map((k) => parseAmp(loc[k]));
+        if (r[0] == null && r[1] == null) { skipped.push({ name: loc.name, why: 'no readings' }); return; }
+        used.push({ loc: loc, keys: keys, legs: [r[0] || 0, r[1] || 0], partial: r[0] == null || r[1] == null });
+      });
+      return { used, skipped };
+    }
+    function balTotals(entries) { return phaseTotals(entries); }
+    function balWell(t) { const mx = Math.max(t.red, t.blue, t.black); return spread(t) <= Math.max(10, mx * 0.1); }
+    function suggestBalance(state) {
+      const { used, skipped } = balEntries(state);
+      const base = balTotals(used);
+      const baseSpread = spread(base);
+      const out = { base, baseSpread, skipped, partial: used.filter((e) => e.partial).map((e) => e.loc.name), moves: [], after: base, afterSpread: baseSpread, well: balWell(base), count: used.length };
+      if (!used.length || out.well) return out;
+      const opts = used.map((e) => PAIRS.filter((p) => p.id !== 'off' && p.id !== e.loc.pair).map((p) => {
+        const to = p.keys.slice();
+        const d = { red: 0, blue: 0, black: 0 };
+        d[e.keys[0]] -= e.legs[0]; d[e.keys[1]] -= e.legs[1];
+        d[to[0]] += e.legs[0]; d[to[1]] += e.legs[1];
+        return { to: p.id, toKeys: to, d };
+      }));
+      const add = (t, d) => ({ red: t.red + d.red, blue: t.blue + d.blue, black: t.black + d.black });
+      const better = (a, b) => !b || a.sp < b.sp - 1e-9 || (Math.abs(a.sp - b.sp) < 1e-9 && a.sq < b.sq - 1e-9);
+      let best1 = null, best2 = null;
+      used.forEach((e, i) => opts[i].forEach((o) => {
+        const t = add(base, o.d); const c = { sp: spread(t), sq: sqDev(t), t, picks: [[i, o]] };
+        if (better(c, best1)) best1 = c;
+      }));
+      for (let i = 0; i < used.length; i++) for (let j = i + 1; j < used.length; j++) for (const oi of opts[i]) for (const oj of opts[j]) {
+        const t = add(add(base, oi.d), oj.d); const c = { sp: spread(t), sq: sqDev(t), t, picks: [[i, oi], [j, oj]] };
+        if (better(c, best2)) best2 = c;
+      }
+      let pick = best1 && best1.sp < baseSpread - 0.5 ? best1 : null;
+      if (best2 && best2.sp < baseSpread - 0.5 && (!pick || best2.sp < pick.sp - 1)) pick = best2;
+      if (!pick) return out;
+      // order the moves biggest improvement first, with the running spread after each
+      let t = base;
+      const picks = pick.picks.slice().sort((a, b) => spread(add(base, a[1].d)) - spread(add(base, b[1].d)));
+      out.moves = picks.map(([i, o]) => {
+        const e = used[i];
+        const before = spread(t); t = add(t, o.d);
+        return { id: e.loc.id, name: e.loc.name, from: e.loc.pair, fromKeys: e.keys.slice(), to: o.to, toKeys: o.toKeys, legs: e.legs.slice(), spreadBefore: before, spreadAfter: spread(t), panel: panelAmps(e.loc) };
+      });
+      out.after = t; out.afterSpread = spread(t);
+      return out;
+    }
+    const fa = (n) => formatAmp(Math.round(n * 10) / 10);
+    function balMoveLine(m) { return 'Move ' + m.name + ': ' + pairInfo(m.from).label + ' → ' + pairInfo(m.to).label + ' (spread ' + fa(m.spreadBefore) + ' A → ' + fa(m.spreadAfter) + ' A)'; }
+    function renderBalance() {
+      const card = $('bal-card');
+      $('bal-btn').setAttribute('aria-expanded', balOpen ? 'true' : 'false');
+      if (!balOpen) { card.hidden = true; card.innerHTML = ''; return; }
+      const sg = suggestBalance(current());
+      const tot = (t) => '<span class="bt-red">' + fa(t.red) + '</span><span class="bt-blue">' + fa(t.blue) + '</span><span class="bt-black">' + fa(t.black) + '</span>';
+      let html = '<div class="bal-head"><h3>Balance suggestion</h3><button type="button" class="btn bal-close" id="bal-close">Close</button></div>';
+      if (!sg.count) {
+        html += '<p class="bal-msg" id="bal-msg">Enter some leg readings first. The suggestion uses each location’s latest readings.</p>';
+      } else {
+        html += '<div class="bal-spreads"><div class="bs-now"><span class="bs-k">Spread now</span><strong id="bal-now">' + fa(sg.baseSpread) + ' A</strong><span class="bs-t">' + tot(sg.base) + '</span></div>' +
+          (sg.moves.length ? '<span class="bs-arrow" aria-hidden="true">→</span><div class="bs-after"><span class="bs-k">After</span><strong id="bal-after">' + fa(sg.afterSpread) + ' A</strong><span class="bs-t">' + tot(sg.after) + '</span></div>' : '') + '</div>';
+        if (sg.well) html += '<p class="bal-msg bal-ok" id="bal-msg">✓ Already well balanced (within 10% of the heaviest phase or 10 A).</p>';
+        else if (!sg.moves.length) html += '<p class="bal-msg" id="bal-msg">No single move or pair of moves makes it more even.</p>';
+        else {
+          html += '<ol class="bal-moves" id="bal-moves">' + sg.moves.map((m) => '<li data-id="' + esc(m.id) + '">' + esc(balMoveLine(m)) +
+            (m.panel != null ? ' <span class="bal-panel">panel ' + esc(fa(m.panel)) + ' A</span>' : '') + '</li>').join('') + '</ol>' +
+            '<button type="button" class="btn btn-primary bal-apply" id="bal-apply">Apply ' + (sg.moves.length === 1 ? 'move' : 'both moves') + '</button>' +
+            '<p class="bal-note">Readings move with the trailer: its two legs land, in order, on the new pair. Swap only at a disconnect with it off.</p>';
+        }
+        const skip = sg.skipped.map((x) => esc(x.name) + ' (' + x.why + ')');
+        if (skip.length) html += '<p class="bal-skip" id="bal-skip">Not counted: ' + skip.join(', ') + '.</p>';
+        if (sg.partial.length) html += '<p class="bal-skip">One leg missing, counted as 0 A: ' + sg.partial.map(esc).join(', ') + '.</p>';
+      }
+      if (balUndo) html += '<div class="bal-undo" id="bal-undo-row"><span>' + esc(balUndo.text) + '</span><button type="button" class="btn" id="bal-undo">Undo</button></div>';
+      card.innerHTML = html;
+      card.hidden = false;
+      $('bal-close').addEventListener('click', () => { balOpen = false; balUndo = null; renderBalance(); });
+      if ($('bal-apply')) $('bal-apply').addEventListener('click', () => applyBalance(sg.moves));
+      if ($('bal-undo')) $('bal-undo').addEventListener('click', undoBalance);
+    }
+    function applyBalance(moves) {
+      const st = current();
+      const snap = moves.map((m) => { const l = st.locations.find((x) => x.id === m.id); return l ? { id: l.id, pair: l.pair, red: l.red, blue: l.blue, black: l.black } : null; }).filter(Boolean);
+      let n = 0;
+      moves.forEach((m) => { if (applyMove(m)) n++; });
+      if (!n) return;
+      balUndo = { snap, text: 'Applied: ' + moves.map((m) => m.name + ' → ' + pairInfo(m.to).label).join(', ') + '.' };
+      persist();
+      renderList();
+      toast(n === 1 ? 'Balance move applied.' : n + ' balance moves applied.');
+    }
+    function undoBalance() {
+      if (!balUndo) return;
+      const st = current();
+      balUndo.snap.forEach((sn) => { const l = st.locations.find((x) => x.id === sn.id); if (l) { l.pair = sn.pair; l.red = sn.red; l.blue = sn.blue; l.black = sn.black; } });
+      balUndo = null;
+      persist();
+      renderList();
+      toast('Balance move undone.');
+    }
+    $('bal-btn').addEventListener('click', () => { balOpen = !balOpen; if (!balOpen) balUndo = null; renderBalance(); });
+
     $('theme-btn').addEventListener('click', toggleTheme);
     $('collapse-all-btn').addEventListener('click', toggleCollapseAll);
     $('add-btn').addEventListener('click', addLocation);
@@ -5502,7 +5916,31 @@
       if (Date.now() - caretFocusAt < 600) caretSoon(el);
     }, true));
 
+    document.querySelectorAll('#sort-seg .seg-btn').forEach((b) => b.addEventListener('click', () => setSortMode(b.dataset.sort)));
+    paintSortSeg();
     localState = loadLocal();
+    if (localState.panelMigrated) {
+      try {
+        const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (raw && Array.isArray(raw.locations)) {
+          raw.locations.forEach((l) => { const nl = localState.locations.find((x) => x.id === String(l.id)); if (nl && nl.panel && !hydratePanel(l.panel)) l.panel = nl.panel; });
+          raw.panelSeedV = PANEL_SEED_V;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(raw));
+        }
+      } catch (err) {}
+    }
+    if (localState.layoutNow) {
+      try {
+        const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (raw && Array.isArray(raw.locations)) {
+          raw.locations.forEach((l) => { const nl = localState.locations.find((x) => x.id === String(l.id)); if (nl && localState.layoutNow.indexOf(nl.id) >= 0) l.pair = nl.pair; });
+          raw.layoutV = LAYOUT_V;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(raw));
+        }
+      } catch (err) {}
+      if (localState.layoutNow.length) setTimeout(() => toast('Phase pairs updated to new balance layout'), 700);
+    }
+    delete localState.panelMigrated; delete localState.seededNow; delete localState.layoutNow;
     setTimeout(() => clap(true), 400);
     renderList();
     applyHash();
@@ -5521,6 +5959,8 @@
       collapsed: () => Array.from(collapsedIds),
       suggestRebalance, planTotals, parseFuel, fuelLevel, oilStatus,
       genCollapseKey: GEN_COLLAPSE_KEY,
+      balance: { suggest: () => JSON.parse(JSON.stringify(suggestBalance(current()))), line: balMoveLine },
+      panel: { SORT_KEY, VOLTS: PANEL_VOLTS, SEEDS: PANEL_SEEDS.map((x) => ({ v: x.v, panel: Object.assign({}, x.panel) })), SEED_V: PANEL_SEED_V, LAYOUT_V: LAYOUT_V, text: panelText, sortMode: () => sortMode, setSort: setSortMode, ordered: () => orderedLocations(current()).map((l) => l.id) },
       fuelCheck: { setNow: (t) => { fcClock = t; renderFluids(current()); }, relAge, last: () => { const l = lastCheck(fluidOf(current())); return l ? Object.assign({}, l) : null; }, list: () => fluidOf(current()).checks.map((e) => Object.assign({}, e)), LEVELS: FC_LEVELS, KEEP: FC_KEEP, SHOW: FC_SHOW },
       svc: { stats: (now) => svcStats(svcOf(current()), now), setNow: (t) => { svcClock = t; renderSvc(); }, render: () => renderSvc(), DEFAULT_AT: SVC_DEFAULT_AT },
       rebalanceMoves: () => rebalancePlan ? JSON.parse(JSON.stringify(rebalancePlan.moves)) : null,
