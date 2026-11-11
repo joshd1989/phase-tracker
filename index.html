@@ -1621,6 +1621,18 @@
     .fc-entry time { font-size: 0.8rem; font-weight: 700; color: var(--muted); min-width: 0; }
     .fc-entry .fc-del { min-height: 40px; }
     .sec-sum .ss-check { flex-basis: 100%; }
+    /* pt46u: phase pair picker in the map edit sheet */
+    .ms-pair-row { display: flex; align-items: center; gap: 10px; }
+    .ms-pair-row select { flex: 1; min-width: 0; min-height: 48px; font-weight: 800; }
+    .ms-pair-dots { display: inline-flex; gap: 4px; align-items: center; flex-shrink: 0; padding: 8px 10px; border-radius: 999px; border: 1px solid var(--glass-border, var(--border)); background: var(--surface-2, var(--bg)); min-height: 44px; box-sizing: border-box; }
+    .ms-pair-dots .dot { width: 14px; height: 14px; }
+    .ms-pair-none { color: var(--muted); font-weight: 800; padding: 0 4px; }
+    .ms-pair-field > span:first-child { color: var(--gold, var(--text)); text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.76rem; font-weight: 850; }
+    .map-sheet { background: var(--glass, none), var(--surface); border-color: var(--glass-border, var(--border)); box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.35); }
+    @supports ((-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))) { .map-sheet { -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); } }
+    /* pt47: live hour meter */
+    #svc-cur.live { border-style: dashed; border-color: var(--gold, var(--accent)); }
+    #svc-cur.live:focus { border-style: solid; }
 </style>
 </head>
 <body>
@@ -3083,15 +3095,23 @@
       state = state || current();
       const v = svcOf(state);
       const st = svcStats(v);
-      [['svc-last', 'last'], ['svc-interval', 'interval'], ['svc-cur', 'cur']].forEach((p) => {
+      [['svc-last', 'last'], ['svc-interval', 'interval']].forEach((p) => {
         const el = $(p[0]);
         if (el && document.activeElement !== el) el.value = v[p[1]];
       });
+      // "Hour meter now" follows the live estimate while running 24/7 (pt47). The stored
+      // reading + time stay the anchor; typing a new reading re-anchors from that moment.
+      const curEl = $('svc-cur');
+      const liveCur = !!v.run247 && st.est != null;
+      if (document.activeElement !== curEl) curEl.value = liveCur ? fmtH(st.est).replace(/,/g, '') : v.cur;
+      curEl.classList.toggle('live', liveCur);
+      curEl.setAttribute('aria-label', liveCur ? 'Hour meter now, live estimate ' + fmtH(st.est) + ' hours. Type a reading to correct it.' : 'Current hour meter reading');
       const dueEl = $('svc-due');
       if (document.activeElement !== dueEl) dueEl.value = st.due == null ? '' : fmtH(st.due).replace(/,/g, '');
       dueEl.classList.toggle('auto', parseAmp(v.due) == null);
       $('svc-247').checked = !!v.run247;
-      $('svc-cur-at').textContent = v.curAt && parseAmp(v.cur) != null ? 'Meter reading entered ' + formatWhen(v.curAt) : '';
+      $('svc-cur-at').textContent = v.curAt && parseAmp(v.cur) != null
+        ? (v.run247 ? 'Live: counting up from ' + fmtH(parseAmp(v.cur)) + ' h read ' + formatWhen(v.curAt) + '. Type the meter to correct it.' : 'Meter reading entered ' + formatWhen(v.curAt)) : '';
       const box = $('svc');
       ['ok', 'warn', 'due', 'critical'].forEach((l) => box.classList.toggle(l, st.level === l));
       // when not running 24/7 only the entered values are shown
@@ -3174,7 +3194,7 @@
         const auto = parseAmp(v.last) != null && parseAmp(v.interval) != null ? parseAmp(v.last) + parseAmp(v.interval) : null;
         v.due = parseAmp(val) != null && parseAmp(val) !== auto ? val : '';
       } else {
-        if (key === 'cur' && val !== v.cur) v.curAt = svcNow();
+        if (key === 'cur') v.curAt = svcNow(); // any typed reading becomes the new anchor
         if ((key === 'last' || key === 'interval') && val !== v[key]) v.due = '';
         v[key] = val;
       }
@@ -3219,6 +3239,9 @@
     $('svc-chip').addEventListener('click', showServiceSection);
     setInterval(() => renderSvc(), 60000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) renderSvc(); });
+    window.addEventListener('pageshow', () => renderSvc());
+    window.addEventListener('focus', () => renderSvc());
+    $('svc-cur').addEventListener('blur', () => setTimeout(() => renderSvc(), 0));
 
     $('fluid-note').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); logFluid(); } });
 
@@ -4694,6 +4717,20 @@
       return '<span>' + esc(info.label) + ':</span> ' + parts.join(' · ');
     }
 
+    function pairDotsHtml(pair) {
+      const info = pairInfo(pair);
+      return '<span class="ms-pair-dots" aria-hidden="true">' + (info.dots.length ? info.dots.map((d) => '<span class="dot dot-' + d + '"></span>').join('') : '<span class="ms-pair-none">—</span>') + '</span>';
+    }
+
+    // Close the edit sheet on a tap outside it (the map itself already handles its own taps).
+    document.addEventListener('pointerdown', (e) => {
+      if (!mapSelected || mapSheetEl.hidden || activeTab !== 'map') return;
+      const t = e.target;
+      if (!t || !t.closest) return;
+      if (t.closest('#map-sheet, #map-stage, #map-palette, #modal, .modal, #toast')) return;
+      selectMap(null);
+    }, true);
+
     function renderSheet() {
       document.body.classList.toggle('sheet-open', !!mapSelected && activeTab === 'map');
       if (!mapSelected || activeTab !== 'map') { mapSheetEl.hidden = true; mapSheetEl.innerHTML = ''; return; }
@@ -4715,6 +4752,10 @@
           '<label class="field"><span>Label</span><input id="ms-label" type="text" maxlength="60" autocomplete="off" placeholder="' + esc(loc ? loc.name : (t.short || t.label)) + '" value="' + esc(it.label) + '"></label>' +
           '<label class="field"><span>Tracker location</span><select id="ms-loc"><option value="">Not linked</option>' +
           locs.map((l) => '<option value="' + esc(l.id) + '"' + (l.id === it.loc ? ' selected' : '') + '>' + esc(l.name) + '</option>').join('') + '</select></label>' +
+          (loc ? '<label class="field ms-pair-field" id="ms-pair-field"><span>Phases</span><span class="ms-pair-row">' + pairDotsHtml(loc.pair) +
+            '<select id="ms-pair" aria-label="Phases for ' + esc(loc.name) + '">' +
+            PAIRS.map((p) => '<option value="' + esc(p.id) + '"' + (p.id === loc.pair ? ' selected' : '') + '>' + esc(p.label) + '</option>').join('') + '</select></span></label>'
+            : (it.type === 'generator' || it.type === 'ground' ? '' : '<p class="sheet-note ms-pair-hint" id="ms-pair-hint">Link a Tracker location to choose its phases.</p>')) +
           '<p class="link-info" id="ms-info">' + linkInfoHtml(loc) + '</p>' +
           (t.rot ? '<div class="btn-row"><button type="button" class="btn" id="ms-rot-l" aria-label="Rotate left 15 degrees">⟲ 15°</button><button type="button" class="btn" id="ms-rot-r" aria-label="Rotate right 15 degrees">⟳ 15°</button><button type="button" class="btn" id="ms-rot-90">Turn 90°</button></div>' +
             '<p class="sheet-note">Angle ' + it.rot + '°. You can also drag the round handle on the map.</p>' : '') +
@@ -4740,6 +4781,16 @@
           $('ms-rot-r').addEventListener('click', () => rot(15));
           $('ms-rot-90').addEventListener('click', () => rot(90));
         }
+        if ($('ms-pair')) $('ms-pair').addEventListener('change', (ev) => {
+          // Same field and same code path as the Tracker card's phase picker (pt46u).
+          const lid = loc.id;
+          setPair(lid, ev.target.value);
+          mapSheetEl.dataset.for = '';
+          renderMapContent();
+          renderSheet();
+          const nl = current().locations.find((l) => l.id === lid);
+          if (nl) toast(nl.name + ': ' + pairInfo(nl.pair).label);
+        });
         $('ms-cable').addEventListener('click', () => startCableMode(it.id));
         $('ms-del').addEventListener('click', () => deleteMapItem(it.id));
       } else {
