@@ -6,12 +6,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="LegCheck">
-  <meta name="application-name" content="LegCheck">
+  <meta name="apple-mobile-web-app-title" content="Power House">
+  <meta name="application-name" content="The Power House">
   <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)">
-  <meta name="description" content="LegCheck: generator phase and load tracker. Log leg readings, see which units sit on each leg, and balance the load.">
-  <title>LegCheck · Generator phase &amp; load tracker</title>
+  <meta name="description" content="The Power House: generator phase and load tracker. Log leg readings, see which units sit on each leg, and balance the load.">
+  <title>The Power House · Generator phase &amp; load tracker</title>
   <link rel="icon" type="image/png" href="icon-192.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
@@ -1068,6 +1068,7 @@
       background: var(--surface);
       box-shadow: var(--shadow);
     }
+    body.mp-on .map-stage { height: max(300px, calc(100dvh - 290px - env(safe-area-inset-top) - env(safe-area-inset-bottom))); }
 
     #map-svg {
       display: block;
@@ -1734,6 +1735,9 @@
     .undo-bar { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 95; display: flex; align-items: center; gap: 14px; max-width: calc(100% - 32px);
       padding: 6px 6px 6px 18px; border-radius: 999px; background: rgba(18, 20, 26, 0.95); color: #f6f3ec; border: 1px solid rgba(233, 185, 73, 0.4); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.6); font-weight: 700; }
     .undo-bar[hidden] { display: none; }
+    #pk-go { position: sticky; bottom: calc(8px + env(safe-area-inset-bottom)); z-index: 3; box-shadow: 0 -6px 18px rgba(0,0,0,.35); }
+    body.ab-on .undo-bar { bottom: calc(92px + env(safe-area-inset-bottom)); }
+    body.ab-on .toast { bottom: calc(150px + env(safe-area-inset-bottom)) !important; }
     .undo-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .undo-bar span::after { content: " ·"; }
     .undo-btn { min-height: 40px; padding: 6px 16px; border-radius: 999px; border: 0; background: #e9b949; color: #15120a; font-weight: 850; font-size: 0.95rem; cursor: pointer; }
@@ -1759,123 +1763,139 @@
     .tips-card > summary::before { content: '▸'; color: var(--gold, var(--muted)); font-weight: 900; }
     .tips-card[open] > summary::before { content: '▾'; }
     .tips-card ul { margin: 0; padding: 0 14px 12px 30px; display: grid; gap: 6px; font-size: 0.88rem; line-height: 1.4; }
-    /* ===== Film lighting mode ===== */
+    /* ===== Set Generator mode (film lighting) ===== */
     .mode-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 8px; padding: 4px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--hairline); }
-    .mode-btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 38px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); font: inherit; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; }
+    .mode-btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); font: inherit; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; }
     .mode-btn svg { width: 18px; height: 18px; }
     .mode-btn.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
     #mode-light.on { background: linear-gradient(135deg, #ffb347, #e8741c); color: #1a0f05; box-shadow: 0 0 0 1px rgba(255,173,66,.5), 0 6px 18px rgba(255,140,40,.35); }
     .lt-mark { display: none; }
     :root[data-mode="lighting"][data-mode] {
       --gold: #c96f12; --lt: #c96f12; --lt-2: #8a4a08; --lt-soft: rgba(217, 120, 30, 0.12); --lt-line: rgba(201, 111, 18, 0.35);
-      --header-bg: #f8efe2; --bg: #f7f1e8; --surface-2: #fbf3e8; --hairline: #e7d6bf; --stage: #0f0c0a;
+      --header-bg: #f6ecdd; --bg: #f3eadc; --surface: #fffaf2; --surface-2: #f8eedf; --hairline: #e3cfb2; --lt-card: #fffaf2; --lt-ink: #2a1c0c;
     }
     @media (prefers-color-scheme: dark) {
       :root[data-mode="lighting"][data-mode]:not([data-theme="light"]) {
-        --gold: #ffad42; --lt: #ffad42; --lt-2: #ffd08a; --lt-soft: rgba(255, 173, 66, 0.12); --lt-line: rgba(255, 173, 66, 0.32);
-        --header-bg: #120d08; --bg: #0d0b09; --surface: #191511; --surface-2: #211b15; --hairline: #3a2e22;
+        --gold: #ffad42; --lt: #ffad42; --lt-2: #ffd08a; --lt-soft: rgba(255, 173, 66, 0.12); --lt-line: rgba(255, 173, 66, 0.30);
+        --header-bg: #100d0a; --bg: #0c0a08; --surface: #17130f; --surface-2: #1f1913; --hairline: #382c20; --lt-card: #16120e; --lt-ink: #f6e7d0;
       }
     }
     html[data-theme="dark"][data-mode="lighting"][data-mode] {
-      --gold: #ffad42; --lt: #ffad42; --lt-2: #ffd08a; --lt-soft: rgba(255, 173, 66, 0.12); --lt-line: rgba(255, 173, 66, 0.32);
-      --header-bg: #120d08; --bg: #0d0b09; --surface: #191511; --surface-2: #211b15; --hairline: #3a2e22;
+      --gold: #ffad42; --lt: #ffad42; --lt-2: #ffd08a; --lt-soft: rgba(255, 173, 66, 0.12); --lt-line: rgba(255, 173, 66, 0.30);
+      --header-bg: #100d0a; --bg: #0c0a08; --surface: #17130f; --surface-2: #1f1913; --hairline: #382c20; --lt-card: #16120e; --lt-ink: #f6e7d0;
     }
-    :root[data-mode="lighting"] .topbar { background: radial-gradient(120% 140% at 85% -40%, rgba(255, 170, 70, 0.32), transparent 60%), linear-gradient(180deg, rgba(255, 150, 50, 0.10), transparent), var(--header-bg); border-bottom: 1px solid var(--lt-line); }
+    /* light-beam header + film-strip edge */
+    :root[data-mode="lighting"] .topbar { background: conic-gradient(from 200deg at 92% -30%, transparent 0 18deg, rgba(255, 190, 100, 0.30) 22deg 34deg, transparent 40deg), radial-gradient(120% 160% at 92% -50%, rgba(255, 160, 60, 0.28), transparent 60%), var(--header-bg); border-bottom: 0; }
+    :root[data-mode="lighting"] .topbar::after { content: ""; display: block; height: 8px; margin: 8px -16px 0; background: repeating-linear-gradient(90deg, transparent 0 8px, rgba(255, 173, 66, 0.55) 8px 14px), var(--header-bg); -webkit-mask: linear-gradient(#000 0 2px, transparent 2px 6px, #000 6px); mask: linear-gradient(#000 0 2px, transparent 2px 6px, #000 6px); opacity: .7; }
     :root[data-mode="lighting"] .clapper { display: none; }
     :root[data-mode="lighting"] .lt-mark { display: inline-block; width: 34px; height: 30px; flex: 0 0 auto; margin-right: 8px; filter: drop-shadow(0 0 6px rgba(255, 170, 70, 0.55)); }
     :root[data-mode="lighting"] .slate-top { color: var(--lt); }
     :root[data-mode="lighting"] .slate-sub::before { background: var(--lt); box-shadow: 0 0 8px var(--lt); animation: none; }
     :root[data-mode="lighting"] #tracker-view, :root[data-mode="lighting"] #gen-hero { display: none !important; }
-    :root[data-mode="lighting"] .tab[aria-selected="true"] { box-shadow: inset 0 -3px 0 var(--lt); }
+    :root[data-mode="lighting"] .tab[aria-selected="true"] { background: var(--lt) !important; color: #1a0f05 !important; box-shadow: 0 4px 14px rgba(255, 150, 50, .3) !important; }
+    :root[data-mode="lighting"] body { background: radial-gradient(90% 50% at 50% 0%, rgba(255, 160, 60, 0.07), transparent 70%), var(--bg); }
+    :root[data-mode="lighting"] .summary-block::after, :root[data-mode="lighting"] .summary-block::before { display: none !important; }
 
-    #lt-hero { position: relative; padding: 14px 14px 12px; border-radius: var(--radius); background: radial-gradient(130% 90% at 100% 0%, var(--lt-soft), transparent 60%), var(--surface); border: 1px solid var(--lt-line); box-shadow: var(--shadow); overflow: hidden; }
-    #lt-hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, #ff8a1f, #ffd27a, #ff8a1f); opacity: .9; }
+    /* hero: dial gauges */
+    #lt-hero { position: relative; padding: 16px 14px 14px; border-radius: 22px 22px 22px 6px; background: radial-gradient(120% 80% at 50% 0%, rgba(255, 170, 70, .14), transparent 65%), var(--lt-card); border: 1px solid var(--lt-line); box-shadow: 0 18px 40px -24px rgba(255, 140, 40, .45), var(--shadow); overflow: hidden; }
     .lt-hero-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-    .lt-hero-title { margin: 0; font-size: 1.15rem; font-weight: 850; letter-spacing: .01em; display: flex; align-items: center; gap: 8px; }
-    .lt-beam { width: 18px; height: 14px; display: inline-block; background: conic-gradient(from 245deg at 0 50%, transparent 0 0, var(--lt) 0 50deg, transparent 50deg); border-radius: 2px; }
-    .lt-hero-tag { font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--lt); }
-    .lt-hero-meta { margin: 4px 0 8px; font-size: .86rem; color: var(--muted); }
-    .lt-need { color: var(--lt); font-weight: 700; }
-    .lt-legs { display: grid; gap: 8px; }
-    .lt-leg { display: grid; grid-template-columns: 14px 1fr auto; grid-template-rows: auto 8px; column-gap: 10px; row-gap: 6px; align-items: center; padding: 8px 10px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--hairline); }
-    .lt-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 2px rgba(255,255,255,.55); }
-    .lt-leg-name { font-weight: 800; }
-    .lt-leg-name small { display: block; font-weight: 600; font-size: .76rem; color: var(--muted); }
-    .lt-leg-amt { text-align: right; font-variant-numeric: tabular-nums; }
-    .lt-leg-amt b { font-size: 1.55rem; font-weight: 850; }
-    .lt-leg-amt em { font-style: normal; margin-left: 6px; font-size: .78rem; font-weight: 800; padding: 2px 6px; border-radius: 999px; background: var(--lt-soft); color: var(--text); }
-    .lt-leg.lv-warn .lt-leg-amt em { background: #ffb300; color: #1a1200; }
-    .lt-leg.lv-over .lt-leg-amt em { background: #d32f2f; color: #fff; }
-    .lt-leg.lv-over { border-color: #d32f2f; }
-    .lt-bar { grid-column: 1 / -1; position: relative; height: 8px; border-radius: 999px; background: var(--bar-track); overflow: visible; }
-    .lt-bar i { display: block; height: 100%; border-radius: 999px; box-shadow: 0 0 10px rgba(255, 170, 70, .35); }
-    .lt-leg[data-leg="black"] .lt-bar i { background: linear-gradient(90deg, #111, #444) !important; outline: 1px solid #777; }
-    .lt-bar .m80 { position: absolute; left: 80%; top: -3px; bottom: -3px; width: 2px; background: var(--lt); border-radius: 1px; }
-    .lt-warn { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
-    .lt-warn li { padding: 8px 10px; border-radius: 10px; font-weight: 750; font-size: .88rem; }
-    .lt-warn li.warn { background: rgba(255, 179, 0, .16); border: 1px solid rgba(255, 179, 0, .6); }
-    .lt-warn li.over { background: rgba(211, 47, 47, .16); border: 1px solid #d32f2f; }
-    .lt-warn li::before { content: "⚠ "; }
-    .lt-hero-spread { margin: 8px 0 0; font-size: .82rem; color: var(--muted); }
+    .lt-hero-title { margin: 0; font-size: .78rem; font-weight: 900; letter-spacing: .22em; text-transform: uppercase; color: var(--lt); display: flex; align-items: center; gap: 8px; }
+    .lt-beam { width: 18px; height: 14px; display: inline-block; background: conic-gradient(from 245deg at 0 50%, var(--lt) 0 50deg, transparent 50deg); border-radius: 2px; }
+    .lt-hero-tag { font-size: .74rem; font-weight: 800; color: var(--muted); }
+    .gp-line { margin: 6px 0 2px; font-size: 1.02rem; font-weight: 850; color: var(--lt-ink, var(--text)); }
+    .gp-line { margin: 0 0 -4px; }
+    .gp-line button { all: unset; cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline dashed var(--lt-line); text-underline-offset: 5px; }
+    .lt-dials { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 10px 0 4px; }
+    .lt-dial { text-align: center; position: relative; }
+    .lt-dial svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .lt-dial .dl-amps { font-size: 1.28rem; font-weight: 900; font-variant-numeric: tabular-nums; margin-top: -2px; position: relative; }
+    .lt-dial .dl-amps small { font-size: .7rem; font-weight: 700; color: var(--muted); }
+    .lt-dial .dl-pct { font-size: .74rem; font-weight: 850; margin-top: 2px; }
+    .lt-dial .dl-name { display: inline-flex; align-items: center; gap: 5px; margin-top: 4px; font-size: .74rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    .lt-dial .dl-sub { font-size: .68rem; color: var(--muted); font-weight: 650; line-height: 1.25; }
+    .lv-ok .dl-pct { color: #43a047; } .lv-amber .dl-pct { color: #f9a825; } .lv-orange .dl-pct { color: #fb8c00; } .lv-red .dl-pct { color: #e53935; }
+    .lt-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 1.5px rgba(255,255,255,.55); }
+    .lt-hero-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 8px; }
+    .lt-hero-stats div { padding: 7px 8px; border-radius: 12px; background: var(--lt-soft); text-align: center; }
+    .lt-hero-stats b { display: block; font-size: 1rem; font-variant-numeric: tabular-nums; }
+    .lt-hero-stats span { font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .lt-hero-meta { margin: 8px 0 0; font-size: .8rem; color: var(--muted); }
     .lt-bal-btn { border-color: var(--lt) !important; }
-    .lt-bal-card { margin-top: 10px; padding: 12px; border-radius: 12px; background: var(--surface-2); border: 1px dashed var(--lt-line); }
+    .lt-bal-card { margin-top: 10px; padding: 12px; border-radius: 14px; background: var(--surface-2); border: 1px dashed var(--lt-line); }
     .lt-bal-card p { margin: 0 0 8px; }
     .lt-bal-basis { font-size: .8rem; color: var(--muted); }
     .lt-moves { margin: 0 0 8px; padding-left: 20px; display: grid; gap: 6px; }
     .lt-ok { color: #2e7d32; font-weight: 800; }
-    .lp { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: .78rem; font-weight: 800; color: #fff; }
-    .lp-red { background: #c62828; } .lp-blue { background: #0d47a1; } .lp-black { background: #111; border: 1px solid #777; }
+    .lp { display: inline-flex; align-items: center; padding: 1px 8px; min-height: 20px; border-radius: 999px; font-size: .76rem; font-weight: 850; color: #fff; white-space: nowrap; }
+    .lp-red { background: #c62828; } .lp-blue { background: #0d47a1; } .lp-black { background: #111; box-shadow: inset 0 0 0 1px #777; }
     .lp-rb { background: linear-gradient(90deg, #c62828 50%, #0d47a1 50%); } .lp-bk { background: linear-gradient(90deg, #0d47a1 50%, #111 50%); } .lp-kr { background: linear-gradient(90deg, #111 50%, #c62828 50%); }
 
-    #lighting-view { display: grid; gap: 14px; margin-top: 14px; }
-    .lt-sec { padding: 14px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--hairline); box-shadow: var(--shadow); }
-    .lt-title { margin: 0 0 6px; display: flex; align-items: center; gap: 10px; font-size: .82rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: var(--lt); padding-bottom: 8px; border-bottom: 1px solid; border-image: linear-gradient(90deg, var(--lt), transparent) 1; }
-    .lt-num { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .72rem; letter-spacing: .05em; padding: 2px 6px; border-radius: 6px; background: var(--lt); color: #1a0f05; }
-    .lt-count { margin-left: auto; font-size: .72rem; letter-spacing: .06em; color: var(--muted); font-weight: 750; text-transform: none; }
-    .lt-sub, .lt-fine { margin: 4px 0 10px; font-size: .82rem; color: var(--muted); }
-    .lt-gen-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-    .lt-gl { display: grid; gap: 4px; font-weight: 800; font-size: .85rem; }
-    .lt-gl span { display: flex; align-items: center; gap: 6px; }
-    .lt-gl i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 1.5px rgba(255,255,255,.6); }
-    #lighting-view input[type="number"], #lighting-view input[type="text"], #lighting-view input[type="search"], #lighting-view select, #lt-sheet select, #lt-sheet input { min-height: 44px; border-radius: 10px; border: 1.5px solid var(--input-border); background: var(--input-bg); color: var(--text); font: inherit; font-size: 1rem; padding: 0 10px; width: 100%; box-sizing: border-box; }
-    .lt-rating { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-weight: 800; font-size: .9rem; }
-    .lt-rating input { max-width: 120px; }
-    .lt-gen-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
-    .lt-totals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 8px 0 10px; }
-    .lt-tot { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); font-size: .86rem; font-weight: 700; }
-    .lt-tot b { margin-left: auto; font-size: 1rem; font-variant-numeric: tabular-nums; }
-    .lt-rig { display: grid; gap: 8px; }
+    /* load alerts (both modes) */
+    .ld-alert { margin: 10px 0 0; padding: 10px 12px; border-radius: 12px; font-weight: 800; font-size: .9rem; display: grid; gap: 4px; }
+    .ld-alert[hidden] { display: none; }
+    .ld-alert.lv-amber { background: rgba(249, 168, 37, .16); border: 1px solid rgba(249, 168, 37, .7); }
+    .ld-alert.lv-orange { background: rgba(251, 140, 0, .18); border: 1.5px solid #fb8c00; }
+    .ld-alert.lv-red { background: rgba(229, 57, 53, .2); border: 2px solid #e53935; animation: ldPulse 1.6s ease-in-out infinite; }
+    .ld-alert.lv-note { background: var(--surface-2); border: 1px dashed var(--hairline); font-weight: 700; }
+    .ld-alert .ld-sub { font-weight: 650; font-size: .82rem; }
+    @keyframes ldPulse { 50% { box-shadow: 0 0 0 4px rgba(229, 57, 53, .25); } }
+    @media (prefers-reduced-motion: reduce) { .ld-alert.lv-red { animation: none; } }
+    .hero-rating { margin: 2px 0 6px; font-size: .86rem; font-weight: 800; color: var(--gold); }
+    .hero-rating { margin: -8px 0 -4px; }
+    .hero-rating button { all: unset; cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; }
+    .hero-rating button > span, .hero-rating button { text-decoration: underline dashed; text-underline-offset: 4px; }
+    .hero-load { margin: 6px 0 0; font-size: .84rem; font-weight: 700; color: var(--muted); }
+    .leg-row .lpct { display: block; font-size: .72rem; font-weight: 850; text-align: right; }
+    .leg-row.lv-ok .lpct { color: #43a047; } .leg-row.lv-amber .lpct { color: #f9a825; } .leg-row.lv-orange .lpct { color: #fb8c00; } .leg-row.lv-red .lpct { color: #e53935; }
+    .leg-row.lv-red .bar span { background: #e53935 !important; } .leg-row.lv-orange .bar span { background: #fb8c00 !important; }
+    .gr-pct.lv-ok { color: #43a047; } .gr-pct.lv-amber { color: #f9a825; } .gr-pct.lv-orange { color: #fb8c00; } .gr-pct.lv-red { color: #e53935; font-weight: 900; }
+    .gp-open { width: 100%; display: flex !important; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 10px; text-align: left; min-height: 48px; }
+
+    /* Set Generator page */
+    #lighting-view { display: grid; gap: 14px; margin-top: 14px; padding-bottom: 96px; }
+    .lt-sec { padding: 14px; border-radius: 22px 6px 22px 22px; background: var(--lt-card); border: 1px solid var(--hairline); box-shadow: var(--shadow); }
+    .lt-title { margin: 0 0 8px; display: flex; align-items: center; gap: 10px; font-size: .78rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: var(--lt); }
+    .lt-count { margin-left: auto; font-size: .74rem; letter-spacing: .04em; color: var(--muted); font-weight: 750; text-transform: none; }
+    .lt-sub, .lt-fine { margin: 4px 0 10px; font-size: .8rem; color: var(--muted); }
+    .lt-gen-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+    .lt-gl { display: grid; gap: 4px; font-weight: 800; font-size: .74rem; }
+    .lt-gl span { display: flex; align-items: center; gap: 5px; }
+    #lighting-view input[type="text"], #lighting-view input[type="search"], #lighting-view select, .lt-sheet-x input, .lt-sheet-x select, .gp-sheet input, .gp-sheet select, .ct-sheet input, .ct-sheet select, .ct-sheet textarea { min-height: 44px; border-radius: 12px; border: 1.5px solid var(--input-border); background: var(--input-bg); color: var(--text); font: inherit; font-size: 1rem; padding: 0 10px; width: 100%; box-sizing: border-box; }
+    .lt-gen-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
+    .lt-list { display: grid; gap: 0; margin: 0 -6px; }
     .lt-empty { margin: 6px 0; color: var(--muted); font-size: .9rem; }
-    .lt-unit { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 10px; padding: 10px; border-radius: 12px; border: 1px solid var(--hairline); background: var(--surface-2); border-left: 4px solid var(--bc); }
-    .lt-u-art { width: 56px; height: 44px; border-radius: 8px; background: radial-gradient(circle at 50% 40%, #2a2219, #0b0907); overflow: hidden; }
-    .lt-u-art svg, .lt-sh-art svg { width: 100%; height: 100%; display: block; }
-    .lt-u-name { padding-right: 104px; min-height: 36px; }
-    .lt-u-name b { display: block; font-size: .95rem; }
-    .lt-u-name span { font-size: .75rem; color: var(--muted); font-weight: 700; }
-    .lt-u-ctl { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
-    .lt-u-ctl select { flex: 1; min-width: 0; }
-    .lt-qty { display: inline-flex; align-items: center; border: 1.5px solid var(--input-border); border-radius: 10px; overflow: hidden; flex: 0 0 auto; }
-    .lt-q { width: 36px; height: 42px; border: 0; background: var(--surface); color: var(--text); font-size: 1.15rem; font-weight: 800; cursor: pointer; }
-    .lt-qn { min-width: 26px; text-align: center; font-weight: 850; }
-    .lt-u-note { margin-bottom: 6px; }
-    .lt-u-amps { font-size: .84rem; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
-    .lt-ov { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: .74rem; color: var(--muted); font-weight: 700; }
-    #lighting-view .lt-ov input { width: 70px; min-height: 32px; font-size: .85rem; padding: 0 6px; }
-    .lt-u-side { position: absolute; top: 8px; right: 6px; display: flex; gap: 2px; align-items: center; }
-    .lt-u-ctl, .lt-u-note, .lt-u-amps { margin-left: -66px; }
-    #lighting-view .lt-u-note { width: calc(100% + 66px); }
-    .lt-u-ctl select { font-size: .92rem !important; }
-    .lt-u-del, .lt-cdel { border: 0; background: transparent; color: var(--muted); font-size: 1.05rem; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; }
+    .lt-row { position: relative; overflow: hidden; border-bottom: 1px solid var(--hairline); }
+    .lt-row:last-child { border-bottom: 0; }
+    .lt-row-in { position: relative; z-index: 1; display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 6px; min-height: 56px; background: var(--lt-card); transition: transform .18s ease; cursor: pointer; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+    .lt-row.swiped .lt-row-in { transform: translateX(-148px); }
+    .lt-row-acts { position: absolute; right: 0; top: 0; bottom: 0; display: flex; }
+    .lt-row-acts button { width: 74px; border: 0; font: inherit; font-weight: 850; font-size: .84rem; color: #fff; cursor: pointer; }
+    .lt-row-acts .ra-edit { background: #8a5a1c; } .lt-row-acts .ra-del { background: #c62828; }
+    .lt-thumb { width: 52px; height: 42px; border-radius: 10px; background: radial-gradient(circle at 50% 40%, #33281c, #0b0907); overflow: hidden; }
+    .lt-thumb svg { width: 100%; height: 100%; display: block; }
+    .lt-row-name { min-width: 0; }
+    .lt-row-name b { display: block; font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lt-row-name span { display: flex; gap: 6px; align-items: center; font-size: .74rem; color: var(--muted); font-weight: 700; margin-top: 3px; white-space: nowrap; overflow: hidden; }
+    .lt-row-amps { text-align: right; font-variant-numeric: tabular-nums; }
+    .lt-row-amps b { display: block; font-size: 1.05rem; font-weight: 900; }
+    .lt-row-amps small { font-size: .7rem; color: var(--muted); font-weight: 750; }
+    .lt-qtyb { font-weight: 900; color: var(--lt); }
+    .lt-totals { display: flex; gap: 6px; flex-wrap: wrap; margin: 2px 0 8px; }
+    .lt-tot { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; min-height: 30px; border-radius: 999px; background: var(--surface-2); font-size: .8rem; font-weight: 750; }
+    .lt-tot b { font-variant-numeric: tabular-nums; }
+    details.lt-lib-wrap > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; min-height: 44px; }
+    details.lt-lib-wrap > summary::-webkit-details-marker { display: none; }
+    details.lt-lib-wrap > summary::after { content: "▸"; margin-left: 6px; color: var(--lt); transition: transform .2s; }
+    details.lt-lib-wrap[open] > summary::after { transform: rotate(90deg); }
     .lt-filters { display: grid; gap: 8px; margin: 8px 0 12px; }
     .lt-sel-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .lt-lib { display: grid; gap: 12px; }
     @media (min-width: 720px) { .lt-lib { grid-template-columns: 1fr 1fr; } }
+    .fx-card { display: grid; grid-template-columns: 116px 1fr; gap: 12px; padding: 10px; border-radius: 18px 4px 18px 18px; background: var(--surface-2); border: 1px solid var(--hairline); position: relative; overflow: hidden; }
     .fx-foot { grid-column: 1 / -1; }
-    .fx-card { display: grid; grid-template-columns: 116px 1fr; gap: 12px; padding: 10px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--hairline); position: relative; overflow: hidden; }
-    .fx-card::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--bc); }
-    .fx-art { border-radius: 10px; background: radial-gradient(120% 90% at 50% 30%, #3a2c1d 0%, #120e0a 62%, #070605 100%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), inset 0 -20px 30px rgba(0,0,0,.4); align-self: start; aspect-ratio: 120 / 104; }
+    .fx-art { border-radius: 12px; background: radial-gradient(120% 90% at 50% 30%, #3a2c1d 0%, #120e0a 62%, #070605 100%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); align-self: start; aspect-ratio: 120 / 104; }
     .fx-art svg { width: 100%; height: 100%; display: block; }
-    .fx-brand { font-size: .7rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; color: var(--bc); filter: saturate(1.1); }
+    .fx-brand { font-size: .7rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; color: var(--bc); }
     :root:not([data-theme="dark"]) .fx-brand { filter: brightness(.75) saturate(1.2); }
     @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fx-brand { filter: none; } }
     html[data-theme="dark"] .fx-brand { filter: none; }
@@ -1889,33 +1909,135 @@
     .b-edison { color: #fff; background: #c62828; border-color: #c62828; } .b-verify { color: var(--muted); } .b-custom { color: #1a0f05; background: #ffb74d; border-color: #ffb74d; } .b-ov { color: var(--lt); }
     @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .b-pub { color: #81c784; } :root:not([data-theme="light"]) .b-calc { color: #ffd54f; } }
     html[data-theme="dark"] .b-pub { color: #81c784; } html[data-theme="dark"] .b-calc { color: #ffd54f; }
-    .fx-specs { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); padding-top: 8px; border-top: 1px solid var(--hairline); gap: 3px 10px; margin: 0; font-size: .74rem; }
+    .fx-specs { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 3px 10px; margin: 0; padding-top: 8px; border-top: 1px solid var(--hairline); font-size: .74rem; }
     .fx-specs div { min-width: 0; }
     .fx-specs dt { color: var(--muted); font-weight: 700; font-size: .66rem; text-transform: uppercase; letter-spacing: .08em; }
     .fx-specs dd { margin: 0; font-weight: 650; overflow-wrap: anywhere; }
     .fx-note { margin: 6px 0 0; font-size: .74rem; color: var(--lt); font-weight: 700; }
     .fx-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
-    .fx-link { font-size: .8rem; font-weight: 800; color: var(--lt); text-decoration: none; }
-    .btn.small { min-height: 36px; padding: 0 12px; font-size: .84rem; }
-    @media (max-width: 340px) { .fx-card { grid-template-columns: 96px 1fr; } }
+    .fx-link { font-size: .82rem; font-weight: 800; color: var(--lt); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+    .btn.small { min-height: 44px; padding: 0 12px; font-size: .86rem; }
     .lt-more { width: 100%; margin-top: 10px; }
+    .lt-actions { padding-bottom: 8px; }
+    .lt-share-row { display: flex; align-items: center; gap: 8px; }
+
+    /* sticky action bar */
+    .lt-actionbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(180deg, transparent, var(--bg) 40%); display: flex; gap: 8px; justify-content: center; }
+    .lt-actionbar[hidden] { display: none; }
+    .lt-actionbar .btn { max-width: 28rem; flex: 1; min-height: 54px; border-radius: 16px; font-size: 1.05rem; font-weight: 900; background: linear-gradient(135deg, #ffb347, #e8741c) !important; color: #1a0f05 !important; border: 0 !important; box-shadow: 0 10px 26px -8px rgba(255, 140, 40, .7); }
+    .lt-actionbar .lt-ab-mini { flex: 0 0 auto; width: 54px; padding: 0; background: var(--surface) !important; color: var(--text) !important; box-shadow: var(--shadow); border: 1px solid var(--hairline) !important; }
+
+    /* full-screen bottom sheets (picker, unit editor, generator profile, contacts) */
+    .xsheet { position: fixed; left: 0; right: 0; bottom: 0; top: max(4vh, env(safe-area-inset-top)); z-index: 70; max-width: 42rem; margin: 0 auto; display: flex; flex-direction: column; background: var(--surface); border-radius: 24px 24px 0 0; box-shadow: 0 -20px 50px rgba(0, 0, 0, .5); border: 1px solid var(--hairline); border-bottom: 0; }
+    .xsheet[hidden] { display: none; }
+    .xsheet.short { top: auto; max-height: 86vh; }
+    .xs-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px 8px; border-bottom: 1px solid var(--hairline); }
+    .xs-head h2 { margin: 0; font-size: 1.1rem; font-weight: 900; flex: 1; }
+    .xs-close { width: 44px; height: 44px; border-radius: 12px; border: 0; background: var(--surface-2); color: var(--text); font-size: 1.2rem; cursor: pointer; }
+    .xs-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 12px 14px calc(18px + env(safe-area-inset-bottom)); }
+    .xs-grab { width: 44px; height: 5px; border-radius: 3px; background: var(--hairline); margin: 8px auto 0; }
+    .xs-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(0, 0, 0, .5); }
+    .xs-backdrop[hidden] { display: none; }
+    .lt-sheet-x { background: var(--lt-card, var(--surface)); }
+    .chips { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 8px; scrollbar-width: none; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip-b { flex: 0 0 auto; min-height: 44px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--hairline); background: var(--surface-2); color: var(--text); font: inherit; font-size: .84rem; font-weight: 800; cursor: pointer; white-space: nowrap; }
+    .chip-b.on { background: var(--lt, var(--accent)); color: #1a0f05; border-color: transparent; }
+    .pk-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    @media (min-width: 560px) { .pk-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .pk-tile { display: grid; gap: 4px; padding: 8px; border-radius: 18px 4px 18px 18px; border: 1px solid var(--hairline); background: var(--surface-2); text-align: left; font: inherit; color: var(--text); cursor: pointer; position: relative; }
+    .pk-tile .fx-art { width: 100%; }
+    .pk-tile b { font-size: .9rem; line-height: 1.2; }
+    .pk-tile small { font-size: .72rem; color: var(--muted); font-weight: 700; }
+    .pk-tile .pk-a { font-weight: 900; font-size: .9rem; }
+    .pk-tile .fx-b { position: absolute; top: 12px; left: 12px; }
+    .pk-count { font-size: .8rem; color: var(--muted); margin: 0 0 8px; }
+    .pk-add { display: grid; gap: 12px; }
+    .pk-add .fx-art { max-width: 260px; width: 100%; margin: 0 auto; }
+    .pk-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 800; }
+    .stepper { display: inline-flex; align-items: center; border: 1.5px solid var(--input-border); border-radius: 14px; overflow: hidden; }
+    .stepper button { width: 48px; height: 48px; border: 0; background: var(--surface-2); color: var(--text); font-size: 1.3rem; font-weight: 900; cursor: pointer; }
+    .stepper span { min-width: 44px; text-align: center; font-weight: 900; font-size: 1.15rem; }
+    .legpick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+    .legpick button { min-height: 44px; border-radius: 12px; border: 2px solid transparent; font: inherit; font-weight: 850; font-size: .86rem; color: #fff; cursor: pointer; opacity: .55; }
+    .legpick button.on { opacity: 1; border-color: var(--lt, #fff); box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--lt, #fff); }
+    .proj { display: grid; gap: 6px; }
+    .proj-row { display: grid; grid-template-columns: 64px 1fr auto; gap: 8px; align-items: center; font-size: .84rem; font-weight: 800; }
+    .proj-bar { height: 10px; border-radius: 6px; background: var(--bar-track); position: relative; overflow: hidden; }
+    .proj-bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; }
+    .proj-bar i.now { background: #9e9e9e; }
+    .proj-bar i.add { opacity: .9; }
+    .pk-warn { padding: 10px 12px; border-radius: 12px; font-weight: 850; }
+    .pk-warn.lv-orange { background: rgba(251, 140, 0, .18); border: 1.5px solid #fb8c00; }
+    .pk-warn.lv-red { background: rgba(229, 57, 53, .2); border: 2px solid #e53935; }
+    .pk-warn.lv-amber { background: rgba(249, 168, 37, .16); border: 1px solid #f9a825; }
+    .btn-big { min-height: 54px; border-radius: 16px; font-size: 1.05rem; font-weight: 900; }
+    .btn-amber { background: linear-gradient(135deg, #ffb347, #e8741c) !important; color: #1a0f05 !important; border: 0 !important; }
+    .btn-redx { background: #c62828 !important; color: #fff !important; border: 0 !important; }
     .lt-cform { display: grid; gap: 8px; margin-top: 8px; }
     .lt-c-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .lt-c-row label { display: grid; gap: 4px; font-weight: 800; font-size: .84rem; }
-    .lt-c-chk { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .88rem; }
+    .lt-c-row label, .gp-f label, .ct-f label { display: grid; gap: 4px; font-weight: 800; font-size: .82rem; }
+    .lt-c-chk { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .88rem; min-height: 44px; }
+    .lt-c-chk input { width: 22px; height: 22px; }
     .lt-custom-list { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; font-size: .86rem; }
     .lt-custom-list li { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 10px; background: var(--surface-2); }
-    .lt-custom-list .lt-cdel { margin-left: auto; }
+    .lt-cdel { margin-left: auto; border: 0; background: transparent; color: var(--muted); width: 44px; height: 44px; font-size: 1.05rem; cursor: pointer; }
     .lt-sheet { border-top: 3px solid #ffad42; }
     .lt-sh-head { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
     .lt-sh-art { width: 72px; height: 54px; border-radius: 8px; background: radial-gradient(circle at 50% 40%, #2a2219, #0b0907); flex: 0 0 auto; }
+    .lt-sh-art svg { width: 100%; height: 100%; display: block; }
     .lt-sh-amps { font-size: .84rem; color: var(--muted); font-weight: 700; }
     .lt-sh-row { display: flex; gap: 8px; margin-bottom: 8px; }
-    .lt-sh-row select { flex: 1; }
-    #lt-sheet input { margin-bottom: 10px; }
+    .lt-sh-row select { flex: 1; min-height: 44px; }
+    #lt-sheet input { margin-bottom: 10px; min-height: 44px; width: 100%; box-sizing: border-box; }
+    .lt-qty { display: inline-flex; align-items: center; border: 1.5px solid var(--input-border); border-radius: 10px; overflow: hidden; flex: 0 0 auto; }
+    .lt-q { width: 44px; height: 44px; border: 0; background: var(--surface); color: var(--text); font-size: 1.15rem; font-weight: 800; cursor: pointer; }
+    .lt-qn { min-width: 26px; text-align: center; font-weight: 850; }
     .pal-btn.lt-pal { border-color: #ffad42 !important; }
     .pal-btn.lt-pal[aria-pressed="false"] { opacity: .6; }
     #map-lights .lt-mapi { cursor: grab; }
+
+    /* generator profile sheet */
+    .gp-f { display: grid; gap: 10px; }
+    .gp-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .gp-calc { padding: 10px 12px; border-radius: 12px; background: var(--surface-2); font-size: .84rem; font-weight: 700; }
+    .gp-calc b { font-size: 1rem; }
+    .gp-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* map picker (replaces the mode switch on the Map tab) */
+    .mp-bar { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
+    .mp-bar[hidden] { display: none; }
+    .mp-bar select { flex: 1; min-width: 0; min-height: 44px; border-radius: 12px; border: 1.5px solid var(--input-border); background: var(--input-bg); color: var(--text); font: inherit; font-weight: 800; font-size: 1rem; padding: 0 10px; }
+    .mp-bar .btn { min-height: 44px; min-width: 44px; padding: 0 12px; }
+    .mp-menu { position: fixed; right: 16px; z-index: 120; display: grid; min-width: 180px; padding: 6px; border-radius: 14px; background: var(--surface); border: 1px solid var(--hairline); box-shadow: var(--shadow-lift); }
+    .mp-menu[hidden] { display: none; }
+    .mp-menu button { min-height: 44px; border: 0; background: transparent; color: var(--text); font: inherit; font-weight: 800; text-align: left; padding: 0 12px; border-radius: 10px; cursor: pointer; }
+    .mp-menu button.danger { color: #e53935; }
+
+    /* emergency contacts */
+    .sos-btn { flex: 0 0 auto; min-height: 44px; min-width: 52px; padding: 0 10px; border: 0; border-radius: 12px; background: #c62828; color: #fff; font: inherit; font-size: .8rem; font-weight: 900; letter-spacing: .06em; cursor: pointer; box-shadow: 0 4px 12px -4px rgba(198, 40, 40, .7); }
+    .ct-911 { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px; border-radius: 14px; background: #c62828; color: #fff; text-decoration: none; font-weight: 900; font-size: 1.1rem; min-height: 56px; box-sizing: border-box; margin-bottom: 12px; }
+    .ct-911 span { font-size: .8rem; font-weight: 700; opacity: .9; }
+    .ct-group { margin: 14px 0 6px; font-size: .74rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+    .ct-card { padding: 12px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--hairline); margin-bottom: 8px; }
+    .ct-card.pin { border-color: var(--gold); box-shadow: inset 3px 0 0 var(--gold); }
+    .ct-top { display: flex; gap: 8px; align-items: flex-start; }
+    .ct-top > div { flex: 1; min-width: 0; }
+    .ct-name { font-weight: 900; font-size: 1.05rem; }
+    .ct-meta { font-size: .8rem; color: var(--muted); font-weight: 700; }
+    .ct-notes { font-size: .84rem; margin-top: 4px; }
+    .ct-acts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+    .ct-acts a, .ct-acts span { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; border-radius: 12px; text-decoration: none; font-weight: 900; font-size: .95rem; }
+    .ct-acts .a-call { background: #2e7d32; color: #fff; } .ct-acts .a-sms { background: #1565c0; color: #fff; } .ct-acts .a-mail { background: var(--surface); color: var(--text); border: 1px solid var(--hairline); }
+    .ct-acts span { background: var(--surface); color: var(--muted); opacity: .5; border: 1px dashed var(--hairline); }
+    .ct-alt { display: inline-flex; margin-top: 6px; font-size: .84rem; font-weight: 800; color: var(--accent); min-height: 32px; align-items: center; }
+    .ct-icon { width: 44px; height: 44px; border: 0; border-radius: 12px; background: transparent; color: var(--muted); font-size: 1.1rem; cursor: pointer; }
+    .ct-icon.on { color: var(--gold); }
+    .ct-f { display: grid; gap: 10px; }
+    .ct-sheet textarea { min-height: 70px; padding: 8px 10px; }
+    .share-ct { display: flex; align-items: center; gap: 8px; font-size: .86rem; font-weight: 750; min-height: 44px; }
+    .share-ct input { width: 22px; height: 22px; }
+    @media (max-width: 350px) { .slate-top { font-size: 0.98rem !important; letter-spacing: 0.03em !important; } }
 </style>
 </head>
 <body>
@@ -1927,14 +2049,16 @@
             <rect x="5" y="16" width="24" height="1.6" rx=".8" fill="#f3efe7" opacity=".85"/><rect x="5" y="20.5" width="16" height="1.6" rx=".8" fill="#f3efe7" opacity=".6"/><rect x="5" y="25" width="20" height="1.6" rx=".8" fill="#f3efe7" opacity=".6"/></g>
             <g class="clap-arm"><rect x="2" y="5" width="30" height="6" rx="1.5" fill="#1b1814" stroke="#f3efe7" stroke-width="1"/>
             <path d="M7 5 L11 5 L8 11 L4 11 Z M15 5 L19 5 L16 11 L12 11 Z M23 5 L27 5 L24 11 L20 11 Z" fill="#f3efe7"/></g>
-          </svg><svg class="lt-mark" id="lt-mark" viewBox="0 0 34 30" aria-hidden="true" focusable="false"><path d="M21 9 L33 3 V27 L21 21 Z" fill="#ffd27a" opacity=".55"/><rect x="3" y="7" width="18" height="16" rx="3" fill="#1b1612" stroke="#ffad42" stroke-width="1.4"/><circle cx="12" cy="15" r="5" fill="#ffd27a"/><path d="M12 23 v4 M7 28 h10" stroke="#ffad42" stroke-width="1.6" stroke-linecap="round"/></svg><span class="slate-text"><span class="slate-top">LegCheck</span> <span class="slate-sub">Generator phase &amp; load tracker</span></span></h1>
+          </svg><svg class="lt-mark" id="lt-mark" viewBox="0 0 34 30" aria-hidden="true" focusable="false"><path d="M21 9 L33 3 V27 L21 21 Z" fill="#ffd27a" opacity=".55"/><rect x="3" y="7" width="18" height="16" rx="3" fill="#1b1612" stroke="#ffad42" stroke-width="1.4"/><circle cx="12" cy="15" r="5" fill="#ffd27a"/><path d="M12 23 v4 M7 28 h10" stroke="#ffad42" stroke-width="1.6" stroke-linecap="round"/></svg><span class="slate-text"><span class="slate-top">The Power House</span> <span class="slate-sub">Generator phase &amp; load tracker</span></span></h1>
         <button type="button" class="svc-pill" id="svc-pill"></button>
         <button type="button" class="icon-btn" id="theme-btn" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
       </div>
       <div class="mode-seg" id="mode-seg" role="radiogroup" aria-label="What you are tracking">
         <button type="button" class="mode-btn on" role="radio" aria-checked="true" id="mode-base"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 18h18M5 18V9l7-4 7 4v9M9 18v-5h6v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Base Camp</button>
-        <button type="button" class="mode-btn" role="radio" aria-checked="false" id="mode-light"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="11" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 9l5-3v12l-5-3M7 17v3M5 20h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Lighting</button>
+        <button type="button" class="mode-btn" role="radio" aria-checked="false" id="mode-light"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="11" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 9l5-3v12l-5-3M7 17v3M5 20h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Set Generator</button>
       </div>
+      <div class="mp-bar" id="mp-bar" hidden><select id="mp-select" aria-label="Choose a map"></select><button type="button" class="btn" id="mp-new">+ New</button><button type="button" class="btn" id="mp-more" aria-label="Map options: rename, duplicate, delete" aria-haspopup="menu">⋯</button></div>
+      <div class="mp-menu" id="mp-menu" role="menu" hidden><button type="button" role="menuitem" data-a="rename">Rename map</button><button type="button" role="menuitem" data-a="dup">Duplicate map</button><button type="button" role="menuitem" class="danger" data-a="del">Delete map</button></div>
     </header>
     <nav class="tabbar" id="tabbar" aria-label="View">
       <div class="tabs" role="tablist" aria-label="View">
@@ -1942,27 +2066,33 @@
         <button type="button" class="tab" role="tab" id="tab-map" aria-selected="false" aria-controls="map-view">Map</button>
       </div>
       <button type="button" class="svc-chip" id="svc-chip" hidden></button>
+      <button type="button" class="sos-btn" id="sos-btn" aria-label="SOS: emergency contacts" title="Emergency contacts">SOS</button>
     </nav>
     <section class="summary-block" id="summary-block" aria-label="Generator legs">
       <div id="gen-hero">
         <div class="hero-head"><h2 class="hero-title" id="hero-title">Generator legs</h2><span class="hero-time" id="hero-time">No reading yet</span></div>
+        <p class="hero-rating" id="hero-rating" hidden></p>
         <div class="phases" id="hero-phases" aria-labelledby="hero-title"></div>
         <div class="leg-pop" id="leg-pop" role="dialog" aria-modal="false" aria-labelledby="leg-pop-title" hidden></div>
         <p class="balance hero-spread" id="hero-spread"></p>
         <p class="hero-hint hero-neutral" id="hero-neutral" hidden>High neutral, phases unbalanced</p>
         <p class="hero-hint hero-diff" id="hero-diff" hidden></p>
+        <p class="hero-load" id="hero-load" hidden></p>
+        <div class="ld-alert" id="hero-alert" role="status" hidden></div>
         <p class="saved-line" id="saved-line">Not saved yet</p>
         <div class="bal-row"><button type="button" class="btn bal-btn" id="gbal-btn" aria-expanded="false" aria-controls="gbal-card">⚖ Suggest balance</button></div>
         <section class="bal-card" id="gbal-card" aria-label="Generator balance suggestion" aria-live="polite" hidden></section>
       </div>
       <div id="lt-hero" hidden>
-        <div class="lt-hero-head"><h2 class="lt-hero-title" id="lt-hero-title"><span class="lt-beam" aria-hidden="true"></span>Lighting load</h2><span class="lt-hero-tag">vs generator legs</span></div>
+        <div class="lt-hero-head"><h2 class="lt-hero-title" id="lt-hero-title"><span class="lt-beam" aria-hidden="true"></span>Set Generator load</h2><span class="lt-hero-tag" id="lt-hero-tag"></span></div>
+        <p class="gp-line" id="lt-gp-line"></p>
+        <div class="lt-dials" id="lt-hero-legs" aria-labelledby="lt-hero-title"></div>
+        <div class="lt-hero-stats" id="lt-hero-stats"></div>
+        <div class="ld-alert" id="lt-warn" role="status" hidden></div>
         <p class="lt-hero-meta" id="lt-hero-meta"></p>
-        <div class="lt-legs" id="lt-hero-legs" aria-labelledby="lt-hero-title"></div>
-        <ul class="lt-warn" id="lt-warn" hidden></ul>
-        <p class="lt-hero-spread" id="lt-hero-spread"></p>
-        <div class="bal-row"><button type="button" class="btn lt-bal-btn" id="lt-bal-btn" aria-expanded="false" aria-controls="lt-bal-card">⚖ Suggest lighting balance</button></div>
-        <section class="lt-bal-card" id="lt-bal-card" aria-label="Lighting balance suggestion" aria-live="polite" hidden></section>
+        <p class="lt-hero-meta" id="lt-hero-spread"></p>
+        <div class="bal-row"><button type="button" class="btn lt-bal-btn" id="lt-bal-btn" aria-expanded="false" aria-controls="lt-bal-card">⚖ Suggest set balance</button></div>
+        <section class="lt-bal-card" id="lt-bal-card" aria-label="Set Generator balance suggestion" aria-live="polite" hidden></section>
       </div>
       <div id="share-banner" role="status">
         <p id="share-banner-text"></p>
@@ -1975,57 +2105,47 @@
 
     <div id="lighting-view" hidden>
       <section class="lt-sec" id="lt-gen-sec" aria-labelledby="lt-gen-title">
-        <h2 class="lt-title" id="lt-gen-title"><span class="lt-num">01</span>Lighting generator</h2>
-        <p class="lt-sub">Its own legs, separate from Base Camp. Enter clamp readings if you have them.</p>
+        <h2 class="lt-title" id="lt-gen-title">Set Generator legs</h2>
+        <button type="button" class="btn gp-open" id="lt-gp-btn" data-gp="set"></button>
         <div class="lt-gen-grid">
-          <label class="lt-gl" data-leg="red"><span><i style="background:#c62828"></i>Red</span><input id="lt-gen-red" type="text" inputmode="decimal" placeholder="A"></label>
-          <label class="lt-gl" data-leg="blue"><span><i style="background:#0d47a1"></i>Blue</span><input id="lt-gen-blue" type="text" inputmode="decimal" placeholder="A"></label>
-          <label class="lt-gl" data-leg="black"><span><i style="background:#111111"></i>Black</span><input id="lt-gen-black" type="text" inputmode="decimal" placeholder="A"></label>
-          <label class="lt-gl" data-leg="white"><span><i style="background:#777777"></i>Neutral</span><input id="lt-gen-white" type="text" inputmode="decimal" placeholder="A"></label>
+          <label class="lt-gl" data-leg="red"><span><i class="lt-dot" style="background:#c62828"></i>Red</span><input id="lt-gen-red" type="text" inputmode="decimal" placeholder="A"></label>
+          <label class="lt-gl" data-leg="blue"><span><i class="lt-dot" style="background:#0d47a1"></i>Blue</span><input id="lt-gen-blue" type="text" inputmode="decimal" placeholder="A"></label>
+          <label class="lt-gl" data-leg="black"><span><i class="lt-dot" style="background:#111111"></i>Black</span><input id="lt-gen-black" type="text" inputmode="decimal" placeholder="A"></label>
+          <label class="lt-gl" data-leg="white"><span><i class="lt-dot" style="background:#777777"></i>Neutral</span><input id="lt-gen-white" type="text" inputmode="decimal" placeholder="A"></label>
         </div>
-        <label class="lt-rating">Rating per leg <input id="lt-gen-rating" type="text" inputmode="decimal" placeholder="e.g. 100"> A</label>
         <div class="lt-gen-foot"><span class="saved-line" id="lt-gen-time"></span><button type="button" class="btn small" id="lt-gen-clear">Clear readings</button></div>
       </section>
 
       <section class="lt-sec" id="lt-rig-sec" aria-labelledby="lt-rig-title">
-        <h2 class="lt-title" id="lt-rig-title"><span class="lt-num">02</span>Rig<span class="lt-count" id="lt-rig-count"></span></h2>
+        <h2 class="lt-title" id="lt-rig-title">Fixture Layout<span class="lt-count" id="lt-rig-count"></span></h2>
         <div class="lt-totals" id="lt-rig-totals"></div>
-        <div class="lt-rig" id="lt-rig"></div>
+        <div class="lt-list lt-rig" id="lt-rig"></div>
+        <p class="lt-fine" id="lt-rig-hint" hidden>Tap a fixture to edit it · swipe left (or long-press) to edit or remove.</p>
       </section>
 
-      <section class="lt-sec" id="lt-lib-sec" aria-labelledby="lt-lib-title">
-        <h2 class="lt-title" id="lt-lib-title"><span class="lt-num">03</span>Fixture library<span class="lt-count" id="lt-lib-count"></span></h2>
-        <div class="lt-filters">
-          <input id="lt-q" type="search" placeholder="Search fixtures (e.g. SkyPanel, 18K, tube)" aria-label="Search fixtures" autocomplete="off">
-          <div class="lt-sel-row"><select id="lt-brand" aria-label="Brand"></select><select id="lt-group" aria-label="Type"></select></div>
-        </div>
-        <div class="lt-lib" id="lt-lib"></div>
-        <button type="button" class="btn lt-more" id="lt-more" hidden>Show more</button>
-        <p class="lt-fine">Amps marked <b>Calculated</b> are watts ÷ volts; real draw runs higher with power factor and inrush. Drawings are illustrations; tap <b>View photo/specs</b> for the maker’s page.</p>
+      <section class="lt-sec" id="lt-lib-sec">
+        <details class="lt-lib-wrap" id="lt-lib-wrap">
+          <summary><h2 class="lt-title" id="lt-lib-title" style="margin:0;flex:1">Fixture library<span class="lt-count" id="lt-lib-count"></span></h2></summary>
+          <div class="lt-filters">
+            <input id="lt-q" type="search" placeholder="Search fixtures (e.g. SkyPanel, 18K, tube)" aria-label="Search fixtures" autocomplete="off">
+            <div class="lt-sel-row"><select id="lt-brand" aria-label="Brand"></select><select id="lt-group" aria-label="Type"></select></div>
+          </div>
+          <div class="lt-lib" id="lt-lib"></div>
+          <button type="button" class="btn lt-more" id="lt-more" hidden>Show more</button>
+          <p class="lt-fine">Amps marked <b>Calculated</b> are watts ÷ volts; real draw runs higher with power factor and inrush. Drawings are illustrations; tap <b>View photo/specs</b> for the maker’s page.</p>
+          <ul class="lt-custom-list" id="lt-custom-list"></ul>
+        </details>
       </section>
 
-      <section class="lt-sec" id="lt-custom-sec" aria-labelledby="lt-custom-title">
-        <h2 class="lt-title" id="lt-custom-title"><span class="lt-num">04</span>Custom fixture</h2>
-        <div class="lt-cform">
-          <input id="lt-c-name" type="text" maxlength="60" placeholder="Name (e.g. Practical lamp)" aria-label="Custom fixture name">
-          <select id="lt-c-form" aria-label="Type">
-            <option value="cob">LED point source</option><option value="panel">LED panel</option><option value="tube">LED tube</option><option value="mat">LED mat</option>
-            <option value="fresnel">Fresnel</option><option value="hmifres">HMI + ballast</option><option value="fay">Par bank</option><option value="space">Space light</option>
-            <option value="mini">Practical / mini</option><option value="bulb">Bulb</option>
-          </select>
-          <div class="lt-c-row"><label>Watts <input id="lt-c-w" type="text" inputmode="decimal" placeholder="W"></label><label>Amps <input id="lt-c-a" type="text" inputmode="decimal" placeholder="auto"></label></div>
-          <label class="lt-c-chk"><input id="lt-c-240" type="checkbox"> 240 V only (needs a leg pair)</label>
-          <button type="button" class="btn btn-primary" id="lt-c-add">Add custom fixture</button>
-        </div>
-        <ul class="lt-custom-list" id="lt-custom-list"></ul>
-      </section>
       <section class="actions lt-actions">
+        <label class="share-ct"><input type="checkbox" class="share-ct-in" id="lt-share-ct"> Include emergency contacts in share links</label>
         <div class="btn-row">
           <button type="button" class="btn" id="lt-share-link">Share link</button>
           <button type="button" class="btn" id="lt-share-text">Share summary</button>
         </div>
       </section>
     </div>
+    <div class="lt-actionbar" id="lt-actionbar" hidden><button type="button" class="btn" id="lt-add-btn">+ Add fixture</button><button type="button" class="btn lt-ab-mini" id="lt-ab-map" aria-label="Open the map">🗺</button></div>
 
     <div id="tracker-view">
     <section class="gen-legs" id="gen-legs" aria-labelledby="gen-title">
@@ -2033,6 +2153,7 @@
       <button type="button" class="gen-title sec-head" id="legs-head" aria-expanded="true" aria-controls="legs-body"><span class="sec-chev" aria-hidden="true">▾</span><span><svg class="sec-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="11" rx="2"/><path d="M6 18v2M18 18v2M13 9.5l-2.5 3.5h3L11 16.5"/><path d="M7 7V5h4v2"/></svg><span id="gen-title">Generator legs</span></span><small id="gen-updated">Not updated yet</small></button>
       <p class="sec-sum" id="legs-sum" hidden></p>
       <div class="sec-body" id="legs-body">
+      <button type="button" class="btn gp-open" id="gp-base-btn" data-gp="base"><span id="gp-base-txt">⚙ Set up generator: size, volts, amps</span><span aria-hidden="true">›</span></button>
       <div class="gen-rows">
         <div class="gen-row" id="gen-row-red" data-leg="red">
           <div class="gr-head"><span class="dot dot-red" aria-hidden="true"></span><span class="gr-name">Red</span><span class="gr-tag" id="gen-tag-red"></span></div>
@@ -2167,6 +2288,7 @@
 
     <section class="actions">
       <button type="button" class="btn btn-primary" id="add-btn">Add location</button>
+      <label class="share-ct"><input type="checkbox" class="share-ct-in" id="share-ct"> Include emergency contacts in share links</label>
       <div class="btn-row">
         <button type="button" class="btn" id="share-link-btn">Share link</button>
         <button type="button" class="btn" id="share-text-btn">Share summary</button>
@@ -2186,7 +2308,7 @@
       <div class="palette" id="map-palette" role="toolbar" aria-label="Tap to add to the map">
         <button type="button" class="pal-btn pal-cable" id="cable-btn"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M4 22 C 14 22, 14 6, 24 6 S 34 10, 36 6" fill="none" stroke="#c62828" stroke-width="4" stroke-linecap="round"/><path d="M4 26 C 14 26, 16 10, 26 10 S 34 14, 36 10" fill="none" stroke="#0d47a1" stroke-width="4" stroke-linecap="round"/></svg><span id="cable-btn-text">Cable run</span></button>
         <button type="button" class="pal-btn lt-pal" id="lt-layer-btn" aria-pressed="true"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><circle cx="20" cy="14" r="10" fill="#141518" stroke="#ffad42" stroke-width="3"/><path d="M14 10 h8 v8 h-8 z M22 11 l6 -3 v12 l-6 -3" fill="#ffd27a"/></svg><span>Lights: on</span></button>
-        <button type="button" class="pal-btn lt-pal" id="lt-place-btn"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M20 3 C13 3 9 8 9 13 c0 7 11 13 11 13 s11 -6 11 -13 C31 8 27 3 20 3 z" fill="#ffad42"/><circle cx="20" cy="13" r="4" fill="#141518"/></svg><span>Place rig</span></button>
+        <button type="button" class="pal-btn lt-pal" id="lt-place-btn"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M20 3 C13 3 9 8 9 13 c0 7 11 13 11 13 s11 -6 11 -13 C31 8 27 3 20 3 z" fill="#ffad42"/><circle cx="20" cy="13" r="4" fill="#141518"/></svg><span>Place Fixture Layout</span></button>
       </div>
       <div class="map-stage" id="map-stage">
         <div class="map-mode" id="map-mode" hidden>
@@ -2229,6 +2351,7 @@
           <button type="button" class="btn" id="bg-clear-btn">Clear photo</button>
         </div>
         <input type="file" id="bg-file" accept="image/*" hidden>
+        <label class="share-ct"><input type="checkbox" class="share-ct-in" id="map-share-ct"> Include emergency contacts in share links</label>
         <div class="btn-row">
           <button type="button" class="btn" id="map-share-btn">Share link</button>
           <button type="button" class="btn" id="map-export-btn">Export map as PNG image</button>
@@ -2249,6 +2372,52 @@
     <div class="map-sheet lt-sheet" id="lt-sheet" role="dialog" aria-label="Edit lighting fixture" hidden></div>
   </div>
 
+  <div class="xs-backdrop" id="xs-backdrop" hidden></div>
+  <section class="xsheet lt-sheet-x" id="lt-picker" role="dialog" aria-modal="true" aria-labelledby="lt-picker-title" hidden>
+    <div class="xs-grab" aria-hidden="true"></div>
+    <div class="xs-head"><h2 id="lt-picker-title">Add fixture</h2><button type="button" class="xs-close" data-xs-close aria-label="Close">✕</button></div>
+    <div class="xs-body">
+      <div id="pk-list">
+        <input id="pk-q" type="search" placeholder="Search 238 fixtures" aria-label="Search fixtures" autocomplete="off">
+        <div class="chips" id="pk-types" aria-label="Type" style="margin-top:8px"></div>
+        <div class="chips" id="pk-brands" aria-label="Brand"></div>
+        <p class="pk-count" id="pk-count"></p>
+        <details class="lt-lib-wrap" id="pk-custom" style="margin:4px 0 12px">
+          <summary><h2 class="lt-title" style="margin:0;flex:1">Custom fixture</h2></summary>
+          <div class="lt-cform">
+            <input id="lt-c-name" type="text" maxlength="60" placeholder="Name (e.g. Practical lamp)" aria-label="Custom fixture name">
+            <select id="lt-c-form" aria-label="Type">
+              <option value="cob">LED point source</option><option value="panel">LED panel</option><option value="tube">LED tube</option><option value="mat">LED mat</option>
+              <option value="fresnel">Fresnel</option><option value="hmifres">HMI + ballast</option><option value="fay">Par bank</option><option value="space">Space light</option>
+              <option value="mini">Practical / mini</option><option value="bulb">Bulb</option>
+            </select>
+            <div class="lt-c-row"><label>Watts <input id="lt-c-w" type="text" inputmode="decimal" placeholder="W"></label><label>Amps <input id="lt-c-a" type="text" inputmode="decimal" placeholder="auto"></label></div>
+            <label class="lt-c-chk"><input id="lt-c-240" type="checkbox"> 240 V only (needs a leg pair)</label>
+            <button type="button" class="btn btn-amber btn-big" id="lt-c-add">Create custom fixture</button>
+          </div>
+        </details>
+          <div class="pk-tiles" id="pk-tiles"></div>
+        <button type="button" class="btn lt-more" id="pk-more" hidden>Show more</button>
+        
+      </div>
+      <div class="pk-add" id="pk-add" hidden></div>
+    </div>
+  </section>
+  <section class="xsheet short lt-sheet-x" id="lt-edit" role="dialog" aria-modal="true" aria-labelledby="lt-edit-title" hidden>
+    <div class="xs-grab" aria-hidden="true"></div>
+    <div class="xs-head"><h2 id="lt-edit-title">Fixture</h2><button type="button" class="xs-close" data-xs-close aria-label="Close">✕</button></div>
+    <div class="xs-body" id="lt-edit-body"></div>
+  </section>
+  <section class="xsheet short gp-sheet" id="gp-sheet" role="dialog" aria-modal="true" aria-labelledby="gp-title" hidden>
+    <div class="xs-grab" aria-hidden="true"></div>
+    <div class="xs-head"><h2 id="gp-title">Generator profile</h2><button type="button" class="xs-close" data-xs-close aria-label="Close">✕</button></div>
+    <div class="xs-body" id="gp-body"></div>
+  </section>
+  <section class="xsheet ct-sheet" id="ct-sheet" role="dialog" aria-modal="true" aria-labelledby="ct-title" hidden>
+    <div class="xs-grab" aria-hidden="true"></div>
+    <div class="xs-head"><h2 id="ct-title">Emergency contacts</h2><button type="button" class="xs-close" data-xs-close aria-label="Close">✕</button></div>
+    <div class="xs-body"><div id="ct-list"></div><div id="ct-form" hidden></div></div>
+  </section>
   <div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-card">
       <h2 id="modal-title">Confirm</h2>
@@ -2680,9 +2849,9 @@
       e.units = (Array.isArray(o.units) ? o.units : []).filter((u) => u && u.fx && (LT_BY[u.fx] || ids.has(u.fx))).map((u) => ({
         id: String(u.id || mapUid('u')).slice(0, 40), fx: String(u.fx), qty: Math.max(1, Math.min(99, Math.round(num(u.qty, 1)) || 1)),
         leg: LT_LEGS.indexOf(u.leg) >= 0 ? u.leg : 'red', note: String(u.note || '').slice(0, 60), ov: parseAmp(u.ov),
-        mx: u.mx == null ? null : num(u.mx, null), my: u.my == null ? null : num(u.my, null)
+        mx: u.mx == null ? null : num(u.mx, null), my: u.my == null ? null : num(u.my, null), mp: u.mp ? String(u.mp).slice(0, 40) : null
       }));
-      e.units.forEach((u) => { const f = ltFix0(u.fx, e); if (f && f.src === 3 && !LT_PAIR[u.leg]) u.leg = 'rb'; if (u.mx == null || u.my == null) { u.mx = null; u.my = null; } });
+      e.units.forEach((u) => { const f = ltFix0(u.fx, e); if (f && f.src === 3 && !LT_PAIR[u.leg]) u.leg = 'rb'; if (u.mx == null || u.my == null) { u.mx = null; u.my = null; u.mp = null; } else if (!u.mp) u.mp = 'set'; });
       e.layer = o.layer !== false;
       e.savedAt = num(o.savedAt, 0) || null;
       return e;
@@ -2723,9 +2892,9 @@
     var HOT_KEYS = ['red', 'blue', 'black'];
     function ltLegCheck(s) {
       s = s || ltCur();
-      const t = ltTotals(s), r = s.gen.rating;
+      const t = ltTotals(s), r = gpRating('set');
       const out = {};
-      HOT_KEYS.forEach((k) => { const p = r ? t.est[k] / r : null; out[k] = { amps: t.est[k], pct: p == null ? null : Math.round(p * 1000) / 10, level: p == null ? 'none' : p > 1 ? 'over' : p > 0.8 ? 'warn' : 'ok' }; });
+      HOT_KEYS.forEach((k) => { const g = s.gen[k]; const a = Math.max(t.est[k], g || 0); const p = r ? Math.round(a / r * 1000) / 10 : null; out[k] = { amps: a, est: t.est[k], reading: g, pct: p, level: ldLevel(p), headroom: r ? Math.round((r - a) * 10) / 10 : null }; });
       return out;
     }
 
@@ -2828,7 +2997,7 @@
       if (!s.units.length && !s.customs.length && g.red == null && g.blue == null && g.black == null && g.white == null && g.rating == null) return null;
       return {
         g: [g.red, g.blue, g.black, g.white, g.rating, g.updatedAt || 0],
-        u: s.units.map((u) => [u.id, u.fx, u.qty, u.leg, u.note || '', u.ov, u.mx == null ? null : Math.round(u.mx), u.my == null ? null : Math.round(u.my)]),
+        u: s.units.map((u) => [u.id, u.fx, u.qty, u.leg, u.note || '', u.ov, u.mx == null ? null : Math.round(u.mx), u.my == null ? null : Math.round(u.my), u.mp || null]),
         c: s.customs.map((c) => [c.id, c.name, c.form, c.w, c.a, c.v240 ? 1 : 0]),
         y: s.layer ? 1 : 0
       };
@@ -2838,7 +3007,7 @@
       const g = Array.isArray(L.g) ? L.g : [];
       return ltHydrate({
         gen: { red: g[0], blue: g[1], black: g[2], white: g[3], rating: g[4], updatedAt: g[5] },
-        units: (Array.isArray(L.u) ? L.u : []).map((a) => ({ id: a[0], fx: a[1], qty: a[2], leg: a[3], note: a[4], ov: a[5], mx: a[6], my: a[7] })),
+        units: (Array.isArray(L.u) ? L.u : []).map((a) => ({ id: a[0], fx: a[1], qty: a[2], leg: a[3], note: a[4], ov: a[5], mx: a[6], my: a[7], mp: a[8] })),
         customs: (Array.isArray(L.c) ? L.c : []).map((a) => ({ id: a[0], name: a[1], form: a[2], w: a[3], a: a[4], v240: !!a[5] })),
         layer: L.y !== 0
       });
@@ -2846,16 +3015,296 @@
     function ltSummaryLines(s) {
       s = s || ltCur();
       if (!s.units.length) return [];
-      const t = ltTotals(s), r = s.gen.rating;
-      const lines = ['', 'FILM LIGHTING RIG (estimated draw)'];
+      const t = ltTotals(s), r = gpRating('set');
+      const lines = ['', 'SET GENERATOR · FIXTURE LAYOUT (estimated draw)'];
       HOT_KEYS.forEach((k) => lines.push(LT_LEG_LABEL[k] + ': ' + formatAmp(Math.round(t.est[k] * 10) / 10) + ' A' + (r ? ' of ' + formatAmp(r) + ' A (' + Math.round(t.est[k] / r * 100) + '%)' : '')));
       lines.push('Fixtures: ' + t.units + ' · about ' + (t.watts / 1000).toFixed(1) + ' kW');
+      if (gpLine('set')) lines.push('Generator: ' + gpLine('set'));
       s.units.forEach((u) => { const f = ltFix0(u.fx, s); if (f) lines.push('• ' + u.qty + '× ' + (f.custom ? '' : f.brand + ' ') + f.model + ' — ' + LT_LEG_LABEL[u.leg] + (u.note ? ' (' + u.note + ')' : '')); });
       return lines;
     }
     let sharedAt = null;
     let toastTimer = null;
     let modalResolver = null;
+
+
+    // ======================= GENERATOR PROFILES + LOAD WARNINGS =======================
+    var GP_KEY = 'powerhouse-genprofile-v1';
+    var GP_CFG = {
+      '120': { label: '120 V single phase', short: '120 V 1Ø', v: 120, vln: 120, ph: 1 },
+      '240': { label: '120/240 V single phase', short: '120/240 V 1Ø', v: 240, vln: 120, ph: 1 },
+      '208': { label: '208/120 V three-phase', short: '208/120 V 3Ø', v: 208, vln: 120, ph: 3 },
+      '480': { label: '480/277 V three-phase', short: '480/277 V 3Ø', v: 480, vln: 277, ph: 3 },
+      '600': { label: '600/347 V three-phase (Canada)', short: '600/347 V 3Ø', v: 600, vln: 347, ph: 3 }
+    };
+    var GP_MOUNTS = [['tow', 'Towable', 'Tow'], ['tractor', 'Tractor-mounted', 'Tractor'], ['5ton', '5-ton', '5-ton'], ['pickup', '4x4 pickup', '4x4'], ['flatbed', 'Flatbed', 'Flatbed'], ['industrial', 'Industrial', 'Industrial'], ['portable', 'Portable/Handheld', 'Portable'], ['other', 'Other', '']];
+    var GP_PRESETS = [
+      { id: 'h1000', label: 'Honda 1000 W', w: 1000, cfg: '120', mount: 'portable', make: 'Honda EU1000i' },
+      { id: 'h2200', label: 'Honda 2200 W', w: 2200, cfg: '120', mount: 'portable', make: 'Honda EU2200i' },
+      { id: 'h3000', label: 'Honda 3000 W', w: 3000, cfg: '120', mount: 'portable', make: 'Honda EU3000iS' },
+      { id: 'h7000', label: 'Honda 7000 W', w: 7000, cfg: '240', mount: 'portable', make: 'Honda EU7000iS' }
+    ].concat([60, 100, 200, 400, 600, 800, 1000, 1200, 1400, 1600].map((a) => ({ id: 'a' + a, label: a + ' A', amps: a, cfg: '208' })));
+    var gpStore = null;
+    function gpEmpty() { return { name: '', make: '', mount: '', mountOther: '', kw: null, kva: null, pf: 0.8, cfg: '208', amps: null, manual: false, preset: '' }; }
+    function gpHydrate(p) {
+      const e = gpEmpty(); if (!p || typeof p !== 'object') return e;
+      e.name = String(p.name || '').slice(0, 40); e.make = String(p.make || '').slice(0, 60);
+      e.mount = GP_MOUNTS.some((m) => m[0] === p.mount) ? p.mount : ''; e.mountOther = String(p.mountOther || '').slice(0, 30);
+      e.kw = parseAmp(p.kw); e.kva = parseAmp(p.kva); e.pf = Math.min(1, Math.max(0.5, num(p.pf, 0.8) || 0.8));
+      e.cfg = GP_CFG[p.cfg] ? p.cfg : '208'; e.amps = parseAmp(p.amps); e.manual = !!p.manual; e.preset = String(p.preset || '').slice(0, 12);
+      return e;
+    }
+    function gpLoadAll() { let raw = null; try { raw = JSON.parse(localStorage.getItem(GP_KEY) || 'null'); } catch (e) {} return { base: gpHydrate(raw && raw.base), set: gpHydrate(raw && raw.set) }; }
+    function gpAll() { if (!gpStore) gpStore = gpLoadAll(); return gpStore; }
+    function gpGet(mode) {
+      const k = mode === 'set' ? 'set' : 'base';
+      if (viewState && viewState.profiles && viewState.profiles[k]) return viewState.profiles[k];
+      return gpAll()[k];
+    }
+    function gpIsEmpty(p) { return !p.name && !p.make && !p.mount && p.kw == null && p.kva == null && p.amps == null; }
+    function gpSave() {
+      if (viewState && viewState.profiles) return;
+      try { localStorage.setItem(GP_KEY, JSON.stringify(gpAll())); } catch (e) {}
+      const r = gpRating('set');
+      const s = ltCur();
+      if (s && s.gen.rating !== r && !gpIsEmpty(gpAll().set)) { s.gen.rating = r; ltPersist(); }
+    }
+    function gpCalc(p) {
+      const c = GP_CFG[p.cfg] || GP_CFG['208'];
+      const r3 = Math.sqrt(3);
+      if (p.kva) {
+        const I = c.ph === 1 ? p.kva * 1000 / c.v : p.kva * 1000 / (r3 * c.v);
+        return { amps: Math.round(I * 10) / 10, text: formatAmp(p.kva) + ' kVA × 1000 ÷ ' + (c.ph === 1 ? c.v + ' V' : '(√3 × ' + c.v + ' V)') + ' = ' + formatAmp(Math.round(I * 10) / 10) + ' A per leg' };
+      }
+      if (p.kw) {
+        const I = c.ph === 1 ? p.kw * 1000 / c.v : p.kw * 1000 / (r3 * c.v * p.pf);
+        return { amps: Math.round(I * 10) / 10, text: formatAmp(p.kw) + ' kW × 1000 ÷ ' + (c.ph === 1 ? c.v + ' V' : '(√3 × ' + c.v + ' V × ' + p.pf + ' PF)') + ' = ' + formatAmp(Math.round(I * 10) / 10) + ' A per leg' };
+      }
+      return null;
+    }
+    function gpRating(mode) {
+      const p = gpGet(mode);
+      if (p.manual && p.amps) return p.amps;
+      const c = gpCalc(p);
+      if (c) return c.amps;
+      if (p.amps) return p.amps;
+      if (mode === 'set') { const s = ltCur(); return s && s.gen.rating ? s.gen.rating : null; }
+      return null;
+    }
+    function gpMountShort(p) { if (p.mount === 'other') return p.mountOther || ''; const m = GP_MOUNTS.find((x) => x[0] === p.mount); return m ? m[2] : ''; }
+    function gpLine(mode) {
+      const p = gpGet(mode), r = gpRating(mode);
+      if (!r) return '';
+      const c = GP_CFG[p.cfg] || GP_CFG['208'];
+      const mt = gpMountShort(p);
+      return (p.name ? p.name + ' · ' : '') + (mt ? mt + ' ' : '') + formatAmp(r) + ' A/leg · ' + c.short;
+    }
+    function gpApplyPreset(p, id) {
+      const pr = GP_PRESETS.find((x) => x.id === id); if (!pr) return;
+      p.preset = id; p.cfg = pr.cfg;
+      if (pr.w) { p.kw = pr.w / 1000; p.kva = null; p.manual = false; p.amps = null; if (pr.make && !p.make) p.make = pr.make; if (pr.mount && !p.mount) p.mount = pr.mount; }
+      else { p.amps = pr.amps; p.manual = true; p.kw = null; p.kva = null; }
+    }
+    function gpCompactP(p) { return gpIsEmpty(p) ? null : [p.name, p.make, p.mount, p.mountOther, p.kw, p.kva, p.pf, p.cfg, p.amps, p.manual ? 1 : 0, p.preset]; }
+    function gpExpandP(a) { return Array.isArray(a) ? gpHydrate({ name: a[0], make: a[1], mount: a[2], mountOther: a[3], kw: a[4], kva: a[5], pf: a[6], cfg: a[7], amps: a[8], manual: !!a[9], preset: a[10] }) : null; }
+
+    var LD_TEXT = { ok: 'Under 70%', amber: '70–80% of rating', orange: 'Over 80% continuous', red: 'OVER RATING' };
+    var LD_RANK = { none: 0, ok: 1, amber: 2, orange: 3, red: 4 };
+    function ldLevel(pct) { return pct == null ? 'none' : pct > 100 ? 'red' : pct > 80 ? 'orange' : pct >= 70 ? 'amber' : 'ok'; }
+    function ldAnalyse(vals, rating, neutral, mode) {
+      const p = gpGet(mode), c = GP_CFG[p.cfg] || GP_CFG['208'];
+      const legs = {}; let worst = 'none'; const worstLegs = [];
+      let kva = 0, any = false;
+      ['red', 'blue', 'black'].forEach((k) => {
+        const a = vals[k];
+        const pct = a != null && rating ? Math.round(a / rating * 1000) / 10 : null;
+        const lv = ldLevel(pct);
+        legs[k] = { amps: a, pct, level: lv, headroom: a != null && rating ? Math.round((rating - a) * 10) / 10 : null };
+        if (a != null) { any = true; kva += a * c.vln / 1000; }
+        if (LD_RANK[lv] > LD_RANK[worst]) { worst = lv; worstLegs.length = 0; }
+        if (lv === worst && lv !== 'none') worstLegs.push(k);
+      });
+      const read = ['red', 'blue', 'black'].filter((k) => vals[k] != null);
+      const mx = read.length ? Math.max.apply(null, read.map((k) => vals[k])) : 0;
+      const mn = read.length ? Math.min.apply(null, read.map((k) => vals[k])) : 0;
+      const imb = read.length >= 2 && mx > 0 ? Math.round((mx - mn) / mx * 1000) / 10 : null;
+      const lightest = read.length >= 2 ? read.find((k) => vals[k] === mn) : null;
+      return {
+        legs, worst, worstLegs, any, kva: Math.round(kva * 10) / 10, kw: Math.round(kva * p.pf * 10) / 10, pf: p.pf,
+        imbalance: imb, imbLevel: imb == null ? 'none' : imb > 20 ? 'orange' : imb > 15 ? 'amber' : 'ok',
+        neutralHigh: neutral != null && lightest != null && neutral > mn, lightest, neutral,
+        cap: rating ? Math.round(rating * c.vln * (c.ph === 3 ? 3 : c.ph === 1 && p.cfg === '240' ? 2 : 1) / 100) / 10 : null
+      };
+    }
+    var ldLast = { base: 0, set: 0 };
+    window.__ldBuzz = 0;
+    function ldBuzz(mode, worst) {
+      const r = LD_RANK[worst] || 0;
+      if (r >= 3 && r > ldLast[mode]) {
+        window.__ldBuzz++;
+        try { if (navigator.vibrate) navigator.vibrate(worst === 'red' ? [220, 90, 220] : 140); } catch (e) {}
+      }
+      ldLast[mode] = r;
+    }
+    var LEGN = { red: 'Red', blue: 'Blue', black: 'Black' };
+    function ldAlertHtml(an, rating, what) {
+      const lines = [];
+      if (an.worst === 'red' || an.worst === 'orange' || an.worst === 'amber') {
+        const ls = an.worstLegs.map((k) => LEGN[k] + ' ' + Math.round(an.legs[k].pct) + '%').join(', ');
+        lines.push('<div>' + (an.worst === 'red' ? '⛔ OVER RATING' : an.worst === 'orange' ? '⚠ Over 80% continuous' : '⚠ 70–80% of rating') + ': ' + ls + (what ? ' <span class="ld-sub">(' + what + ')</span>' : '') + '</div>');
+        if (an.worst !== 'amber') lines.push('<div class="ld-sub">' + an.worstLegs.map((k) => LEGN[k] + ': ' + (an.legs[k].headroom < 0 ? formatAmp(-an.legs[k].headroom) + ' A over ' : formatAmp(an.legs[k].headroom) + ' A left of ') + formatAmp(rating) + ' A').join(' · ') + '</div>');
+      }
+      if (an.imbLevel === 'orange' || an.imbLevel === 'amber') lines.push('<div class="ld-sub">⚖ Phase imbalance ' + Math.round(an.imbalance) + '% (' + (an.imbLevel === 'orange' ? 'over 20%' : 'over 15%') + ')</div>');
+      if (an.neutralHigh) lines.push('<div class="ld-sub">⚠ Neutral ' + formatAmp(an.neutral) + ' A is above the lightest leg (' + LEGN[an.lightest] + ')</div>');
+      let lv = an.worst === 'red' || an.worst === 'orange' || an.worst === 'amber' ? an.worst : (lines.length ? 'note' : '');
+      if (lv === 'note' && an.imbLevel === 'orange') lv = 'amber';
+      return { html: lines.join(''), level: lv };
+    }
+    function ldPaint(el, res) {
+      if (!el) return;
+      el.className = 'ld-alert' + (res.level ? ' lv-' + res.level : '');
+      el.innerHTML = res.html; el.hidden = !res.html;
+      el.setAttribute('role', res.level === 'red' || res.level === 'orange' ? 'alert' : 'status');
+    }
+
+    // ======================= MULTIPLE MAPS =======================
+    var MP_KEY = 'powerhouse-maps-v1';
+    var MP_BG = 'powerhouse-map-bg-v1:';
+    var mpIdx = null;
+    function mpBlank() { return { items: [], cables: [], bg: null, view: null, bgMode: 'grid', lv: (typeof LOT !== 'undefined' ? LOT.v : 1) }; }
+    function mpI() {
+      if (mpIdx) return mpIdx;
+      let raw = null; try { raw = JSON.parse(localStorage.getItem(MP_KEY) || 'null'); } catch (e) {}
+      if (!raw || !Array.isArray(raw.list) || !raw.list.length) {
+        raw = { v: 1, active: 'base', activeBy: { base: 'base', lighting: 'set' }, list: [{ id: 'base', name: 'Base Camp' }, { id: 'set', name: 'Set' }], data: { set: mpBlank() } };
+        mpIdx = raw; mpSave();
+      }
+      if (!raw.list.some((x) => x.id === 'base')) raw.list.unshift({ id: 'base', name: 'Base Camp' });
+      raw.data = raw.data || {}; raw.activeBy = raw.activeBy || { base: 'base', lighting: 'set' };
+      if (!raw.list.some((x) => x.id === raw.active)) raw.active = 'base';
+      mpIdx = raw; return raw;
+    }
+    function mpSave() { try { localStorage.setItem(MP_KEY, JSON.stringify(mpIdx)); } catch (e) { toast('Could not save the map list.'); } }
+    function mpActiveId() { if (viewState && viewState.maps) return viewState.mapActive || 'base'; return mpI().active; }
+    function mpName(id) { const l = viewState && viewState.maps ? viewState.maps : mpI().list; const e = l.find((x) => x.id === id); return e ? e.name : 'Map'; }
+    function mpStrip(m) { return { items: m.items, cables: m.cables, bg: m.bg, view: m.view, bgMode: bgModeOf(m), lv: m.lv || LOT.v, savedAt: Date.now() }; }
+    function mpGetMap(id) {
+      if (id === 'base') return loadMap(localState.locations);
+      const d = mpI().data[id] || mpBlank();
+      let bgData = ''; try { bgData = localStorage.getItem(MP_BG + id) || ''; } catch (e) {}
+      return hydrateMap(Object.assign({}, d, { bgData })) || hydrateMap(mpBlank());
+    }
+    function mpLoadActive(locations) {
+      const id = mpI().active;
+      if (id === 'base') return loadMap(locations);
+      const m = mpGetMap(id);
+      return m || loadMap(locations);
+    }
+    function mpPersistOther(m, opts) {
+      const idx = mpI();
+      idx.data[idx.active] = mpStrip(m);
+      mpSave();
+      if (opts && opts.bg) { try { localStorage.removeItem(MP_BG + idx.active); if (m.bgData) localStorage.setItem(MP_BG + idx.active, m.bgData); } catch (e) { return false; } }
+      mapSavedAt = Date.now(); updateMapStatus();
+      return true;
+    }
+    function mpSwitch(id, opts) {
+      if (viewState && viewState.maps) {
+        const cur = viewState.maps.find((x) => x.id === viewState.mapActive); if (cur) cur.map = viewState.map;
+        const nx = viewState.maps.find((x) => x.id === id); if (!nx) return false;
+        viewState.mapActive = id; viewState.map = nx.map;
+      } else {
+        const idx = mpI();
+        if (!idx.list.some((x) => x.id === id)) return false;
+        if (idx.active !== id) {
+          idx.active = id;
+          localState.map = mpGetMap(id);
+        }
+        idx.activeBy[ltMode] = id; mpSave();
+      }
+      mapSelected = null; cableMode = null; ltSel = null;
+      try { renderSheet(); updateModeBar(); ltCloseSheet(); } catch (e) {}
+      mpRenderBar();
+      if (activeTab === 'map') { const needFit = !currentMap().view; renderMapAll(); if (needFit) fitView(); }
+      if (!opts || !opts.quiet) toast('Map: ' + mpName(id));
+      return true;
+    }
+    function mpCreate(name, fromId) {
+      const idx = mpI();
+      const id = 'm' + mapUid('');
+      let data = mpBlank(), bg = '';
+      if (fromId) {
+        const src = fromId === idx.active ? currentMap() : mpGetMap(fromId);
+        data = JSON.parse(JSON.stringify(mpStrip(src))); data.view = null;
+        bg = src.bgData || '';
+        const ren = {}; data.items.forEach((it) => { const n = mapUid('mi-'); ren[it.id] = n; it.id = n; }); data.cables.forEach((c) => { c.id = mapUid('cb-'); c.a = ren[c.a]; c.b = ren[c.b]; });
+      }
+      idx.list.push({ id, name: String(name || 'New map').slice(0, 40) });
+      idx.data[id] = data; mpSave();
+      if (bg) { try { localStorage.setItem(MP_BG + id, bg); } catch (e) {} }
+      mpSwitch(id, { quiet: true });
+      return id;
+    }
+    function mpRename(id, name) { const e = mpI().list.find((x) => x.id === id); if (!e || !name) return false; e.name = String(name).slice(0, 40); mpSave(); mpRenderBar(); return true; }
+    function mpDelete(id) {
+      const idx = mpI();
+      if (id === 'base') { toast('The Base Camp map can be renamed but not deleted.'); return false; }
+      const i = idx.list.findIndex((x) => x.id === id); if (i < 0) return false;
+      const entry = idx.list[i], data = idx.data[id] || (idx.active === id ? mpStrip(currentMap()) : null);
+      let bg = ''; try { bg = localStorage.getItem(MP_BG + id) || ''; } catch (e) {}
+      const s = ltCur(); const moved = s.units.filter((u) => u.mp === id).map((u) => [u.id, u.mx, u.my]);
+      s.units.forEach((u) => { if (u.mp === id) { u.mx = null; u.my = null; u.mp = null; } });
+      ltPersist();
+      idx.list.splice(i, 1); delete idx.data[id];
+      Object.keys(idx.activeBy).forEach((k) => { if (idx.activeBy[k] === id) idx.activeBy[k] = 'base'; });
+      try { localStorage.removeItem(MP_BG + id); } catch (e) {}
+      const wasActive = idx.active === id;
+      mpSave();
+      if (wasActive) { idx.active = '__'; mpSwitch('base', { quiet: true }); } else mpRenderBar();
+      showUndo('Deleted map “' + entry.name + '”', () => {
+        idx.list.splice(i, 0, entry); if (data) idx.data[id] = data; mpSave();
+        if (bg) { try { localStorage.setItem(MP_BG + id, bg); } catch (e) {} }
+        moved.forEach((m) => { const u = s.units.find((x) => x.id === m[0]); if (u) { u.mx = m[1]; u.my = m[2]; u.mp = id; } }); ltPersist();
+        if (wasActive) mpSwitch(id, { quiet: true }); else mpRenderBar();
+      });
+      return true;
+    }
+    function mpCompactOthers() {
+      if (viewState) return null;
+      const idx = mpI();
+      if (idx.list.length <= 1) return null;
+      const others = idx.list.filter((x) => x.id !== idx.active).map((x) => { const m = mpGetMap(x.id); return [x.id, x.name, compactMap(m, false)]; });
+      return { a: [idx.active, mpName(idx.active)], o: others };
+    }
+    function mpImportShared(vs) {
+      const idx = mpI();
+      if (!vs.maps) { if (vs.map && idx.active !== 'base') { idx.active = 'base'; mpSave(); } return; }
+      vs.maps.forEach((e) => {
+        if (!idx.list.some((x) => x.id === e.id)) idx.list.push({ id: e.id, name: e.name }); else idx.list.find((x) => x.id === e.id).name = e.name;
+        if (e.id === vs.mapActive) return;
+        const m = e.map;
+        if (e.id === 'base') { try { localStorage.setItem(MAP_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), items: m.items, cables: m.cables, bg: m.bg, view: null, bgMode: bgModeOf(m), lv: LOT.v })); } catch (err) {} }
+        else idx.data[e.id] = Object.assign(mpStrip(m), { view: null });
+      });
+      idx.active = vs.mapActive || 'base';
+      mpSave();
+    }
+
+    // ======================= EMERGENCY CONTACTS =======================
+    var CT_KEY = 'powerhouse-contacts-v1';
+    var CT_ROLES = ['Generator tech', 'Mechanic', 'Boss/Supervisor', 'Gaffer', 'Best boy electric', 'Rental house', 'Fuel delivery', 'Production office', 'Other'];
+    var ctStore = null, ctShareOn = false;
+    function ctHydrate(c) {
+      if (!c || typeof c !== 'object') return null;
+      const o = { id: String(c.id || mapUid('ct')).slice(0, 40), name: String(c.name || '').slice(0, 60), role: CT_ROLES.indexOf(c.role) >= 0 ? c.role : 'Other', company: String(c.company || '').slice(0, 60),
+        phone: String(c.phone || '').slice(0, 30), phone2: String(c.phone2 || '').slice(0, 30), email: String(c.email || '').slice(0, 80), notes: String(c.notes || '').slice(0, 200), pin: !!c.pin };
+      return o.name || o.phone ? o : null;
+    }
+    function ctAll() { if (!ctStore) { let raw = null; try { raw = JSON.parse(localStorage.getItem(CT_KEY) || 'null'); } catch (e) {} ctStore = (raw && Array.isArray(raw.list) ? raw.list : []).map(ctHydrate).filter(Boolean); } return ctStore; }
+    function ctSave() { try { localStorage.setItem(CT_KEY, JSON.stringify({ v: 1, list: ctAll() })); } catch (e) { toast('Could not save contacts.'); } }
+    function ctCompact() { return ctAll().map((c) => [c.name, c.role, c.company, c.phone, c.phone2, c.email, c.notes, c.pin ? 1 : 0]); }
+    function ctExpand(a) { return Array.isArray(a) ? a.map((x, i) => ctHydrate({ id: 'sct' + i, name: x[0], role: x[1], company: x[2], phone: x[3], phone2: x[4], email: x[5], notes: x[6], pin: !!x[7] })).filter(Boolean) : null; }
+    function ctTel(p) { return String(p || '').replace(/[^0-9+*#,]/g, ''); }
 
     function emptyGen(rating) {
       return { red: '', blue: '', black: '', white: '', updatedAt: null, rating: rating ? Object.assign({}, rating) : { red: '', blue: '', black: '' } };
@@ -3232,7 +3681,7 @@
 
     function loadLocal() {
       const state = loadTracker();
-      state.map = loadMap(state.locations);
+      state.map = mpLoadActive(state.locations);
       return state;
     }
 
@@ -3395,12 +3844,14 @@
         row.setAttribute('aria-haspopup', 'dialog');
         row.setAttribute('aria-expanded', legPopKey === p.key ? 'true' : 'false');
         row.setAttribute('aria-label', p.label + ' leg ' + (n == null ? 'no reading' : formatAmp(n) + ' amps') + ', ' + lc.list.length + ' ' + (lc.list.length === 1 ? 'location' : 'locations') + ', ' + lc.read + ' with readings. Show units on this leg.');
-        const pct = n == null ? 0 : Math.min(100, (n / scale) * 100);
+        const RR = gpRating('base');
+        const pct = n == null ? 0 : Math.min(100, (n / (RR || scale)) * 100);
+        if (RR && n != null) row.classList.add('lv-' + ldLevel(n / RR * 100));
         row.innerHTML =
           '<span class="dot dot-' + p.css + '" aria-hidden="true"></span>' +
           '<span class="leg-lab">' + p.label + ' <span class="phase-count leg-count">· ' + lc.list.length + ' ' + (lc.list.length === 1 ? 'location' : 'locations') + '</span>' +
           '<span class="leg-read">' + lc.read + ' with readings</span></span>' +
-          '<span class="amt' + (n == null ? ' empty' : '') + '">' + (n == null ? '—' : formatAmp(n) + ' A') + '</span>' +
+          '<span class="amt' + (n == null ? ' empty' : '') + '">' + (n == null ? '—' : formatAmp(n) + ' A') + (RR && n != null ? '<span class="lpct">' + Math.round(n / RR * 100) + '% of ' + formatAmp(RR) + ' A</span>' : '') + '</span>' +
           '<div class="bar bar-' + p.css + '" aria-hidden="true"><span style="width:' + pct + '%"></span></div>';
         box.appendChild(row);
       });
@@ -3410,6 +3861,7 @@
       nRow.innerHTML = '<span class="dot dot-neutral" aria-hidden="true"></span><span>Neutral</span><span class="amt' + (nw == null ? ' empty' : '') + '">' + (nw == null ? '—' : formatAmp(nw) + ' A') + '</span><span></span>';
       box.appendChild(nRow);
       if (legPopKey) renderLegPop(state);
+      gpRenderBaseHero(state, gt);
       $('hero-time').textContent = gt.at ? 'Read ' + heroWhen(gt.at) : 'No reading yet';
       const st = genStats(state);
       const sp = $('hero-spread');
@@ -3587,7 +4039,7 @@
 
     function genStats(state) {
       const g = genOf(state);
-      const legs = HOT.map((p) => ({ key: p.key, label: p.label, amps: parseAmp(g[p.key]), rating: null }));
+      const legs = HOT.map((p) => ({ key: p.key, label: p.label, amps: parseAmp(g[p.key]), rating: gpRating('base') }));
       const read = legs.filter((l) => l.amps != null);
       const max = read.length ? Math.max.apply(null, read.map((l) => l.amps)) : 0;
       const min = read.length ? Math.min.apply(null, read.map((l) => l.amps)) : 0;
@@ -3625,7 +4077,9 @@
         row.classList.toggle('warn', l.level === 'warn');
         row.classList.toggle('over', l.level === 'over');
         $('gen-tag-' + l.key).textContent = l.heaviest ? 'Heaviest' : '';
-        $('gen-pct-' + l.key).textContent = '';
+        const gpc = $('gen-pct-' + l.key);
+        if (l.pct != null) { gpc.textContent = Math.round(l.pct) + '% · ' + (l.rating - l.amps >= 0 ? formatAmp(Math.round((l.rating - l.amps) * 10) / 10) + ' A left' : formatAmp(Math.round((l.amps - l.rating) * 10) / 10) + ' A OVER'); gpc.className = 'gr-pct lv-' + ldLevel(l.pct); }
+        else { gpc.textContent = ''; gpc.className = 'gr-pct'; }
         paintPrev($('gen-prev-' + l.key), 'g.' + l.key, g[l.key], 'amp', state);
       });
       paintPrev($('gen-prev-white'), 'g.white', g.white || '', 'amp', state);
@@ -3644,6 +4098,7 @@
           ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : formatWhen(g.updatedAt));
       } else up.textContent = 'Not updated yet';
       if (typeof fillLegsSum === 'function') fillLegsSum(state);
+      const gbt = $('gp-base-txt'); if (gbt) gbt.textContent = '⚙ ' + (gpLine('base') || 'Set up generator: size, volts, amps');
     }
 
     function legsText(legs) {
@@ -4889,6 +5344,11 @@
       const Lsrc = state.lighting !== undefined ? state.lighting : (state === localState || !viewState ? ltCur() : null);
       const L = ltCompact(Lsrc);
       if (L) out.L = L;
+      const MM = state === localState || !viewState ? mpCompactOthers() : null;
+      if (MM) { out.M = MM.o; out.ma = MM.a; }
+      const pb = gpCompactP(gpGet('base')), ps = gpCompactP(gpGet('set'));
+      if (pb || ps) out.P = { b: pb, s: ps };
+      if (ctShareOn && !viewState && ctAll().length) out.C = ctCompact();
       return out;
     }
 
@@ -4908,7 +5368,11 @@
         fluid: hydrateFluid(data.f),
         svc: hydrateSvc(data.s),
         map: data.m ? expandMap(data.m) : null,
-        lighting: data.L ? ltExpand(data.L) : null
+        lighting: data.L ? ltExpand(data.L) : null,
+        maps: Array.isArray(data.M) ? [{ id: (data.ma && data.ma[0]) || 'base', name: (data.ma && data.ma[1]) || 'Base Camp', map: data.m ? expandMap(data.m) : null }].concat(data.M.filter((x) => Array.isArray(x)).map((x) => ({ id: String(x[0]), name: String(x[1] || 'Map').slice(0, 40), map: expandMap(x[2]) || hydrateMap(mpBlank()) }))) : null,
+        mapActive: Array.isArray(data.M) ? ((data.ma && data.ma[0]) || 'base') : null,
+        profiles: data.P ? { base: gpExpandP(data.P.b) || gpEmpty(), set: gpExpandP(data.P.s) || gpEmpty() } : null,
+        contacts: data.C ? ctExpand(data.C) : null
       };
     }
 
@@ -5002,7 +5466,7 @@
       const when = formatWhen(state.savedAt || Date.now());
       const countLine = (key, label) => label + ' · ' + counts[key] + (counts[key] === 1 ? ' location' : ' locations');
       const lines = [
-        'LegCheck · Generator phase & load tracker',
+        'The Power House · Generator phase & load tracker',
         'Readings as of ' + when,
         '',
         'TOTALS',
@@ -5088,8 +5552,8 @@
       if (navigator.share) {
         try {
           await navigator.share({
-            title: 'LegCheck',
-            text: 'LegCheck phase readings' + (current().savedAt ? ' (' + formatWhen(current().savedAt) + ')' : ''),
+            title: 'The Power House',
+            text: 'The Power House phase readings' + (current().savedAt ? ' (' + formatWhen(current().savedAt) + ')' : ''),
             url: url
           });
           return;
@@ -5106,7 +5570,7 @@
       if (navigator.share) {
         try {
           await navigator.share({
-            title: 'LegCheck',
+            title: 'The Power House',
             text: text
           });
           return;
@@ -5162,6 +5626,10 @@
       const sharedL = viewState.lighting;
       localState = cloneState(viewState);
       delete localState.lighting;
+      ['maps', 'mapActive', 'profiles', 'contacts'].forEach((k) => { delete localState[k]; });
+      mpImportShared(viewState);
+      if (viewState.profiles) { gpStore = { base: gpHydrate(viewState.profiles.base), set: gpHydrate(viewState.profiles.set) }; try { localStorage.setItem(GP_KEY, JSON.stringify(gpStore)); } catch (e) {} }
+      if (viewState.contacts && viewState.contacts.length) { const mine = ctAll(); viewState.contacts.forEach((c) => { if (!mine.some((x) => x.name === c.name && ctTel(x.phone) === ctTel(c.phone))) mine.push(Object.assign({}, c, { id: mapUid('ct') })); }); ctSave(); }
       if (sharedL) { const vs = viewState; viewState = null; ltState = ltHydrate(JSON.parse(JSON.stringify(sharedL))); ltPersist(); viewState = vs; }
       if (!localState.map) localState.map = keepMap || seedMap(localState.locations);
       localState.map.view = null;
@@ -5327,6 +5795,7 @@
       updateMapStatus();
       if (viewState && viewState.map) return true;
       const m = currentMap();
+      if (mpActiveId() !== 'base') return mpPersistOther(m, opts);
       try {
         localStorage.setItem(MAP_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), items: m.items, cables: m.cables, bg: m.bg, view: m.view, bgMode: bgModeOf(m), lv: LOT.v }));
       } catch (err) {
@@ -6256,9 +6725,10 @@
       const ok = await openModal({ title: 'Reset map layout', body: 'Put every item back to the starting layout in the Days Inn lot and remove all cable runs? The lot photo and your tracker readings stay. This cannot be undone.', okLabel: 'Reset layout', danger: true });
       if (!ok) return;
       const m = currentMap();
-      const seed = seedMap(current().locations);
+      const isBase = mpActiveId() === 'base';
+      const seed = isBase ? seedMap(current().locations) : { items: [] };
       m.items = seed.items; m.cables = [];
-      if (bgModeOf(m) === 'grid') m.bgMode = 'lot';
+      if (isBase && bgModeOf(m) === 'grid') m.bgMode = 'lot';
       m.lv = LOT.v;
       mapSelected = null; cableMode = null;
       persistMap();
@@ -6304,7 +6774,7 @@
       const when = formatWhen(Date.now());
       const over = open +
         '<rect width="' + W0 + '" height="' + head + '" fill="' + pal.bg + '"/><line x1="0" y1="' + head + '" x2="' + W0 + '" y2="' + head + '" stroke="' + pal.text + '" stroke-width="2"/>' +
-        '<text x="14" y="28" font-size="18" font-weight="800" fill="' + pal.text + '">LegCheck · Site map</text>' +
+        '<text x="14" y="28" font-size="18" font-weight="800" fill="' + pal.text + '">The Power House · Site map</text>' +
         '<text x="' + (W0 - 14) + '" y="28" font-size="13" font-weight="600" text-anchor="end" fill="' + pal.text + '">' + esc(when) + '</text>' +
         world + cableSvgs(m, pal, null) + m.items.map((it) => itemSvg(it, pal, null, locs)).join('') + ltLayerSvg(pal).replace(/<circle r="29"[^>]*\/>/g, '') + '</g>' +
         (attrib ? '<text x="' + (W0 - 8) + '" y="' + (H0 - 8) + '" font-size="11" font-weight="600" text-anchor="end" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">' + esc(attrib) + '</text>' : '') + '</svg>';
@@ -6344,11 +6814,11 @@
       try { out = await renderMapPngBlob(); }
       catch (err) { toast('Could not make the map image.'); return; }
       const d = new Date();
-      const name = 'legcheck-map-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.png';
+      const name = 'powerhouse-map-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.png';
       let file = null;
       try { file = new File([out.blob], name, { type: 'image/png' }); } catch (err) {}
       if (file && navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
-        try { await navigator.share({ files: [file], title: 'LegCheck site map' }); return; }
+        try { await navigator.share({ files: [file], title: 'The Power House site map' }); return; }
         catch (err) { if (err && err.name === 'AbortError') return; }
       }
       const url = URL.createObjectURL(out.blob);
@@ -6440,6 +6910,7 @@
       $('tracker-view').hidden = isMap;
       $('gen-hero').hidden = isMap;
       if (!isMap) ltCloseSheet();
+      if (isMap) { $('mode-seg').hidden = true; mpOnEnterMap(); }
       ltApplyMode();
       if (isMap && typeof closeLegPop === 'function') closeLegPop();
       $('map-view').hidden = !isMap;
@@ -6997,7 +7468,10 @@
     function ltFmt(a) { return a == null ? '—' : formatAmp(Math.round(a * 10) / 10); }
     function ltRenderAll() {
       if (!$('lighting-view')) return;
-      ltRenderHero(); ltRenderGen(); ltRenderRig(); ltRenderLibrary(); ltRenderCustoms();
+      ltRenderHero(); ltRenderGen(); ltRenderRig();
+      if ($('lt-lib-wrap').open) ltRenderLibrary(); else $('lt-lib-count').textContent = ltAllFix().length + ' fixtures';
+      ltRenderCustoms();
+      if (!$('lt-picker').hidden && !pkSel) pkRender();
     }
     function ltRenderLayerIfMap() { if (typeof activeTab !== 'undefined' && activeTab === 'map') { renderLightLayer(); } }
     function ltApplyMode() {
@@ -7006,18 +7480,22 @@
       if (light) root.setAttribute('data-mode', 'lighting'); else root.removeAttribute('data-mode');
       const isMap = activeTab === 'map';
       $('mode-seg').hidden = isMap;
+      $('mp-bar').hidden = !isMap; document.body.classList.toggle('mp-on', !!isMap);
+      if (!isMap) $('mp-menu').hidden = true;
       $('lighting-view').hidden = !light || isMap;
       $('lt-hero').hidden = !light || isMap;
+      $('lt-actionbar').hidden = !light || isMap; document.body.classList.toggle('ab-on', light && !isMap);
       $('tracker-view').hidden = light || isMap;
       $('gen-hero').hidden = light || isMap;
       $('mode-base').setAttribute('aria-checked', String(!light));
       $('mode-light').setAttribute('aria-checked', String(light));
       $('mode-base').classList.toggle('on', !light);
       $('mode-light').classList.toggle('on', light);
-      $('summary-block').setAttribute('aria-label', light ? 'Lighting load on the generator' : 'Generator legs');
+      $('summary-block').setAttribute('aria-label', light ? 'Set Generator load' : 'Generator legs');
       const sub = document.querySelector('.slate-sub');
-      if (sub) sub.textContent = light ? 'Film lighting · on-set generator' : 'Generator phase & load tracker';
-      const tt = $('tab-tracker'); if (tt && tt.firstChild && tt.firstChild.nodeType === 3) tt.firstChild.nodeValue = light ? 'Rig' : 'Tracker';
+      if (sub) sub.textContent = light ? 'Set Generator · film lighting' : 'Generator phase & load tracker';
+      const tt = $('tab-tracker'); if (tt && tt.firstChild && tt.firstChild.nodeType === 3) tt.firstChild.nodeValue = light ? 'Fixture Layout' : 'Tracker';
+      if (isMap) mpRenderBar();
       if (light && !isMap) { if (typeof closeLegPop === 'function') closeLegPop(); ltRenderAll(); }
     }
     function ltSetMode(m) {
@@ -7028,40 +7506,55 @@
       if (activeTab === 'map') renderMapAll();
     }
 
+    function ltDial(k, est, reading, r, max, lv) {
+      const R = 46, L = Math.PI * R;
+      const sc = r || max || 1;
+      const f = Math.max(0, Math.min(1, est / sc));
+      const col = lv === 'red' ? '#e53935' : lv === 'orange' ? '#fb8c00' : lv === 'amber' ? '#f9a825' : lv === 'ok' ? '#43a047' : (k === 'black' ? '#8d8d8d' : PHASE_HEX[k]);
+      const pt = (fr, rad) => { const a = Math.PI * (1 - fr); return [(60 + Math.cos(a) * rad).toFixed(1), (58 - Math.sin(a) * rad).toFixed(1)]; };
+      let ticks = '';
+      [0, 0.25, 0.5, 0.75, 1].forEach((t) => { const a = pt(t, 52), b = pt(t, 57); ticks += '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5"/>'; });
+      const m80 = r ? (() => { const a = pt(0.8, 39), b = pt(0.8, 53); return '<line class="dl-80" x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" stroke="#fb8c00" stroke-width="2.5"/>'; })() : '';
+      const nd = pt(f, 36);
+      const rd = reading != null ? (() => { const fr = Math.max(0, Math.min(1, reading / sc)); const a = pt(fr, 58), b = pt(fr, 64); return '<line class="dl-read" x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" stroke="var(--lt)" stroke-width="4" stroke-linecap="round"/>'; })() : '';
+      return '<svg viewBox="0 0 120 70" aria-hidden="true" style="color:var(--text)"><path d="M14 58 A46 46 0 0 1 106 58" fill="none" stroke="var(--bar-track)" stroke-width="10" stroke-linecap="round"/>' +
+        '<path class="dl-val" d="M14 58 A46 46 0 0 1 106 58" fill="none" stroke="' + col + '" stroke-width="10" stroke-linecap="round" stroke-dasharray="' + (f * L).toFixed(1) + ' ' + L.toFixed(1) + '"/>' + ticks + m80 + rd +
+        '<line x1="60" y1="58" x2="' + nd[0] + '" y2="' + nd[1] + '" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"/><circle cx="60" cy="58" r="4.5" fill="' + col + '" stroke="var(--lt-card, #000)" stroke-width="1.5"/></svg>';
+    }
     function ltRenderHero() {
-      const s = ltCur(), t = ltTotals(s), chk = ltLegCheck(s), r = s.gen.rating;
-      const max = Math.max(r || 0, t.est.red, t.est.blue, t.est.black, s.gen.red || 0, s.gen.blue || 0, s.gen.black || 0, 1);
+      const s = ltCur(), t = ltTotals(s), chk = ltLegCheck(s), r = gpRating('set');
+      const max = Math.max(t.est.red, t.est.blue, t.est.black, s.gen.red || 0, s.gen.blue || 0, s.gen.black || 0, 1);
+      const line = gpLine('set');
+      $('lt-gp-line').innerHTML = line ? '<button type="button" data-gp="set">' + esc(line) + '</button>' : '<button type="button" data-gp="set">Set the generator profile ›</button>';
       $('lt-hero-legs').innerHTML = HOT_KEYS.map((k) => {
         const c = chk[k], g = s.gen[k];
-        const w = Math.min(100, t.est[k] / (r || max) * 100);
-        return '<div class="lt-leg lv-' + c.level + '" data-leg="' + k + '">' +
-          '<span class="lt-dot" style="background:' + PHASE_HEX[k] + '"></span>' +
-          '<div class="lt-leg-name">' + LT_LEG_LABEL[k] + '<small>' + t.count[k] + (t.count[k] === 1 ? ' fixture' : ' fixtures') + (g != null ? ' · gen reads ' + ltFmt(g) + ' A' : '') + '</small></div>' +
-          '<div class="lt-leg-amt"><b>' + ltFmt(t.est[k]) + '</b><small> A</small>' + (c.pct != null ? '<em>' + Math.round(c.pct) + '%</em>' : '') + '</div>' +
-          '<div class="lt-bar" aria-hidden="true"><i style="width:' + w.toFixed(1) + '%;background:' + PHASE_HEX[k] + '"></i>' + (r ? '<b class="m80" title="80% continuous"></b>' : '') + '</div></div>';
+        return '<div class="lt-dial lt-leg lv-' + c.level + '" data-leg="' + k + '">' + ltDial(k, t.est[k], g, r, max, c.level) +
+          '<div class="dl-amps"><b>' + ltFmt(t.est[k]) + '</b><small> A</small></div>' +
+          '<div class="dl-pct">' + (c.pct != null ? Math.round(c.pct) + '%' + (c.level === 'red' ? ' OVER' : '') : '—') + '</div>' +
+          '<div class="dl-name"><span class="lt-dot" style="background:' + PHASE_HEX[k] + '"></span>' + LT_LEG_LABEL[k] + '</div>' +
+          '<div class="dl-sub">' + t.count[k] + (t.count[k] === 1 ? ' fixture' : ' fixtures') + (g != null ? '<br>gen reads ' + ltFmt(g) + ' A' : '') + (c.headroom != null ? '<br>' + (c.headroom < 0 ? ltFmt(-c.headroom) + ' A over' : ltFmt(c.headroom) + ' A left') : '') + '</div></div>';
       }).join('');
-      const warn = [];
-      HOT_KEYS.forEach((k) => {
-        const c = chk[k];
-        if (c.level === 'over') warn.push('<li class="over">' + LT_LEG_LABEL[k] + ' rig ' + ltFmt(c.amps) + ' A is over the ' + ltFmt(r) + ' A leg rating</li>');
-        else if (c.level === 'warn') warn.push('<li class="warn">' + LT_LEG_LABEL[k] + ' at ' + Math.round(c.pct) + '%: over 80% continuous (' + ltFmt(r * 0.8) + ' A)</li>');
-      });
-      const wEl = $('lt-warn');
-      wEl.innerHTML = warn.join('');
-      wEl.hidden = !warn.length;
-      $('lt-hero-meta').innerHTML = s.units.length
-        ? 'Estimated rig draw · ' + t.units + (t.units === 1 ? ' fixture' : ' fixtures') + ' · ~' + (t.watts / 1000).toFixed(1) + ' kW' + (r ? ' · ' + ltFmt(r) + ' A per leg' : ' · <span class="lt-need">set the per-leg rating for the 80% check</span>')
-        : 'Add fixtures from the library to build the rig.';
-      const sp = ltSpread(t.est);
-      $('lt-hero-spread').textContent = s.units.length ? 'Spread ' + ltFmt(sp) + ' A · est. neutral ' + ltFmt(t.neutral) + ' A (120 V loads; LED drivers add harmonics)' : '';
+      const useGen = s.gen.red != null || s.gen.blue != null || s.gen.black != null;
+      const vals = {}; HOT_KEYS.forEach((k) => { vals[k] = Math.max(t.est[k], s.gen[k] || 0); });
+      const an = ldAnalyse(vals, r, s.gen.white != null ? s.gen.white : (s.units.length ? t.neutral : null), 'set');
+      const heads = HOT_KEYS.map((k) => chk[k].headroom).filter((x) => x != null);
+      $('lt-hero-stats').innerHTML = '<div><b>~' + (t.watts / 1000).toFixed(1) + ' kW</b><span>Fixtures</span></div>' +
+        '<div><b>' + (heads.length ? ltFmt(Math.min.apply(null, heads)) + ' A' : '—') + '</b><span>Min headroom</span></div>' +
+        '<div><b>' + (an.imbalance != null ? Math.round(an.imbalance) + '%' : '—') + '</b><span>Imbalance</span></div>';
+      const res = ldAlertHtml(an, r, useGen ? 'readings or estimate, whichever is higher' : 'estimated fixture draw');
+      ldPaint($('lt-warn'), res);
+      ldBuzz('set', an.worst);
+      $('lt-hero-tag').textContent = s.units.length ? t.units + (t.units === 1 ? ' fixture' : ' fixtures') : 'No fixtures yet';
+      $('lt-hero-meta').innerHTML = s.units.length ? 'Needle: estimated fixture draw' + (useGen ? ' · amber tick: generator reading' : '') + (r ? ' · orange tick: 80%' : '') : 'Tap <b>+ Add fixture</b> to build the Fixture Layout.';
+      $('lt-hero-spread').textContent = s.units.length ? 'Spread ' + ltFmt(ltSpread(t.est)) + ' A · est. neutral ' + ltFmt(t.neutral) + ' A (120 V loads; LED drivers add harmonics)' : '';
       if (ltBalOpen) ltRenderBalance();
     }
     function ltRenderBalance() {
       const card = $('lt-bal-card');
       const r = ltSuggest();
-      const basis = r.useGen ? 'Based on the lighting generator readings.' : 'Based on the estimated rig draw (no generator readings yet).';
+      const basis = r.useGen ? 'Based on the Set Generator readings.' : 'Based on the estimated Fixture Layout draw (no generator readings yet).';
       let h = '<p class="lt-bal-basis">' + basis + '</p>';
-      if (r.empty) h += '<p>Add fixtures to the rig first.</p>';
+      if (r.empty) h += '<p>Add fixtures to the Fixture Layout first.</p>';
       else if (r.ok) h += '<p class="lt-ok">✓ Already well balanced: spread ' + ltFmt(r.before) + ' A.</p>';
       else if (!r.moves.length) h += '<p>No single or double move makes it better. Try splitting a big unit across legs.</p>';
       else {
@@ -7075,8 +7568,10 @@
     }
     function ltRenderGen() {
       const s = ltCur(), g = s.gen;
-      ['red', 'blue', 'black', 'white', 'rating'].forEach((k) => { const el = $('lt-gen-' + k); if (el && document.activeElement !== el) el.value = g[k] == null ? '' : String(g[k]); });
-      $('lt-gen-time').textContent = g.updatedAt ? 'Readings saved ' + formatWhen(g.updatedAt) : 'No lighting generator reading yet';
+      ['red', 'blue', 'black', 'white'].forEach((k) => { const el = $('lt-gen-' + k); if (el && document.activeElement !== el) el.value = g[k] == null ? '' : String(g[k]); });
+      $('lt-gen-time').textContent = g.updatedAt ? 'Readings saved ' + formatWhen(g.updatedAt) : 'No Set Generator reading yet';
+      const line = gpLine('set');
+      $('lt-gp-btn').innerHTML = '<span>⚙ ' + (line ? esc(line) : 'Set up generator: size, volts, amps') + '</span><span aria-hidden="true">›</span>';
     }
     function ltLegOptions(f, leg) {
       const opts = [];
@@ -7087,22 +7582,19 @@
     function ltRenderRig() {
       const s = ltCur(), t = ltTotals(s);
       $('lt-rig-count').textContent = t.units ? t.units + (t.units === 1 ? ' fixture' : ' fixtures') : 'Empty';
-      $('lt-rig-totals').innerHTML = HOT_KEYS.map((k) => '<div class="lt-tot" data-leg="' + k + '"><span class="lt-dot" style="background:' + PHASE_HEX[k] + '"></span><span>' + LT_LEG_LABEL[k] + '</span><b>' + ltFmt(t.est[k]) + ' A</b></div>').join('') +
-        '<div class="lt-tot lt-tot-n"><span class="lt-dot" style="background:' + PHASE_HEX.white + '"></span><span>Neutral est.</span><b>' + ltFmt(t.neutral) + ' A</b></div>';
+      $('lt-rig-totals').innerHTML = HOT_KEYS.map((k) => '<span class="lt-tot" data-leg="' + k + '"><span class="lt-dot" style="background:' + PHASE_HEX[k] + '"></span>' + LT_LEG_LABEL[k] + ' <b>' + ltFmt(t.est[k]) + ' A</b></span>').join('') +
+        '<span class="lt-tot lt-tot-n"><span class="lt-dot" style="background:' + PHASE_HEX.white + '"></span>N est. <b>' + ltFmt(t.neutral) + ' A</b></span>';
       const list = $('lt-rig');
-      if (!s.units.length) { list.innerHTML = '<p class="lt-empty">No fixtures yet. Tap <b>+ Add to rig</b> on any fixture below.</p>'; return; }
+      if (!s.units.length) { list.innerHTML = '<p class="lt-empty">No fixtures yet. Tap <b>+ Add fixture</b> below.</p>'; $('lt-rig-hint').hidden = true; return; }
+      $('lt-rig-hint').hidden = false;
       list.innerHTML = s.units.map((u) => {
         const f = ltFix0(u.fx, s); if (!f) return '';
-        const per = ltPerLeg(u, f), legs = ltLegsOf(u.leg);
-        return '<div class="lt-unit" data-uid="' + esc(u.id) + '" style="--bc:' + f.color + '">' +
-          '<div class="lt-u-art">' + ltArt(f, { mini: true, id: 'r' + u.id }) + '</div>' +
-          '<div class="lt-u-main"><div class="lt-u-name"><b>' + esc(f.model) + '</b><span>' + esc(f.custom ? 'Custom' : f.brand) + '</span></div>' +
-          '<div class="lt-u-ctl"><div class="lt-qty"><button type="button" class="lt-q" data-q="-1" aria-label="One fewer">−</button><span class="lt-qn">' + u.qty + '</span><button type="button" class="lt-q" data-q="1" aria-label="One more">+</button></div>' +
-          '<select class="lt-u-leg" aria-label="Leg for ' + esc(f.model) + '">' + ltLegOptions(f, u.leg) + '</select></div>' +
-          '<input class="lt-u-note" type="text" maxlength="60" placeholder="Distro / note (e.g. Lunchbox 2)" value="' + esc(u.note) + '" aria-label="Distro or note">' +
-          '<div class="lt-u-amps">' + ltFmt(per) + ' A' + (u.qty > 1 ? ' × ' + u.qty + ' = <b>' + ltFmt(per * u.qty) + ' A</b>' : '') + ' on ' + legs.map((k) => '<span class="lp lp-' + k + '">' + LT_LEG_LABEL[k] + '</span>').join(' + ') + (u.ov != null ? ' <span class="fx-b b-ov">clamp</span>' : '') +
-          '<label class="lt-ov">Clamp A <input class="lt-u-ov" type="text" inputmode="decimal" placeholder="—" value="' + (u.ov == null ? '' : u.ov) + '"></label></div></div>' +
-          '<div class="lt-u-side"><button type="button" class="btn small lt-u-map">' + (u.mx != null ? 'On map' : 'Place') + '</button><button type="button" class="lt-u-del" aria-label="Remove ' + esc(f.model) + '">✕</button></div></div>';
+        const per = ltPerLeg(u, f);
+        return '<div class="lt-row lt-unit" data-uid="' + esc(u.id) + '"><div class="lt-row-acts"><button type="button" class="ra-edit" tabindex="-1">Edit</button><button type="button" class="ra-del" tabindex="-1">Remove</button></div>' +
+          '<div class="lt-row-in" role="button" tabindex="0" aria-label="' + esc(u.qty + ' × ' + f.model + ' on ' + LT_LEG_LABEL[u.leg] + ', ' + ltFmt(per * u.qty) + ' amps. Edit') + '">' +
+          '<div class="lt-thumb">' + ltArt(f, { mini: true, id: 'r' + u.id }) + '</div>' +
+          '<div class="lt-row-name"><b>' + esc(f.model) + '</b><span><span class="lt-qtyb">×' + u.qty + '</span><span class="lp lp-' + u.leg + '">' + LT_LEG_LABEL[u.leg] + '</span>' + (u.note ? esc(u.note) : esc(f.custom ? 'Custom' : f.brand)) + (u.mx != null ? ' · 📍' : '') + '</span></div>' +
+          '<div class="lt-row-amps"><b>' + ltFmt(per * u.qty) + ' A</b><small>' + (u.ov != null ? 'clamp ' : '') + ltFmt(per) + ' A each</small></div></div></div>';
       }).join('');
     }
     function ltMatches(f) {
@@ -7137,7 +7629,7 @@
         spec('Connector', f.conn) + spec('Colour', f.cct) + spec('Weight', f.weight) + spec('DMX', f.dmx) + '</dl>' +
         ((f.flags & 4) && f.src === 2 ? '<p class="fx-note">HMI: the ballast draws more than the lamp watts (power factor). Use the rental chart or a clamp reading.</p>' : '') +
         '<div class="fx-actions">' + (url ? '<a class="fx-link" href="' + esc(url) + '" target="_blank" rel="noopener">View photo/specs ↗</a>' : (f.custom ? '<button type="button" class="btn small fx-cdel">Delete custom</button>' : '')) +
-        '<button type="button" class="btn btn-primary small fx-add">+ Add to rig</button></div></div></article>';
+        '<button type="button" class="btn btn-primary small fx-add">+ Add to Fixture Layout</button></div></div></article>';
     }
     function ltRenderLibrary() {
       const all = ltAllFix();
@@ -7160,7 +7652,7 @@
     }
     function ltRenderCustoms() {
       const s = ltCur();
-      $('lt-custom-list').innerHTML = s.customs.map((c) => '<li data-cid="' + esc(c.id) + '"><b>' + esc(c.name) + '</b> · ' + esc(LT_FORMS[c.form]) + (c.w ? ' · ' + formatAmp(c.w) + ' W' : '') + ' · ' + ltFmt(ltCustomFix(c).a120 != null ? ltCustomFix(c).a120 : ltCustomFix(c).a240) + ' A' + (c.v240 ? ' (240 V)' : '') + ' <button type="button" class="lt-cdel" aria-label="Delete ' + esc(c.name) + '">✕</button></li>').join('');
+      $('lt-custom-list').innerHTML = s.customs.map((c) => { const f = ltCustomFix(c); return '<li data-cid="' + esc(c.id) + '"><b>' + esc(c.name) + '</b> · ' + esc(LT_FORMS[c.form]) + (c.w ? ' · ' + formatAmp(c.w) + ' W' : '') + ' · ' + ltFmt(f.a120 != null ? f.a120 : f.a240) + ' A' + (c.v240 ? ' (240 V)' : '') + ' <button type="button" class="lt-cdel" aria-label="Delete ' + esc(c.name) + '">✕</button></li>'; }).join('');
     }
 
     // ----- map layer -----
@@ -7183,7 +7675,8 @@
       const s = ltCur();
       if (!s.layer) return '';
       pal = pal || mapPalette();
-      return s.units.filter((u) => u.mx != null).map((u) => { const f = ltFix0(u.fx, s); return f ? ltIcon(u, f, pal, ltSel === u.id) : ''; }).join('');
+      const act = mpActiveId();
+      return s.units.filter((u) => u.mx != null && (u.mp || 'set') === act).map((u) => { const f = ltFix0(u.fx, s); return f ? ltIcon(u, f, pal, ltSel === u.id) : ''; }).join('');
     }
     function renderLightLayer() {
       const el = $('map-lights'); if (!el) return;
@@ -7198,21 +7691,23 @@
     function ltPlace(id) {
       const s = ltCur(); const u = ltUnit(id); if (!u) return;
       if (activeTab !== 'map') setTab('map');
-      if (u.mx == null) {
-        const c = ltViewCenter(); const n = s.units.filter((x) => x.mx != null).length;
-        u.mx = Math.round(c.x + ((n % 4) - 1.5) * 110); u.my = Math.round(c.y + (Math.floor(n / 4) % 4) * 120 - 100);
+      const act = mpActiveId();
+      if (u.mx == null || (u.mp || 'set') !== act) {
+        const c = ltViewCenter(); const n = s.units.filter((x) => x.mx != null && (x.mp || 'set') === act).length;
+        u.mx = Math.round(c.x + ((n % 4) - 1.5) * 110); u.my = Math.round(c.y + (Math.floor(n / 4) % 4) * 120 - 100); u.mp = act;
       }
       s.layer = true;
       ltPersist(); ltSel = u.id; renderLightLayer(); ltOpenSheet(u.id);
     }
     function ltPlaceAll() {
       const s = ltCur();
+      const act = mpActiveId();
       const todo = s.units.filter((u) => u.mx == null);
-      if (!s.units.length) { toast('Add fixtures on the Rig first.'); return 0; }
-      const c = ltViewCenter(); let n = s.units.filter((x) => x.mx != null).length;
-      todo.forEach((u) => { u.mx = Math.round(c.x + ((n % 4) - 1.5) * 110); u.my = Math.round(c.y + (Math.floor(n / 4) % 4) * 120 - 100); n++; });
+      if (!s.units.length) { toast('Add fixtures to the Fixture Layout first.'); return 0; }
+      const c = ltViewCenter(); let n = s.units.filter((x) => x.mx != null && (x.mp || 'set') === act).length;
+      todo.forEach((u) => { u.mx = Math.round(c.x + ((n % 4) - 1.5) * 110); u.my = Math.round(c.y + (Math.floor(n / 4) % 4) * 120 - 100); u.mp = act; n++; });
       s.layer = true; ltPersist(); renderLightLayer();
-      toast(todo.length ? 'Placed ' + todo.length + (todo.length === 1 ? ' fixture' : ' fixtures') + ' on the map' : 'All fixtures are already on the map');
+      toast(todo.length ? 'Placed ' + todo.length + (todo.length === 1 ? ' fixture' : ' fixtures') + ' on ' + mpName(act) : 'Every fixture is already on a map');
       return todo.length;
     }
     function ltToggleLayer() { const s = ltCur(); s.layer = !s.layer; if (!s.layer) ltCloseSheet(); ltPersist(); renderLightLayer(); }
@@ -7244,7 +7739,7 @@
       $('lt-more').addEventListener('click', () => { ltFilter.limit += 24; ltRenderLibrary(); });
       $('lt-lib').addEventListener('click', (e) => {
         const card = e.target.closest('.fx-card'); if (!card) return;
-        if (e.target.closest('.fx-add')) ltAdd(card.dataset.fx);
+        if (e.target.closest('.fx-add')) ltOpenPicker(card.dataset.fx);
         else if (e.target.closest('.fx-cdel')) ltDeleteCustom(card.dataset.fx);
       });
       $('lt-rig').addEventListener('click', (e) => {
@@ -7262,7 +7757,7 @@
         else if (e.target.classList.contains('lt-u-note')) { u.note = e.target.value.trim().slice(0, 60); ltPersist(); }
         else if (e.target.classList.contains('lt-u-ov')) { u.ov = parseAmp(e.target.value); ltPersist(); ltRenderAll(); }
       });
-      ['red', 'blue', 'black', 'white', 'rating'].forEach((k) => {
+      ['red', 'blue', 'black', 'white'].forEach((k) => {
         $('lt-gen-' + k).addEventListener('input', (e) => {
           const s = ltCur(); s.gen[k] = parseAmp(e.target.value);
           if (k !== 'rating') s.gen.updatedAt = Date.now();
@@ -7291,8 +7786,9 @@
         if (!w && !a) { toast('Enter the watts or the amps.'); $('lt-c-w').focus(); return; }
         const id = ltAddCustom({ name, form: $('lt-c-form').value, w, a, v240: $('lt-c-240').checked });
         ['lt-c-name', 'lt-c-w', 'lt-c-a'].forEach((x) => { $(x).value = ''; }); $('lt-c-240').checked = false;
-        ltFilter.q = ''; ltFilter.brand = ''; ltFilter.group = ''; $('lt-q').value = ''; ltRenderLibrary();
-        toast('Custom fixture added to the library');
+        $('pk-custom').open = false;
+        pkSelect(id);
+        toast('Custom fixture created');
         return id;
       });
       $('lt-custom-list').addEventListener('click', (e) => { const li = e.target.closest('[data-cid]'); if (li && e.target.closest('.lt-cdel')) ltDeleteCustom(li.dataset.cid); });
@@ -7314,6 +7810,375 @@
       });
       ltApplyMode();
     })();
+
+
+    // ======================= SET GENERATOR: sheets, picker, profiles, maps, contacts =======================
+    var xsStack = [];
+    function xsOpen(id) {
+      const el = $(id); if (!el) return;
+      el.hidden = false; xsStack = xsStack.filter((x) => x !== id); xsStack.push(id);
+      $('xs-backdrop').hidden = false; document.body.classList.add('xs-open');
+    }
+    function xsClose(id) {
+      const el = $(id || xsStack[xsStack.length - 1]); if (!el) return;
+      el.hidden = true; xsStack = xsStack.filter((x) => x !== el.id);
+      if (!xsStack.length) { $('xs-backdrop').hidden = true; document.body.classList.remove('xs-open'); }
+    }
+    function ltLegColor(k) { return k === 'black' ? '#111111' : PHASE_HEX[k]; }
+    function ltLegButtons(f, leg, attr) {
+      const opts = [];
+      if (f.src !== 3) HOT_KEYS.forEach((k) => opts.push(k));
+      if (ltCanPair(f)) Object.keys(LT_PAIR).forEach((k) => opts.push(k));
+      return '<div class="legpick" role="radiogroup" aria-label="Leg">' + opts.map((k) => '<button type="button" role="radio" aria-checked="' + (k === leg) + '" class="lp-' + k + (k === leg ? ' on' : '') + '" ' + attr + '="' + k + '" aria-label="' + LT_LEG_LABEL[k] + (LT_PAIR[k] ? (f.src === 3 ? ' 240 V' : ' 208 V') : ' 120 V') + '">' + ({ rb: 'R+B', bk: 'B+K', kr: 'K+R' }[k] || LT_LEG_LABEL[k]) + (LT_PAIR[k] ? (f.src === 3 ? ' 240' : ' 208') : '') + '</button>').join('') + '</div>';
+    }
+    function ltProject(f, qty, leg, exceptUid) {
+      const s = ltCur(), t = ltTotals(s).est, r = gpRating('set');
+      const base = Object.assign({}, t);
+      if (exceptUid) { const u = ltUnit(exceptUid); const f0 = u && ltFix0(u.fx, s); if (u && f0) ltLegsOf(u.leg).forEach((k) => { base[k] -= ltPerLeg(u, f0) * u.qty; }); }
+      const add = ltPerLeg({ leg, ov: null }, f) * qty;
+      const out = { rating: r, add: Math.round(add * 10) / 10, legs: {}, worst: 'none' };
+      HOT_KEYS.forEach((k) => {
+        const after = base[k] + (ltLegsOf(leg).indexOf(k) >= 0 ? add : 0);
+        const pa = r ? Math.round(after / r * 1000) / 10 : null, pn = r ? Math.round(base[k] / r * 1000) / 10 : null;
+        const lv = ldLevel(pa);
+        out.legs[k] = { now: Math.round(base[k] * 10) / 10, after: Math.round(after * 10) / 10, pctNow: pn, pct: pa, level: lv, hit: ltLegsOf(leg).indexOf(k) >= 0 };
+        if (out.legs[k].hit && LD_RANK[lv] > LD_RANK[out.worst]) out.worst = lv;
+      });
+      return out;
+    }
+    function ltProjHtml(pr, pre) {
+      const r = pr.rating; pre = pre || 'pk';
+      let h = '<div class="proj" id="' + pre + '-proj">' + HOT_KEYS.map((k) => {
+        const l = pr.legs[k]; const sc = r || Math.max(1, ...HOT_KEYS.map((x) => pr.legs[x].after));
+        const col = l.level === 'red' ? '#e53935' : l.level === 'orange' ? '#fb8c00' : l.level === 'amber' ? '#f9a825' : ltLegColor(k);
+        return '<div class="proj-row" data-leg="' + k + '"><span><span class="lt-dot" style="background:' + PHASE_HEX[k] + '"></span> ' + LT_LEG_LABEL[k] + '</span><div class="proj-bar"><i class="add" style="width:' + Math.min(100, l.after / sc * 100).toFixed(1) + '%;background:' + col + '"></i><i class="now" style="width:' + Math.min(100, l.now / sc * 100).toFixed(1) + '%"></i></div><span>' +
+          (r ? (l.hit ? Math.round(l.pctNow) + '% → <b>' + Math.round(l.pct) + '%</b>' : Math.round(l.pct) + '%') : ltFmt(l.after) + ' A') + '</span></div>';
+      }).join('') + '</div>';
+      if (!r) h += '<p class="lt-fine">Set the generator profile to see % of rating.</p>';
+      else if (pr.worst === 'red' || pr.worst === 'orange' || pr.worst === 'amber') {
+        const hit = HOT_KEYS.filter((k) => pr.legs[k].hit && pr.legs[k].level === pr.worst);
+        h += '<div class="pk-warn lv-' + pr.worst + '" id="' + pre + '-warn">' + (pr.worst === 'red' ? '⛔ Adding this puts ' : '⚠ Adding this puts ') + hit.map((k) => LT_LEG_LABEL[k] + ' at ' + Math.round(pr.legs[k].pct) + '%').join(', ') + (pr.worst === 'red' ? ' — OVER RATING' : pr.worst === 'orange' ? ' — over 80% continuous' : ' — 70–80% of rating') + '</div>';
+      }
+      return h;
+    }
+
+    // ----- picker sheet -----
+    var pkFilter = { q: '', brand: '', group: '', limit: 30 }, pkSel = null, pkQty = 1, pkLeg = 'red';
+    function ltOpenPicker(key) {
+      xsOpen('lt-picker');
+      if (key) pkSelect(key); else { pkSel = null; pkRender(); }
+    }
+    function pkMatches(f) {
+      if (pkFilter.brand && f.brand !== pkFilter.brand) return false;
+      if (pkFilter.group && f.group !== pkFilter.group) return false;
+      const q = pkFilter.q.trim().toLowerCase(); if (!q) return true;
+      const hay = (f.brand + ' ' + f.model + ' ' + f.group + ' ' + f.cat + ' ' + (LT_FORMS[f.form] || '') + ' ' + (f.w ? f.w + 'w' : '')).toLowerCase();
+      return q.split(/\s+/).every((w) => hay.indexOf(w) >= 0);
+    }
+    function pkRender() {
+      $('pk-list').hidden = false; $('pk-add').hidden = true;
+      $('lt-picker-title').textContent = 'Add fixture';
+      const all = ltAllFix();
+      const brands = Array.from(new Set(all.map((f) => f.brand))).sort((a, b) => a === 'Custom' ? -1 : b === 'Custom' ? 1 : a.localeCompare(b));
+      const chip = (attr, v, label, on) => '<button type="button" class="chip-b' + (on ? ' on' : '') + '" ' + attr + '="' + esc(v) + '" aria-pressed="' + on + '">' + esc(label) + '</button>';
+      $('pk-brands').innerHTML = chip('data-pb', '', 'All brands', !pkFilter.brand) + brands.map((b) => chip('data-pb', b, b, pkFilter.brand === b)).join('');
+      const groups = LT_DATA.g.concat(all.some((f) => f.custom) ? ['Custom'] : []);
+      $('pk-types').innerHTML = chip('data-pg', '', 'All types', !pkFilter.group) + groups.map((g) => chip('data-pg', g, g, pkFilter.group === g)).join('');
+      const hits = all.filter(pkMatches), shown = hits.slice(0, pkFilter.limit);
+      $('pk-count').textContent = hits.length + (hits.length === 1 ? ' fixture' : ' fixtures');
+      $('pk-tiles').innerHTML = shown.map((f) => '<button type="button" class="pk-tile" data-fx="' + esc(f.key) + '" style="--bc:' + f.color + '">' + (f.custom ? '<span class="fx-b b-custom">Custom</span>' : f.src === 3 ? '<span class="fx-b b-240">240 V</span>' : (f.a120 > 20 ? '<span class="fx-b b-edison">&gt;20 A</span>' : '')) +
+        '<div class="fx-art">' + ltArt(f, { id: 'p' + f.key }) + '</div><small class="fx-brand">' + esc(f.custom ? 'Custom' : f.brand) + '</small><b>' + esc(f.model) + '</b><span class="pk-a">' + (f.a120 != null ? ltFmt(f.a120) + ' A @ 120 V' : ltFmt(f.a240) + ' A @ 240 V') + '</span></button>').join('') || '<p class="lt-empty">No fixtures match. Add a custom fixture below.</p>';
+      $('pk-more').hidden = hits.length <= shown.length;
+      $('pk-more').textContent = 'Show more (' + (hits.length - shown.length) + ' left)';
+    }
+    function pkSelect(key) {
+      const f = ltFix0(key, ltCur()); if (!f) return;
+      pkSel = key; pkQty = 1; pkLeg = ltAutoLeg(f, ltCur());
+      pkRenderAdd();
+    }
+    function pkRenderAdd() {
+      const f = ltFix0(pkSel, ltCur()); if (!f) return;
+      $('pk-list').hidden = true; $('pk-add').hidden = false;
+      $('lt-picker-title').textContent = f.model;
+      const pr = ltProject(f, pkQty, pkLeg);
+      const url = /^https?:\/\//.test(f.url || '') ? f.url : '';
+      $('pk-add').innerHTML = '<button type="button" class="btn small" id="pk-back">‹ All fixtures</button>' +
+        '<div class="fx-art">' + ltArt(f, { id: 'pa' + f.key }) + '</div>' +
+        '<div><div class="fx-brand" style="--bc:' + f.color + '">' + esc(f.custom ? 'Custom fixture' : f.brand) + '</div><h3 class="fx-model">' + esc(f.model) + '</h3><div class="fx-type">' + esc(f.group) + ' · ' + esc(LT_FORMS[f.form] || f.cat) + (f.w ? ' · ' + formatAmp(f.w) + ' W' : '') + '</div>' +
+        '<div class="fx-amps"><span class="fx-a"><b>' + (f.a120 != null ? ltFmt(f.a120) + ' A' : '—') + '</b> @ 120 V</span>' + ltBadges(f) + '</div>' + (url ? '<a class="fx-link" href="' + esc(url) + '" target="_blank" rel="noopener">View photo/specs ↗</a>' : '') + '</div>' +
+        '<div class="pk-row"><span>Quantity</span><div class="stepper"><button type="button" data-pq="-1" aria-label="One fewer">−</button><span id="pk-qty">' + pkQty + '</span><button type="button" data-pq="1" aria-label="One more">+</button></div></div>' +
+        '<div><div class="pk-row" style="margin-bottom:6px"><span>Leg</span><span class="lt-fine" style="margin:0">' + ltFmt(pr.add) + ' A per leg</span></div>' + ltLegButtons(f, pkLeg, 'data-pl') + '</div>' +
+        ltProjHtml(pr) +
+        '<button type="button" class="btn btn-big ' + (pr.worst === 'red' ? 'btn-redx' : 'btn-amber') + '" id="pk-go">' + (pr.worst === 'red' ? 'Add anyway (over rating)' : 'Add to Fixture Layout') + '</button>';
+    }
+    function pkCommit() {
+      const f = ltFix0(pkSel, ltCur()); if (!f) return null;
+      const pr = ltProject(f, pkQty, pkLeg);
+      const id = ltAdd(pkSel, { qty: pkQty, leg: pkLeg, quiet: true });
+      xsClose('lt-picker');
+      toast('Added ' + pkQty + '× ' + f.model + ' to ' + LT_LEG_LABEL[pkLeg] + (pr.rating && (pr.worst === 'red' || pr.worst === 'orange') ? ' — ' + (pr.worst === 'red' ? 'OVER RATING' : 'over 80%') : ''));
+      return id;
+    }
+
+    // ----- unit editor sheet -----
+    var ltEditId = null;
+    function ltOpenEdit(id) {
+      const s = ltCur(), u = ltUnit(id); if (!u) return;
+      const f = ltFix0(u.fx, s); if (!f) return;
+      ltEditId = id;
+      const pr = ltProject(f, u.qty, u.leg, u.id);
+      $('lt-edit-title').textContent = f.model;
+      $('lt-edit-body').innerHTML = '<div class="lt-sh-head"><div class="lt-sh-art">' + ltArt(f, { mini: true, id: 'e' + u.id }) + '</div><div><div class="fx-brand" style="--bc:' + f.color + '">' + esc(f.custom ? 'Custom' : f.brand) + '</div><b>' + esc(f.model) + '</b><div class="lt-sh-amps">' + ltFmt(ltPerLeg(u, f)) + ' A each · ' + ltFmt(ltPerLeg(u, f) * u.qty) + ' A on ' + LT_LEG_LABEL[u.leg] + '</div></div></div>' +
+        '<div class="pk-add"><div class="pk-row"><span>Quantity</span><div class="stepper"><button type="button" data-eq="-1" aria-label="One fewer">−</button><span>' + u.qty + '</span><button type="button" data-eq="1" aria-label="One more">+</button></div></div>' +
+        ltLegButtons(f, u.leg, 'data-el') + ltProjHtml(pr, 'le') +
+        '<label class="lt-c-row" style="grid-template-columns:1fr"><span style="font-weight:800;font-size:.82rem">Distro / note</span><input id="lt-e-note" type="text" maxlength="60" placeholder="e.g. Lunchbox 2" value="' + esc(u.note) + '"></label>' +
+        '<label class="lt-c-row" style="grid-template-columns:1fr"><span style="font-weight:800;font-size:.82rem">Clamp reading per leg (optional, A)</span><input id="lt-e-ov" type="text" inputmode="decimal" placeholder="Use fixture amps" value="' + (u.ov == null ? '' : u.ov) + '"></label>' +
+        '<div class="btn-row"><button type="button" class="btn" id="lt-e-map">' + (u.mx != null ? 'Show on map (' + esc(mpName(u.mp || 'set')) + ')' : 'Place on map') + '</button><button type="button" class="btn btn-danger" id="lt-e-del">Remove</button></div>' +
+        '<button type="button" class="btn btn-big btn-amber" id="lt-e-done">Done</button></div>';
+      xsOpen('lt-edit');
+    }
+
+    // ----- generator profile sheet -----
+    var gpMode = 'base';
+    function gpOpen(mode) { gpMode = mode === 'set' ? 'set' : 'base'; gpRender(); xsOpen('gp-sheet'); }
+    function gpRender() {
+      const p = gpGet(gpMode), c = gpCalc(p), r = gpRating(gpMode);
+      $('gp-title').textContent = 'Generator profile · ' + (gpMode === 'set' ? 'Set Generator' : 'Base Camp');
+      const opt = (v, l, sel) => '<option value="' + esc(v) + '"' + (v === sel ? ' selected' : '') + '>' + esc(l) + '</option>';
+      const ro = !!(viewState && viewState.profiles);
+      $('gp-body').innerHTML = '<div class="gp-f">' +
+        '<div class="gp-2"><label>Name / unit #<input id="gp-name" type="text" maxlength="40" placeholder="e.g. Unit 7" value="' + esc(p.name) + '"></label><label>Make / model<input id="gp-make" type="text" maxlength="60" placeholder="e.g. MQ Power DCA-70" value="' + esc(p.make) + '"></label></div>' +
+        '<div class="gp-2"><label>Mount type<select id="gp-mount">' + opt('', 'Choose…', p.mount) + GP_MOUNTS.map((m) => opt(m[0], m[1], p.mount)).join('') + '</select></label><label' + (p.mount === 'other' ? '' : ' hidden') + ' id="gp-other-l">Other mount<input id="gp-other" type="text" maxlength="30" value="' + esc(p.mountOther) + '"></label></div>' +
+        '<div><div class="lt-fine" style="margin:0 0 6px">Size presets</div><div class="gp-presets">' + GP_PRESETS.map((x) => '<button type="button" class="chip-b' + (p.preset === x.id ? ' on' : '') + '" data-gpp="' + x.id + '">' + esc(x.label) + (x.amps ? '/leg' : '') + '</button>').join('') + '<button type="button" class="chip-b' + (!p.preset ? ' on' : '') + '" data-gpp="">Custom</button></div></div>' +
+        '<label>Voltage<select id="gp-cfg">' + ['120', '240', '208', '480', '600'].map((k) => opt(k, GP_CFG[k].label, p.cfg)).join('') + '</select></label>' +
+        '<div class="gp-2"><label>Rated kW<input id="gp-kw" type="text" inputmode="decimal" placeholder="kW" value="' + (p.kw == null ? '' : p.kw) + '"></label><label>Rated kVA<input id="gp-kva" type="text" inputmode="decimal" placeholder="kVA" value="' + (p.kva == null ? '' : p.kva) + '"></label></div>' +
+        '<label>Power factor (kW ÷ kVA)<input id="gp-pf" type="text" inputmode="decimal" value="' + p.pf + '"></label>' +
+        '<div class="gp-calc" id="gp-calc">' + (c ? 'Calculated: <b>' + formatAmp(c.amps) + ' A per leg</b><br>' + esc(c.text) + (GP_CFG[p.cfg].ph === 3 && !p.kva ? '<br>Three-phase: I = W ÷ (√3 × V<sub>LL</sub> × PF), PF ' + p.pf + ' unless kVA is given.' : GP_CFG[p.cfg].ph === 1 ? '<br>Single phase: I = W ÷ V.' : '') : (p.manual && p.amps ? '≈ ' + formatAmp(Math.round((GP_CFG[p.cfg].ph === 3 ? Math.sqrt(3) * GP_CFG[p.cfg].v : GP_CFG[p.cfg].v) * p.amps / 100) / 10) + ' kVA at ' + GP_CFG[p.cfg].short : 'Enter kW or kVA to calculate amps, or type the rated amps per leg.')) + '</div>' +
+        '<label>Rated amps per leg' + (p.manual && c ? ' <span class="fx-b b-ov">override</span>' : '') + '<input id="gp-amps" type="text" inputmode="decimal" placeholder="A per leg" value="' + (r == null ? '' : r) + '"></label>' +
+        (p.manual && c ? '<button type="button" class="btn" id="gp-usecalc">Use calculated ' + formatAmp(c.amps) + ' A</button>' : '') +
+        '<p class="gp-calc" id="gp-result">' + (r ? 'Shown in the top section as <b>' + esc(gpLine(gpMode)) + '</b>' : 'No rating set: leg bars scale to the heaviest leg.') + '</p>' +
+        '<div class="btn-row"><button type="button" class="btn btn-danger" id="gp-clear">Clear profile</button><button type="button" class="btn btn-primary" id="gp-done">Done</button></div></div>';
+      if (ro) $('gp-body').querySelectorAll('input,select,button.chip-b').forEach((x) => { x.disabled = true; });
+    }
+    function gpChanged(rerender) {
+      gpSave();
+      if (rerender) { const a = document.activeElement && document.activeElement.id; gpRender(); if (a && $(a)) { const el = $(a); el.focus(); try { const v = el.value; el.setSelectionRange(v.length, v.length); } catch (e) {} } }
+      gpRefreshHeros();
+    }
+    function gpRefreshHeros() { try { updateSummary(); } catch (e) {} try { if ($('lt-hero')) { ltRenderHero(); ltRenderGen(); } } catch (e) {} }
+
+    // ----- map picker -----
+    function mpRenderBar() {
+      const sel = $('mp-select'); if (!sel) return;
+      const list = viewState && viewState.maps ? viewState.maps : mpI().list;
+      const act = mpActiveId();
+      sel.innerHTML = list.map((x) => '<option value="' + esc(x.id) + '"' + (x.id === act ? ' selected' : '') + '>' + esc(x.name) + '</option>').join('');
+      sel.value = act;
+      const ro = !!(viewState && viewState.maps);
+      $('mp-new').disabled = ro; $('mp-more').disabled = ro;
+    }
+    function mpOnEnterMap() {
+      if (viewState) { mpRenderBar(); return; }
+      const idx = mpI(), want = idx.activeBy[ltMode];
+      if (want && want !== idx.active && idx.list.some((x) => x.id === want)) mpSwitch(want, { quiet: true });
+      mpRenderBar();
+    }
+
+    // ----- contacts -----
+    var ctEditId = null;
+    function ctOpen() { ctEditId = null; ctRender(); xsOpen('ct-sheet'); }
+    function ctList() { return viewState && viewState.contacts ? viewState.contacts : ctAll(); }
+    function ctCard(c, ro) {
+      const tel = ctTel(c.phone), tel2 = ctTel(c.phone2);
+      return '<div class="ct-card' + (c.pin ? ' pin' : '') + '" data-cid="' + esc(c.id) + '"><div class="ct-top"><div><div class="ct-name">' + esc(c.name || c.phone) + '</div><div class="ct-meta">' + esc(c.role) + (c.company ? ' · ' + esc(c.company) : '') + (c.phone ? ' · ' + esc(c.phone) : '') + '</div></div>' +
+        (ro ? '' : '<button type="button" class="ct-icon ct-pin' + (c.pin ? ' on' : '') + '" aria-label="' + (c.pin ? 'Unpin ' : 'Pin ') + esc(c.name) + '" aria-pressed="' + c.pin + '">' + (c.pin ? '★' : '☆') + '</button><button type="button" class="ct-icon ct-edit" aria-label="Edit ' + esc(c.name) + '">✎</button>') + '</div>' +
+        (c.notes ? '<div class="ct-notes">' + esc(c.notes) + '</div>' : '') +
+        '<div class="ct-acts">' + (tel ? '<a class="a-call" href="tel:' + esc(tel) + '">📞 Call</a><a class="a-sms" href="sms:' + esc(tel) + '">💬 Text</a>' : '<span>📞 Call</span><span>💬 Text</span>') +
+        (c.email ? '<a class="a-mail" href="mailto:' + esc(c.email) + '">✉ Email</a>' : '<span>✉ Email</span>') + '</div>' +
+        (tel2 ? '<a class="ct-alt" href="tel:' + esc(tel2) + '">📞 Second phone: ' + esc(c.phone2) + '</a>' : '') + '</div>';
+    }
+    function ctSorted(list) {
+      return list.slice().sort((a, b) => (b.pin - a.pin) || (CT_ROLES.indexOf(a.role) - CT_ROLES.indexOf(b.role)) || a.name.localeCompare(b.name));
+    }
+    function ctRender() {
+      $('ct-form').hidden = true; $('ct-list').hidden = false; $('ct-title').textContent = 'Emergency contacts';
+      const shared = viewState && viewState.contacts ? viewState.contacts : null;
+      const list = ctSorted(ctAll());
+      let h = '<a class="ct-911" href="tel:911" id="ct-911">📞 Call 911 <span>Fire · police · ambulance</span></a>';
+      let lastG = null;
+      list.forEach((c) => {
+        const g = c.pin ? 'Pinned' : c.role;
+        if (g !== lastG) { h += '<div class="ct-group">' + esc(g) + '</div>'; lastG = g; }
+        h += ctCard(c, false);
+      });
+      if (!list.length && !shared) h += '<p class="lt-empty">No contacts yet. Add your generator tech, mechanic, rental house and fuel delivery so they are one tap away.</p>';
+      h += '<button type="button" class="btn btn-primary btn-big" id="ct-add" style="width:100%;margin-top:10px">+ Add contact</button>';
+      if (shared && shared.length) {
+        h += '<div class="ct-group" id="ct-shared-h">From the shared link</div><p class="lt-fine">Tap <b>Save to my tracker</b> to keep these.</p>';
+        ctSorted(shared).forEach((c) => { h += '<div class="ct-shared">' + ctCard(c, true) + '</div>'; });
+      }
+      $('ct-list').innerHTML = h;
+    }
+    function ctOpenForm(id) {
+      const c = id ? ctAll().find((x) => x.id === id) : null;
+      ctEditId = c ? c.id : null;
+      $('ct-title').textContent = c ? 'Edit contact' : 'New contact';
+      $('ct-list').hidden = true; $('ct-form').hidden = false;
+      const v = (k) => esc(c ? c[k] : '');
+      $('ct-form').innerHTML = '<div class="ct-f">' +
+        '<label>Name<input id="ct-name" type="text" maxlength="60" autocomplete="name" value="' + v('name') + '"></label>' +
+        '<label>Role<select id="ct-role">' + CT_ROLES.map((r) => '<option' + ((c ? c.role : 'Generator tech') === r ? ' selected' : '') + '>' + esc(r) + '</option>').join('') + '</select></label>' +
+        '<label>Company<input id="ct-company" type="text" maxlength="60" value="' + v('company') + '"></label>' +
+        '<div class="gp-2"><label>Phone<input id="ct-phone" type="tel" inputmode="tel" maxlength="30" autocomplete="tel" value="' + v('phone') + '"></label><label>Second phone<input id="ct-phone2" type="tel" inputmode="tel" maxlength="30" value="' + v('phone2') + '"></label></div>' +
+        '<label>Email<input id="ct-email" type="email" inputmode="email" maxlength="80" value="' + v('email') + '"></label>' +
+        '<label>Notes<textarea id="ct-notes" maxlength="200" placeholder="e.g. Cummins dealer, 24/7 line">' + v('notes') + '</textarea></label>' +
+        '<label class="lt-c-chk"><input id="ct-pin" type="checkbox"' + (c && c.pin ? ' checked' : '') + '> ★ Pin to the top</label>' +
+        '<div class="btn-row">' + (c ? '<button type="button" class="btn btn-danger" id="ct-del">Delete</button>' : '<button type="button" class="btn" id="ct-cancel">Cancel</button>') + '<button type="button" class="btn btn-primary" id="ct-save">Save</button></div></div>';
+      setTimeout(() => { try { $('ct-name').focus(); } catch (e) {} }, 50);
+    }
+    function ctSaveForm() {
+      const o = ctHydrate({ id: ctEditId || mapUid('ct'), name: $('ct-name').value.trim(), role: $('ct-role').value, company: $('ct-company').value.trim(), phone: $('ct-phone').value.trim(), phone2: $('ct-phone2').value.trim(), email: $('ct-email').value.trim(), notes: $('ct-notes').value.trim(), pin: $('ct-pin').checked });
+      if (!o) { toast('Enter a name or a phone number.'); return false; }
+      const list = ctAll(); const i = list.findIndex((x) => x.id === o.id);
+      if (i >= 0) list[i] = o; else list.push(o);
+      ctSave(); ctRender(); toast(i >= 0 ? 'Contact saved' : 'Contact added');
+      return true;
+    }
+    function ctDelete(id) {
+      const list = ctAll(); const i = list.findIndex((x) => x.id === id); if (i < 0) return;
+      const c = list.splice(i, 1)[0]; ctSave(); ctRender();
+      showUndo('Deleted ' + (c.name || 'contact'), () => { ctAll().splice(i, 0, c); ctSave(); if (!$('ct-sheet').hidden) ctRender(); });
+    }
+
+    (function wire2() {
+      $('xs-backdrop').addEventListener('click', () => xsClose());
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && xsStack.length) xsClose(); });
+      document.querySelectorAll('[data-xs-close]').forEach((b) => b.addEventListener('click', () => xsClose(b.closest('.xsheet').id)));
+      // picker
+      $('lt-add-btn').addEventListener('click', () => ltOpenPicker());
+      $('lt-ab-map').addEventListener('click', () => setTab('map'));
+      $('pk-q').addEventListener('input', (e) => { pkFilter.q = e.target.value; pkFilter.limit = 30; pkRender(); });
+      $('pk-list').addEventListener('click', (e) => {
+        const b = e.target.closest('[data-pb]'); if (b) { pkFilter.brand = b.dataset.pb; pkFilter.limit = 30; pkRender(); return; }
+        const g = e.target.closest('[data-pg]'); if (g) { pkFilter.group = g.dataset.pg; pkFilter.limit = 30; pkRender(); return; }
+        const t = e.target.closest('.pk-tile'); if (t) { pkSelect(t.dataset.fx); return; }
+        if (e.target.closest('#pk-more')) { pkFilter.limit += 30; pkRender(); }
+      });
+      $('pk-add').addEventListener('click', (e) => {
+        if (e.target.closest('#pk-back')) { pkSel = null; pkRender(); return; }
+        const q = e.target.closest('[data-pq]'); if (q) { pkQty = Math.max(1, Math.min(99, pkQty + Number(q.dataset.pq))); pkRenderAdd(); return; }
+        const l = e.target.closest('[data-pl]'); if (l) { pkLeg = l.dataset.pl; pkRenderAdd(); return; }
+        if (e.target.closest('#pk-go')) pkCommit();
+      });
+      // unit editor
+      $('lt-edit').addEventListener('click', (e) => {
+        const u = ltUnit(ltEditId); if (!u) return;
+        const q = e.target.closest('[data-eq]'); if (q) { u.qty = Math.max(1, Math.min(99, u.qty + Number(q.dataset.eq))); ltPersist(); ltRenderAll(); ltOpenEdit(u.id); return; }
+        const l = e.target.closest('[data-el]'); if (l) { u.leg = l.dataset.el; ltPersist(); ltRenderAll(); ltOpenEdit(u.id); return; }
+        if (e.target.closest('#lt-e-del')) { xsClose('lt-edit'); ltRemove(u.id); return; }
+        if (e.target.closest('#lt-e-map')) { xsClose('lt-edit'); if (u.mx != null && u.mp && u.mp !== mpActiveId()) { setTab('map'); mpSwitch(u.mp, { quiet: true }); ltSel = u.id; renderLightLayer(); ltOpenSheet(u.id); } else ltPlace(u.id); return; }
+        if (e.target.closest('#lt-e-done')) xsClose('lt-edit');
+      });
+      $('lt-edit').addEventListener('change', (e) => {
+        const u = ltUnit(ltEditId); if (!u) return;
+        if (e.target.id === 'lt-e-note') { u.note = e.target.value.trim().slice(0, 60); ltPersist(); ltRenderAll(); }
+        if (e.target.id === 'lt-e-ov') { u.ov = parseAmp(e.target.value); ltPersist(); ltRenderAll(); ltOpenEdit(u.id); }
+      });
+      // fixture layout rows: tap = edit, swipe left = actions, long-press = edit
+      const rig = $('lt-rig');
+      let sw = null, lp = null, lpFired = false;
+      rig.addEventListener('touchstart', (e) => { const r = e.target.closest('.lt-row'); if (!r) return; const t = e.touches[0]; sw = { r, x: t.clientX, y: t.clientY, dx: 0 }; lpFired = false; clearTimeout(lp); lp = setTimeout(() => { lpFired = true; ltOpenEdit(r.dataset.uid); }, 550); }, { passive: true });
+      rig.addEventListener('touchmove', (e) => { if (!sw) return; const t = e.touches[0]; sw.dx = t.clientX - sw.x; if (Math.abs(sw.dx) > 8 || Math.abs(t.clientY - sw.y) > 8) clearTimeout(lp); }, { passive: true });
+      rig.addEventListener('touchend', () => { clearTimeout(lp); if (!sw) return; if (sw.dx < -40) { rig.querySelectorAll('.lt-row.swiped').forEach((x) => { if (x !== sw.r) x.classList.remove('swiped'); }); sw.r.classList.add('swiped'); sw.r.dataset.sw = Date.now(); } else if (sw.dx > 30) sw.r.classList.remove('swiped'); sw = null; });
+      rig.addEventListener('contextmenu', (e) => { const r = e.target.closest('.lt-row'); if (r) { e.preventDefault(); ltOpenEdit(r.dataset.uid); } });
+      rig.addEventListener('click', (e) => {
+        const r = e.target.closest('.lt-row'); if (!r) return;
+        const id = r.dataset.uid;
+        if (e.target.closest('.ra-del')) { ltRemove(id); return; }
+        if (e.target.closest('.ra-edit')) { r.classList.remove('swiped'); ltOpenEdit(id); return; }
+        if (lpFired) { lpFired = false; return; }
+        if (r.classList.contains('swiped')) { if (Date.now() - Number(r.dataset.sw || 0) > 300) r.classList.remove('swiped'); return; }
+        ltOpenEdit(id);
+      });
+      rig.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('lt-row-in')) { e.preventDefault(); ltOpenEdit(e.target.closest('.lt-row').dataset.uid); } if (e.key === 'Delete' && e.target.classList.contains('lt-row-in')) ltRemove(e.target.closest('.lt-row').dataset.uid); });
+      $('lt-lib-wrap').addEventListener('toggle', () => { if ($('lt-lib-wrap').open) ltRenderLibrary(); });
+      // generator profile
+      document.addEventListener('click', (e) => { const b = e.target.closest('[data-gp]'); if (b) gpOpen(b.dataset.gp); });
+      $('gp-body').addEventListener('input', (e) => {
+        if (viewState && viewState.profiles) return;
+        const p = gpAll()[gpMode], id = e.target.id;
+        if (id === 'gp-name') p.name = e.target.value.slice(0, 40);
+        else if (id === 'gp-make') p.make = e.target.value.slice(0, 60);
+        else if (id === 'gp-other') p.mountOther = e.target.value.slice(0, 30);
+        else if (id === 'gp-kw') { p.kw = parseAmp(e.target.value); p.preset = ''; if (p.kw) p.kva = p.kva; }
+        else if (id === 'gp-kva') { p.kva = parseAmp(e.target.value); p.preset = ''; }
+        else if (id === 'gp-pf') { const v = parseAmp(e.target.value); if (v && v >= 0.5 && v <= 1) p.pf = v; }
+        else if (id === 'gp-amps') { p.amps = parseAmp(e.target.value); p.manual = p.amps != null; p.preset = ''; }
+        else return;
+        gpChanged(['gp-kw', 'gp-kva', 'gp-pf', 'gp-amps'].indexOf(id) >= 0);
+      });
+      $('gp-body').addEventListener('change', (e) => {
+        if (viewState && viewState.profiles) return;
+        const p = gpAll()[gpMode];
+        if (e.target.id === 'gp-mount') { p.mount = e.target.value; gpChanged(true); }
+        else if (e.target.id === 'gp-cfg') { p.cfg = e.target.value; gpChanged(true); }
+      });
+      $('gp-body').addEventListener('click', (e) => {
+        if (e.target.closest('#gp-done')) { xsClose('gp-sheet'); return; }
+        if (viewState && viewState.profiles) return;
+        const p = gpAll()[gpMode];
+        const pr = e.target.closest('[data-gpp]');
+        if (pr) { if (pr.dataset.gpp) gpApplyPreset(p, pr.dataset.gpp); else p.preset = ''; gpChanged(true); return; }
+        if (e.target.closest('#gp-usecalc')) { p.manual = false; p.amps = null; gpChanged(true); return; }
+        if (e.target.closest('#gp-clear')) { const prev = JSON.parse(JSON.stringify(p)); gpAll()[gpMode] = gpEmpty(); if (gpMode === 'set') { ltCur().gen.rating = null; ltPersist(); } gpChanged(true); showUndo('Generator profile cleared', () => { gpAll()[gpMode] = gpHydrate(prev); gpChanged(!$('gp-sheet').hidden); }); }
+      });
+      // maps
+      $('mp-select').addEventListener('change', (e) => mpSwitch(e.target.value));
+      $('mp-new').addEventListener('click', async () => {
+        const name = await openModal({ title: 'New map', body: 'Name the new map, e.g. Set A or Set B. It starts as a blank grid.', okLabel: 'Create map', value: 'Set ' + String.fromCharCode(64 + Math.min(26, mpI().list.length)), placeholder: 'Map name' });
+        if (name && String(name).trim()) { mpCreate(String(name).trim()); toast('Created map “' + String(name).trim() + '”'); }
+      });
+      document.body.appendChild($('mp-menu'));
+      $('mp-more').addEventListener('click', (e) => { e.stopPropagation(); const m = $('mp-menu'); m.hidden = !m.hidden; const rr = $('mp-more').getBoundingClientRect(); m.style.top = Math.round(rr.bottom + 6) + 'px'; m.style.right = Math.max(8, Math.round(innerWidth - rr.right)) + 'px'; const id = mpActiveId(); m.querySelector('[data-a="del"]').disabled = id === 'base'; });
+      document.addEventListener('click', (e) => { if (!e.target.closest('#mp-menu') && !e.target.closest('#mp-more')) $('mp-menu').hidden = true; });
+      $('mp-menu').addEventListener('click', async (e) => {
+        const b = e.target.closest('[data-a]'); if (!b) return;
+        $('mp-menu').hidden = true;
+        const id = mpActiveId(), nm = mpName(id);
+        if (b.dataset.a === 'rename') { const v = await openModal({ title: 'Rename map', body: 'New name for “' + nm + '”.', okLabel: 'Rename', value: nm, placeholder: 'Map name' }); if (v && String(v).trim()) mpRename(id, String(v).trim()); }
+        else if (b.dataset.a === 'dup') { const v = await openModal({ title: 'Duplicate map', body: 'Copy “' + nm + '” with its items, cables and background.', okLabel: 'Duplicate', value: nm + ' copy', placeholder: 'Map name' }); if (v && String(v).trim()) { mpCreate(String(v).trim(), id); toast('Duplicated as “' + String(v).trim() + '”'); } }
+        else if (b.dataset.a === 'del') { if (id === 'base') { toast('The Base Camp map can be renamed but not deleted.'); return; } const ok = await openModal({ title: 'Delete map', body: 'Delete “' + nm + '” and everything placed on it? Fixtures on it go back to the Fixture Layout list.', okLabel: 'Delete map', danger: true }); if (ok) mpDelete(id); }
+      });
+      // contacts
+      $('sos-btn').addEventListener('click', ctOpen);
+      $('ct-sheet').addEventListener('click', (e) => {
+        if (e.target.closest('#ct-add')) { ctOpenForm(null); return; }
+        if (e.target.closest('#ct-cancel')) { ctRender(); return; }
+        if (e.target.closest('#ct-save')) { ctSaveForm(); return; }
+        if (e.target.closest('#ct-del')) { const id = ctEditId; ctEditId = null; ctDelete(id); return; }
+        const card = e.target.closest('.ct-card'); if (!card) return;
+        if (e.target.closest('.ct-edit')) ctOpenForm(card.dataset.cid);
+        else if (e.target.closest('.ct-pin')) { const c = ctAll().find((x) => x.id === card.dataset.cid); if (c) { c.pin = !c.pin; ctSave(); ctRender(); } }
+      });
+      document.querySelectorAll('.share-ct-in').forEach((cb) => cb.addEventListener('change', () => { ctShareOn = cb.checked; document.querySelectorAll('.share-ct-in').forEach((x) => { x.checked = ctShareOn; }); }));
+    })();
+    function gpRenderBaseHero(state, gt) {
+      const hr = $('hero-rating'); if (!hr) return;
+      const r = gpRating('base'), line = gpLine('base');
+      hr.innerHTML = line ? '<button type="button" data-gp="base">' + esc(line) + '</button>' : '';
+      hr.hidden = !line;
+      const vals = { red: gt.v.red, blue: gt.v.blue, black: gt.v.black };
+      const an = ldAnalyse(vals, r, gt.v.white, 'base');
+      const hl = $('hero-load');
+      if (an.any) {
+        const hs = HOT_KEYS.map((k) => an.legs[k].headroom).filter((x) => x != null);
+        const mn = hs.length ? Math.min.apply(null, hs) : null;
+        hl.textContent = '≈ ' + formatAmp(an.kw) + ' kW load (' + formatAmp(an.kva) + ' kVA at ' + an.pf + ' PF)' + (mn != null ? ' · ' + (mn < 0 ? formatAmp(-mn) + ' A over on the heaviest leg' : formatAmp(mn) + ' A headroom on the heaviest leg') : '');
+        hl.hidden = false;
+      } else hl.hidden = true;
+      ldPaint($('hero-alert'), ldAlertHtml(an, r, ''));
+      ldBuzz('base', an.worst);
+    }
 
     $('lt-share-link').addEventListener('click', () => $('share-link-btn').click());
     $('lt-share-text').addEventListener('click', () => $('share-text-btn').click());
@@ -7337,7 +8202,22 @@
       fuelCheck: { setNow: (t) => { fcClock = t; renderFluids(current()); }, relAge, last: () => { const l = lastCheck(fluidOf(current())); return l ? Object.assign({}, l) : null; }, list: () => fluidOf(current()).checks.map((e) => Object.assign({}, e)), LEVELS: FC_LEVELS, KEEP: FC_KEEP, SHOW: FC_SHOW },
       svc: { stats: (now) => svcStats(svcOf(current()), now), setNow: (t) => { svcClock = t; renderSvc(); }, render: () => renderSvc(), DEFAULT_AT: SVC_DEFAULT_AT },
       rebalanceMoves: () => rebalancePlan ? JSON.parse(JSON.stringify(rebalancePlan.moves)) : null,
+      gp: {
+        get: (m) => JSON.parse(JSON.stringify(gpGet(m))), rating: gpRating, line: gpLine, calc: (p) => gpCalc(gpHydrate(p)), open: gpOpen,
+        set: (m, o) => { const k = m === 'set' ? 'set' : 'base'; gpAll()[k] = gpHydrate(Object.assign({}, gpAll()[k], o)); gpSave(); gpRefreshHeros(); }, preset: (m, id) => { gpApplyPreset(gpAll()[m === 'set' ? 'set' : 'base'], id); gpSave(); gpRefreshHeros(); },
+        analyse: (m) => { if (m === 'set') { const s = ltCur(), t = ltTotals(s); const v = {}; HOT_KEYS.forEach((k) => { v[k] = Math.max(t.est[k], s.gen[k] || 0); }); return ldAnalyse(v, gpRating('set'), s.gen.white, 'set'); } const gt = genLegTotals(current()); return ldAnalyse({ red: gt.v.red, blue: gt.v.blue, black: gt.v.black }, gpRating('base'), gt.v.white, 'base'); },
+        buzzes: () => window.__ldBuzz, KEY: GP_KEY, PRESETS: GP_PRESETS, CFG: GP_CFG
+      },
+      maps: {
+        list: () => JSON.parse(JSON.stringify(viewState && viewState.maps ? viewState.maps.map((x) => ({ id: x.id, name: x.name })) : mpI().list)), active: mpActiveId, switchTo: (id) => mpSwitch(id, { quiet: true }),
+        create: (n, from) => mpCreate(n, from), rename: mpRename, remove: mpDelete, KEY: MP_KEY, index: () => JSON.parse(JSON.stringify(mpI()))
+      },
+      contacts: {
+        list: () => JSON.parse(JSON.stringify(ctAll())), open: ctOpen, add: (o) => { const c = ctHydrate(Object.assign({ id: mapUid('ct') }, o)); if (c) { ctAll().push(c); ctSave(); if (!$('ct-sheet').hidden) ctRender(); } return c && c.id; },
+        remove: ctDelete, setShare: (v) => { ctShareOn = !!v; document.querySelectorAll('.share-ct-in').forEach((x) => { x.checked = ctShareOn; }); }, KEY: CT_KEY, ROLES: CT_ROLES
+      },
       lighting: {
+        project: (k, q, leg) => ltProject(ltFix(k), q || 1, leg), openPicker: ltOpenPicker, openEdit: ltOpenEdit,
         get: () => JSON.parse(JSON.stringify(ltCur())), all: () => ltAllFix().map((f) => Object.assign({}, f)), fix: (k) => ltFix(k),
         add: ltAdd, remove: ltRemove, place: ltPlace, placeAll: ltPlaceAll, addCustom: ltAddCustom, deleteCustom: ltDeleteCustom,
         totals: () => ltTotals(), check: () => ltLegCheck(), suggest: () => JSON.parse(JSON.stringify(ltSuggest())), apply: ltApplyBalance, undo: ltUndoBalance,
