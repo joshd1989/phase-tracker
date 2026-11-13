@@ -6,12 +6,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Phase Tracker">
-  <meta name="application-name" content="Phase Tracker">
+  <meta name="apple-mobile-web-app-title" content="LegCheck">
+  <meta name="application-name" content="LegCheck">
   <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)">
-  <meta name="description" content="Track generator phase amperage for film-set base camp wiring.">
-  <title>Base Camp Phase Tracker</title>
+  <meta name="description" content="LegCheck: generator phase and load tracker. Log leg readings, see which units sit on each leg, and balance the load.">
+  <title>LegCheck · Generator phase &amp; load tracker</title>
   <link rel="icon" type="image/png" href="icon-192.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
@@ -1270,6 +1270,9 @@
     .slate-text { display: grid; line-height: 1.02; min-width: 0; }
     .slate-top { font-size: 1.12rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
     .slate-sub { font-size: 0.72rem; font-weight: 750; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .slate-sub { letter-spacing: 0.08em; font-size: 0.66rem; white-space: normal; }
+    .title-row { flex-wrap: nowrap !important; }
+    h1.slate { flex: 1 1 auto; }
     .slate-sub::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #d32f2f; vertical-align: 1px; animation: recDot 2.4s ease-in-out infinite; }
     @keyframes recDot { 50% { opacity: 0.35; } }
 
@@ -1704,6 +1707,52 @@
     .lt-sub { font-weight: 600; color: var(--muted); font-size: 0.85rem; }
     .gen-row-neutral { grid-template-areas: "head amps prev"; }
     .gbal-src { margin: 0 0 8px; font-size: 0.82rem; color: var(--muted); font-weight: 650; }
+    .leg-row { cursor: pointer; border-radius: 10px; margin: 0 -6px; padding: 3px 6px; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; transition: background 0.15s; }
+    .leg-row:hover, .leg-row.open { background: color-mix(in srgb, var(--text) 7%, transparent); }
+    .leg-row:focus-visible { outline: 2px solid var(--gold, var(--accent)); outline-offset: 1px; }
+    .leg-lab { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 4px; line-height: 1.15; }
+    .leg-read { flex-basis: 100%; font-size: 0.7rem; font-weight: 650; color: var(--muted); }
+    #gen-hero { position: relative; }
+    #hero-phases .phase-row { grid-template-columns: 18px minmax(0, 1.3fr) 5rem minmax(0, 1fr); }
+    .leg-count { white-space: nowrap; }
+    .leg-pop { position: relative; z-index: 2; margin: 8px 0 2px; padding: 10px 12px 8px; border-radius: 14px; background: var(--surface, #1b1d22); color: var(--text);
+      border: 1px solid var(--glass-border, var(--border)); box-shadow: 0 18px 40px -12px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04); max-height: 55vh; overflow: auto; }
+    .leg-pop[hidden] { display: none; }
+    .lp-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .lp-head .dot { justify-self: auto; }
+    .lp-n { margin-left: auto; font-size: 0.75rem; color: var(--muted); font-weight: 650; }
+    .lp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+    .lp-list li { display: flex; justify-content: space-between; gap: 10px; padding: 5px 2px; border-top: 1px solid var(--hairline); font-size: 0.9rem; font-weight: 650; }
+    .lp-list li:first-child { border-top: 0; }
+    .lp-amp { font-variant-numeric: tabular-nums; font-weight: 850; }
+    .lp-amp.none { color: var(--muted); font-weight: 650; }
+    .lp-empty, .lp-foot { margin: 6px 0 0; font-size: 0.78rem; color: var(--muted); font-weight: 650; }
+    .clear-row { display: flex; justify-content: flex-end; margin-top: 8px; }
+    .btn-clear { min-height: 40px; padding: 6px 14px; font-size: 0.85rem; font-weight: 750; background: transparent !important; color: var(--danger); border: 1px solid color-mix(in srgb, var(--danger) 60%, transparent); box-shadow: none; }
+    .btn-clear:hover { background: var(--danger-bg) !important; }
+    .card.collapsed .card-clear { display: none; }
+    .undo-bar { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 95; display: flex; align-items: center; gap: 14px; max-width: calc(100% - 32px);
+      padding: 6px 6px 6px 18px; border-radius: 999px; background: rgba(18, 20, 26, 0.95); color: #f6f3ec; border: 1px solid rgba(233, 185, 73, 0.4); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.6); font-weight: 700; }
+    .undo-bar[hidden] { display: none; }
+    .undo-bar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .undo-bar span::after { content: " ·"; }
+    .undo-btn { min-height: 40px; padding: 6px 16px; border-radius: 999px; border: 0; background: #e9b949; color: #15120a; font-weight: 850; font-size: 0.95rem; cursor: pointer; }
+    body.sheet-open .undo-bar { bottom: calc(44dvh + 12px); }
+
+    /* Black vs Neutral: Black is a true-black fill with a light ring; Neutral is a pale grey fill with a dashed ring and an N. */
+    .dot-neutral { border-style: dashed !important; }
+    html[data-theme="dark"] { --dot-black-fill: #050505; --dot-black-ring: #d6dae0; --dot-neutral-fill: #8f959e; --dot-neutral-ring: #c9ced6; --black-bar: linear-gradient(90deg, #000, #1c1d21); --black-glow: rgba(0, 0, 0, 0.75); --black-ink: #f1f3f6; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --dot-black-fill: #050505; --dot-black-ring: #d6dae0; --dot-neutral-fill: #8f959e; --dot-neutral-ring: #c9ced6; --black-bar: linear-gradient(90deg, #000, #1c1d21); --black-glow: rgba(0, 0, 0, 0.75); --black-ink: #f1f3f6; } }
+    .bar-black > span { box-shadow: inset 0 0 0 1px var(--dot-black-ring), 0 0 8px var(--black-glow) !important; }
+    html[data-theme="dark"] .bar-black > span { background: repeating-linear-gradient(135deg, rgba(255,255,255,0.24) 0 3px, transparent 3px 7px), linear-gradient(90deg, #000, #1c1d21) !important; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bar-black > span { background: repeating-linear-gradient(135deg, rgba(255,255,255,0.24) 0 3px, transparent 3px 7px), linear-gradient(90deg, #000, #1c1d21) !important; } }
+    .dot-black { border-width: 1.5px !important; box-shadow: inset 0 0 0 2px #000; }
+    .ph-pill.black, .compact-phase.black { background: #050505 !important; border: 1.5px solid var(--dot-black-ring) !important; color: var(--black-ink, #f1f3f6) !important; box-shadow: none !important; }
+    .ph-pill.black .dot, .compact-phase.black .dot { border-color: var(--dot-black-ring); background: #000; }
+    .ph-pill.neutral, .compact-neutral { border-style: dashed !important; }
+    html[data-theme="light"] .ph-pill.black .dot, html[data-theme="light"] .compact-phase.black .dot { border-color: #9aa0aa; }
+    @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .ph-pill.black .dot, :root:not([data-theme="dark"]) .compact-phase.black .dot { border-color: #9aa0aa; } }
+    .ms-pair-dots .dot-black, .pair-visual .dot-black { box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
     .tips-card { margin-top: 10px; border-radius: 14px; border: 1px solid var(--hairline); background: var(--surface-2, transparent); }
     .tips-card > summary { cursor: pointer; list-style: none; min-height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-weight: 800; }
     .tips-card > summary::-webkit-details-marker { display: none; }
@@ -1721,7 +1770,7 @@
             <rect x="5" y="16" width="24" height="1.6" rx=".8" fill="#f3efe7" opacity=".85"/><rect x="5" y="20.5" width="16" height="1.6" rx=".8" fill="#f3efe7" opacity=".6"/><rect x="5" y="25" width="20" height="1.6" rx=".8" fill="#f3efe7" opacity=".6"/></g>
             <g class="clap-arm"><rect x="2" y="5" width="30" height="6" rx="1.5" fill="#1b1814" stroke="#f3efe7" stroke-width="1"/>
             <path d="M7 5 L11 5 L8 11 L4 11 Z M15 5 L19 5 L16 11 L12 11 Z M23 5 L27 5 L24 11 L20 11 Z" fill="#f3efe7"/></g>
-          </svg><span class="slate-text"><span class="slate-top">Base Camp</span> <span class="slate-sub">Phase Tracker</span></span></h1>
+          </svg><span class="slate-text"><span class="slate-top">LegCheck</span> <span class="slate-sub">Generator phase &amp; load tracker</span></span></h1>
         <button type="button" class="svc-pill" id="svc-pill"></button>
         <button type="button" class="icon-btn" id="theme-btn" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
       </div>
@@ -1737,6 +1786,7 @@
       <div id="gen-hero">
         <div class="hero-head"><h2 class="hero-title" id="hero-title">Generator legs</h2><span class="hero-time" id="hero-time">No reading yet</span></div>
         <div class="phases" id="hero-phases" aria-labelledby="hero-title"></div>
+        <div class="leg-pop" id="leg-pop" role="dialog" aria-modal="false" aria-labelledby="leg-pop-title" hidden></div>
         <p class="balance hero-spread" id="hero-spread"></p>
         <p class="hero-hint hero-neutral" id="hero-neutral" hidden>High neutral, phases unbalanced</p>
         <p class="hero-hint hero-diff" id="hero-diff" hidden></p>
@@ -1786,6 +1836,7 @@
       </div>
       <p class="gen-spread" id="gen-spread" aria-live="polite"></p>
       <p class="gen-diff" id="gen-diff" aria-live="polite"></p>
+      <div class="clear-row"><button type="button" class="btn btn-clear" id="gen-clear-btn" aria-label="Clear generator leg readings">Clear info</button></div>
       </div>
       </div>
       <div class="fluids gsec" id="fluids" role="group" aria-labelledby="fluids-title" data-sec="fluids">
@@ -1907,7 +1958,7 @@
     </details>
     </div>
 
-    <section id="map-view" aria-label="Base camp map" hidden>
+    <section id="map-view" aria-label="Site map" hidden>
       <div class="palette" id="map-palette" role="toolbar" aria-label="Tap to add to the map">
         <button type="button" class="pal-btn pal-cable" id="cable-btn"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M4 22 C 14 22, 14 6, 24 6 S 34 10, 36 6" fill="none" stroke="#c62828" stroke-width="4" stroke-linecap="round"/><path d="M4 26 C 14 26, 16 10, 26 10 S 34 14, 36 10" fill="none" stroke="#0d47a1" stroke-width="4" stroke-linecap="round"/></svg><span id="cable-btn-text">Cable run</span></button>
       </div>
@@ -1924,7 +1975,7 @@
         </select>
         <button type="button" class="btn" id="map-mode-cancel">Cancel</button>
       </div>
-        <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Base camp layout map">
+        <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Site layout map">
           <g id="map-viewport">
             <g id="map-bg"></g>
             <g id="map-cables"></g>
@@ -1982,6 +2033,7 @@
     </div>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="undo-bar" id="undo-bar" role="status" aria-live="polite" hidden><span id="undo-text">Cleared</span><button type="button" class="undo-btn" id="undo-btn">Undo</button></div>
 
   <script>
   (function () {
@@ -2632,6 +2684,60 @@
       const d = new Date(t);
       return d.toDateString() === new Date().toDateString() ? d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : formatWhen(t);
     }
+    // ----- units on each generator leg (counts + popover) -----
+    var legPopKey = null, legPopPinned = false;
+    function legLocations(state, key) {
+      const list = state.locations.filter((l) => l.pair !== 'off' && pairInfo(l.pair).keys.indexOf(key) >= 0)
+        .map((l) => ({ id: l.id, name: l.name, amps: parseAmp(l[key]) }));
+      list.sort((a, b) => (b.amps == null ? -1 : b.amps) - (a.amps == null ? -1 : a.amps));
+      return { list, read: list.filter((x) => x.amps != null).length, sum: list.reduce((t, x) => t + (x.amps || 0), 0) };
+    }
+    function renderLegPop(state) {
+      const pop = $('leg-pop');
+      const row = document.querySelector('#hero-phases .leg-row[data-leg="' + legPopKey + '"]');
+      if (!legPopKey || !row) { pop.hidden = true; pop.innerHTML = ''; return; }
+      const ph = HOT.find((p) => p.key === legPopKey);
+      const lc = legLocations(state, legPopKey);
+      const gv = genLegTotals(state).v[legPopKey];
+      let html = '<div class="lp-head"><span class="dot dot-' + ph.css + '" aria-hidden="true"></span><strong id="leg-pop-title">' + ph.label + ' leg</strong><span class="lp-n">' +
+        lc.list.length + ' ' + (lc.list.length === 1 ? 'location' : 'locations') + ' · ' + lc.read + ' with readings</span></div>';
+      if (!lc.list.length) html += '<p class="lp-empty">No locations on this leg.</p>';
+      else html += '<ol class="lp-list">' + lc.list.map((x) => '<li data-id="' + esc(x.id) + '"><span class="lp-name">' + esc(x.name) + '</span><span class="lp-amp' + (x.amps == null ? ' none' : '') + '">' + (x.amps == null ? '—' : formatAmp(x.amps) + ' A') + '</span></li>').join('') + '</ol>';
+      html += '<p class="lp-foot">Sum of trailers ' + formatAmp(Math.round(lc.sum * 10) / 10) + ' A' + (gv != null ? ' · generator ' + formatAmp(gv) + ' A' : '') + '</p>';
+      pop.innerHTML = html;
+      pop.hidden = false;
+      // shown in the flow under the leg rows, so it never covers the other legs (tap another leg to switch)
+    }
+    function openLegPop(key, pinned) {
+      legPopKey = key; legPopPinned = !!pinned;
+      document.querySelectorAll('#hero-phases .leg-row').forEach((r) => { const on = r.dataset.leg === key; r.classList.toggle('open', on); r.setAttribute('aria-expanded', on ? 'true' : 'false'); });
+      renderLegPop(current());
+    }
+    function closeLegPop() {
+      if (!legPopKey) return;
+      legPopKey = null; legPopPinned = false;
+      document.querySelectorAll('#hero-phases .leg-row').forEach((r) => { r.classList.remove('open'); r.setAttribute('aria-expanded', 'false'); });
+      const pop = $('leg-pop'); pop.hidden = true; pop.innerHTML = '';
+    }
+    (function wireLegPop() {
+      const box = $('hero-phases');
+      const hoverable = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      box.addEventListener('click', (e) => {
+        const row = e.target.closest('.leg-row'); if (!row) return;
+        if (legPopKey === row.dataset.leg && legPopPinned) closeLegPop(); else openLegPop(row.dataset.leg, true);
+      });
+      box.addEventListener('keydown', (e) => {
+        const row = e.target.closest('.leg-row'); if (!row) return;
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
+      });
+      box.addEventListener('contextmenu', (e) => { if (e.target.closest('.leg-row')) e.preventDefault(); });
+      if (hoverable) {
+        box.addEventListener('mouseover', (e) => { const row = e.target.closest('.leg-row'); if (row && !legPopPinned && legPopKey !== row.dataset.leg) openLegPop(row.dataset.leg, false); });
+        box.addEventListener('mouseleave', () => { if (!legPopPinned) closeLegPop(); });
+      }
+      document.addEventListener('pointerdown', (e) => { if (legPopKey && !e.target.closest('#leg-pop, #hero-phases .leg-row')) closeLegPop(); }, true);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLegPop(); });
+    })();
     function renderHero(state, totals) {
       const box = $('hero-phases'); if (!box) return;
       const gt = genLegTotals(state);
@@ -2640,12 +2746,19 @@
       box.innerHTML = '';
       HOT.forEach((p) => {
         const n = gt.v[p.key];
+        const lc = legLocations(state, p.key);
         const row = document.createElement('div');
-        row.className = 'phase-row'; row.dataset.leg = p.key;
+        row.className = 'phase-row leg-row' + (legPopKey === p.key ? ' open' : ''); row.dataset.leg = p.key;
+        row.tabIndex = 0;
+        row.setAttribute('role', 'button');
+        row.setAttribute('aria-haspopup', 'dialog');
+        row.setAttribute('aria-expanded', legPopKey === p.key ? 'true' : 'false');
+        row.setAttribute('aria-label', p.label + ' leg ' + (n == null ? 'no reading' : formatAmp(n) + ' amps') + ', ' + lc.list.length + ' ' + (lc.list.length === 1 ? 'location' : 'locations') + ', ' + lc.read + ' with readings. Show units on this leg.');
         const pct = n == null ? 0 : Math.min(100, (n / scale) * 100);
         row.innerHTML =
           '<span class="dot dot-' + p.css + '" aria-hidden="true"></span>' +
-          '<span>' + p.label + '</span>' +
+          '<span class="leg-lab">' + p.label + ' <span class="phase-count leg-count">· ' + lc.list.length + ' ' + (lc.list.length === 1 ? 'location' : 'locations') + '</span>' +
+          '<span class="leg-read">' + lc.read + ' with readings</span></span>' +
           '<span class="amt' + (n == null ? ' empty' : '') + '">' + (n == null ? '—' : formatAmp(n) + ' A') + '</span>' +
           '<div class="bar bar-' + p.css + '" aria-hidden="true"><span style="width:' + pct + '%"></span></div>';
         box.appendChild(row);
@@ -2655,6 +2768,7 @@
       nRow.className = 'phase-row neutral-row'; nRow.dataset.leg = 'white';
       nRow.innerHTML = '<span class="dot dot-neutral" aria-hidden="true"></span><span>Neutral</span><span class="amt' + (nw == null ? ' empty' : '') + '">' + (nw == null ? '—' : formatAmp(nw) + ' A') + '</span><span></span>';
       box.appendChild(nRow);
+      if (legPopKey) renderLegPop(state);
       $('hero-time').textContent = gt.at ? 'Read ' + heroWhen(gt.at) : 'No reading yet';
       const st = genStats(state);
       const sp = $('hero-spread');
@@ -3028,6 +3142,8 @@
     });
 
     $('note-add-btn').addEventListener('click', addNote);
+    $('gen-clear-btn').addEventListener('click', clearGenerator);
+    $('undo-btn').addEventListener('click', () => { const u = undoState; hideUndo(); if (u) { u.restore(); toast('Restored.'); } });
 
     // ----- collapsible generator sections (legs, fuel/oil, service) -----
     const GEN_COLLAPSE_KEY = 'basecamp-phase-tracker-gen-collapsed-v1';
@@ -3844,6 +3960,16 @@
           row.appendChild(prev);
           card.appendChild(row);
         });
+        const clearRow = document.createElement('div');
+        clearRow.className = 'clear-row card-clear';
+        const clearBtn = document.createElement('button');
+        clearBtn.type = 'button';
+        clearBtn.className = 'btn btn-clear';
+        clearBtn.textContent = 'Clear info';
+        clearBtn.setAttribute('aria-label', 'Clear ' + loc.name + ' readings');
+        clearBtn.addEventListener('click', () => clearLocation(loc.id));
+        clearRow.appendChild(clearBtn);
+        card.appendChild(clearRow);
 
         card.classList.toggle('has-prev', locHasPrev(loc.id));
         paintLegLoad(card, loc);
@@ -3894,6 +4020,77 @@
       } else {
         bannerEl.classList.remove('visible');
       }
+    }
+
+    // ----- Clear info (one tap) with a 6 s Undo -----
+    // Only the current values are blanked. Each cleared value is committed to the previous-reading record (rd),
+    // so it shows as "prev" next to the empty box; the generator log, fuel/oil and service history are never touched.
+    // Undo puts back the values, the rd entries and the generator's updatedAt exactly as they were.
+    let undoState = null, undoTimer = null;
+    const UNDO_MS = 6000;
+    function showUndo(text, restore) {
+      undoState = { restore };
+      $('undo-text').textContent = text;
+      const bar = $('undo-bar');
+      bar.hidden = false;
+      bar.classList.remove('show'); void bar.offsetWidth; bar.classList.add('show');
+      toastEl.classList.remove('show');
+      clearTimeout(undoTimer);
+      undoTimer = setTimeout(hideUndo, UNDO_MS);
+    }
+    function hideUndo() {
+      clearTimeout(undoTimer); undoTimer = null; undoState = null;
+      const bar = $('undo-bar'); bar.classList.remove('show'); bar.hidden = true;
+    }
+    function rdSnap(keys) {
+      const rd = rdOf(current());
+      return keys.map((k) => ({ k, r: rd[k] ? Object.assign({}, rd[k]) : null }));
+    }
+    function rdRestore(snap) {
+      const rd = rdOf(current());
+      snap.forEach((e) => { if (e.r) rd[e.k] = e.r; else delete rd[e.k]; });
+    }
+    function clearLocation(id) {
+      const st = current();
+      const loc = st.locations.find((l) => l.id === id);
+      if (!loc) return;
+      if (!PHASES.some((p) => String(loc[p.key] || '').trim() !== '')) { toast('Nothing to clear on ' + loc.name + '.'); return; }
+      if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+      const keys = PHASES.map((p) => 'l.' + id + '.' + p.key);
+      const snap = { vals: PHASES.map((p) => loc[p.key]), rd: rdSnap(keys) };
+      PHASES.forEach((p) => { commitReading('l.' + id + '.' + p.key, loc[p.key], null, '', st); loc[p.key] = ''; });
+      persist();
+      renderList();
+      showUndo('Cleared ' + loc.name, () => {
+        const l = current().locations.find((x) => x.id === id);
+        if (!l) return;
+        PHASES.forEach((p, i) => { l[p.key] = snap.vals[i]; });
+        rdRestore(snap.rd);
+        persist();
+        renderList();
+      });
+    }
+    function clearGenerator() {
+      const st = current();
+      const g = genOf(st);
+      if (!PHASES.some((p) => String(g[p.key] || '').trim() !== '')) { toast('No generator readings to clear.'); return; }
+      if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+      const keys = PHASES.map((p) => 'g.' + p.key);
+      const snap = { vals: PHASES.map((p) => g[p.key] || ''), at: g.updatedAt, rd: rdSnap(keys) };
+      PHASES.forEach((p) => { commitReading('g.' + p.key, g[p.key] || '', g.updatedAt, '', st); g[p.key] = ''; });
+      g.updatedAt = null;
+      persist();
+      renderGenAndNotes();
+      updateSummary();
+      showUndo('Cleared generator legs', () => {
+        const gg = genOf(current());
+        PHASES.forEach((p, i) => { gg[p.key] = snap.vals[i]; });
+        gg.updatedAt = snap.at;
+        rdRestore(snap.rd);
+        persist();
+        renderGenAndNotes();
+        updateSummary();
+      });
     }
 
     function toast(msg) {
@@ -4160,7 +4357,7 @@
       const when = formatWhen(state.savedAt || Date.now());
       const countLine = (key, label) => label + ' · ' + counts[key] + (counts[key] === 1 ? ' location' : ' locations');
       const lines = [
-        'Base Camp Phase Tracker',
+        'LegCheck · Generator phase & load tracker',
         'Readings as of ' + when,
         '',
         'TOTALS',
@@ -4244,8 +4441,8 @@
       if (navigator.share) {
         try {
           await navigator.share({
-            title: 'Base Camp Phase Tracker',
-            text: 'Base camp phase readings' + (current().savedAt ? ' (' + formatWhen(current().savedAt) + ')' : ''),
+            title: 'LegCheck',
+            text: 'LegCheck phase readings' + (current().savedAt ? ' (' + formatWhen(current().savedAt) + ')' : ''),
             url: url
           });
           return;
@@ -4262,7 +4459,7 @@
       if (navigator.share) {
         try {
           await navigator.share({
-            title: 'Base Camp Phase Tracker',
+            title: 'LegCheck',
             text: text
           });
           return;
@@ -4680,7 +4877,7 @@
           '<text x="0" y="' + (y + 13).toFixed(1) + '" text-anchor="middle" font-size="12" font-weight="700" fill="#444444">Not in use</text></g>';
       }
       const info = pairInfo(loc.pair);
-      const segs = info.keys.concat(['white']).map((k) => ({ dot: k === 'white' ? '○' : '●', col: PHASE_HEX[k], v: ampLabel(loc[k]) }));
+      const segs = info.keys.concat(['white']).map((k) => ({ dot: k === 'white' ? 'N' : '●', col: PHASE_HEX[k], v: ampLabel(loc[k]) }));
       const plain = segs.map((g) => g.dot + ' ' + g.v).join('   ');
       const w = plain.length * 7 + 16;
       let s = '<g class="map-badge"><rect x="' + (-w / 2).toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="18" rx="9" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.2"/>' +
@@ -5433,7 +5630,7 @@
       const when = formatWhen(Date.now());
       const over = open +
         '<rect width="' + W0 + '" height="' + head + '" fill="' + pal.bg + '"/><line x1="0" y1="' + head + '" x2="' + W0 + '" y2="' + head + '" stroke="' + pal.text + '" stroke-width="2"/>' +
-        '<text x="14" y="28" font-size="18" font-weight="800" fill="' + pal.text + '">Base Camp Map</text>' +
+        '<text x="14" y="28" font-size="18" font-weight="800" fill="' + pal.text + '">LegCheck · Site map</text>' +
         '<text x="' + (W0 - 14) + '" y="28" font-size="13" font-weight="600" text-anchor="end" fill="' + pal.text + '">' + esc(when) + '</text>' +
         world + cableSvgs(m, pal, null) + m.items.map((it) => itemSvg(it, pal, null, locs)).join('') + '</g>' +
         (attrib ? '<text x="' + (W0 - 8) + '" y="' + (H0 - 8) + '" font-size="11" font-weight="600" text-anchor="end" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">' + esc(attrib) + '</text>' : '') + '</svg>';
@@ -5473,11 +5670,11 @@
       try { out = await renderMapPngBlob(); }
       catch (err) { toast('Could not make the map image.'); return; }
       const d = new Date();
-      const name = 'basecamp-map-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.png';
+      const name = 'legcheck-map-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.png';
       let file = null;
       try { file = new File([out.blob], name, { type: 'image/png' }); } catch (err) {}
       if (file && navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
-        try { await navigator.share({ files: [file], title: 'Base Camp Map' }); return; }
+        try { await navigator.share({ files: [file], title: 'LegCheck site map' }); return; }
         catch (err) { if (err && err.name === 'AbortError') return; }
       }
       const url = URL.createObjectURL(out.blob);
@@ -5568,6 +5765,7 @@
       const isMap = activeTab === 'map';
       $('tracker-view').hidden = isMap;
       $('gen-hero').hidden = isMap;
+      if (isMap && typeof closeLegPop === 'function') closeLegPop();
       $('map-view').hidden = !isMap;
       $('tab-tracker').setAttribute('aria-selected', String(!isMap));
       $('tab-map').setAttribute('aria-selected', String(isMap));
@@ -6130,6 +6328,8 @@
       suggestRebalance, planTotals, parseFuel, fuelLevel, oilStatus,
       genCollapseKey: GEN_COLLAPSE_KEY,
       balance: { suggest: () => JSON.parse(JSON.stringify(suggestBalance(current()))), line: balMoveLine },
+      clear: { location: (id) => clearLocation(id), generator: () => clearGenerator(), undo: () => { const u = undoState; hideUndo(); if (u) u.restore(); }, pending: () => !!undoState, UNDO_MS },
+      legs: { list: (k) => legLocations(current(), k), open: (k) => openLegPop(k, true), close: () => closeLegPop(), openKey: () => legPopKey },
       hero: { suggest: () => suggestGenBalance(current()), diff: () => genVsLocations(current()) },
       panel: { SORT_KEY, VOLTS: PANEL_VOLTS, SEEDS: PANEL_SEEDS.map((x) => ({ v: x.v, panel: Object.assign({}, x.panel) })), SEED_V: PANEL_SEED_V, LAYOUT_V: LAYOUT_V, text: panelText, sortMode: () => sortMode, setSort: setSortMode, ordered: () => orderedLocations(current()).map((l) => l.id) },
       fuelCheck: { setNow: (t) => { fcClock = t; renderFluids(current()); }, relAge, last: () => { const l = lastCheck(fluidOf(current())); return l ? Object.assign({}, l) : null; }, list: () => fluidOf(current()).checks.map((e) => Object.assign({}, e)), LEVELS: FC_LEVELS, KEEP: FC_KEEP, SHOW: FC_SHOW },
