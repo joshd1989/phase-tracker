@@ -1759,6 +1759,163 @@
     .tips-card > summary::before { content: '▸'; color: var(--gold, var(--muted)); font-weight: 900; }
     .tips-card[open] > summary::before { content: '▾'; }
     .tips-card ul { margin: 0; padding: 0 14px 12px 30px; display: grid; gap: 6px; font-size: 0.88rem; line-height: 1.4; }
+    /* ===== Film lighting mode ===== */
+    .mode-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 8px; padding: 4px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--hairline); }
+    .mode-btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 38px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); font: inherit; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; }
+    .mode-btn svg { width: 18px; height: 18px; }
+    .mode-btn.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+    #mode-light.on { background: linear-gradient(135deg, #ffb347, #e8741c); color: #1a0f05; box-shadow: 0 0 0 1px rgba(255,173,66,.5), 0 6px 18px rgba(255,140,40,.35); }
+    .lt-mark { display: none; }
+    :root[data-mode="lighting"][data-mode] {
+      --gold: #c96f12; --lt: #c96f12; --lt-2: #8a4a08; --lt-soft: rgba(217, 120, 30, 0.12); --lt-line: rgba(201, 111, 18, 0.35);
+      --header-bg: #f8efe2; --bg: #f7f1e8; --surface-2: #fbf3e8; --hairline: #e7d6bf; --stage: #0f0c0a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root[data-mode="lighting"][data-mode]:not([data-theme="light"]) {
+        --gold: #ffad42; --lt: #ffad42; --lt-2: #ffd08a; --lt-soft: rgba(255, 173, 66, 0.12); --lt-line: rgba(255, 173, 66, 0.32);
+        --header-bg: #120d08; --bg: #0d0b09; --surface: #191511; --surface-2: #211b15; --hairline: #3a2e22;
+      }
+    }
+    html[data-theme="dark"][data-mode="lighting"][data-mode] {
+      --gold: #ffad42; --lt: #ffad42; --lt-2: #ffd08a; --lt-soft: rgba(255, 173, 66, 0.12); --lt-line: rgba(255, 173, 66, 0.32);
+      --header-bg: #120d08; --bg: #0d0b09; --surface: #191511; --surface-2: #211b15; --hairline: #3a2e22;
+    }
+    :root[data-mode="lighting"] .topbar { background: radial-gradient(120% 140% at 85% -40%, rgba(255, 170, 70, 0.32), transparent 60%), linear-gradient(180deg, rgba(255, 150, 50, 0.10), transparent), var(--header-bg); border-bottom: 1px solid var(--lt-line); }
+    :root[data-mode="lighting"] .clapper { display: none; }
+    :root[data-mode="lighting"] .lt-mark { display: inline-block; width: 34px; height: 30px; flex: 0 0 auto; margin-right: 8px; filter: drop-shadow(0 0 6px rgba(255, 170, 70, 0.55)); }
+    :root[data-mode="lighting"] .slate-top { color: var(--lt); }
+    :root[data-mode="lighting"] .slate-sub::before { background: var(--lt); box-shadow: 0 0 8px var(--lt); animation: none; }
+    :root[data-mode="lighting"] #tracker-view, :root[data-mode="lighting"] #gen-hero { display: none !important; }
+    :root[data-mode="lighting"] .tab[aria-selected="true"] { box-shadow: inset 0 -3px 0 var(--lt); }
+
+    #lt-hero { position: relative; padding: 14px 14px 12px; border-radius: var(--radius); background: radial-gradient(130% 90% at 100% 0%, var(--lt-soft), transparent 60%), var(--surface); border: 1px solid var(--lt-line); box-shadow: var(--shadow); overflow: hidden; }
+    #lt-hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, #ff8a1f, #ffd27a, #ff8a1f); opacity: .9; }
+    .lt-hero-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .lt-hero-title { margin: 0; font-size: 1.15rem; font-weight: 850; letter-spacing: .01em; display: flex; align-items: center; gap: 8px; }
+    .lt-beam { width: 18px; height: 14px; display: inline-block; background: conic-gradient(from 245deg at 0 50%, transparent 0 0, var(--lt) 0 50deg, transparent 50deg); border-radius: 2px; }
+    .lt-hero-tag { font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--lt); }
+    .lt-hero-meta { margin: 4px 0 8px; font-size: .86rem; color: var(--muted); }
+    .lt-need { color: var(--lt); font-weight: 700; }
+    .lt-legs { display: grid; gap: 8px; }
+    .lt-leg { display: grid; grid-template-columns: 14px 1fr auto; grid-template-rows: auto 8px; column-gap: 10px; row-gap: 6px; align-items: center; padding: 8px 10px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--hairline); }
+    .lt-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 2px rgba(255,255,255,.55); }
+    .lt-leg-name { font-weight: 800; }
+    .lt-leg-name small { display: block; font-weight: 600; font-size: .76rem; color: var(--muted); }
+    .lt-leg-amt { text-align: right; font-variant-numeric: tabular-nums; }
+    .lt-leg-amt b { font-size: 1.55rem; font-weight: 850; }
+    .lt-leg-amt em { font-style: normal; margin-left: 6px; font-size: .78rem; font-weight: 800; padding: 2px 6px; border-radius: 999px; background: var(--lt-soft); color: var(--text); }
+    .lt-leg.lv-warn .lt-leg-amt em { background: #ffb300; color: #1a1200; }
+    .lt-leg.lv-over .lt-leg-amt em { background: #d32f2f; color: #fff; }
+    .lt-leg.lv-over { border-color: #d32f2f; }
+    .lt-bar { grid-column: 1 / -1; position: relative; height: 8px; border-radius: 999px; background: var(--bar-track); overflow: visible; }
+    .lt-bar i { display: block; height: 100%; border-radius: 999px; box-shadow: 0 0 10px rgba(255, 170, 70, .35); }
+    .lt-leg[data-leg="black"] .lt-bar i { background: linear-gradient(90deg, #111, #444) !important; outline: 1px solid #777; }
+    .lt-bar .m80 { position: absolute; left: 80%; top: -3px; bottom: -3px; width: 2px; background: var(--lt); border-radius: 1px; }
+    .lt-warn { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+    .lt-warn li { padding: 8px 10px; border-radius: 10px; font-weight: 750; font-size: .88rem; }
+    .lt-warn li.warn { background: rgba(255, 179, 0, .16); border: 1px solid rgba(255, 179, 0, .6); }
+    .lt-warn li.over { background: rgba(211, 47, 47, .16); border: 1px solid #d32f2f; }
+    .lt-warn li::before { content: "⚠ "; }
+    .lt-hero-spread { margin: 8px 0 0; font-size: .82rem; color: var(--muted); }
+    .lt-bal-btn { border-color: var(--lt) !important; }
+    .lt-bal-card { margin-top: 10px; padding: 12px; border-radius: 12px; background: var(--surface-2); border: 1px dashed var(--lt-line); }
+    .lt-bal-card p { margin: 0 0 8px; }
+    .lt-bal-basis { font-size: .8rem; color: var(--muted); }
+    .lt-moves { margin: 0 0 8px; padding-left: 20px; display: grid; gap: 6px; }
+    .lt-ok { color: #2e7d32; font-weight: 800; }
+    .lp { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: .78rem; font-weight: 800; color: #fff; }
+    .lp-red { background: #c62828; } .lp-blue { background: #0d47a1; } .lp-black { background: #111; border: 1px solid #777; }
+    .lp-rb { background: linear-gradient(90deg, #c62828 50%, #0d47a1 50%); } .lp-bk { background: linear-gradient(90deg, #0d47a1 50%, #111 50%); } .lp-kr { background: linear-gradient(90deg, #111 50%, #c62828 50%); }
+
+    #lighting-view { display: grid; gap: 14px; margin-top: 14px; }
+    .lt-sec { padding: 14px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--hairline); box-shadow: var(--shadow); }
+    .lt-title { margin: 0 0 6px; display: flex; align-items: center; gap: 10px; font-size: .82rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: var(--lt); padding-bottom: 8px; border-bottom: 1px solid; border-image: linear-gradient(90deg, var(--lt), transparent) 1; }
+    .lt-num { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .72rem; letter-spacing: .05em; padding: 2px 6px; border-radius: 6px; background: var(--lt); color: #1a0f05; }
+    .lt-count { margin-left: auto; font-size: .72rem; letter-spacing: .06em; color: var(--muted); font-weight: 750; text-transform: none; }
+    .lt-sub, .lt-fine { margin: 4px 0 10px; font-size: .82rem; color: var(--muted); }
+    .lt-gen-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .lt-gl { display: grid; gap: 4px; font-weight: 800; font-size: .85rem; }
+    .lt-gl span { display: flex; align-items: center; gap: 6px; }
+    .lt-gl i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 1.5px rgba(255,255,255,.6); }
+    #lighting-view input[type="number"], #lighting-view input[type="text"], #lighting-view input[type="search"], #lighting-view select, #lt-sheet select, #lt-sheet input { min-height: 44px; border-radius: 10px; border: 1.5px solid var(--input-border); background: var(--input-bg); color: var(--text); font: inherit; font-size: 1rem; padding: 0 10px; width: 100%; box-sizing: border-box; }
+    .lt-rating { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-weight: 800; font-size: .9rem; }
+    .lt-rating input { max-width: 120px; }
+    .lt-gen-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
+    .lt-totals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 8px 0 10px; }
+    .lt-tot { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); font-size: .86rem; font-weight: 700; }
+    .lt-tot b { margin-left: auto; font-size: 1rem; font-variant-numeric: tabular-nums; }
+    .lt-rig { display: grid; gap: 8px; }
+    .lt-empty { margin: 6px 0; color: var(--muted); font-size: .9rem; }
+    .lt-unit { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 10px; padding: 10px; border-radius: 12px; border: 1px solid var(--hairline); background: var(--surface-2); border-left: 4px solid var(--bc); }
+    .lt-u-art { width: 56px; height: 44px; border-radius: 8px; background: radial-gradient(circle at 50% 40%, #2a2219, #0b0907); overflow: hidden; }
+    .lt-u-art svg, .lt-sh-art svg { width: 100%; height: 100%; display: block; }
+    .lt-u-name { padding-right: 104px; min-height: 36px; }
+    .lt-u-name b { display: block; font-size: .95rem; }
+    .lt-u-name span { font-size: .75rem; color: var(--muted); font-weight: 700; }
+    .lt-u-ctl { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
+    .lt-u-ctl select { flex: 1; min-width: 0; }
+    .lt-qty { display: inline-flex; align-items: center; border: 1.5px solid var(--input-border); border-radius: 10px; overflow: hidden; flex: 0 0 auto; }
+    .lt-q { width: 36px; height: 42px; border: 0; background: var(--surface); color: var(--text); font-size: 1.15rem; font-weight: 800; cursor: pointer; }
+    .lt-qn { min-width: 26px; text-align: center; font-weight: 850; }
+    .lt-u-note { margin-bottom: 6px; }
+    .lt-u-amps { font-size: .84rem; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+    .lt-ov { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: .74rem; color: var(--muted); font-weight: 700; }
+    #lighting-view .lt-ov input { width: 70px; min-height: 32px; font-size: .85rem; padding: 0 6px; }
+    .lt-u-side { position: absolute; top: 8px; right: 6px; display: flex; gap: 2px; align-items: center; }
+    .lt-u-ctl, .lt-u-note, .lt-u-amps { margin-left: -66px; }
+    #lighting-view .lt-u-note { width: calc(100% + 66px); }
+    .lt-u-ctl select { font-size: .92rem !important; }
+    .lt-u-del, .lt-cdel { border: 0; background: transparent; color: var(--muted); font-size: 1.05rem; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; }
+    .lt-filters { display: grid; gap: 8px; margin: 8px 0 12px; }
+    .lt-sel-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .lt-lib { display: grid; gap: 12px; }
+    @media (min-width: 720px) { .lt-lib { grid-template-columns: 1fr 1fr; } }
+    .fx-foot { grid-column: 1 / -1; }
+    .fx-card { display: grid; grid-template-columns: 116px 1fr; gap: 12px; padding: 10px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--hairline); position: relative; overflow: hidden; }
+    .fx-card::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--bc); }
+    .fx-art { border-radius: 10px; background: radial-gradient(120% 90% at 50% 30%, #3a2c1d 0%, #120e0a 62%, #070605 100%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), inset 0 -20px 30px rgba(0,0,0,.4); align-self: start; aspect-ratio: 120 / 104; }
+    .fx-art svg { width: 100%; height: 100%; display: block; }
+    .fx-brand { font-size: .7rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; color: var(--bc); filter: saturate(1.1); }
+    :root:not([data-theme="dark"]) .fx-brand { filter: brightness(.75) saturate(1.2); }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fx-brand { filter: none; } }
+    html[data-theme="dark"] .fx-brand { filter: none; }
+    .fx-model { margin: 2px 0 2px; font-size: 1.02rem; font-weight: 850; line-height: 1.2; }
+    .fx-type { font-size: .76rem; color: var(--muted); font-weight: 650; }
+    .fx-amps { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin: 7px 0; }
+    .fx-a { font-size: .86rem; margin-right: 2px; }
+    .fx-a b { font-size: 1.12rem; font-weight: 900; }
+    .fx-b { font-size: .68rem; font-weight: 850; letter-spacing: .03em; padding: 2px 7px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+    .b-pub { color: #2e7d32; } .b-calc { color: #8a6d00; } .b-240 { color: #fff; background: #6a1b9a; border-color: #6a1b9a; }
+    .b-edison { color: #fff; background: #c62828; border-color: #c62828; } .b-verify { color: var(--muted); } .b-custom { color: #1a0f05; background: #ffb74d; border-color: #ffb74d; } .b-ov { color: var(--lt); }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .b-pub { color: #81c784; } :root:not([data-theme="light"]) .b-calc { color: #ffd54f; } }
+    html[data-theme="dark"] .b-pub { color: #81c784; } html[data-theme="dark"] .b-calc { color: #ffd54f; }
+    .fx-specs { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); padding-top: 8px; border-top: 1px solid var(--hairline); gap: 3px 10px; margin: 0; font-size: .74rem; }
+    .fx-specs div { min-width: 0; }
+    .fx-specs dt { color: var(--muted); font-weight: 700; font-size: .66rem; text-transform: uppercase; letter-spacing: .08em; }
+    .fx-specs dd { margin: 0; font-weight: 650; overflow-wrap: anywhere; }
+    .fx-note { margin: 6px 0 0; font-size: .74rem; color: var(--lt); font-weight: 700; }
+    .fx-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
+    .fx-link { font-size: .8rem; font-weight: 800; color: var(--lt); text-decoration: none; }
+    .btn.small { min-height: 36px; padding: 0 12px; font-size: .84rem; }
+    @media (max-width: 340px) { .fx-card { grid-template-columns: 96px 1fr; } }
+    .lt-more { width: 100%; margin-top: 10px; }
+    .lt-cform { display: grid; gap: 8px; margin-top: 8px; }
+    .lt-c-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .lt-c-row label { display: grid; gap: 4px; font-weight: 800; font-size: .84rem; }
+    .lt-c-chk { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .88rem; }
+    .lt-custom-list { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; font-size: .86rem; }
+    .lt-custom-list li { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 10px; background: var(--surface-2); }
+    .lt-custom-list .lt-cdel { margin-left: auto; }
+    .lt-sheet { border-top: 3px solid #ffad42; }
+    .lt-sh-head { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+    .lt-sh-art { width: 72px; height: 54px; border-radius: 8px; background: radial-gradient(circle at 50% 40%, #2a2219, #0b0907); flex: 0 0 auto; }
+    .lt-sh-amps { font-size: .84rem; color: var(--muted); font-weight: 700; }
+    .lt-sh-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .lt-sh-row select { flex: 1; }
+    #lt-sheet input { margin-bottom: 10px; }
+    .pal-btn.lt-pal { border-color: #ffad42 !important; }
+    .pal-btn.lt-pal[aria-pressed="false"] { opacity: .6; }
+    #map-lights .lt-mapi { cursor: grab; }
 </style>
 </head>
 <body>
@@ -1770,9 +1927,13 @@
             <rect x="5" y="16" width="24" height="1.6" rx=".8" fill="#f3efe7" opacity=".85"/><rect x="5" y="20.5" width="16" height="1.6" rx=".8" fill="#f3efe7" opacity=".6"/><rect x="5" y="25" width="20" height="1.6" rx=".8" fill="#f3efe7" opacity=".6"/></g>
             <g class="clap-arm"><rect x="2" y="5" width="30" height="6" rx="1.5" fill="#1b1814" stroke="#f3efe7" stroke-width="1"/>
             <path d="M7 5 L11 5 L8 11 L4 11 Z M15 5 L19 5 L16 11 L12 11 Z M23 5 L27 5 L24 11 L20 11 Z" fill="#f3efe7"/></g>
-          </svg><span class="slate-text"><span class="slate-top">LegCheck</span> <span class="slate-sub">Generator phase &amp; load tracker</span></span></h1>
+          </svg><svg class="lt-mark" id="lt-mark" viewBox="0 0 34 30" aria-hidden="true" focusable="false"><path d="M21 9 L33 3 V27 L21 21 Z" fill="#ffd27a" opacity=".55"/><rect x="3" y="7" width="18" height="16" rx="3" fill="#1b1612" stroke="#ffad42" stroke-width="1.4"/><circle cx="12" cy="15" r="5" fill="#ffd27a"/><path d="M12 23 v4 M7 28 h10" stroke="#ffad42" stroke-width="1.6" stroke-linecap="round"/></svg><span class="slate-text"><span class="slate-top">LegCheck</span> <span class="slate-sub">Generator phase &amp; load tracker</span></span></h1>
         <button type="button" class="svc-pill" id="svc-pill"></button>
         <button type="button" class="icon-btn" id="theme-btn" aria-label="Toggle colour theme" title="Toggle colour theme">◐</button>
+      </div>
+      <div class="mode-seg" id="mode-seg" role="radiogroup" aria-label="What you are tracking">
+        <button type="button" class="mode-btn on" role="radio" aria-checked="true" id="mode-base"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 18h18M5 18V9l7-4 7 4v9M9 18v-5h6v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Base Camp</button>
+        <button type="button" class="mode-btn" role="radio" aria-checked="false" id="mode-light"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="11" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 9l5-3v12l-5-3M7 17v3M5 20h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Lighting</button>
       </div>
     </header>
     <nav class="tabbar" id="tabbar" aria-label="View">
@@ -1794,6 +1955,15 @@
         <div class="bal-row"><button type="button" class="btn bal-btn" id="gbal-btn" aria-expanded="false" aria-controls="gbal-card">⚖ Suggest balance</button></div>
         <section class="bal-card" id="gbal-card" aria-label="Generator balance suggestion" aria-live="polite" hidden></section>
       </div>
+      <div id="lt-hero" hidden>
+        <div class="lt-hero-head"><h2 class="lt-hero-title" id="lt-hero-title"><span class="lt-beam" aria-hidden="true"></span>Lighting load</h2><span class="lt-hero-tag">vs generator legs</span></div>
+        <p class="lt-hero-meta" id="lt-hero-meta"></p>
+        <div class="lt-legs" id="lt-hero-legs" aria-labelledby="lt-hero-title"></div>
+        <ul class="lt-warn" id="lt-warn" hidden></ul>
+        <p class="lt-hero-spread" id="lt-hero-spread"></p>
+        <div class="bal-row"><button type="button" class="btn lt-bal-btn" id="lt-bal-btn" aria-expanded="false" aria-controls="lt-bal-card">⚖ Suggest lighting balance</button></div>
+        <section class="lt-bal-card" id="lt-bal-card" aria-label="Lighting balance suggestion" aria-live="polite" hidden></section>
+      </div>
       <div id="share-banner" role="status">
         <p id="share-banner-text"></p>
         <div class="btn-row">
@@ -1802,6 +1972,60 @@
         </div>
       </div>
     </section>
+
+    <div id="lighting-view" hidden>
+      <section class="lt-sec" id="lt-gen-sec" aria-labelledby="lt-gen-title">
+        <h2 class="lt-title" id="lt-gen-title"><span class="lt-num">01</span>Lighting generator</h2>
+        <p class="lt-sub">Its own legs, separate from Base Camp. Enter clamp readings if you have them.</p>
+        <div class="lt-gen-grid">
+          <label class="lt-gl" data-leg="red"><span><i style="background:#c62828"></i>Red</span><input id="lt-gen-red" type="text" inputmode="decimal" placeholder="A"></label>
+          <label class="lt-gl" data-leg="blue"><span><i style="background:#0d47a1"></i>Blue</span><input id="lt-gen-blue" type="text" inputmode="decimal" placeholder="A"></label>
+          <label class="lt-gl" data-leg="black"><span><i style="background:#111111"></i>Black</span><input id="lt-gen-black" type="text" inputmode="decimal" placeholder="A"></label>
+          <label class="lt-gl" data-leg="white"><span><i style="background:#777777"></i>Neutral</span><input id="lt-gen-white" type="text" inputmode="decimal" placeholder="A"></label>
+        </div>
+        <label class="lt-rating">Rating per leg <input id="lt-gen-rating" type="text" inputmode="decimal" placeholder="e.g. 100"> A</label>
+        <div class="lt-gen-foot"><span class="saved-line" id="lt-gen-time"></span><button type="button" class="btn small" id="lt-gen-clear">Clear readings</button></div>
+      </section>
+
+      <section class="lt-sec" id="lt-rig-sec" aria-labelledby="lt-rig-title">
+        <h2 class="lt-title" id="lt-rig-title"><span class="lt-num">02</span>Rig<span class="lt-count" id="lt-rig-count"></span></h2>
+        <div class="lt-totals" id="lt-rig-totals"></div>
+        <div class="lt-rig" id="lt-rig"></div>
+      </section>
+
+      <section class="lt-sec" id="lt-lib-sec" aria-labelledby="lt-lib-title">
+        <h2 class="lt-title" id="lt-lib-title"><span class="lt-num">03</span>Fixture library<span class="lt-count" id="lt-lib-count"></span></h2>
+        <div class="lt-filters">
+          <input id="lt-q" type="search" placeholder="Search fixtures (e.g. SkyPanel, 18K, tube)" aria-label="Search fixtures" autocomplete="off">
+          <div class="lt-sel-row"><select id="lt-brand" aria-label="Brand"></select><select id="lt-group" aria-label="Type"></select></div>
+        </div>
+        <div class="lt-lib" id="lt-lib"></div>
+        <button type="button" class="btn lt-more" id="lt-more" hidden>Show more</button>
+        <p class="lt-fine">Amps marked <b>Calculated</b> are watts ÷ volts; real draw runs higher with power factor and inrush. Drawings are illustrations; tap <b>View photo/specs</b> for the maker’s page.</p>
+      </section>
+
+      <section class="lt-sec" id="lt-custom-sec" aria-labelledby="lt-custom-title">
+        <h2 class="lt-title" id="lt-custom-title"><span class="lt-num">04</span>Custom fixture</h2>
+        <div class="lt-cform">
+          <input id="lt-c-name" type="text" maxlength="60" placeholder="Name (e.g. Practical lamp)" aria-label="Custom fixture name">
+          <select id="lt-c-form" aria-label="Type">
+            <option value="cob">LED point source</option><option value="panel">LED panel</option><option value="tube">LED tube</option><option value="mat">LED mat</option>
+            <option value="fresnel">Fresnel</option><option value="hmifres">HMI + ballast</option><option value="fay">Par bank</option><option value="space">Space light</option>
+            <option value="mini">Practical / mini</option><option value="bulb">Bulb</option>
+          </select>
+          <div class="lt-c-row"><label>Watts <input id="lt-c-w" type="text" inputmode="decimal" placeholder="W"></label><label>Amps <input id="lt-c-a" type="text" inputmode="decimal" placeholder="auto"></label></div>
+          <label class="lt-c-chk"><input id="lt-c-240" type="checkbox"> 240 V only (needs a leg pair)</label>
+          <button type="button" class="btn btn-primary" id="lt-c-add">Add custom fixture</button>
+        </div>
+        <ul class="lt-custom-list" id="lt-custom-list"></ul>
+      </section>
+      <section class="actions lt-actions">
+        <div class="btn-row">
+          <button type="button" class="btn" id="lt-share-link">Share link</button>
+          <button type="button" class="btn" id="lt-share-text">Share summary</button>
+        </div>
+      </section>
+    </div>
 
     <div id="tracker-view">
     <section class="gen-legs" id="gen-legs" aria-labelledby="gen-title">
@@ -1961,6 +2185,8 @@
     <section id="map-view" aria-label="Site map" hidden>
       <div class="palette" id="map-palette" role="toolbar" aria-label="Tap to add to the map">
         <button type="button" class="pal-btn pal-cable" id="cable-btn"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M4 22 C 14 22, 14 6, 24 6 S 34 10, 36 6" fill="none" stroke="#c62828" stroke-width="4" stroke-linecap="round"/><path d="M4 26 C 14 26, 16 10, 26 10 S 34 14, 36 10" fill="none" stroke="#0d47a1" stroke-width="4" stroke-linecap="round"/></svg><span id="cable-btn-text">Cable run</span></button>
+        <button type="button" class="pal-btn lt-pal" id="lt-layer-btn" aria-pressed="true"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><circle cx="20" cy="14" r="10" fill="#141518" stroke="#ffad42" stroke-width="3"/><path d="M14 10 h8 v8 h-8 z M22 11 l6 -3 v12 l-6 -3" fill="#ffd27a"/></svg><span>Lights: on</span></button>
+        <button type="button" class="pal-btn lt-pal" id="lt-place-btn"><svg viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M20 3 C13 3 9 8 9 13 c0 7 11 13 11 13 s11 -6 11 -13 C31 8 27 3 20 3 z" fill="#ffad42"/><circle cx="20" cy="13" r="4" fill="#141518"/></svg><span>Place rig</span></button>
       </div>
       <div class="map-stage" id="map-stage">
         <div class="map-mode" id="map-mode" hidden>
@@ -1980,6 +2206,7 @@
             <g id="map-bg"></g>
             <g id="map-cables"></g>
             <g id="map-items"></g>
+            <g id="map-lights"></g>
           </g>
         </svg>
         <div class="map-attrib" id="map-attrib" hidden></div>
@@ -2019,6 +2246,7 @@
       <div class="map-sheet-spacer"></div>
     </section>
     <div class="map-sheet" id="map-sheet" role="dialog" aria-label="Edit map item" hidden></div>
+    <div class="map-sheet lt-sheet" id="lt-sheet" role="dialog" aria-label="Edit lighting fixture" hidden></div>
   </div>
 
   <div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -2212,6 +2440,419 @@
 
     let localState = defaultState();
     let viewState = null;
+    var LT_DATA = {"b":["ARRI","Aputure","amaran (Aputure)","Mole-Richardson","Nanlite","Nanlux","Kino Flo","Litepanels","Creamsource","Astera","Quasar Science","Rosco","Godox Knowled","Fiilex","Cineo","K5600","Bron Kobold","Generic HMI (rental chart)","Prolycht","Velvet","LiteGear","Digital Sputnik"],"c":["#e8e8e8","#ff5a1f","#7cc4ff","#c9a227","#3fb9a3","#2f6fd6","#38b24a","#e53935","#f2d39a","#b04ad9","#00b8d4","#d81b60","#ffb300","#8bc34a","#5c6bc0","#ff7043","#90a4ae","#9e9e9e","#26c6da","#ab47bc","#ffd54f","#ef5350"],"g":["LED panel","LED point source","LED fresnel","LED tube","HMI","Tungsten","LED mini / practical","LED mat","LED space light","LED par","Fluorescent"],"f":[[0,"SkyPanel S30-C",0,"soft",200,1.67,2,0.96,0.83,0,"panel","powerCON TRUE1 on PSU (Edison/bare-end cables)","RGBW, 2800-10000K CCT + full colour","7.7 kg / 17.0 lb (manual) + PSU 2…","DMX/RDM, LumenRadio CRMX, Art-Net/sACN","https://www.arri.com/en/lighting/led-panel-lights/skypanel-classic/s30-c",0,1],[0,"SkyPanel S60-C",0,"soft",400,3.33,2,1.92,1.67,0,"panel","powerCON TRUE1 on PSU","RGBW, 2800-10000K + full colour","12.6 kg / 27.8 lb (manual) + PSU…","DMX/RDM, CRMX, Art-Net/sACN","https://www.arri.com/en/lighting/led-spotlights/discontinued/s60-c",0,2],[0,"SkyPanel S120-C",0,"soft",400,3.33,2,1.92,1.67,0,"panel","powerCON TRUE1 on PSU","RGBW, 2800-10000K + full colour","16.5 kg / 36.4 lb + PSU 4 kg","DMX/RDM, CRMX, Art-Net/sACN","https://www.arri.com/en/lighting/led-panel-lights/skypanel-classic/s120-c",0,3],[0,"SkyPanel S360-C",0,"soft",1500,12.5,2,7.21,6.25,0,"panel","PSU mains input; head via 4-pin 30 A metal locking","RGBW, 2800-10000K + full colour","45 kg / 98 lb (with carbon yoke)…","DMX/RDM, CRMX, Art-Net/sACN","https://www.arri.com/en/lighting/led-panel-lights/skypanel-classic/s360-c",0,4],[0,"SkyPanel S60 Pro (S60-C Pro)",0,"soft",500,4.17,2,2.4,2.08,0,"panel","powerCON TRUE1 TOP in/through","RGBACL full spectrum","11.6 kg / 25.5 lb (P.O. yoke)","DMX/RDM, CRMX, Art-Net/sACN","https://www.arri.com/en/lighting/led-panel-lights/skypanel-pro/tech-data",0,5],[0,"SkyPanel X21",0,"soft/hard",800,6.67,2,3.85,3.33,0,"panel","2 x powerCON TRUE1 TOP AC in/through (max 20 A each)","RGBACL full spectrum","~15 kg fixture (single-panel conf…","DMX/RDM, CRMX, Art-Net/sACN, Ethernet","https://www.arri.com/en/lighting/led-panel-lights/skypanel-x/tech-data",0,6],[0,"SkyPanel X22",0,"soft/hard",1600,13.33,2,7.69,6.67,0,"panel","4 x powerCON TRUE1 TOP AC in/through (max 20 A each)","RGBACL full spectrum","","DMX/RDM, CRMX, Art-Net/sACN, Ethernet","https://www.arri.com/en/lighting/led-panel-lights/skypanel-x/tech-data",0,7],[0,"SkyPanel X23",0,"soft/hard",2400,20.0,2,11.54,10.0,0,"panel","6 x powerCON TRUE1 TOP AC in/through (max 20 A each)","RGBACL full spectrum","","DMX/RDM, CRMX, Art-Net/sACN, Ethernet","https://www.arri.com/en/lighting/led-panel-lights/skypanel-x/tech-data",0,8],[0,"Orbiter",1,"hard/fresnel (open face, mo…",500,4.17,2,2.4,2.08,0,"cob","powerCON TRUE1 TOP (Edison cable)","RGBACL, 2000-20000K","11.7 kg / 25.8 lb fixture only","DMX/RDM, CRMX, Art-Net/sACN","https://www.arri.com/en/lighting/led-spotlights/orbiter/tech-specs",0,9],[0,"L5-C Plus",2,"hard/fresnel",135,1.12,2,0.65,0.56,0,"fresnel","powerCON TRUE1 in/through","RGBW, 2800-10000K + colour","5.4 kg / 11.9 lb (manual)","DMX/RDM, CRMX, Art-Net/sACN","https://www.arri.com/en/lighting/led-spotlights/l-series-plus/tech-specs",0,10],[0,"L7-C Plus",2,"hard/fresnel",220,1.83,2,1.06,0.92,0,"fresnel","powerCON TRUE1 in/through","RGBW, 2800-10000K + colour","8.7 kg / 19.2 lb (manual)","DMX/RDM, CRMX, Art-Net/sACN","https://www.arri.com/en/lighting/led-spotlights/l-series-plus/tech-specs",0,11],[0,"OmniBar",3,"tube/bar",25,0.21,2,0.12,0.1,0,"tube","","full colour","1.3 kg / 2.9 lb","","https://www.arri.com/en/lighting/led-linear-lights/omnibar/omnibar-tech-data-downloads",0,12],[0,"M8 (800 W HMI)",4,"hard (open face / MAX refle…",800,6.67,2,3.85,3.33,0,"hmimax","","5600K daylight (HMI)","8.5 kg / 18.5 lb","via ballast (EB MAX)","https://www.arri.com/en/lighting/daylight-tungsten/daylight/m-series/m8",4,13],[0,"M18 (1800/1200 W HMI)",4,"hard (open face / MAX refle…",1800,25,0,8.65,7.5,0,"hmimax","Ballast line plug ships as bare ends (fit Edison 20…","5600K daylight","11.5 kg / 25.4 lb head; ballast ~…","via EB MAX ballast","https://www.arri.com/en/lighting/daylight-tungsten/daylight/m-series/m18",4,14],[0,"M40 (4000/2500 W HMI)",4,"hard (open face / MAX refle…",4000,47,0,19.23,16.67,0,"hmimax","Ballast line plug bare ends (typically fitted with…","5600K daylight","20 kg / 44 lb head; ballast ~21 kg","via EB MAX ballast","https://www.arri.com/en/lighting/daylight-tungsten/daylight/m-series/m40",4,15],[0,"M90 (9000/6000 W HMI)",4,"hard (open face / MAX refle…",9000,null,3,43.27,56.0,1,"hmimax","Ballast bare ends (typically 100 A Bates 240 V / Ca…","5600K daylight","40 kg / 87 lb head; ballast ~28 kg","","https://www.arri.com/en/lighting/daylight-tungsten/daylight/m-series/m90",4,16],[0,"ARRIMAX 18/12 (HMI PAR)",4,"par",18000,null,3,86.54,103.0,1,"hmipar","","5600K daylight","70 kg / 153 lb head; ballast ~50…","","https://www.arri.com/en/lighting/daylight-tungsten/daylight/m-series/arrimax-18-12",4,17],[0,"ARRI Daylight 18/12 Fresnel (HMI)",4,"hard/fresnel",18000,null,3,86.54,103.0,1,"hmifres","","5600K daylight","70 kg / 154 lb","","https://www.arri.com/en/lighting/daylight-tungsten/daylight/arri-daylight-18-12",4,18],[0,"True Blue T1 (1 kW fresnel)",5,"hard/fresnel",1000,8.33,2,4.81,4.17,0,"fresnel","","3200K tungsten","6 kg / 13 lb","","https://www.arri.com/en/lighting/daylight-tungsten/tungsten/true-blue-t/t1",0,19],[0,"True Blue T2 (2 kW fresnel)",5,"hard/fresnel",2000,16.67,2,9.62,8.33,0,"fresnel","","3200K tungsten","7 kg / 15 lb","","https://www.arri.com/en/lighting/daylight-tungsten/tungsten/true-blue-t/t2",0,20],[0,"True Blue T5 (5 kW fresnel)",5,"hard/fresnel",5000,41.67,2,24.04,20.83,0,"fresnel","","3200K tungsten","12 kg / 26 lb","","https://www.arri.com/en/lighting/daylight-tungsten/tungsten/true-blue-t/t5",0,21],[0,"ARRI 650 Plus",5,"hard/fresnel",650,5.42,2,3.12,2.71,0,"fresnel","","3200K tungsten","3 kg / 6 lb","","https://www.arri.com/en/lighting/daylight-tungsten/tungsten/arri-junior/arri-650-plus",0,22],[0,"ARRI 300 Plus",5,"hard/fresnel",300,2.5,2,1.44,1.25,0,"fresnel","","3200K tungsten","2 kg / 4 lb","","https://www.arri.com/en/lighting/daylight-tungsten/tungsten/arri-junior/arri-300-plus",0,23],[0,"ARRI 150",5,"hard/fresnel",150,1.25,2,0.72,0.62,0,"fresnel","","3200K tungsten","1 kg / 2 lb","","https://www.arri.com/en/lighting/daylight-tungsten/tungsten/arri-junior/arri-150",0,24],[0,"ARRI T12 (12 kW fresnel)",5,"hard/fresnel",12000,100.0,2,57.69,50.0,0,"fresnel","","3200K tungsten","","","https://gearmath.com/guides/led-light-power-draw",2,25],[1,"LS 600d Pro",1,"hard (Bowens)",720,8,0,3.46,3.0,0,"cob","Neutrik powerCON (TRUE1 TOP) AC cable","5600K daylight","Head 4.64 kg / 10.2 lb; control b…","DMX512, Art-Net, LumenRadio CRMX, Sidus…","https://www.aputure.com/products/ls-600d-pro/",0,26],[1,"LS 600x Pro",1,"hard (Bowens)",720,8,0,3.46,3.0,0,"cob","powerCON TRUE1 TOP","2700-6500K bi-colour","","DMX, CRMX, Sidus Link","https://www.aputure.com/products/ls-600x-pro/",0,27],[1,"LS 600d",1,"hard (Bowens)",720,8,0,3.46,3.0,0,"cob","","5600K","","DMX, Sidus Link","https://www.aputure.com/products/ls-600d/",0,28],[1,"LS 600c Pro",1,"hard (Bowens)",720,6.0,2,3.46,3.0,0,"cob","","RGBWW 2300-10000K + colour","","DMX, CRMX, Art-Net","https://www.aputure.com/products/ls-600c-pro/",2,29],[1,"LS 600c Pro II",1,"hard (Bowens)",720,8,0,3.46,3.0,0,"cob","","RGBWW 2300-10000K + colour","","DMX, CRMX, Art-Net/sACN, Sidus","https://www.aputure.com/products/ls-600c-pro-ii/",0,30],[1,"LS 1200d Pro",1,"hard (Bowens)",1440,15,0,6.92,6.0,0,"cob","powerCON TRUE1 TOP (14 AWG cable)","5600K","Head 8.95 kg / 19.7 lb (with yoke)","DMX, CRMX, Art-Net","https://www.aputure.com/products/ls-1200d-pro/",0,31],[1,"LS 300x",1,"hard (Bowens)",350,3.5,0,1.68,1.46,0,"cob","","2700-6500K","","DMX, Sidus","https://www.aputure.com/products/ls-300x/",0,32],[1,"LS 300d II",1,"hard (Bowens)",350,3.5,0,1.68,1.46,0,"cob","","5500K","","DMX, Sidus","https://www.aputure.com/products/ls-300d-ii/",0,33],[1,"LS 60d",1,"hard (focusing)",90,0.75,2,0.43,0.38,0,"cob","","5600K","","","https://www.aputure.com/products/ls-60d/",0,34],[1,"LS 60x",1,"hard (focusing)",90,0.75,2,0.43,0.38,0,"cob","","2700-6500K","","","https://www.aputure.com/products/ls-60x/",0,35],[1,"Nova P300c",0,"soft",360,4,0,1.73,1.5,0,"panel","","RGBWW 2300-10000K + colour","","DMX, CRMX, Sidus","https://www.aputure.com/products/nova-p300c/",0,36],[1,"Nova P600c",0,"soft",720,8,0,3.46,3.0,0,"panel","powerCON TRUE1 TOP","RGBWW 2300-10000K + colour","Total 27.9 kg / 61.4 lb","DMX, CRMX, Art-Net, Sidus","https://www.aputure.com/products/nova-p600c/",0,37],[1,"NOVA II 2x1",0,"soft",1250,10.42,2,6.01,5.21,0,"panel","","RGBWW full colour","","DMX, CRMX, Art-Net/sACN, Sidus","https://www.aputure.com/products/nova-ii-2x1/",0,38],[1,"NOVA II 1x1",0,"soft",650,5.42,2,3.12,2.71,0,"panel","","RGBWW full colour","","DMX, CRMX, Art-Net/sACN, Sidus","https://www.aputure.com/products/nova-ii-1x1/",0,39],[1,"NOVA 9° 2x1",0,"hard (9° beam)",800,6.67,2,3.85,3.33,0,"panelh","","tunable","","DMX, CRMX, Sidus","https://www.aputure.com/products/nova-9-2x1/",0,40],[1,"STORM 80c",6,"hard (Mini ProLock Bowens)",100,0.83,2,0.48,0.42,0,"mini","","full colour (BLAIR-CG)","1.35 kg / 3.0 lb with yoke","","https://www.aputure.com/products/storm-80c/",0,41],[1,"STORM 400x",1,"hard (ProLock Bowens)",500,4.17,2,2.4,2.08,0,"cob","","tunable white (BLAIR)","3.95 kg head with yoke","DMX, CRMX, Sidus","https://www.aputure.com/products/storm-400x/",0,42],[1,"STORM 700x",1,"hard (ProLock Bowens)",880,7.33,2,4.23,3.67,0,"cob","","tunable white","","DMX, CRMX, Sidus","https://www.aputure.com/products/storm-700x/",0,43],[1,"STORM 1000c",1,"hard (ProLock Bowens)",1440,12.0,2,6.92,6.0,0,"cob","powerCON (14 AWG cable)","full colour (BLAIR-CG)","","DMX, CRMX, Art-Net/sACN","https://www.aputure.com/products/storm-1000c/",0,44],[1,"STORM 1200x",1,"hard (ProLock Bowens)",1550,12.92,2,7.45,6.46,0,"cob","powerCON (14 AWG cable)","tunable white","9.5 kg / 20.9 lb head with yoke","DMX, CRMX, Art-Net/sACN","https://www.aputure.com/products/storm-1200x/",0,45],[1,"STORM CS32",1,"hard",3200,32,0,15.38,16.0,1,"cob","","full colour","","DMX, CRMX, Art-Net/sACN","https://www.aputure.com/products/storm-cs32/",0,46],[1,"STORM XT52",1,"hard",5600,26.67,2,26.92,32.0,1,"cob","","tunable white","","DMX, CRMX, Art-Net/sACN","https://www.aputure.com/products/storm-xt52/",0,47],[1,"Electro Storm CS15",1,"hard",2200,23,0,10.58,9.17,0,"cob","20 A AC cable (Edison 5-20 / bare end options sold)","full colour","Head 18 kg / 39.7 lb","DMX, CRMX, Art-Net/sACN","https://www.aputure.com/products/electro-storm-cs15/",0,48],[1,"Electro Storm XT26",1,"hard",3500,29.17,2,16.83,14.58,0,"cob","","tunable white","Head 18 kg / 39.7 lb","DMX, CRMX, Art-Net/sACN","https://www.aputure.com/products/electro-storm-xt26/",0,49],[1,"INFINIMAT 1x2",7,"mat/soft",111,0.93,2,0.53,0.46,0,"mat","","RGBWW full colour","","DMX, CRMX, Sidus","https://www.aputure.com/products/aputure-infinimat-1x2-with-softbox/",0,50],[1,"INFINIMAT 1x4",7,"mat/soft",201,1.68,2,0.97,0.84,0,"mat","","RGBWW full colour","","DMX, CRMX, Sidus","https://www.aputure.com/products/aputure-infinimat-1x4-with-softbox/",0,51],[1,"INFINIMAT 2x4",7,"mat/soft",400,3.33,2,1.92,1.67,0,"mat","","RGBWW full colour","","DMX, CRMX, Sidus","https://www.aputure.com/products/aputure-infinimat-2x4-with-softbox/",0,52],[1,"INFINIMAT 4x4",7,"mat/soft",800,6.67,2,3.85,3.33,0,"mat","","RGBWW full colour","","DMX, CRMX, Sidus","https://www.aputure.com/products/aputure-infinimat-4x4-with-softbox/",0,53],[1,"INFINIMAT 8x8",7,"mat/soft",2000,16.67,2,9.62,8.33,0,"mat","","RGBWW full colour","","DMX, CRMX, Sidus","https://www.aputure.com/products/aputure-infinimat-8x8-with-softbox/",0,54],[1,"INFINIMAT 20x20",7,"mat/soft",8000,66.67,2,38.46,33.33,0,"mat","","RGBWW full colour","","DMX, CRMX, Sidus","https://www.aputure.com/products/infinimat-20x20/",0,55],[1,"INFINIBAR PB12",3,"tube",40,0.33,2,0.19,0.17,0,"tube","","RGBWW","","DMX, CRMX, Sidus","https://www.aputure.com/products/infinibar-pb12/",0,56],[1,"INFINIBAR PB6",3,"tube",20,0.17,2,0.1,0.08,0,"tube","","RGBWW","","","https://www.aputure.com/products/infinibar-pb6/",0,57],[1,"INFINIBAR PB3",3,"tube",10,0.08,2,0.05,0.04,0,"tube","","RGBWW","","","https://www.aputure.com/products/infinibar-pb3/",0,58],[1,"MC Pro",6,"practical/mini",7,0.06,2,0.03,0.03,0,"mini","","RGBWW","247 g","","https://www.aputure.com/products/mc-pro/",0,59],[1,"MT Pro",6,"tube/mini",9,0.07,2,0.04,0.04,0,"mini","","RGBWW pixel","391 g","","https://www.aputure.com/products/mt-pro/",0,60],[1,"Accent B7c",6,"practical",null,0.12,0,null,null,0,"bulb","","RGBWW","240 g","","https://www.aputure.com/products/accent-b7c/",0,61],[2,"Ray 660c",0,"soft (panel)",750,6.25,2,3.61,3.12,0,"panel","","full colour","","","https://gearmath.com/guides/led-light-power-draw",2,62],[2,"Ray 360c",0,"soft (panel)",410,3.42,2,1.97,1.71,0,"panel","","full colour","","","https://gearmath.com/guides/led-light-power-draw",2,63],[2,"F22c",7,"mat/soft",240,2.0,2,1.15,1.0,0,"mat","","full colour","","","https://gearmath.com/guides/led-light-power-draw",2,64],[2,"F21c",7,"mat/soft",120,1.0,2,0.58,0.5,0,"mat","","full colour","","","https://gearmath.com/guides/led-light-power-draw",2,65],[2,"200x S",1,"hard (Bowens)",229,1.91,2,1.1,0.95,0,"cob","","bi-colour","","","https://gearmath.com/guides/led-light-power-draw",2,66],[2,"200d S",1,"hard (Bowens)",221,1.84,2,1.06,0.92,0,"cob","","5600K","","","https://gearmath.com/guides/led-light-power-draw",2,67],[2,"100x S",1,"hard (Bowens)",113,0.94,2,0.54,0.47,0,"cob","","bi-colour","","","https://gearmath.com/guides/led-light-power-draw",2,68],[2,"T4c",3,"tube",50,0.42,2,0.24,0.21,0,"tube","","full colour","","","https://gearmath.com/guides/led-light-power-draw",2,69],[2,"PT4c",3,"tube",32,0.27,2,0.15,0.13,0,"tube","","full colour","","","https://gearmath.com/guides/led-light-power-draw",2,70],[3,"Mini-Solarspot 200 W (2801)",5,"hard/fresnel",200,1.7,0,0.96,0.83,0,"fresnel","25 ft SO #18 with Edison","3200K tungsten","4.75 lb","","https://www.mole.com/2801-mini-solarspot",0,71],[3,"Inbetweenie 250 W (3101)",5,"hard/fresnel",250,1.7,0,1.2,1.04,0,"fresnel","Edison","3200K tungsten","","","https://www.mole.com/3101-inbetweenie",0,72],[3,"Tweenie II 650 W (4821)",5,"hard/fresnel",650,5.4,0,3.12,2.71,0,"fresnel","Edison","3200K tungsten","","","https://www.mole.com/4821-tweenie-ll",0,73],[3,"Baby-Baby 1K Solarspot (2831)",5,"hard/fresnel",1000,8.3,0,4.81,4.17,0,"fresnel","Edison","3200K tungsten","","","https://www.mole.com/2831-baby-baby-solarspot",0,74],[3,"Baby 1K Solarspot (407)",5,"hard/fresnel",1000,8.3,0,4.81,4.17,0,"fresnel","Edison (#16/3)","3200K tungsten","","","https://www.mole.com/407-baby-solarspot",0,75],[3,"Baby Junior 2K Solarspot (4131)",5,"hard/fresnel",2000,16.7,0,9.62,8.33,0,"fresnel","Edison (#14/3)","3200K tungsten","","","https://www.mole.com/4131-baby-junior-solarspot",0,76],[3,"Junior 2K Solarspot (4341)",5,"hard/fresnel",2000,16.7,0,9.62,8.33,0,"fresnel","Edison (#14)","3200K tungsten","","","https://www.mole.com/4341-junior-solarspot",0,77],[3,"Baby Senior 5K Solarspot (4191)",5,"hard/fresnel",5000,41.6,0,24.04,20.83,0,"fresnel","60 A Bates (#6/1)","3200K tungsten","","","https://www.mole.com/4191-baby-senior-solarspot",0,78],[3,"Senior 5K Solarspot (4351)",5,"hard/fresnel",5000,41.6,0,24.04,20.83,0,"fresnel","60 A Bates (#6/1)","3200K tungsten","","","https://www.mole.com/4351-senior-solarspot",0,79],[3,"Baby Tener 10K Solarspot (4181)",5,"hard/fresnel",10000,83.3,0,48.08,41.67,0,"fresnel","100 A Bates (#4/1)","3200K tungsten","","","https://www.mole.com/4181-baby-tener-solarspot",0,80],[3,"Tener 10K/12K Solarspot (4371)",5,"hard/fresnel",12000,100,0,57.69,50.0,0,"fresnel","100 A Bates","3200K tungsten","","","https://www.mole.com/4371-tener-solarspot",0,81],[3,"5K Skypan (245)",5,"soft/overhead (skypan)",5000,41.6,0,24.04,20.83,0,"skypan","60 A Bates","3200K tungsten","","","https://www.mole.com/245-5k-skypan",0,82],[3,"10K Skypan (2461)",5,"soft/overhead (skypan)",10000,100,0,48.08,41.67,0,"skypan","100 A Bates","3200K tungsten","","","https://www.mole.com/2461-10k-skypan",0,83],[3,"2-light Molefay 1300 W (5721)",5,"par/fay",1300,10.8,0,6.25,5.42,0,"fay","","3200K tungsten","","","https://www.mole.com/5721-1300w-two-light-molefay",0,84],[3,"4-light Molefay 2600 W (5581)",5,"par/fay",2600,21.7,0,12.5,10.83,0,"fay","","3200K tungsten","","","https://www.mole.com/5581-2600w-four-light-molefay",0,85],[3,"9-light Molefay 5850 W (5541)",5,"par/fay",5850,48.8,0,28.12,24.38,0,"fay","60 A Bates (#6/1)","3200K tungsten","21.5 lb (w/cable)","","https://www.mole.com/5541-5850w-nine-light-molefay",0,86],[3,"12-light Molefay 7800 W (5571)",5,"par/fay",7800,65,0,37.5,32.5,0,"fay","60 A Bates","3200K tungsten","","","https://www.mole.com/5571-7800w-twelve-light-molefay",0,87],[3,"24-light Moleeno 24 kW (5781, \"Dino\")",5,"par/fay",24000,200,0,115.38,100.0,0,"dino","60 A Bates on each bank","3200K tungsten","172 lb","","https://www.mole.com/5781-24000w-24-light-moleeno",0,88],[3,"1K Moleparcan (3741)",5,"par",1000,8.3,0,4.81,4.17,0,"parcan","","3200K tungsten","","","https://www.mole.com/3741-1000w-moleparcan",0,89],[3,"2K Spacelite (7271)",5,"soft/overhead (spacelight)",2000,16.7,0,9.62,8.33,0,"space","","3200K tungsten","7 lb","","https://www.mole.com/7271-2000w-spacelite",0,90],[3,"6K Spacelite (7261)",5,"soft/overhead (spacelight)",6000,50,0,28.85,25.0,0,"space","Male Socapex panel (6 x 1K circuits)","3200K tungsten","16 lb","","https://www.mole.com/7261-6000w-spacelite",0,91],[3,"2K Molebeam (8311)",5,"beam projector",2000,16.6,0,9.62,8.33,0,"beam","","3200K tungsten","","","https://www.mole.com/8311-2000w-molebeam",0,92],[3,"20K Solarspot (4251)",5,"hard/fresnel",20000,null,3,96.15,100.0,1,"fresnel","100 A Bates (240 V)","3200K tungsten","","","https://www.mole.com/4251-20k-solarspot",0,93],[3,"20K Skypan (3471)",5,"soft/overhead (skypan)",20000,null,3,96.15,100.0,1,"skypan","100 A Bates (240 V)","3200K tungsten","","","https://www.mole.com/3471-20k-skypan",0,94],[3,"12K/18K Daylite Fresnel (6801)",4,"hard/fresnel",18000,null,3,86.54,88.0,1,"hmifres","","5600K daylight","","","https://www.mole.com/6801-12k18k-daylite-fresnel",4,95],[3,"Tweenie LED",2,"hard/fresnel",100,1,0,0.48,0.42,0,"fresnel","powerCON to Edison (20 ft)","single CCT","8 lb / 3.63 kg","DMX","https://www.mole.com/tweenie-led",0,96],[3,"Baby LED",2,"hard/fresnel",150,1.5,0,0.72,0.62,0,"fresnel","powerCON to Edison (20 ft)","single CCT","11 lb / 4.99 kg","DMX","https://www.mole.com/baby-led",0,97],[3,"Junior LED",2,"hard/fresnel",200,2,0,0.96,0.83,0,"fresnel","powerCON to Edison (20 ft)","single CCT","","DMX","https://www.mole.com/junior-led",0,98],[3,"Senior LED",2,"hard/fresnel",900,8,0,4.33,3.75,0,"fresnel","powerCON to Edison (20 ft)","single CCT","41 lb / 18.6 kg","DMX","https://www.mole.com/senior-led",0,99],[3,"Tener LED",2,"hard/fresnel",1600,14.5,0,7.69,6.67,0,"fresnel","powerCON TRUE1 on ballast; 20 A breaker","single CCT","","DMX","https://www.mole.com/tener-led",0,100],[3,"Vari-Junior LED",2,"hard/fresnel",180,3,0,0.87,0.75,0,"fresnel","powerCON TRUE1 to Edison","tunable","","DMX","https://www.mole.com/vari-junior-led",0,101],[3,"Vari-Senior LED",2,"hard/fresnel",800,10,0,3.85,3.33,0,"fresnel","powerCON TRUE1 to Edison","tunable","","DMX","https://www.mole.com/vari-senior-led",0,102],[3,"900 W Vari-Space LED",8,"soft/overhead",900,8,0,4.33,3.75,0,"space","powerCON to Edison","tunable","32 lb / 14.5 kg","DMX","https://www.mole.com/900w-varispace-led",0,103],[3,"Maxi LED 12",9,"par/fay",1500,15,0,7.21,6.25,0,"fay","powerCON TRUE1 to Edison","single CCT","79 lb / 35.8 kg","DMX","https://www.mole.com/maxi-led-12",0,104],[4,"FC-1200B",1,"hard (Bowens/NL)",1350,11.25,2,6.49,5.62,0,"cob","","bi-colour","10 kg / 22 lb","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/fc-1200b-bi-color-led-spotlight",0,105],[4,"FC-1200C",1,"hard (Bowens/NL)",1350,11.25,2,6.49,5.62,0,"cob","","RGBW full colour","10.1 kg","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/fc-1200c-rgbw-color-led-spotlight",0,106],[4,"FC-720B",1,"hard (Bowens)",750,6.25,2,3.61,3.12,0,"cob","","bi-colour","4.32 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/fc-720b-bi-color-led-spotlight",0,107],[4,"FC-720C",1,"hard (Bowens)",750,6.25,2,3.61,3.12,0,"cob","","RGBW","4.43 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/fc-720c-rgbw-color-led-spotlight",0,108],[4,"FC-500B",1,"hard (Bowens)",520,4.33,2,2.5,2.17,0,"cob","","bi-colour","3.16 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/fc-500b-bi-color-led-spotlight",0,109],[4,"FC-500C",1,"hard (Bowens)",520,4.33,2,2.5,2.17,0,"cob","","RGBW","3.91 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/fc-500c-rgbw-color-led-spotlight",0,110],[4,"FC-120C",1,"hard (Bowens)",145,1.21,2,0.7,0.6,0,"cob","","full colour","1.13 kg","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/fc-120c-full-color-led-spotlight",0,111],[4,"Forza 500B II",1,"hard (Bowens)",580,4.83,2,2.79,2.42,0,"cob","","bi-colour","4.34 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/forza-500b-ii-led-spotlight",0,112],[4,"Forza 300B II",1,"hard (Bowens)",350,2.92,2,1.68,1.46,0,"cob","","bi-colour","2.88 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/forza-300b-ii-bi-color-led-spotlight",0,113],[4,"Forza 60C (60CR)",1,"hard (FM mount)",88,0.73,2,0.42,0.37,0,"cob","","RGBLAC","1.16 kg","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/forza-60cr-rgblac-led-spotlight-with-crmx",0,114],[4,"FS-300B",1,"hard (Bowens) AC monolight",350,2.92,2,1.68,1.46,0,"cob","","bi-colour","3.03 kg","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/fs-300b-ac-powered-bi-color-led-monolight",0,115],[4,"PavoSlim 360C",0,"soft (4x2 panel)",370,3.08,2,1.78,1.54,0,"panel","","RGBWW","5.73 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/pavoslim-360c-4x2-led-rgbww-panel-light",0,116],[4,"PavoSlim 240C",0,"soft (2x2 panel)",260,2.17,2,1.25,1.08,0,"panel","","RGBWW","3.65 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/pavoslim-240c-2x2-rgbww-led-panel-light-with-crmx",0,117],[4,"PavoSlim 120C",0,"soft (2x1 panel)",150,1.25,2,0.72,0.62,0,"panel","","RGBWW","1.76 kg","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/pavoslim-120c-2x1-rgbww-led-panel-light-with-crmx",0,118],[4,"Alien 300C",0,"soft (panel)",350,2.92,2,1.68,1.46,0,"panel","","RGBWW","6.6 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/alien-300c-rgbww-led-panel-light-with-crmx",0,119],[4,"Alien 150C",0,"soft (panel)",175,1.46,2,0.84,0.73,0,"panel","","RGBWW","3.6 kg head","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/alien-150c-rgbww-led-panel-light-with-crmx",0,120],[4,"PavoTube II 30XR (4 ft)",3,"tube",70,0.58,2,0.34,0.29,0,"tube","","RGBWW pixel","1.58 kg","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/pavotube-ii-30xr-4-rgbww-led-pixel-tube-with-built-in-crmx",0,121],[4,"PavoTube II 15XR (2 ft)",3,"tube",35,0.29,2,0.17,0.15,0,"tube","","RGBWW pixel","0.82 kg","DMX/RDM, CRMX (most), NANLINK","https://nanliteus.com/products/pavotube-ii-15xr",0,122],[5,"Evoke 600C",1,"hard (NL mount)",600,8,0,2.88,2.5,0,"cob","","full colour","7.26 kg","DMX/RDM, CRMX, Art-Net","https://nanliteus.com/products/evoke-600c-8-chip-led-spotlight",0,123],[5,"Evoke 150C",1,"hard",150,2,0,0.72,0.62,0,"cob","","full colour","2.11 kg","DMX, CRMX","https://nanliteus.com/products/evoke-150c-8-chip-led-spotlight",0,124],[5,"Evoke 1200B",1,"hard (NL mount)",1200,10.0,2,5.77,5.0,0,"cob","","2700-6500K bi-colour","Head 7.75 kg; PSU 10.5 kg","DMX/RDM, CRMX","https://www.direct-digital.com/sites/default/files/docs-en/NANLUXEVOKE1200BKT%20-%2001.pdf",0,125],[5,"Evoke 2400B",1,"hard (NL mount)",2400,26,0,11.54,10.0,0,"cob","","2700-6500K bi-colour","Head 15 kg; PSU 11.6 kg","DMX/RDM, CRMX, Art-Net/sACN","https://www.direct-digital.com/sites/default/files/docs-en/NANLUXEVOKE2400BKT%20-%2001.pdf",0,126],[5,"Evoke 900C",1,"hard (NL mount)",940,7.83,2,4.52,3.92,0,"cob","","RGBLAC 1800-20000K","","DMX/RDM, CRMX, Art-Net/sACN","https://www.bhphotovideo.com/lit_files/1321468.pdf",0,127],[5,"Evoke 5000B",1,"hard",5200,52,0,25.0,21.67,0,"cob","","2700-6500K","~41 kg + 3 kg yoke","DMX/RDM, CRMX, Art-Net/sACN","https://www.trumedya.com/en/guides/nanlux-evoke-1200b-2400b-5000b-farki",0,128],[5,"TK-280B",0,"soft",280,2.33,2,1.35,1.17,0,"panel","","bi-colour","","","https://www.nanluxamericas.com/tk-series",1,129],[5,"TK-450",0,"soft",455,3.79,2,2.19,1.9,0,"panel","","bi/full colour","","","https://www.nanluxamericas.com/tk-series",1,130],[6,"Celeb IKON 12",0,"soft",1200,10.0,2,5.77,5.0,0,"panel","powerCON TRUE1 in/out (integrated PSU)","RGB-cW-wW, 2500-9900K + colour","72.8 lb / 33 kg","DMX/RDM, LumenRadio CRMX","https://kinoflo.com/celeb-ikon-12/",0,131],[6,"Celeb IKON 6",0,"soft",600,5.0,2,2.88,2.5,0,"panel","powerCON TRUE1 in/out","RGB-cW-wW + colour","40 lb / 18.1 kg","DMX/RDM, CRMX","https://kinoflo.com/celeb-ikon6/",0,132],[6,"Diva Lux 4",0,"soft",400,3.41,0,1.92,1.67,0,"panel","Seetronic Powerkon (powerCON TRUE1 compatible) in/o…","RGBwWcW + colour","32.9 lb / 14.9 kg","DMX/RDM, CRMX, Art-Net/sACN","https://kinoflo.com/wp-content/uploads/2025/05/DIVA_LUX_4_UM_Rev2.pdf",0,133],[6,"FreeStyle 31 LED",0,"soft",150,1.25,0,0.72,0.62,0,"panel","","2500-9900K + colour","15 lb / 7 kg","DMX, LumenRadio","https://kinoflo.com/freestyle-31/",0,134],[6,"FreeStyle T44 LED",3,"soft",150,1.25,0,0.72,0.62,0,"bank","","tunable + colour","12.5 lb / 6 kg with tubes","DMX, LumenRadio","https://kinoflo.com/freestyle-t44-t24-led/",0,135],[6,"FreeStyle T24 LED",3,"soft",150,1.25,0,0.72,0.62,0,"bank","","tunable + colour","8 lb / 4 kg with tubes","DMX, LumenRadio","https://kinoflo.com/freestyle-t44-t24-led/",0,136],[6,"4ft 4-Bank (fluorescent)",10,"soft",null,4.6,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,137],[6,"4ft 2-Bank (fluorescent)",10,"soft",null,2.4,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,138],[6,"4ft Single (fluorescent)",10,"soft",null,1.3,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,139],[6,"2ft 4-Bank (fluorescent)",10,"soft",null,2.3,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,140],[6,"2ft 2-Bank (fluorescent)",10,"soft",null,1.3,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,141],[6,"Image 80 (fluorescent)",10,"soft",null,9.2,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,142],[6,"Diva-Lite 400 (fluorescent)",10,"soft",null,2.0,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,143],[6,"Diva-Lite 200 (fluorescent)",10,"soft",null,1.1,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,144],[6,"VistaBeam 600 (fluorescent)",10,"soft",null,8.0,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,145],[6,"ParaBeam 400 (fluorescent)",10,"soft",null,2.0,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,146],[6,"BarFly 400 (fluorescent)",10,"soft",null,2.4,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,147],[6,"8ft 4-Bank / Mega (fluorescent)",10,"soft",null,7.0,1,null,null,0,"fluoro","","","","","http://vanpowerllc.com/goodies-2.html",0,148],[6,"Blanket-Lite (fluorescent)",10,"soft",null,22.8,1,null,null,0,"mat","","","","","http://vanpowerllc.com/goodies-2.html",0,149],[7,"Gemini 2x1 Soft",0,"soft",325,2.71,2,1.56,1.35,0,"panel","powerCON (3 m US cable)","RGBWW full colour","22.27 lb / 10.1 kg","DMX/RDM, CRMX","https://www.litepanels.com/en/product/gemini-2x1-soft-rgbww-led-panel-standard-yoke-us-power-cable/",0,150],[7,"Gemini 1x1 Soft",0,"soft",200,1.67,2,0.96,0.83,0,"panel","","RGBWW","11.7 lb / 5.3 kg","DMX/RDM, CRMX","https://www.litepanels.com/en/product/gemini-1x1-soft-rgbww-led-panel-standard-yoke-eu-power-cable/",0,151],[7,"Gemini 2x1 Hard",0,"hard",500,4.17,2,2.4,2.08,0,"panelh","powerCON TRUE1","RGBWW","25.3 lb / 11.5 kg (regular yoke)","DMX/RDM, CRMX","https://litepanels.com/products/gemini-2x1-hard/",0,152],[7,"Astra IP 2x1 Bi-Color",0,"soft",250,2.08,2,1.2,1.04,0,"panel","","2700-6500K","17.2 lb / 7.8 kg","DMX, CRMX","https://www.litepanels.com/en/product/astra-ip-2x1-bi-color-led-panel-standard-yoke-us-power-cable/",0,153],[7,"Astra IP 1x1 Bi-Color",0,"soft",125,1.04,2,0.6,0.52,0,"panel","","2700-6500K","","","https://gearmath.com/guides/led-light-power-draw",2,154],[7,"Astra IP Half",0,"soft",63,0.53,2,0.3,0.26,0,"panel","","2700-6500K","","","https://gearmath.com/guides/led-light-power-draw",2,155],[8,"Vortex24 Hard",0,"hard",1950,16.25,2,9.38,8.12,0,"panelh","powerCON TRUE1","RRGBBW 2200-15000K + colour","47.8 kg / 105.4 lb head","DMX/RDM, CRMX, Art-Net/sACN","https://www.creamsource.com/vortex24",0,156],[8,"Vortex24 Soft",0,"soft",1950,16.25,2,9.38,8.12,0,"panel","powerCON TRUE1","RRGBBW 2200-15000K + colour","41.9 kg / 92.4 lb head","DMX/RDM, CRMX, Art-Net/sACN","https://www.creamsource.com/vortex24",0,157],[8,"Vortex8 Hard",0,"hard",650,5.42,2,3.12,2.71,0,"panelh","powerCON TRUE1","RRGBBW 2200-15000K + colour","15.9 kg / 35 lb head","DMX/RDM, CRMX, Art-Net/sACN","https://www.creamsource.com/vortex8",0,158],[8,"Vortex8 Soft",0,"soft",650,5.42,2,3.12,2.71,0,"panel","powerCON TRUE1","RRGBBW 2200-15000K + colour","14.0 kg / 30.9 lb head","DMX/RDM, CRMX, Art-Net/sACN","https://www.creamsource.com/vortex8",0,159],[8,"Vortex4 Hard",0,"hard",325,2.71,2,1.56,1.35,0,"panelh","powerCON TRUE1","RRGBBW 2200-15000K + colour","9.9 kg / 21.8 lb head","DMX/RDM, CRMX, Art-Net/sACN","https://www.creamsource.com/vortex4",0,160],[8,"Vortex4 Soft",0,"soft",325,2.71,2,1.56,1.35,0,"panel","powerCON TRUE1","RRGBBW 2200-15000K + colour","8.9 kg / 19.6 lb head","DMX/RDM, CRMX, Art-Net/sACN","https://www.creamsource.com/vortex4",0,161],[8,"Micro Colour",1,"hard (compact)",80,0.67,2,0.38,0.33,0,"cob","","RRGBBW 2200-15000K + colour","3.4 kg / 7.5 lb","DMX/RDM, CRMX, Art-Net/sACN","https://www.creamsource.com/products/micro-colour",0,162],[9,"Titan Tube (FP1)",3,"tube",48,0.4,2,0.23,0.2,0,"tube","DC 5.5x2.1 mm / PowerBox","RGB+Mint+Amber (Titan engine)","1.35 kg / 3 lb","CRMX built-in, wired DMX via PowerBox","https://astera-led.com/products/titan/specs/",0,163],[9,"Helios Tube (FP2)",3,"tube",24,0.2,2,0.12,0.1,0,"tube","DC 5.5x2.1 mm / PowerBox","RGB+Mint+Amber (Titan engine)","0.765 kg / 1.7 lb","CRMX built-in, wired DMX via PowerBox","https://astera-led.com/products/helios-tube/specs/",0,164],[9,"Hyperion Tube (FP3)",3,"tube",92,0.77,2,0.44,0.38,0,"tube","DC 5.5x2.1 mm / PowerBox","RGB+Mint+Amber (Titan engine)","2.9 kg / 6.4 lb","CRMX built-in, wired DMX via PowerBox","https://astera-led.com/products/hyperion-tube/specs/",0,165],[9,"AX1 PixelTube",3,"tube",16,0.13,2,0.08,0.07,0,"tube","DC 5.5x2.1 mm / PowerBox","RGBW/RGBMA","1 kg / 2.2 lb","CRMX built-in, wired DMX via PowerBox","https://astera-led.com/products/ax1-pixeltube/specs/",0,166],[9,"HydraPanel",6,"mini panel",17,0.14,2,0.08,0.07,0,"mini","DC 5.5x2.1 mm / PowerBox","RGBW/RGBMA","604 g","CRMX built-in, wired DMX via PowerBox","https://astera-led.com/products/hydrapanel/specs/",0,167],[9,"AX9 PowerPAR",9,"par",70,0.58,2,0.34,0.29,0,"par","powerCON TRUE1 in/out","RGBW/RGBMA","5.66 kg / 12.5 lb","CRMX built-in, wired DMX via PowerBox","https://astera-led.com/products/ax9-powerpar/specs/",0,168],[9,"AX5 TriplePAR",9,"par",45,0.38,2,0.22,0.19,0,"par","powerCON TRUE1 in/out","RGBW/RGBMA","3.4 kg / 7.5 lb","CRMX built-in, wired DMX via PowerBox","https://astera-led.com/products/ax5-triplepar/specs/",0,169],[9,"Leo",1,"hard",250,2.08,2,1.2,1.04,0,"cob","","RGBMA","","","https://gearmath.com/guides/led-light-power-draw",2,170],[9,"Pluto",1,"hard",80,0.67,2,0.38,0.33,0,"cob","","RGBMA","","","https://gearmath.com/guides/led-light-power-draw",2,171],[10,"Rainbow 2 2ft (R2)",3,"tube",25,0.45,0,0.12,0.25,1,"tube","","RGBX full colour","1.76 lb / 0.8 kg","DMX/RDM, CRMX option","https://www.quasarscience.com/products/rainbow-2",0,172],[10,"Double Rainbow 4ft",3,"tube",50,0.9,0,0.24,0.5,1,"tube","","RGBX","3.3 lb / 1.5 kg","DMX/RDM","https://www.quasarscience.com/products/double-rainbow",0,173],[10,"Crossfade 1ft (Q15X)",3,"tube",15,0.18,0,0.07,0.08,1,"tube","","2000-6000K bi-colour","","","https://www.quasarscience.com/products/crossfade",0,174],[10,"Crossfade 2ft (Q25X)",3,"tube",25,0.3,0,0.12,0.15,1,"tube","","2000-6000K bi-colour","","","https://www.quasarscience.com/products/crossfade",0,175],[10,"Crossfade 4ft (Q50X)",3,"tube",50,0.6,0,0.24,0.3,1,"tube","","2000-6000K bi-colour","","","https://www.quasarscience.com/products/crossfade",0,176],[10,"Crossfade 6ft (Q75X)",3,"tube",75,0.9,0,0.36,0.45,1,"tube","","2000-6000K bi-colour","","","https://www.quasarscience.com/products/crossfade",0,177],[10,"Crossfade 8ft (Q100X)",3,"tube",100,1.2,0,0.48,0.6,1,"tube","","2000-6000K bi-colour","","","https://www.quasarscience.com/products/crossfade",0,178],[11,"DMG MAXI MIX",0,"soft",360,3.0,2,1.73,1.5,0,"panel","powerCON TRUE1 in/out","MIX RGBWW+L full colour","17.6 lb / 8 kg","DMX/RDM, CRMX, myMIX app","https://us.rosco.com/en/product/dmg-maxi",0,179],[11,"DMG SL1 MIX",0,"soft",200,1.67,2,0.96,0.83,0,"panel","","MIX full colour","9.2 lb / 4.18 kg","DMX/RDM, CRMX","https://ca.rosco.com/sites/default/files/content/resource/2024-01/Rosco_DMG_SL1_DataSheet.pdf",0,180],[11,"DMG DASH",6,"practical/mini",14,0.12,2,0.07,0.06,0,"mini","","MIX","367 g","","https://www.rosco.com/sites/default/files/content/resource/2024-08/Rosco_DMG_DASH_DataSheet_Specs_R4_web.pdf",0,181],[12,"MG1200Bi",1,"hard (G-Mount)",1400,14,0,6.73,5.83,0,"cob","","2800-6500K","16 kg (body with bracket & reflec…","DMX/RDM, CRMX, Art-Net/sACN","https://www.knowled.com/product-b/MG1200Bi.html",0,182],[12,"MG2400Bi",1,"hard (G-Mount)",2900,30,0,13.94,12.08,0,"cob","","bi-colour","22 kg body","DMX/RDM, CRMX, Art-Net/sACN","https://www.knowled.com/product-b/MG2400Bi.html",0,183],[12,"F600Bi",7,"mat/soft",670,5.58,2,3.22,2.79,0,"mat","","bi-colour","","","https://godox-knowled.com/wp-content/uploads/2024/10/Godox_F200Bi_F400Bi_F600Bi-1.pdf",0,184],[12,"F400Bi",7,"mat/soft",410,3.42,2,1.97,1.71,0,"mat","","bi-colour","","","https://godox-knowled.com/wp-content/uploads/2024/10/Godox_F200Bi_F400Bi_F600Bi-1.pdf",0,185],[12,"F200Bi",7,"mat/soft",210,1.75,2,1.01,0.88,0,"mat","","bi-colour","","","https://godox-knowled.com/wp-content/uploads/2024/10/Godox_F200Bi_F400Bi_F600Bi-1.pdf",0,186],[12,"M600Bi",1,"hard",730,6.08,2,3.51,3.04,0,"cob","","bi-colour","","","https://godox-knowled.com/wp-content/uploads/2024/10/Godox_M600Bi_M600D.pdf",0,187],[12,"M600D",1,"hard",740,6.17,2,3.56,3.08,0,"cob","","5600K","","","https://godox-knowled.com/wp-content/uploads/2024/10/Godox_M600Bi_M600D.pdf",0,188],[12,"MG6K",1,"hard",4150,34.58,2,19.95,17.29,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,189],[12,"MG4K",1,"hard",2300,19.17,2,11.06,9.58,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,190],[12,"MG4KR",1,"hard",3100,25.83,2,14.9,12.92,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,191],[12,"P1200R Hard",0,"hard",1500,12.5,2,7.21,6.25,0,"panelh","","","","","https://gearmath.com/guides/led-light-power-draw",2,192],[12,"P600R Hard",0,"hard",700,5.83,2,3.37,2.92,0,"panelh","","","","","https://gearmath.com/guides/led-light-power-draw",2,193],[13,"Q10 Color",2,"hard/fresnel",900,7.5,2,4.33,3.75,0,"fresnel","powerCON TRUE1 AC","full colour","44 lb / 20 kg","DMX/RDM","https://fiilex.com/products/Q10_Color.php",0,194],[13,"K10 Color",1,"hard",900,7.5,2,4.33,3.75,0,"cob","","full colour","34.1 lb / 15.5 kg with yoke","DMX/RDM","https://fiilex.com/products/K10_Color.php",0,195],[13,"K40 Color",1,"hard",3600,30.0,2,17.31,15.0,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,196],[13,"MotoK40",1,"hard",3200,26.67,2,15.38,13.33,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,197],[13,"MotoK10",1,"hard",900,7.5,2,4.33,3.75,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,198],[13,"Quad Color",1,"hard",1360,11.33,2,6.54,5.67,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,199],[13,"Q8 Color",1,"hard",320,2.67,2,1.54,1.33,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,200],[13,"G9 Color",1,"hard",400,3.33,2,1.92,1.67,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,201],[13,"Q6 Color",1,"hard",175,1.46,2,0.84,0.73,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,202],[13,"Q3 Color",1,"hard",90,0.75,2,0.43,0.38,0,"cob","","","","","https://gearmath.com/guides/led-light-power-draw",2,203],[13,"P360 (Classic/Color)",1,"hard (compact)",90,0.75,2,0.43,0.38,0,"cob","","","","","https://fiilex.com/downloads/P360/5100049_A2_DATASHEET%20for%20P360%20CLASSIC.pdf",1,204],[14,"Quantum II",0,"soft",1500,12.5,0,7.21,6.25,1,"panel","powerCON TRUE1","full colour","83.5 lb / 37.9 kg with yoke","DMX, CRMX, WiFi, Ethernet","https://www.zalight.it/luce/wp-content/uploads/2023/03/Cineo-Lighting-QuantumIIDataSheet-FINAL6.3.22-min.pdf",0,205],[14,"HS2",0,"soft",500,4.17,2,2.4,2.08,0,"panel","","2700/3200/4300/5600K remote phosphor","33 lb / 14.8 kg","DMX","https://www.bbplight.nl/contents/media/Cineo-Lighting-HS2-Wave.pdf",0,206],[14,"LB800",0,"soft",800,6.67,2,3.85,3.33,0,"panel","","full colour","","","https://www.bhphotovideo.com/lit_files/1197457.pdf",1,207],[14,"Maverick",0,"soft",135,1.12,2,0.65,0.56,0,"panel","","remote phosphor","","","https://www.afcinema.com/IMG/pdf/3/c/4/cineo_studio.pdf",1,208],[15,"Joker-Bug 800 (HMI)",4,"hard/par/bug (open)",800,11,0,3.85,3.33,0,"bug","Head-ballast VEAM; ballast Edison (US)","5600K daylight","","","http://www.k5600.com/products/jb800/index.html",4,209],[15,"Joker2 800 (HMI)",4,"hard/par/bug",800,6.67,2,3.85,3.33,0,"bug","","5600K","","","https://k5600.eu/en/products/joker-800-zoom",4,210],[15,"Joker 1600 / Joker2 1600 (HMI)",4,"hard/par/bug",1600,15,0,7.69,6.67,0,"bug","","5600K","","","http://www.k5600.com/products/j2_1600/index.html",4,211],[16,"DW 800 (HMI) w/ EWB 400/575/800",4,"par/open",800,7.5,2,3.85,3.33,0,"hmipar","","5600K","","","https://broncolor.swiss/assets/img/kobold-broadcast_download_manual_daylight_ewb-400575800.pdf",5,212],[17,"18K HMI head + ballast",4,"hard/fresnel/par",18000,null,3,86.54,162.0,1,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,213],[17,"12K HMI head + ballast",4,"hard/fresnel/par",12000,null,3,57.69,108.0,1,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,214],[17,"9K HMI head + ballast",4,"hard/fresnel/par",9000,null,3,43.27,45.0,1,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,215],[17,"6K HMI head + ballast",4,"hard/fresnel/par",6000,null,3,28.85,40.0,1,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,216],[17,"4K HMI head + ballast",4,"hard/fresnel/par",4000,39,1,19.23,16.67,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,217],[17,"2.5K HMI head + ballast",4,"hard/fresnel/par",2500,24,1,12.02,10.42,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,218],[17,"1800 W HMI head + ballast",4,"hard/fresnel/par",1800,18,1,8.65,7.5,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,219],[17,"1600 W HMI head + ballast",4,"hard/fresnel/par",1600,15,1,7.69,6.67,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,220],[17,"1200 W HMI head + ballast",4,"hard/fresnel/par",1200,19,1,5.77,5.0,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,221],[17,"800 W HMI head + ballast",4,"hard/fresnel/par",800,12,1,3.85,3.33,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,222],[17,"575 W HMI head + ballast",4,"hard/fresnel/par",575,9,1,2.76,2.4,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,223],[17,"400 W HMI head + ballast",4,"hard/fresnel/par",400,5.5,1,1.92,1.67,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,224],[17,"200 W HMI head + ballast",4,"hard/fresnel/par",200,3,1,0.96,0.83,0,"hmifres","","","","","http://vanpowerllc.com/goodies-2.html",4,225],[18,"Orion 675 FS",1,"hard",675,5.62,2,3.25,2.81,0,"cob","powerCON TRUE1 TOP (Edison cable)","RGBACL full spectrum","9.5 kg / 21 lb without yoke","DMX/RDM, CRMX, Art-Net/sACN","https://prolycht.com/orion675fs/index.aspx",0,226],[18,"Orion 300 FS",1,"hard",320,2.67,2,1.54,1.33,0,"cob","","RGBACL","Head 3.7 kg; control box 3.2 kg","DMX/RDM, CRMX","https://prolycht.com/orion300fs/index.aspx",0,227],[19,"EVO 1 (1x1)",0,"soft",112,1.0,0,0.54,0.47,0,"panel","","RGBW+CW full colour","4.9 kg with yoke","DMX/RDM, wireless","https://www.velvetlight.tv/velvet-evo/",0,228],[19,"EVO 2 (2x1)",0,"soft",225,2.0,0,1.08,0.94,0,"panel","","RGBW+CW full colour","7.6 kg with yoke","DMX/RDM, wireless","https://www.velvetlight.tv/velvet-evo/",0,229],[19,"EVO 4 (2x2)",0,"soft",403,3.6,0,1.94,1.68,0,"panel","","RGBW+CW full colour","15.3 kg with yoke","DMX/RDM, wireless","https://www.velvetlight.tv/velvet-evo/",0,230],[19,"Power 2 (2x1 spot)",0,"hard",190,1.58,2,0.91,0.79,0,"panelh","","bi-colour","","","https://www.velvetlight.tv/wp-content/uploads/2023/10/VELVET_Datasheet_Power2_Studio_15o.pdf",1,231],[20,"LiteMat Plus 2",7,"mat/soft",100,0.83,2,0.48,0.42,0,"mat","","bi-colour (Plus) / full colour (Spectrum)","","DMX via LiteDimmer","https://www.litegear.com/download/544/data-sheets/3015/litemat-plus-8-data-sheet.pdf",1,232],[20,"LiteMat Plus 4",7,"mat/soft",200,1.67,2,0.96,0.83,0,"mat","","bi-colour (Plus) / full colour (Spectrum)","","DMX via LiteDimmer","https://www.litegear.com/download/544/data-sheets/3015/litemat-plus-8-data-sheet.pdf",1,233],[20,"LiteMat Plus 8",7,"mat/soft",400,3.33,2,1.92,1.67,0,"mat","","bi-colour (Plus) / full colour (Spectrum)","","DMX via LiteDimmer","https://www.litegear.com/download/544/data-sheets/3015/litemat-plus-8-data-sheet.pdf",1,234],[20,"LiteMat Spectrum 4",7,"mat/soft",200,1.67,2,0.96,0.83,0,"mat","","bi-colour (Plus) / full colour (Spectrum)","","DMX via LiteDimmer","https://www.lcauk.com/wp-content/uploads/2024/03/LiteMat-Spectrum-4-2023-Data-Sheet.pdf",1,235],[21,"DS6",1,"hard (modular)",600,5.0,2,2.88,2.5,0,"cob","","RGBW (DS) / full colour","","DMX, wireless","https://www.imaginelight.it/wp-content/uploads/2019/06/Digital-Sputnik-brochure.pdf",0,236],[21,"DS3 (3-module set)",1,"hard (modular)",300,2.5,2,1.44,1.25,0,"cob","","RGBW (DS) / full colour","","DMX, wireless","https://www.imaginelight.it/wp-content/uploads/2019/06/Digital-Sputnik-brochure.pdf",0,237],[21,"Voyager 4ft",3,"tube",40,0.33,2,0.19,0.17,0,"tube","","RGBW (DS) / full colour","","DMX, wireless","https://www.imaginelight.it/wp-content/uploads/2019/06/Digital-Sputnik-brochure.pdf",1,238]]};
+    // ======================= FILM LIGHTING (on-set generator) =======================
+    // Fixture art is original, generated SVG (no maker photos are embedded): the shape comes from the fixture's type /
+    // form factor, the trim colour from its brand, the size from its watts, and small details from a hash of the model.
+    var LT_KEY = 'legcheck-lighting-v1';
+    var MODE_KEY = 'legcheck-mode-v1';
+    var LT_SRC = ['Published', 'Published · rental chart', 'Calculated', '240 V only'];
+    var LT_FORMS = {
+      cob: 'LED point source (COB + reflector)', panel: 'LED soft panel', panelh: 'LED hard panel', tube: 'LED tube', mat: 'LED mat', fresnel: 'Fresnel',
+      fay: 'Par bank (Fay / Maxi)', dino: 'Dino / Moleeno', skypan: 'Skypan', space: 'Space light', beam: 'Beam projector', parcan: 'Par can',
+      hmifres: 'HMI fresnel + ballast', hmimax: 'HMI open face + ballast', hmipar: 'HMI PAR + ballast', bug: 'HMI Bug + ballast',
+      fluoro: 'Fluorescent bank', bank: 'LED tube bank', mini: 'Mini / practical panel', bulb: 'LED bulb', par: 'LED par', balloon: 'Balloon light'
+    };
+    function ltHash(s) { let h = 2166136261; s = String(s); for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+    function ltCode(model) {
+      const clean = String(model).replace(/\(.*?\)/g, ' ').replace(/[·,/]/g, ' ').trim();
+      const toks = clean.split(/\s+/).filter(Boolean);
+      let i = toks.findIndex((t) => /\d/.test(t));
+      let code;
+      if (i >= 0) {
+        code = toks[i].replace(/[^A-Za-z0-9.\-]/g, '');
+        const rest = toks.slice(i + 1).filter((t) => /^[A-Za-z]/.test(t)).map((t) => t[0].toUpperCase()).join('');
+        if (code.length < 3 && i > 0) code = toks[i - 1].slice(0, 3) + code;
+        code = (code + rest).slice(0, 6);
+      } else code = toks.map((t) => t[0]).join('').toUpperCase().slice(0, 4) || String(model).slice(0, 4);
+      return code;
+    }
+    function ltBrandShort(b) {
+      return ({ 'amaran (Aputure)': 'amaran', 'Mole-Richardson': 'Mole', 'Generic HMI (rental chart)': 'HMI', 'Godox Knowled': 'Godox', 'Quasar Science': 'Quasar', 'Digital Sputnik': 'DS', 'Bron Kobold': 'Kobold', 'Creamsource': 'Cream' })[b] || b;
+    }
+    function ltShade(hex, k) {
+      const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+      const f = (c) => Math.max(0, Math.min(255, Math.round(k < 0 ? c * (1 + k) : c + (255 - c) * k)));
+      return '#' + [f(r), f(g), f(b)].map((c) => c.toString(16).padStart(2, '0')).join('');
+    }
+    // Fixture library: built-in data plus his custom fixtures.
+    let LT_FIX = null, LT_BY = null;
+    function ltBuild() {
+      LT_FIX = LT_DATA.f.map((r) => {
+        const brand = LT_DATA.b[r[0]];
+        return { key: 'f' + r[17], brand, color: LT_DATA.c[r[0]], model: r[1], group: LT_DATA.g[r[2]], cat: r[3], w: r[4], a120: r[5], src: r[6], a208: r[7], a240: r[8], a240p: r[9],
+          form: r[10], conn: r[11], cct: r[12], weight: r[13], dmx: r[14], url: r[15], flags: r[16], custom: false };
+      });
+      // unique map code per model: add a digit when two models of one brand+form would share a code
+      const seen = {};
+      LT_FIX.forEach((f) => { let c = ltCode(f.model); const k = f.brand + '|' + f.form + '|'; let n = 2; const base = c; while (seen[k + c]) c = base.slice(0, 5) + n++; seen[k + c] = 1; f.code = c; });
+      LT_BY = {}; LT_FIX.forEach((f) => { LT_BY[f.key] = f; });
+    }
+    function ltCustomFix(c) {
+      const w = num(c.w, 0) || null;
+      const a = num(c.a, 0) || (w ? Math.round(w / (c.v240 ? 240 : 120) * 100) / 100 : 0);
+      return { key: c.id, brand: 'Custom', color: '#ffb74d', model: c.name || 'Custom fixture', group: 'Custom', cat: LT_FORMS[c.form] || 'custom', w,
+        a120: c.v240 ? null : a, src: c.v240 ? 3 : (num(c.a, 0) ? 0 : 2), a208: c.v240 ? a : (w ? Math.round(w / 208 * 100) / 100 : null), a240: c.v240 ? a : (w ? Math.round(w / 240 * 100) / 100 : null), a240p: 0,
+        form: LT_FORMS[c.form] ? c.form : 'cob', conn: '', cct: '', weight: '', dmx: '', url: '', flags: 0, custom: true, code: ltCode(c.name || 'CUS') };
+    }
+    function ltFix(key) {
+      if (!LT_FIX) ltBuild();
+      if (LT_BY[key]) return LT_BY[key];
+      const c = (ltCur().customs || []).find((x) => x.id === key);
+      return c ? ltCustomFix(c) : null;
+    }
+    function ltAllFix() { if (!LT_FIX) ltBuild(); return (ltCur().customs || []).map(ltCustomFix).concat(LT_FIX); }
+
+    // ----- art -----
+    function ltArt(f, opts) {
+      opts = opts || {};
+      const h = ltHash(f.brand + '|' + f.model);
+      const ac = f.color || '#ffb74d', ac2 = ltShade(ac, -0.45), body = '#26272c', body2 = '#3a3c43', metal = '#8d929b';
+      const day = /HMI|daylight|5600|D\b/i.test(f.model + ' ' + f.cct) || f.form.indexOf('hmi') === 0 || f.form === 'bug';
+      const tung = f.group === 'Tungsten';
+      const glow = day ? '#dff0ff' : tung ? '#ffcf7a' : '#fff3d6';
+      const rgb = /RGB|full colou?r|RGBWW|RGBACL|colour|color/i.test(f.cct || '') && !/bi-?colou?r only/i.test(f.cct || '');
+      const W = num(f.w, 0) || (f.a120 ? f.a120 * 120 : 300);
+      const sz = Math.max(0.55, Math.min(1, 0.5 + 0.5 * Math.log10(Math.max(10, W)) / Math.log10(24000)));
+      const gid = 'g' + (opts.id || (f.key + (opts.mini ? 'm' : '')));
+      const defs = '<defs><radialGradient id="' + gid + 'l" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#ffffff"/><stop offset="0.45" stop-color="' + glow + '"/><stop offset="1" stop-color="' + ltShade(glow, -0.35) + '"/></radialGradient>' +
+        '<linearGradient id="' + gid + 'b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + body2 + '"/><stop offset="1" stop-color="' + body + '"/></linearGradient></defs>';
+      const L = 'url(#' + gid + 'l)', B = 'url(#' + gid + 'b)';
+      const stand = (y) => '<path d="M60 ' + y + ' v10 M46 ' + (y + 12) + ' h28" stroke="' + metal + '" stroke-width="3" stroke-linecap="round" fill="none"/>';
+      const yoke = (x0, x1, y) => '<path d="M' + x0 + ' ' + y + ' v-2 q0 -4 4 -4 M' + x1 + ' ' + y + ' v-2 q0 -4 -4 -4" fill="none" stroke="' + metal + '" stroke-width="3" stroke-linecap="round"/><path d="M' + x0 + ' ' + y + ' Q60 ' + (y + 14) + ' ' + x1 + ' ' + y + '" fill="none" stroke="' + metal + '" stroke-width="3"/>';
+      const ballast = (x, y) => '<g><rect x="' + x + '" y="' + y + '" width="26" height="18" rx="3" fill="' + body2 + '" stroke="' + ac + '" stroke-width="1.6"/><rect x="' + (x + 4) + '" y="' + (y + 4) + '" width="9" height="4" rx="1" fill="#59d36b"/><circle cx="' + (x + 19) + '" cy="' + (y + 9) + '" r="2.6" fill="' + metal + '"/><path d="M' + x + ' ' + (y + 12) + ' q-8 0 -10 -8" fill="none" stroke="#111" stroke-width="2"/></g>';
+      let g = '';
+      const fm = f.form;
+      if (fm === 'fresnel' || fm === 'hmifres') {
+        const rings = 3 + (h % 3);
+        g += '<rect x="30" y="16" width="60" height="54" rx="10" fill="' + B + '" stroke="' + ac + '" stroke-width="2"/>';
+        g += '<circle cx="60" cy="43" r="21" fill="' + L + '" stroke="' + ac2 + '" stroke-width="2"/>';
+        for (let i = 1; i <= rings; i++) g += '<circle cx="60" cy="43" r="' + (21 * i / (rings + 1)).toFixed(1) + '" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1"/>';
+        g += '<path d="M33 16 L40 4 H80 L87 16 Z" fill="#1a1b1f" stroke="' + metal + '" stroke-width="1.2"/><path d="M33 70 L40 82 H80 L87 70 Z" fill="#1a1b1f" stroke="' + metal + '" stroke-width="1.2"/>';
+        g += '<path d="M30 20 L20 26 V60 L30 66 Z" fill="#1a1b1f" stroke="' + metal + '" stroke-width="1.2"/><path d="M90 20 L100 26 V60 L90 66 Z" fill="#1a1b1f" stroke="' + metal + '" stroke-width="1.2"/>';
+        if (f.group !== 'Tungsten' && fm === 'fresnel') g += '<rect x="52" y="72" width="16" height="5" rx="2" fill="' + ac + '"/>';
+        if (fm === 'hmifres') g += ballast(90, 70);
+        else g += stand(82);
+      } else if (fm === 'hmimax' || fm === 'skypan') {
+        const fac = 6 + (h % 4) * 2;
+        const R = fm === 'skypan' ? 34 : 28;
+        g += '<circle cx="60" cy="44" r="' + R + '" fill="' + B + '" stroke="' + ac + '" stroke-width="2.4"/><circle cx="60" cy="44" r="' + (R - 5) + '" fill="#cfd3da" fill-opacity="0.25"/>';
+        for (let i = 0; i < fac; i++) { const a = i * Math.PI * 2 / fac; g += '<line x1="60" y1="44" x2="' + (60 + Math.cos(a) * (R - 5)).toFixed(1) + '" y2="' + (44 + Math.sin(a) * (R - 5)).toFixed(1) + '" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1"/>'; }
+        g += '<circle cx="60" cy="44" r="' + (fm === 'skypan' ? 7 : 9) + '" fill="' + L + '"/>';
+        if (fm === 'hmimax') g += ballast(88, 72); else g += stand(78);
+      } else if (fm === 'hmipar' || fm === 'parcan' || fm === 'beam' || fm === 'par') {
+        const deep = fm === 'beam';
+        g += '<path d="M' + (deep ? 34 : 30) + ' 18 H' + (deep ? 86 : 90) + ' L' + (deep ? 92 : 94) + ' 70 H' + (deep ? 28 : 26) + ' Z" fill="' + B + '" stroke="' + ac + '" stroke-width="2"/>';
+        g += '<ellipse cx="60" cy="44" rx="' + (deep ? 20 : 24) + '" ry="' + (deep ? 20 : 22) + '" fill="' + L + '" stroke="' + ac2 + '" stroke-width="1.5"/>';
+        if (fm === 'hmipar') { for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) g += '<rect x="' + (46 + i * 7) + '" y="' + (30 + j * 7) + '" width="6" height="6" fill="#ffffff" fill-opacity="0.35"/>'; g += ballast(88, 72); }
+        else if (fm === 'par') { const n = 3 + (h % 4); for (let i = 0; i < n; i++) { const a = i * Math.PI * 2 / n; g += '<circle cx="' + (60 + Math.cos(a) * 11).toFixed(1) + '" cy="' + (44 + Math.sin(a) * 11).toFixed(1) + '" r="4.5" fill="' + ['#ff5252', '#69f0ae', '#448aff', '#ffffff'][i % 4] + '"/>'; } g += stand(76); }
+        else if (deep) { g += '<path d="M60 44 L60 2 M52 44 L44 2 M68 44 L76 2" stroke="' + glow + '" stroke-opacity="0.6" stroke-width="2"/>'; g += stand(76); }
+        else g += stand(76);
+      } else if (fm === 'bug') {
+        g += '<rect x="22" y="30" width="44" height="28" rx="6" fill="' + B + '" stroke="' + ac + '" stroke-width="2"/><path d="M66 30 L92 18 V70 L66 58 Z" fill="#c7ccd4" fill-opacity="0.4" stroke="' + metal + '" stroke-width="1.5"/><circle cx="74" cy="44" r="7" fill="' + L + '"/>';
+        g += ballast(84, 74);
+      } else if (fm === 'fay' || fm === 'dino') {
+        const m = String(f.model).match(/(\d+)-light/i); let n = m ? +m[1] : (fm === 'dino' ? 24 : 12);
+        const cols = n <= 2 ? 2 : n <= 4 ? 2 : n <= 9 ? 3 : n <= 12 ? 4 : 6; const rows = Math.ceil(n / cols);
+        const cw = 76 / cols, rh = Math.min(60 / rows, cw);
+        g += '<rect x="18" y="' + (44 - rows * rh / 2 - 6).toFixed(1) + '" width="84" height="' + (rows * rh + 12).toFixed(1) + '" rx="6" fill="' + B + '" stroke="' + ac + '" stroke-width="2"/>';
+        for (let i = 0; i < n; i++) { const cx = 22 + cw * (i % cols) + cw / 2, cy = 44 - rows * rh / 2 + rh * Math.floor(i / cols) + rh / 2; g += '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + (Math.min(cw, rh) / 2 - 1.5).toFixed(1) + '" fill="' + L + '" stroke="' + ac2 + '" stroke-width="1"/>'; }
+        g += stand(44 + rows * rh / 2 + 6);
+      } else if (fm === 'space' || fm === 'balloon') {
+        g += '<line x1="60" y1="0" x2="60" y2="12" stroke="' + metal + '" stroke-width="2"/><rect x="40" y="12" width="40" height="10" rx="3" fill="' + B + '" stroke="' + ac + '" stroke-width="1.8"/>';
+        g += '<path d="M30 24 H90 L94 72 Q60 80 26 72 Z" fill="#f4f1ea" fill-opacity="0.92" stroke="' + ac + '" stroke-width="1.8"/><ellipse cx="60" cy="60" rx="20" ry="7" fill="' + L + '"/>';
+        for (let i = 0; i < 3 + (h % 3); i++) g += '<line x1="' + (36 + i * 12) + '" y1="26" x2="' + (34 + i * 12.5) + '" y2="72" stroke="#c8c2b6" stroke-width="0.8"/>';
+      } else if (fm === 'panel' || fm === 'panelh' || fm === 'mini') {
+        const mm = String(f.model).match(/(\d)\s*x\s*(\d)/i);
+        let aw = mm ? +mm[1] : 2, ah = mm ? +mm[2] : 1;
+        if (/S30/.test(f.model)) { aw = 1.3; ah = 0.9; } else if (/S360/.test(f.model)) { aw = 3; ah = 1.4; } else if (/S120/.test(f.model)) { aw = 2.6; ah = 0.9; }
+        if (fm === 'mini') { aw = 1.2; ah = 0.8; }
+        if (aw < ah) { const t = aw; aw = ah; ah = t; }
+        const pw = Math.min(88, 34 * aw), ph = Math.min(58, 34 * ah);
+        const x = 60 - pw / 2, y = 42 - ph / 2;
+        g += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + pw.toFixed(1) + '" height="' + ph.toFixed(1) + '" rx="5" fill="' + B + '" stroke="' + ac + '" stroke-width="2.2"/>';
+        if (fm === 'panelh') {
+          const c = Math.max(2, Math.round(pw / 14)), r = Math.max(2, Math.round(ph / 14));
+          for (let i = 0; i < c; i++) for (let j = 0; j < r; j++) g += '<circle cx="' + (x + 5 + (pw - 10) * (i + 0.5) / c).toFixed(1) + '" cy="' + (y + 5 + (ph - 10) * (j + 0.5) / r).toFixed(1) + '" r="' + (Math.min((pw - 10) / c, (ph - 10) / r) / 2 - 1).toFixed(1) + '" fill="' + L + '" stroke="' + ac2 + '" stroke-width="0.8"/>';
+        } else {
+          g += '<rect x="' + (x + 4).toFixed(1) + '" y="' + (y + 4).toFixed(1) + '" width="' + (pw - 8).toFixed(1) + '" height="' + (ph - 8).toFixed(1) + '" rx="3" fill="' + L + '" fill-opacity="0.9"/>';
+          const c = 4 + (h % 4), r = 2 + ((h >> 3) % 3);
+          const cols = rgb ? ['#ff6b6b', '#6bff9a', '#6ba8ff', '#ffffff'] : ['#ffe2b0', '#e8f3ff'];
+          for (let i = 0; i < c; i++) for (let j = 0; j < r; j++) g += '<circle cx="' + (x + 4 + (pw - 8) * (i + 0.5) / c).toFixed(1) + '" cy="' + (y + 4 + (ph - 8) * (j + 0.5) / r).toFixed(1) + '" r="1.6" fill="' + cols[(i + j) % cols.length] + '" fill-opacity="0.9"/>';
+        }
+        g += yoke(x - 3, x + pw + 3, 42 + ph / 2 + 2);
+        if (fm !== 'mini') g += stand(Math.min(84, 42 + ph / 2 + 9)); else g += '<rect x="52" y="' + (42 + ph / 2 + 2).toFixed(1) + '" width="16" height="6" rx="2" fill="' + metal + '"/>';
+      } else if (fm === 'mat') {
+        const mm = String(f.model).match(/(\d+)\s*x\s*(\d+)/i);
+        let aw = mm ? +mm[1] : 2, ah = mm ? +mm[2] : 1; if (aw < ah) { const t = aw; aw = ah; ah = t; }
+        const ratio = Math.min(2.2, aw / ah);
+        const pw = Math.min(92, 44 * Math.sqrt(ratio) + (aw >= 8 ? 20 : 0)), ph = Math.min(64, pw / ratio);
+        const x = 60 - pw / 2, y = 42 - ph / 2;
+        g += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + pw.toFixed(1) + '" height="' + ph.toFixed(1) + '" rx="9" fill="#f6f2ea" stroke="' + ac + '" stroke-width="2.4"/>';
+        g += '<rect x="' + (x + 4).toFixed(1) + '" y="' + (y + 4).toFixed(1) + '" width="' + (pw - 8).toFixed(1) + '" height="' + (ph - 8).toFixed(1) + '" rx="6" fill="' + L + '" fill-opacity="0.85" stroke="' + ac2 + '" stroke-width="1" stroke-dasharray="3 2"/>';
+        [[x + 4, y + 4], [x + pw - 4, y + 4], [x + 4, y + ph - 4], [x + pw - 4, y + ph - 4]].forEach((p) => { g += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="2.4" fill="' + metal + '"/>'; });
+        if (rgb) g += '<rect x="' + (x + 10).toFixed(1) + '" y="' + (y + ph - 10).toFixed(1) + '" width="' + (pw - 20).toFixed(1) + '" height="3" rx="1.5" fill="url(#' + gid + 'r)"/>';
+      } else if (fm === 'tube' || fm === 'bank' || fm === 'fluoro') {
+        const ftm = String(f.model).match(/(\d+)\s*(?:ft|')/i);
+        let feet = ftm ? +ftm[1] : /PB12|T4|Titan|Hyperion|Q50|Double/i.test(f.model) ? 4 : /PB6|Helios|Q25|15XR|PT4|R2/i.test(f.model) ? 2 : /PB3|MT|AX1|Q15/i.test(f.model) ? 1 : 4;
+        const bankM = String(f.model).match(/(\d)-?Bank|Single/i);
+        let n = fm === 'tube' ? 1 : bankM ? (/Single/i.test(bankM[0]) ? 1 : +bankM[1]) : (/Image|Vista|Mega/i.test(f.model) ? 6 : /Diva|Para|BarFly|T44/i.test(f.model) ? 4 : /T24/.test(f.model) ? 2 : 4);
+        if (/Double/i.test(f.model)) n = 2;
+        const len = Math.min(96, 24 + feet * 9), th = fm === 'tube' ? 9 : 6;
+        const x = 60 - len / 2, top = 42 - n * (th + 3) / 2;
+        if (fm !== 'tube') g += '<rect x="' + (x - 6).toFixed(1) + '" y="' + (top - 6).toFixed(1) + '" width="' + (len + 12).toFixed(1) + '" height="' + (n * (th + 3) + 9).toFixed(1) + '" rx="4" fill="' + B + '" stroke="' + ac + '" stroke-width="2"/>';
+        for (let i = 0; i < n; i++) {
+          const yy = top + i * (th + 3);
+          g += '<rect x="' + x.toFixed(1) + '" y="' + yy.toFixed(1) + '" width="' + len.toFixed(1) + '" height="' + th + '" rx="' + (th / 2) + '" fill="' + (fm === 'fluoro' ? '#eafff2' : L) + '" stroke="' + ac2 + '" stroke-width="0.8"/>';
+          if (rgb && fm === 'tube') { const seg = 6 + (h % 6); for (let k = 0; k < seg; k++) g += '<rect x="' + (x + 3 + (len - 6) * k / seg).toFixed(1) + '" y="' + (yy + 2) + '" width="' + ((len - 6) / seg - 1).toFixed(1) + '" height="' + (th - 4) + '" rx="1" fill="' + ['#ff5c5c', '#ffb14d', '#fff35c', '#5cff8f', '#5cc8ff', '#a45cff'][(k + h) % 6] + '" fill-opacity="0.75"/>'; }
+          if (fm === 'tube') g += '<rect x="' + (x - 4).toFixed(1) + '" y="' + (yy - 1) + '" width="6" height="' + (th + 2) + '" rx="2" fill="' + ac + '"/><rect x="' + (x + len - 2).toFixed(1) + '" y="' + (yy - 1) + '" width="6" height="' + (th + 2) + '" rx="2" fill="' + ac + '"/>';
+        }
+        if (fm === 'fluoro') g += '<path d="M' + (x - 6) + ' ' + (top - 6) + ' l-8 -6 M' + (x + len + 6) + ' ' + (top - 6) + ' l8 -6" stroke="' + metal + '" stroke-width="2"/>';
+      } else if (fm === 'bulb') {
+        g += '<path d="M60 10 C80 10 86 28 78 42 C74 48 70 52 70 58 H50 C50 52 46 48 42 42 C34 28 40 10 60 10 Z" fill="' + L + '" stroke="' + ac + '" stroke-width="2"/><rect x="50" y="58" width="20" height="14" rx="2" fill="' + metal + '"/><path d="M50 62 H70 M50 66 H70" stroke="#555" stroke-width="1"/>';
+      } else {
+        // LED point source: finned body, Bowens-style mount and a parabolic reflector
+        const fins = 4 + (h % 5);
+        const rl = 18 + (h % 3) * 3;
+        g += '<rect x="14" y="26" width="38" height="36" rx="6" fill="' + B + '" stroke="' + ac + '" stroke-width="2"/>';
+        for (let i = 0; i < fins; i++) g += '<line x1="' + (18 + i * (30 / fins)).toFixed(1) + '" y1="30" x2="' + (18 + i * (30 / fins)).toFixed(1) + '" y2="58" stroke="#111" stroke-width="1.6"/>';
+        g += '<rect x="52" y="34" width="8" height="20" fill="' + metal + '"/>';
+        g += '<path d="M60 36 L' + (60 + rl * 1.6).toFixed(1) + ' ' + (44 - rl).toFixed(1) + ' V' + (44 + rl).toFixed(1) + ' L60 52 Z" fill="#cfd3da" fill-opacity="0.35" stroke="' + ac + '" stroke-width="1.8"/>';
+        g += '<ellipse cx="' + (60 + rl * 1.6).toFixed(1) + '" cy="44" rx="5" ry="' + rl + '" fill="' + L + '"/><circle cx="62" cy="44" r="4" fill="#fff3c4"/>';
+        g += '<path d="M33 62 V70 M24 80 L33 70 L42 80" stroke="' + metal + '" stroke-width="3" fill="none" stroke-linecap="round"/>';
+      }
+      const extraDefs = '<defs><linearGradient id="' + gid + 'r" x1="0" x2="1"><stop offset="0" stop-color="#ff5252"/><stop offset="0.5" stop-color="#69f0ae"/><stop offset="1" stop-color="#448aff"/></linearGradient></defs>';
+      const tx = (60 - 60 * sz).toFixed(2), ty = (44 - 44 * sz).toFixed(2);
+      let s = '<svg class="fx-svg" viewBox="0 0 120 ' + (opts.mini ? 90 : 104) + '" role="img" aria-label="Illustration: ' + esc(f.brand + ' ' + f.model + ', ' + (LT_FORMS[f.form] || f.form)) + '" data-form="' + esc(f.form) + '">' + defs + extraDefs +
+        '<g transform="translate(' + tx + ' ' + ty + ') scale(' + sz.toFixed(3) + ')">' + g + '</g>';
+      if (!opts.mini) s += '<text x="60" y="99" text-anchor="middle" font-size="8.5" font-weight="800" fill="' + ac + '" letter-spacing="0.4">' + esc((ltBrandShort(f.brand) + ' · ' + f.code).toUpperCase()) + '</text>';
+      return s + '</svg>';
+    }
+    // Small glyph for map badges: one shape per form, tinted per brand/model.
+    function ltGlyph(f) {
+      const h = ltHash(f.model);
+      const c1 = f.color, c2 = ltShade(f.color, (h % 2 ? 0.45 : -0.35));
+      const S = (d, fill, st) => '<path d="' + d + '" fill="' + (fill || c1) + '" stroke="' + (st || '#000') + '" stroke-width="1"/>';
+      switch (f.form) {
+        case 'fresnel': return '<rect x="-9" y="-8" width="18" height="16" rx="3" fill="' + c2 + '"/><circle r="6" fill="' + c1 + '"/><circle r="3" fill="none" stroke="#fff" stroke-width="1"/>';
+        case 'hmifres': return '<rect x="-9" y="-8" width="18" height="16" rx="3" fill="' + c2 + '"/><circle r="6" fill="#dff0ff"/><rect x="5" y="4" width="7" height="5" fill="' + c1 + '"/>';
+        case 'hmimax': return '<circle r="9" fill="' + c2 + '"/>' + [0, 60, 120].map((a) => '<line x1="-8" y1="0" x2="8" y2="0" transform="rotate(' + a + ')" stroke="' + c1 + '" stroke-width="1.4"/>').join('') + '<circle r="3" fill="#dff0ff"/>';
+        case 'skypan': return '<circle r="10" fill="' + c2 + '"/><circle r="6.5" fill="none" stroke="' + c1 + '" stroke-width="2"/><circle r="2.5" fill="#ffcf7a"/>';
+        case 'hmipar': return '<path d="M-9 -8 H9 L10 8 H-10 Z" fill="' + c2 + '"/><rect x="-5" y="-4" width="10" height="8" fill="#dff0ff"/><path d="M-5 0 H5 M0 -4 V4" stroke="' + c1 + '"/>';
+        case 'parcan': case 'par': return '<path d="M-8 -9 H8 L10 9 H-10 Z" fill="' + c2 + '"/><circle r="5" fill="' + c1 + '"/>';
+        case 'beam': return '<path d="M-6 -10 H6 L8 10 H-8 Z" fill="' + c2 + '"/><path d="M-3 -10 V-16 M3 -10 V-16" stroke="' + c1 + '" stroke-width="1.6"/>';
+        case 'bug': return '<rect x="-10" y="-5" width="10" height="10" rx="2" fill="' + c2 + '"/><path d="M0 -5 L10 -10 V10 L0 5 Z" fill="' + c1 + '"/>';
+        case 'fay': case 'dino': { let s = '<rect x="-10" y="-9" width="20" height="18" rx="3" fill="' + c2 + '"/>'; const n = f.form === 'dino' ? 3 : 2; for (let i = 0; i < n; i++) for (let j = 0; j < 2; j++) s += '<circle cx="' + (-10 + 20 * (i + 0.5) / n).toFixed(1) + '" cy="' + (j ? 4 : -4) + '" r="' + (f.form === 'dino' ? 2.5 : 3.6) + '" fill="' + c1 + '"/>'; return s; }
+        case 'space': case 'balloon': return '<rect x="-4" y="-11" width="8" height="4" fill="' + c2 + '"/>' + S('M-9 -7 H9 L10 9 Q0 12 -10 9 Z', '#f4f1ea', c1);
+        case 'panel': return '<rect x="-11" y="-7" width="22" height="14" rx="2" fill="' + c2 + '"/><rect x="-9" y="-5" width="18" height="10" rx="1" fill="' + c1 + '"/>';
+        case 'panelh': return '<rect x="-11" y="-7" width="22" height="14" rx="2" fill="' + c2 + '"/>' + [-6, 0, 6].map((x) => '<circle cx="' + x + '" cy="0" r="2.6" fill="' + c1 + '"/>').join('');
+        case 'mini': return '<rect x="-7" y="-5" width="14" height="10" rx="2" fill="' + c1 + '" stroke="' + c2 + '" stroke-width="1.6"/>';
+        case 'mat': return '<rect x="-11" y="-8" width="22" height="16" rx="4" fill="#f6f2ea" stroke="' + c1 + '" stroke-width="2.2"/><rect x="-7" y="-4" width="14" height="8" rx="2" fill="' + c2 + '" fill-opacity="0.6"/>';
+        case 'tube': return '<rect x="-12" y="-3" width="24" height="6" rx="3" fill="' + c1 + '"/><rect x="-13" y="-4" width="3" height="8" fill="' + c2 + '"/><rect x="10" y="-4" width="3" height="8" fill="' + c2 + '"/>';
+        case 'bank': case 'fluoro': return '<rect x="-11" y="-8" width="22" height="16" rx="2" fill="' + c2 + '"/>' + [-5, -1.5, 2, 5.5].map((y) => '<rect x="-9" y="' + y + '" width="18" height="2.4" rx="1.2" fill="' + (f.form === 'fluoro' ? '#eafff2' : c1) + '"/>').join('');
+        case 'bulb': return '<circle cy="-2" r="7" fill="' + c1 + '"/><rect x="-3.5" y="4" width="7" height="5" fill="' + c2 + '"/>';
+        default: return '<rect x="-11" y="-6" width="10" height="12" rx="2" fill="' + c2 + '"/><path d="M-1 -3 L10 -9 V9 L-1 3 Z" fill="' + c1 + '"/>';
+      }
+    }
+
+    // ----- lighting state (own storage keys; the Base Camp keys are never touched) -----
+    var LT_LEGS = ['red', 'blue', 'black', 'rb', 'bk', 'kr'];
+    var LT_PAIR = { rb: ['red', 'blue'], bk: ['blue', 'black'], kr: ['black', 'red'] };
+    var LT_LEG_LABEL = { red: 'Red', blue: 'Blue', black: 'Black', rb: 'Red + Blue', bk: 'Blue + Black', kr: 'Black + Red' };
+    var ltState = null;
+    var ltMode = (function () { try { return localStorage.getItem('legcheck-mode-v1') === 'lighting' ? 'lighting' : 'base'; } catch (e) { return 'base'; } })();
+    var ltFilter = { q: '', brand: '', group: '', limit: 24 };
+    var ltSel = null;
+    var ltBalOpen = false;
+    var ltLastUndo = null;
+    function ltEmpty() { return { gen: { red: null, blue: null, black: null, white: null, rating: null, updatedAt: null }, units: [], customs: [], layer: true, savedAt: null }; }
+    function ltHydrate(o) {
+      if (!LT_FIX) ltBuild();
+      const e = ltEmpty();
+      if (!o || typeof o !== 'object') return e;
+      const g = o.gen || {};
+      e.gen = { red: parseAmp(g.red), blue: parseAmp(g.blue), black: parseAmp(g.black), white: parseAmp(g.white), rating: parseAmp(g.rating), updatedAt: num(g.updatedAt, 0) || null };
+      e.customs = (Array.isArray(o.customs) ? o.customs : []).filter((c) => c && c.id).map((c) => ({
+        id: String(c.id).slice(0, 40), name: String(c.name || 'Custom fixture').slice(0, 60), form: LT_FORMS[c.form] ? c.form : 'cob',
+        w: parseAmp(c.w), a: parseAmp(c.a), v240: !!c.v240
+      }));
+      const ids = new Set(e.customs.map((c) => c.id));
+      e.units = (Array.isArray(o.units) ? o.units : []).filter((u) => u && u.fx && (LT_BY[u.fx] || ids.has(u.fx))).map((u) => ({
+        id: String(u.id || mapUid('u')).slice(0, 40), fx: String(u.fx), qty: Math.max(1, Math.min(99, Math.round(num(u.qty, 1)) || 1)),
+        leg: LT_LEGS.indexOf(u.leg) >= 0 ? u.leg : 'red', note: String(u.note || '').slice(0, 60), ov: parseAmp(u.ov),
+        mx: u.mx == null ? null : num(u.mx, null), my: u.my == null ? null : num(u.my, null)
+      }));
+      e.units.forEach((u) => { const f = ltFix0(u.fx, e); if (f && f.src === 3 && !LT_PAIR[u.leg]) u.leg = 'rb'; if (u.mx == null || u.my == null) { u.mx = null; u.my = null; } });
+      e.layer = o.layer !== false;
+      e.savedAt = num(o.savedAt, 0) || null;
+      return e;
+    }
+    function ltFix0(key, s) { if (LT_BY[key]) return LT_BY[key]; const c = (s.customs || []).find((x) => x.id === key); return c ? ltCustomFix(c) : null; }
+    function ltLoad() { try { const raw = localStorage.getItem('legcheck-lighting-v1'); return raw ? ltHydrate(JSON.parse(raw)) : ltEmpty(); } catch (e) { return ltEmpty(); } }
+    function ltCur() { if (viewState && viewState.lighting) return viewState.lighting; if (!ltState) ltState = ltLoad(); return ltState; }
+    function ltPersist() {
+      const s = ltCur();
+      s.savedAt = Date.now();
+      if (viewState && viewState.lighting === s) return; // a shared copy stays in memory until "Save to my tracker"
+      try { localStorage.setItem('legcheck-lighting-v1', JSON.stringify(s)); } catch (e) { toast('Could not save lighting on this phone.'); }
+    }
+
+    // ----- amps -----
+    function ltIsPair(leg) { return !!LT_PAIR[leg]; }
+    function ltCanPair(f) { return f.src === 3 || f.a208 != null || f.a240 != null || !!f.w; }
+    function ltPerLeg(u, f) {
+      if (u.ov != null) return u.ov;
+      if (ltIsPair(u.leg)) return f.src === 3 ? (f.a240 || f.a208 || 0) : (f.a208 != null ? f.a208 : f.w ? f.w / 208 : f.a120 ? f.a120 * 120 / 208 : 0);
+      return f.a120 != null ? f.a120 : (f.w ? f.w / 120 : 0);
+    }
+    function ltLegsOf(leg) { return LT_PAIR[leg] || [leg]; }
+    function ltTotals(s) {
+      s = s || ltCur();
+      const est = { red: 0, blue: 0, black: 0 }, single = { red: 0, blue: 0, black: 0 }, count = { red: 0, blue: 0, black: 0 };
+      let watts = 0, units = 0;
+      s.units.forEach((u) => {
+        const f = ltFix0(u.fx, s); if (!f) return;
+        const a = ltPerLeg(u, f) * u.qty;
+        ltLegsOf(u.leg).forEach((k) => { est[k] += a; count[k] += u.qty; if (!ltIsPair(u.leg)) single[k] += a; });
+        watts += (f.w || (f.a120 ? f.a120 * 120 : 0)) * u.qty; units += u.qty;
+      });
+      const n = Math.sqrt(Math.max(0, single.red * single.red + single.blue * single.blue + single.black * single.black - single.red * single.blue - single.blue * single.black - single.black * single.red));
+      HOT_KEYS.forEach((k) => { est[k] = Math.round(est[k] * 100) / 100; });
+      return { est, count, neutral: Math.round(n * 10) / 10, watts: Math.round(watts), units };
+    }
+    var HOT_KEYS = ['red', 'blue', 'black'];
+    function ltLegCheck(s) {
+      s = s || ltCur();
+      const t = ltTotals(s), r = s.gen.rating;
+      const out = {};
+      HOT_KEYS.forEach((k) => { const p = r ? t.est[k] / r : null; out[k] = { amps: t.est[k], pct: p == null ? null : Math.round(p * 1000) / 10, level: p == null ? 'none' : p > 1 ? 'over' : p > 0.8 ? 'warn' : 'ok' }; });
+      return out;
+    }
+
+    // ----- balance -----
+    function ltBase(s) {
+      const g = s.gen;
+      const useGen = !!(g.red || g.blue || g.black);
+      const t = ltTotals(s);
+      return { useGen, base: useGen ? { red: g.red || 0, blue: g.blue || 0, black: g.black || 0 } : Object.assign({}, t.est) };
+    }
+    function ltSpread(o) { const v = HOT_KEYS.map((k) => o[k]); return Math.max.apply(null, v) - Math.min.apply(null, v); }
+    function ltDev(o) { const m = (o.red + o.blue + o.black) / 3; return HOT_KEYS.reduce((a, k) => a + (o[k] - m) * (o[k] - m), 0); }
+    function ltSuggest(s) {
+      s = s || ltCur();
+      const b = ltBase(s);
+      const before = ltSpread(b.base);
+      const heavy = Math.max(b.base.red, b.base.blue, b.base.black);
+      const res = { useGen: b.useGen, base: b.base, before: Math.round(before * 10) / 10, moves: [], after: null, ok: false, empty: !s.units.length };
+      if (!s.units.length) return res;
+      if (before <= Math.max(5, heavy * 0.1)) { res.ok = true; res.after = res.before; return res; }
+      const opts = [];
+      s.units.forEach((u) => {
+        const f = ltFix0(u.fx, s); if (!f) return;
+        const pair = ltIsPair(u.leg);
+        const choices = pair ? Object.keys(LT_PAIR) : HOT_KEYS;
+        choices.forEach((to) => {
+          if (to === u.leg) return;
+          const d = { red: 0, blue: 0, black: 0 };
+          const a = ltPerLeg(Object.assign({}, u, { leg: to }), f) * u.qty, a0 = ltPerLeg(u, f) * u.qty;
+          ltLegsOf(u.leg).forEach((k) => { d[k] -= a0; });
+          ltLegsOf(to).forEach((k) => { d[k] += a; });
+          opts.push({ uid: u.id, from: u.leg, to, d, amps: Math.round(a0 * 10) / 10, name: f.model, qty: u.qty, note: u.note });
+        });
+      });
+      const apply = (list) => { const o = Object.assign({}, b.base); list.forEach((m) => HOT_KEYS.forEach((k) => { o[k] += m.d[k]; })); return o; };
+      let best = null;
+      const consider = (list) => { const o = apply(list); const sp = ltSpread(o), dv = ltDev(o); if (!best || sp < best.sp - 0.05 || (Math.abs(sp - best.sp) <= 0.05 && (list.length < best.list.length || (list.length === best.list.length && dv < best.dv)))) best = { list, sp, dv, o }; };
+      opts.forEach((m) => consider([m]));
+      for (let i = 0; i < opts.length; i++) for (let j = i + 1; j < opts.length; j++) if (opts[i].uid !== opts[j].uid) consider([opts[i], opts[j]]);
+      if (!best || best.sp > before - 1) { res.after = res.before; res.stuck = true; return res; }
+      res.moves = best.list.map((m) => ({ uid: m.uid, from: m.from, to: m.to, amps: m.amps, name: m.name, qty: m.qty, note: m.note }));
+      res.after = Math.round(best.sp * 10) / 10;
+      res.result = { red: Math.round(best.o.red * 10) / 10, blue: Math.round(best.o.blue * 10) / 10, black: Math.round(best.o.black * 10) / 10 };
+      return res;
+    }
+    function ltApplyBalance() {
+      const s = ltCur(); const r = ltSuggest(s);
+      if (!r.moves.length) return false;
+      const prev = s.units.map((u) => [u.id, u.leg]);
+      r.moves.forEach((m) => { const u = s.units.find((x) => x.id === m.uid); if (u) u.leg = m.to; });
+      ltLastUndo = prev;
+      ltPersist(); ltRenderAll(); ltRenderLayerIfMap();
+      showUndo('Lighting rebalanced (' + r.moves.length + (r.moves.length === 1 ? ' move)' : ' moves)'), () => ltUndoBalance());
+      return true;
+    }
+    function ltUndoBalance() {
+      if (!ltLastUndo) return false;
+      const s = ltCur(); const m = new Map(ltLastUndo);
+      s.units.forEach((u) => { if (m.has(u.id)) u.leg = m.get(u.id); });
+      ltLastUndo = null; ltPersist(); ltRenderAll(); ltRenderLayerIfMap();
+      return true;
+    }
+
+    // ----- rig edits -----
+    function ltAutoLeg(f, s) {
+      const t = ltTotals(s).est;
+      if (f.src === 3) return Object.keys(LT_PAIR).sort((a, b) => (t[LT_PAIR[a][0]] + t[LT_PAIR[a][1]]) - (t[LT_PAIR[b][0]] + t[LT_PAIR[b][1]]))[0];
+      return HOT_KEYS.slice().sort((a, b) => t[a] - t[b])[0];
+    }
+    function ltAdd(key, opts) {
+      const s = ltCur(); const f = ltFix0(key, s); if (!f) return null;
+      opts = opts || {};
+      const u = { id: mapUid('lu'), fx: key, qty: Math.max(1, Math.min(99, opts.qty || 1)), leg: opts.leg && LT_LEGS.indexOf(opts.leg) >= 0 ? opts.leg : ltAutoLeg(f, s), note: opts.note || '', ov: null, mx: null, my: null };
+      if (f.src === 3 && !ltIsPair(u.leg)) u.leg = 'rb';
+      s.units.push(u);
+      ltPersist(); ltRenderAll();
+      if (!opts.quiet) toast('Added ' + f.model + ' to ' + LT_LEG_LABEL[u.leg]);
+      return u.id;
+    }
+    function ltUnit(id) { return ltCur().units.find((u) => u.id === id) || null; }
+    function ltRemove(id) { const s = ltCur(); const i = s.units.findIndex((u) => u.id === id); if (i < 0) return; const u = s.units.splice(i, 1)[0]; if (ltSel === id) ltCloseSheet(); ltPersist(); ltRenderAll(); ltRenderLayerIfMap(); showUndo('Removed ' + ((ltFix0(u.fx, s) || {}).model || 'fixture'), () => { s.units.splice(i, 0, u); ltPersist(); ltRenderAll(); ltRenderLayerIfMap(); }); }
+    function ltAddCustom(c) {
+      const s = ltCur();
+      const id = 'c' + mapUid('');
+      s.customs.unshift({ id, name: String(c.name || 'Custom fixture').slice(0, 60), form: LT_FORMS[c.form] ? c.form : 'cob', w: parseAmp(c.w), a: parseAmp(c.a), v240: !!c.v240 });
+      ltPersist(); ltRenderAll();
+      return id;
+    }
+    function ltDeleteCustom(id) {
+      const s = ltCur();
+      s.customs = s.customs.filter((c) => c.id !== id);
+      s.units = s.units.filter((u) => u.fx !== id);
+      ltPersist(); ltRenderAll();
+    }
+
+    // ----- share-link part (optional "L"; old links have none) -----
+    function ltCompact(s) {
+      if (!s) return null;
+      const g = s.gen;
+      if (!s.units.length && !s.customs.length && g.red == null && g.blue == null && g.black == null && g.white == null && g.rating == null) return null;
+      return {
+        g: [g.red, g.blue, g.black, g.white, g.rating, g.updatedAt || 0],
+        u: s.units.map((u) => [u.id, u.fx, u.qty, u.leg, u.note || '', u.ov, u.mx == null ? null : Math.round(u.mx), u.my == null ? null : Math.round(u.my)]),
+        c: s.customs.map((c) => [c.id, c.name, c.form, c.w, c.a, c.v240 ? 1 : 0]),
+        y: s.layer ? 1 : 0
+      };
+    }
+    function ltExpand(L) {
+      if (!L || typeof L !== 'object') return null;
+      const g = Array.isArray(L.g) ? L.g : [];
+      return ltHydrate({
+        gen: { red: g[0], blue: g[1], black: g[2], white: g[3], rating: g[4], updatedAt: g[5] },
+        units: (Array.isArray(L.u) ? L.u : []).map((a) => ({ id: a[0], fx: a[1], qty: a[2], leg: a[3], note: a[4], ov: a[5], mx: a[6], my: a[7] })),
+        customs: (Array.isArray(L.c) ? L.c : []).map((a) => ({ id: a[0], name: a[1], form: a[2], w: a[3], a: a[4], v240: !!a[5] })),
+        layer: L.y !== 0
+      });
+    }
+    function ltSummaryLines(s) {
+      s = s || ltCur();
+      if (!s.units.length) return [];
+      const t = ltTotals(s), r = s.gen.rating;
+      const lines = ['', 'FILM LIGHTING RIG (estimated draw)'];
+      HOT_KEYS.forEach((k) => lines.push(LT_LEG_LABEL[k] + ': ' + formatAmp(Math.round(t.est[k] * 10) / 10) + ' A' + (r ? ' of ' + formatAmp(r) + ' A (' + Math.round(t.est[k] / r * 100) + '%)' : '')));
+      lines.push('Fixtures: ' + t.units + ' · about ' + (t.watts / 1000).toFixed(1) + ' kW');
+      s.units.forEach((u) => { const f = ltFix0(u.fx, s); if (f) lines.push('• ' + u.qty + '× ' + (f.custom ? '' : f.brand + ' ') + f.model + ' — ' + LT_LEG_LABEL[u.leg] + (u.note ? ' (' + u.note + ')' : '')); });
+      return lines;
+    }
     let sharedAt = null;
     let toastTimer = null;
     let modalResolver = null;
@@ -3843,7 +4484,7 @@
     }
 
     function renderList() {
-
+      if (ltMode === 'lighting') { try { ltRenderAll(); } catch (e) {} }
       const state = current();
       listEl.innerHTML = '';
       listEl.classList.toggle('sorted-panel', sortMode === 'panel');
@@ -4245,6 +4886,9 @@
       out.s = { a: [sv.last, sv.interval, sv.due, sv.cur, sv.curAt, sv.run247 ? 1 : 0], h: sv.history.map((e) => [e.t, e.hours, e.id]) };
       const m = mapForState(state);
       if (m) out.m = compactMap(m, !opts || opts.image !== false);
+      const Lsrc = state.lighting !== undefined ? state.lighting : (state === localState || !viewState ? ltCur() : null);
+      const L = ltCompact(Lsrc);
+      if (L) out.L = L;
       return out;
     }
 
@@ -4263,7 +4907,8 @@
         log: hydrateLog(Array.isArray(data.n) ? data.n : null, typeof data.n === 'string' ? data.n : '', data.t),
         fluid: hydrateFluid(data.f),
         svc: hydrateSvc(data.s),
-        map: data.m ? expandMap(data.m) : null
+        map: data.m ? expandMap(data.m) : null,
+        lighting: data.L ? ltExpand(data.L) : null
       };
     }
 
@@ -4430,6 +5075,8 @@
         lines.push('', 'GENERATOR LOG (newest first)');
         log.forEach((e) => lines.push(formatWhen(e.t) + ' — ' + e.text + (e.legs ? ' [Legs: ' + legsText(e.legs) + ']' : '')));
       }
+      const ltSrc = state.lighting !== undefined ? state.lighting : (state === localState || !viewState ? ltCur() : null);
+      if (ltSrc) ltSummaryLines(ltSrc).forEach((x) => lines.push(x));
       return lines.join('\n');
     }
 
@@ -4512,7 +5159,10 @@
       });
       if (!ok) return;
       const keepMap = viewState.map ? null : localState.map;
+      const sharedL = viewState.lighting;
       localState = cloneState(viewState);
+      delete localState.lighting;
+      if (sharedL) { const vs = viewState; viewState = null; ltState = ltHydrate(JSON.parse(JSON.stringify(sharedL))); ltPersist(); viewState = vs; }
       if (!localState.map) localState.map = keepMap || seedMap(localState.locations);
       localState.map.view = null;
       viewState = null;
@@ -5004,6 +5654,7 @@
         handle: !cableMode && mapSelected && mapSelected.kind === 'item' && mapSelected.id === it.id && ITEM_TYPES[it.type].rot,
         s: s
       })).join('');
+      renderLightLayer();
     }
 
     function applyView() {
@@ -5032,6 +5683,10 @@
         minX = Math.min(minX, it.x - hw); maxX = Math.max(maxX, it.x + hw);
         minY = Math.min(minY, it.y - hh - 10); maxY = Math.max(maxY, it.y + hh + 46);
       });
+      try {
+        const ls = ltCur();
+        if (ls.layer) ls.units.forEach((u) => { if (u.mx == null) return; minX = Math.min(minX, u.mx - 60); maxX = Math.max(maxX, u.mx + 60); minY = Math.min(minY, u.my - 50); maxY = Math.max(maxY, u.my + 76); });
+      } catch (e) {}
       pad = pad == null ? 20 : pad;
       return { x: minX - pad, y: minY - pad, w: maxX - minX + pad * 2, h: maxY - minY + pad * 2 };
     }
@@ -5194,6 +5849,11 @@
       if (mapPointers.size === 2) { startPinch(); return; }
       if (mapPointers.size > 2) return;
       const t = e.target && e.target.closest ? e.target : null;
+      const lt = t && t.closest('[data-light]');
+      if (lt && !cableMode) {
+        const u = ltUnit(lt.getAttribute('data-light'));
+        if (u) { mapGesture = { kind: 'light', id: u.id, start: p, ox: u.mx, oy: u.my, moved: false }; return; }
+      }
       const h = t && t.closest('[data-handle]');
       const it = t && t.closest('[data-item]');
       const cb = t && t.closest('[data-cable]');
@@ -5239,6 +5899,14 @@
       const dx = p.x - g.start.x, dy = p.y - g.start.y;
       if (!g.moved && Math.hypot(dx, dy) < 6) return;
       g.moved = true;
+      if (g.kind === 'light') {
+        const u = ltUnit(g.id);
+        if (!u) return;
+        u.mx = Math.round(g.ox + dx / v.s);
+        u.my = Math.round(g.oy + dy / v.s);
+        renderLightLayer();
+        return;
+      }
       if (g.kind === 'item') {
         const item = findMapItem(g.id);
         if (!item) return;
@@ -5271,6 +5939,12 @@
       }
       mapGesture = null;
       const cancelled = e.type === 'pointercancel';
+      if (g.kind === 'light') {
+        if (g.moved) ltPersist();
+        else if (!cancelled) ltOpenSheet(g.id);
+        return;
+      }
+      if (g.kind === 'item' && !g.moved && !cancelled) ltCloseSheet();
       if (g.kind === 'item' || g.kind === 'rotate') {
         if (g.moved) { persistMap(); if (mapSelected && mapSelected.id === g.id) renderSheet(); }
         else if (!cancelled && g.kind === 'item') onItemTap(g.id);
@@ -5279,7 +5953,7 @@
       if (g.moved) { saveViewSoon(); return; }
       if (cancelled) return;
       if (g.kind === 'cable') onCableTap(g.id);
-      else onEmptyTap();
+      else { ltCloseSheet(); onEmptyTap(); }
     }
     mapSvg.addEventListener('pointerup', endMapPointer);
     // Stop the browser's follow-up "ghost" click from landing on the edit sheet that a tap just opened.
@@ -5632,7 +6306,7 @@
         '<rect width="' + W0 + '" height="' + head + '" fill="' + pal.bg + '"/><line x1="0" y1="' + head + '" x2="' + W0 + '" y2="' + head + '" stroke="' + pal.text + '" stroke-width="2"/>' +
         '<text x="14" y="28" font-size="18" font-weight="800" fill="' + pal.text + '">LegCheck · Site map</text>' +
         '<text x="' + (W0 - 14) + '" y="28" font-size="13" font-weight="600" text-anchor="end" fill="' + pal.text + '">' + esc(when) + '</text>' +
-        world + cableSvgs(m, pal, null) + m.items.map((it) => itemSvg(it, pal, null, locs)).join('') + '</g>' +
+        world + cableSvgs(m, pal, null) + m.items.map((it) => itemSvg(it, pal, null, locs)).join('') + ltLayerSvg(pal).replace(/<circle r="29"[^>]*\/>/g, '') + '</g>' +
         (attrib ? '<text x="' + (W0 - 8) + '" y="' + (H0 - 8) + '" font-size="11" font-weight="600" text-anchor="end" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">' + esc(attrib) + '</text>' : '') + '</svg>';
       const canvas = document.createElement('canvas');
       canvas.width = W; canvas.height = H;
@@ -5765,6 +6439,8 @@
       const isMap = activeTab === 'map';
       $('tracker-view').hidden = isMap;
       $('gen-hero').hidden = isMap;
+      if (!isMap) ltCloseSheet();
+      ltApplyMode();
       if (isMap && typeof closeLegPop === 'function') closeLegPop();
       $('map-view').hidden = !isMap;
       $('tab-tracker').setAttribute('aria-selected', String(!isMap));
@@ -6316,6 +6992,332 @@
     try { savedTab = localStorage.getItem(TAB_KEY) || 'tracker'; } catch (err) {}
     if (savedTab === 'map') setTab('map');
 
+
+    // ======================= FILM LIGHTING: UI =======================
+    function ltFmt(a) { return a == null ? '—' : formatAmp(Math.round(a * 10) / 10); }
+    function ltRenderAll() {
+      if (!$('lighting-view')) return;
+      ltRenderHero(); ltRenderGen(); ltRenderRig(); ltRenderLibrary(); ltRenderCustoms();
+    }
+    function ltRenderLayerIfMap() { if (typeof activeTab !== 'undefined' && activeTab === 'map') { renderLightLayer(); } }
+    function ltApplyMode() {
+      const light = ltMode === 'lighting';
+      const root = document.documentElement;
+      if (light) root.setAttribute('data-mode', 'lighting'); else root.removeAttribute('data-mode');
+      const isMap = activeTab === 'map';
+      $('mode-seg').hidden = isMap;
+      $('lighting-view').hidden = !light || isMap;
+      $('lt-hero').hidden = !light || isMap;
+      $('tracker-view').hidden = light || isMap;
+      $('gen-hero').hidden = light || isMap;
+      $('mode-base').setAttribute('aria-checked', String(!light));
+      $('mode-light').setAttribute('aria-checked', String(light));
+      $('mode-base').classList.toggle('on', !light);
+      $('mode-light').classList.toggle('on', light);
+      $('summary-block').setAttribute('aria-label', light ? 'Lighting load on the generator' : 'Generator legs');
+      const sub = document.querySelector('.slate-sub');
+      if (sub) sub.textContent = light ? 'Film lighting · on-set generator' : 'Generator phase & load tracker';
+      const tt = $('tab-tracker'); if (tt && tt.firstChild && tt.firstChild.nodeType === 3) tt.firstChild.nodeValue = light ? 'Rig' : 'Tracker';
+      if (light && !isMap) { if (typeof closeLegPop === 'function') closeLegPop(); ltRenderAll(); }
+    }
+    function ltSetMode(m) {
+      ltMode = m === 'lighting' ? 'lighting' : 'base';
+      try { localStorage.setItem('legcheck-mode-v1', ltMode); } catch (e) {}
+      ltApplyMode();
+      if (ltMode === 'base' && activeTab !== 'map') updateSummary();
+      if (activeTab === 'map') renderMapAll();
+    }
+
+    function ltRenderHero() {
+      const s = ltCur(), t = ltTotals(s), chk = ltLegCheck(s), r = s.gen.rating;
+      const max = Math.max(r || 0, t.est.red, t.est.blue, t.est.black, s.gen.red || 0, s.gen.blue || 0, s.gen.black || 0, 1);
+      $('lt-hero-legs').innerHTML = HOT_KEYS.map((k) => {
+        const c = chk[k], g = s.gen[k];
+        const w = Math.min(100, t.est[k] / (r || max) * 100);
+        return '<div class="lt-leg lv-' + c.level + '" data-leg="' + k + '">' +
+          '<span class="lt-dot" style="background:' + PHASE_HEX[k] + '"></span>' +
+          '<div class="lt-leg-name">' + LT_LEG_LABEL[k] + '<small>' + t.count[k] + (t.count[k] === 1 ? ' fixture' : ' fixtures') + (g != null ? ' · gen reads ' + ltFmt(g) + ' A' : '') + '</small></div>' +
+          '<div class="lt-leg-amt"><b>' + ltFmt(t.est[k]) + '</b><small> A</small>' + (c.pct != null ? '<em>' + Math.round(c.pct) + '%</em>' : '') + '</div>' +
+          '<div class="lt-bar" aria-hidden="true"><i style="width:' + w.toFixed(1) + '%;background:' + PHASE_HEX[k] + '"></i>' + (r ? '<b class="m80" title="80% continuous"></b>' : '') + '</div></div>';
+      }).join('');
+      const warn = [];
+      HOT_KEYS.forEach((k) => {
+        const c = chk[k];
+        if (c.level === 'over') warn.push('<li class="over">' + LT_LEG_LABEL[k] + ' rig ' + ltFmt(c.amps) + ' A is over the ' + ltFmt(r) + ' A leg rating</li>');
+        else if (c.level === 'warn') warn.push('<li class="warn">' + LT_LEG_LABEL[k] + ' at ' + Math.round(c.pct) + '%: over 80% continuous (' + ltFmt(r * 0.8) + ' A)</li>');
+      });
+      const wEl = $('lt-warn');
+      wEl.innerHTML = warn.join('');
+      wEl.hidden = !warn.length;
+      $('lt-hero-meta').innerHTML = s.units.length
+        ? 'Estimated rig draw · ' + t.units + (t.units === 1 ? ' fixture' : ' fixtures') + ' · ~' + (t.watts / 1000).toFixed(1) + ' kW' + (r ? ' · ' + ltFmt(r) + ' A per leg' : ' · <span class="lt-need">set the per-leg rating for the 80% check</span>')
+        : 'Add fixtures from the library to build the rig.';
+      const sp = ltSpread(t.est);
+      $('lt-hero-spread').textContent = s.units.length ? 'Spread ' + ltFmt(sp) + ' A · est. neutral ' + ltFmt(t.neutral) + ' A (120 V loads; LED drivers add harmonics)' : '';
+      if (ltBalOpen) ltRenderBalance();
+    }
+    function ltRenderBalance() {
+      const card = $('lt-bal-card');
+      const r = ltSuggest();
+      const basis = r.useGen ? 'Based on the lighting generator readings.' : 'Based on the estimated rig draw (no generator readings yet).';
+      let h = '<p class="lt-bal-basis">' + basis + '</p>';
+      if (r.empty) h += '<p>Add fixtures to the rig first.</p>';
+      else if (r.ok) h += '<p class="lt-ok">✓ Already well balanced: spread ' + ltFmt(r.before) + ' A.</p>';
+      else if (!r.moves.length) h += '<p>No single or double move makes it better. Try splitting a big unit across legs.</p>';
+      else {
+        h += '<ol class="lt-moves">' + r.moves.map((m) => '<li><b>' + m.qty + '× ' + esc(m.name) + '</b>' + (m.note ? ' (' + esc(m.note) + ')' : '') + ': <span class="lp lp-' + m.from + '">' + LT_LEG_LABEL[m.from] + '</span> → <span class="lp lp-' + m.to + '">' + LT_LEG_LABEL[m.to] + '</span></li>').join('') + '</ol>';
+        h += '<p class="lt-bal-res">Spread ' + ltFmt(r.before) + ' A → <b>' + ltFmt(r.after) + ' A</b> (R ' + ltFmt(r.result.red) + ' · B ' + ltFmt(r.result.blue) + ' · K ' + ltFmt(r.result.black) + ')</p>';
+        h += '<div class="btn-row"><button type="button" class="btn btn-primary" id="lt-bal-apply">Apply moves</button>' + (ltLastUndo ? '<button type="button" class="btn" id="lt-bal-undo">Undo last</button>' : '') + '</div>';
+      }
+      if (ltLastUndo && !r.moves.length) h += '<div class="btn-row"><button type="button" class="btn" id="lt-bal-undo">Undo last</button></div>';
+      card.innerHTML = h;
+      card.hidden = false;
+    }
+    function ltRenderGen() {
+      const s = ltCur(), g = s.gen;
+      ['red', 'blue', 'black', 'white', 'rating'].forEach((k) => { const el = $('lt-gen-' + k); if (el && document.activeElement !== el) el.value = g[k] == null ? '' : String(g[k]); });
+      $('lt-gen-time').textContent = g.updatedAt ? 'Readings saved ' + formatWhen(g.updatedAt) : 'No lighting generator reading yet';
+    }
+    function ltLegOptions(f, leg) {
+      const opts = [];
+      if (f.src !== 3) HOT_KEYS.forEach((k) => opts.push(k));
+      if (ltCanPair(f)) Object.keys(LT_PAIR).forEach((k) => opts.push(k));
+      return opts.map((k) => '<option value="' + k + '"' + (k === leg ? ' selected' : '') + '>' + LT_LEG_LABEL[k] + (LT_PAIR[k] ? (f.src === 3 ? ' (240 V)' : ' (208 V)') : ' (120 V)') + '</option>').join('');
+    }
+    function ltRenderRig() {
+      const s = ltCur(), t = ltTotals(s);
+      $('lt-rig-count').textContent = t.units ? t.units + (t.units === 1 ? ' fixture' : ' fixtures') : 'Empty';
+      $('lt-rig-totals').innerHTML = HOT_KEYS.map((k) => '<div class="lt-tot" data-leg="' + k + '"><span class="lt-dot" style="background:' + PHASE_HEX[k] + '"></span><span>' + LT_LEG_LABEL[k] + '</span><b>' + ltFmt(t.est[k]) + ' A</b></div>').join('') +
+        '<div class="lt-tot lt-tot-n"><span class="lt-dot" style="background:' + PHASE_HEX.white + '"></span><span>Neutral est.</span><b>' + ltFmt(t.neutral) + ' A</b></div>';
+      const list = $('lt-rig');
+      if (!s.units.length) { list.innerHTML = '<p class="lt-empty">No fixtures yet. Tap <b>+ Add to rig</b> on any fixture below.</p>'; return; }
+      list.innerHTML = s.units.map((u) => {
+        const f = ltFix0(u.fx, s); if (!f) return '';
+        const per = ltPerLeg(u, f), legs = ltLegsOf(u.leg);
+        return '<div class="lt-unit" data-uid="' + esc(u.id) + '" style="--bc:' + f.color + '">' +
+          '<div class="lt-u-art">' + ltArt(f, { mini: true, id: 'r' + u.id }) + '</div>' +
+          '<div class="lt-u-main"><div class="lt-u-name"><b>' + esc(f.model) + '</b><span>' + esc(f.custom ? 'Custom' : f.brand) + '</span></div>' +
+          '<div class="lt-u-ctl"><div class="lt-qty"><button type="button" class="lt-q" data-q="-1" aria-label="One fewer">−</button><span class="lt-qn">' + u.qty + '</span><button type="button" class="lt-q" data-q="1" aria-label="One more">+</button></div>' +
+          '<select class="lt-u-leg" aria-label="Leg for ' + esc(f.model) + '">' + ltLegOptions(f, u.leg) + '</select></div>' +
+          '<input class="lt-u-note" type="text" maxlength="60" placeholder="Distro / note (e.g. Lunchbox 2)" value="' + esc(u.note) + '" aria-label="Distro or note">' +
+          '<div class="lt-u-amps">' + ltFmt(per) + ' A' + (u.qty > 1 ? ' × ' + u.qty + ' = <b>' + ltFmt(per * u.qty) + ' A</b>' : '') + ' on ' + legs.map((k) => '<span class="lp lp-' + k + '">' + LT_LEG_LABEL[k] + '</span>').join(' + ') + (u.ov != null ? ' <span class="fx-b b-ov">clamp</span>' : '') +
+          '<label class="lt-ov">Clamp A <input class="lt-u-ov" type="text" inputmode="decimal" placeholder="—" value="' + (u.ov == null ? '' : u.ov) + '"></label></div></div>' +
+          '<div class="lt-u-side"><button type="button" class="btn small lt-u-map">' + (u.mx != null ? 'On map' : 'Place') + '</button><button type="button" class="lt-u-del" aria-label="Remove ' + esc(f.model) + '">✕</button></div></div>';
+      }).join('');
+    }
+    function ltMatches(f) {
+      const q = ltFilter.q.trim().toLowerCase();
+      if (ltFilter.brand && f.brand !== ltFilter.brand) return false;
+      if (ltFilter.group && f.group !== ltFilter.group) return false;
+      if (!q) return true;
+      const hay = (f.brand + ' ' + f.model + ' ' + f.group + ' ' + f.cat + ' ' + (LT_FORMS[f.form] || '') + ' ' + f.conn + ' ' + f.cct + ' ' + (f.w ? f.w + 'w' : '')).toLowerCase();
+      return q.split(/\s+/).every((w) => hay.indexOf(w) >= 0);
+    }
+    function ltBadges(f) {
+      const b = [];
+      if (f.custom) b.push('<span class="fx-b b-custom">Custom</span>');
+      if (f.src === 3) { b.push('<span class="fx-b b-240">240 V only</span>'); b.push(f.a240p ? '<span class="fx-b b-pub">Published</span>' : '<span class="fx-b b-calc">Calculated</span>'); }
+      else if (f.src === 0) b.push('<span class="fx-b b-pub">Published</span>');
+      else if (f.src === 1) b.push('<span class="fx-b b-pub">Published · rental chart</span>');
+      else b.push('<span class="fx-b b-calc">Calculated</span>');
+      if (f.a120 != null && f.a120 > 20) b.push('<span class="fx-b b-edison" title="A 20 A Edison circuit cannot carry this">⚠ Over 20 A Edison</span>');
+      if (f.flags & 1) b.push('<span class="fx-b b-verify">Verify</span>');
+      return b.join('');
+    }
+    function ltCard(f) {
+      const spec = (k, v) => v ? '<div><dt>' + k + '</dt><dd>' + esc(v) + '</dd></div>' : '';
+      const a = f.a120 != null ? ltFmt(f.a120) + ' A' : '—';
+      const url = /^https?:\/\//.test(f.url || '') ? f.url : '';
+      return '<article class="fx-card" data-fx="' + esc(f.key) + '" style="--bc:' + f.color + '">' +
+        '<div class="fx-art">' + ltArt(f) + '</div>' +
+        '<div class="fx-body"><div class="fx-brand">' + esc(f.custom ? 'Custom fixture' : f.brand) + '</div><h3 class="fx-model">' + esc(f.model) + '</h3>' +
+        '<div class="fx-type">' + esc(f.group) + ' · ' + esc(LT_FORMS[f.form] || f.cat) + '</div>' +
+        '<div class="fx-amps"><span class="fx-a"><b>' + a + '</b> @ 120 V</span>' + ltBadges(f) + '</div></div>' +
+        '<div class="fx-foot"><dl class="fx-specs">' + spec('Power', f.w ? formatAmp(f.w) + ' W' : '') + spec('208 V', f.a208 != null ? ltFmt(f.a208) + ' A' : '') + spec('240 V', f.a240 != null ? ltFmt(f.a240) + ' A' : '') +
+        spec('Connector', f.conn) + spec('Colour', f.cct) + spec('Weight', f.weight) + spec('DMX', f.dmx) + '</dl>' +
+        ((f.flags & 4) && f.src === 2 ? '<p class="fx-note">HMI: the ballast draws more than the lamp watts (power factor). Use the rental chart or a clamp reading.</p>' : '') +
+        '<div class="fx-actions">' + (url ? '<a class="fx-link" href="' + esc(url) + '" target="_blank" rel="noopener">View photo/specs ↗</a>' : (f.custom ? '<button type="button" class="btn small fx-cdel">Delete custom</button>' : '')) +
+        '<button type="button" class="btn btn-primary small fx-add">+ Add to rig</button></div></div></article>';
+    }
+    function ltRenderLibrary() {
+      const all = ltAllFix();
+      const bs = $('lt-brand');
+      const brands = Array.from(new Set(all.map((f) => f.brand))).sort((a, b) => a === 'Custom' ? -1 : b === 'Custom' ? 1 : a.localeCompare(b));
+      const wantB = brands.join('|');
+      if (bs.dataset.list !== wantB) { bs.innerHTML = '<option value="">All brands (' + brands.length + ')</option>' + brands.map((b) => '<option value="' + esc(b) + '">' + esc(b) + '</option>').join(''); bs.dataset.list = wantB; }
+      if (ltFilter.brand && brands.indexOf(ltFilter.brand) < 0) ltFilter.brand = '';
+      bs.value = ltFilter.brand;
+      const gs = $('lt-group');
+      if (!gs.dataset.list) { gs.innerHTML = '<option value="">All types</option>' + LT_DATA.g.map((g) => '<option value="' + esc(g) + '">' + esc(g) + '</option>').join('') + '<option value="Custom">Custom</option>'; gs.dataset.list = '1'; }
+      gs.value = ltFilter.group;
+      const hits = all.filter(ltMatches);
+      const shown = hits.slice(0, ltFilter.limit);
+      $('lt-lib-count').textContent = hits.length === all.length ? all.length + ' fixtures' : hits.length + ' of ' + all.length + ' fixtures';
+      $('lt-lib').innerHTML = shown.length ? shown.map(ltCard).join('') : '<p class="lt-empty">No fixtures match. Try another word, or add a custom fixture below.</p>';
+      const more = $('lt-more');
+      more.hidden = hits.length <= shown.length;
+      more.textContent = 'Show more (' + (hits.length - shown.length) + ' left)';
+    }
+    function ltRenderCustoms() {
+      const s = ltCur();
+      $('lt-custom-list').innerHTML = s.customs.map((c) => '<li data-cid="' + esc(c.id) + '"><b>' + esc(c.name) + '</b> · ' + esc(LT_FORMS[c.form]) + (c.w ? ' · ' + formatAmp(c.w) + ' W' : '') + ' · ' + ltFmt(ltCustomFix(c).a120 != null ? ltCustomFix(c).a120 : ltCustomFix(c).a240) + ' A' + (c.v240 ? ' (240 V)' : '') + ' <button type="button" class="lt-cdel" aria-label="Delete ' + esc(c.name) + '">✕</button></li>').join('');
+    }
+
+    // ----- map layer -----
+    function ltIcon(u, f, pal, sel) {
+      const ring = LT_PAIR[u.leg]
+        ? '<path d="M0 -21 A21 21 0 0 1 0 21" fill="none" stroke="' + PHASE_HEX[LT_PAIR[u.leg][0]] + '" stroke-width="5"/><path d="M0 21 A21 21 0 0 1 0 -21" fill="none" stroke="' + PHASE_HEX[LT_PAIR[u.leg][1]] + '" stroke-width="5"/>'
+        : '<circle r="21" fill="none" stroke="' + PHASE_HEX[u.leg] + '" stroke-width="5"/>';
+      const label = (u.note ? u.note : f.model);
+      return '<g class="lt-mapi" data-light="' + esc(u.id) + '" data-form="' + esc(f.form) + '" data-code="' + esc(f.code) + '" transform="translate(' + Math.round(u.mx) + ' ' + Math.round(u.my) + ') scale(1.6)">' +
+        '<circle r="30" fill="transparent"/>' +
+        (sel ? '<circle r="29" fill="none" stroke="#ffad42" stroke-width="2.5" stroke-dasharray="5 3"/>' : '') +
+        '<circle r="24.5" fill="#ffad42" fill-opacity="0.18" stroke="#ffffff" stroke-width="1.2"/>' +
+        '<circle r="19" fill="#141518"/>' + ring +
+        '<g transform="translate(0 -4) scale(0.95)">' + ltGlyph(f) + '</g>' +
+        '<text y="13.5" text-anchor="middle" font-size="7.5" font-weight="800" fill="' + ltShade(f.color, 0.35) + '">' + esc(f.code) + '</text>' +
+        (u.qty > 1 ? '<circle cx="18" cy="-18" r="8" fill="#ffad42" stroke="#141518" stroke-width="1.5"/><text x="18" y="-15" text-anchor="middle" font-size="8.5" font-weight="900" fill="#141518">×' + u.qty + '</text>' : '') +
+        '<text y="40" text-anchor="middle" font-size="10.5" font-weight="750" fill="' + pal.text + '" stroke="' + pal.halo + '" stroke-width="3" paint-order="stroke">' + esc(label.length > 20 ? label.slice(0, 19) + '…' : label) + '</text></g>';
+    }
+    function ltLayerSvg(pal) {
+      const s = ltCur();
+      if (!s.layer) return '';
+      pal = pal || mapPalette();
+      return s.units.filter((u) => u.mx != null).map((u) => { const f = ltFix0(u.fx, s); return f ? ltIcon(u, f, pal, ltSel === u.id) : ''; }).join('');
+    }
+    function renderLightLayer() {
+      const el = $('map-lights'); if (!el) return;
+      el.innerHTML = ltLayerSvg();
+      const s = ltCur();
+      const lb = $('lt-layer-btn');
+      if (lb) { lb.setAttribute('aria-pressed', String(!!s.layer)); lb.querySelector('span').textContent = s.layer ? 'Lights: on' : 'Lights: off'; }
+    }
+    function ltViewCenter() {
+      try { const r = stageSize(); return toWorld({ x: r.w / 2, y: r.h / 2 }); } catch (e) { return { x: 400, y: 300 }; }
+    }
+    function ltPlace(id) {
+      const s = ltCur(); const u = ltUnit(id); if (!u) return;
+      if (activeTab !== 'map') setTab('map');
+      if (u.mx == null) {
+        const c = ltViewCenter(); const n = s.units.filter((x) => x.mx != null).length;
+        u.mx = Math.round(c.x + ((n % 4) - 1.5) * 110); u.my = Math.round(c.y + (Math.floor(n / 4) % 4) * 120 - 100);
+      }
+      s.layer = true;
+      ltPersist(); ltSel = u.id; renderLightLayer(); ltOpenSheet(u.id);
+    }
+    function ltPlaceAll() {
+      const s = ltCur();
+      const todo = s.units.filter((u) => u.mx == null);
+      if (!s.units.length) { toast('Add fixtures on the Rig first.'); return 0; }
+      const c = ltViewCenter(); let n = s.units.filter((x) => x.mx != null).length;
+      todo.forEach((u) => { u.mx = Math.round(c.x + ((n % 4) - 1.5) * 110); u.my = Math.round(c.y + (Math.floor(n / 4) % 4) * 120 - 100); n++; });
+      s.layer = true; ltPersist(); renderLightLayer();
+      toast(todo.length ? 'Placed ' + todo.length + (todo.length === 1 ? ' fixture' : ' fixtures') + ' on the map' : 'All fixtures are already on the map');
+      return todo.length;
+    }
+    function ltToggleLayer() { const s = ltCur(); s.layer = !s.layer; if (!s.layer) ltCloseSheet(); ltPersist(); renderLightLayer(); }
+    function ltOpenSheet(id) {
+      const s = ltCur(); const u = ltUnit(id); if (!u) return;
+      const f = ltFix0(u.fx, s); if (!f) return;
+      if (typeof selectMap === 'function' && mapSelected) selectMap(null);
+      ltSel = id;
+      const el = $('lt-sheet');
+      el.innerHTML = '<div class="lt-sh-head"><div class="lt-sh-art">' + ltArt(f, { mini: true, id: 's' + u.id }) + '</div><div><div class="fx-brand">' + esc(f.custom ? 'Custom' : f.brand) + '</div><b>' + esc(f.model) + '</b><div class="lt-sh-amps">' + ltFmt(ltPerLeg(u, f) * u.qty) + ' A on ' + LT_LEG_LABEL[u.leg] + '</div></div></div>' +
+        '<div class="lt-sh-row"><select id="lt-sh-leg" aria-label="Leg">' + ltLegOptions(f, u.leg) + '</select><div class="lt-qty"><button type="button" class="lt-q" data-sq="-1" aria-label="One fewer">−</button><span class="lt-qn">' + u.qty + '</span><button type="button" class="lt-q" data-sq="1" aria-label="One more">+</button></div></div>' +
+        '<input id="lt-sh-note" type="text" maxlength="60" placeholder="Distro / note" value="' + esc(u.note) + '">' +
+        '<div class="btn-row"><button type="button" class="btn" id="lt-sh-off">Remove from map</button><button type="button" class="btn btn-primary" id="lt-sh-done">Done</button></div>';
+      el.hidden = false;
+      ltSheetAt = Date.now();
+      renderLightLayer();
+    }
+    var ltSheetAt = 0;
+    function ltCloseSheet() { const el = $('lt-sheet'); if (el) el.hidden = true; if (ltSel) { ltSel = null; renderLightLayer(); } }
+    function ltSheetChanged() { ltPersist(); renderLightLayer(); ltRenderAll(); const u = ltUnit(ltSel); if (u) { const f = ltFix0(u.fx, ltCur()); const a = document.querySelector('#lt-sheet .lt-sh-amps'); if (a && f) a.textContent = ltFmt(ltPerLeg(u, f) * u.qty) + ' A on ' + LT_LEG_LABEL[u.leg]; const q = document.querySelector('#lt-sheet .lt-qn'); if (q) q.textContent = u.qty; } }
+
+    // ----- wiring -----
+    (function ltWire() {
+      $('mode-base').addEventListener('click', () => ltSetMode('base'));
+      $('mode-light').addEventListener('click', () => ltSetMode('lighting'));
+      $('lt-q').addEventListener('input', (e) => { ltFilter.q = e.target.value; ltFilter.limit = 24; ltRenderLibrary(); });
+      $('lt-brand').addEventListener('change', (e) => { ltFilter.brand = e.target.value; ltFilter.limit = 24; ltRenderLibrary(); });
+      $('lt-group').addEventListener('change', (e) => { ltFilter.group = e.target.value; ltFilter.limit = 24; ltRenderLibrary(); });
+      $('lt-more').addEventListener('click', () => { ltFilter.limit += 24; ltRenderLibrary(); });
+      $('lt-lib').addEventListener('click', (e) => {
+        const card = e.target.closest('.fx-card'); if (!card) return;
+        if (e.target.closest('.fx-add')) ltAdd(card.dataset.fx);
+        else if (e.target.closest('.fx-cdel')) ltDeleteCustom(card.dataset.fx);
+      });
+      $('lt-rig').addEventListener('click', (e) => {
+        const row = e.target.closest('.lt-unit'); if (!row) return;
+        const u = ltUnit(row.dataset.uid); if (!u) return;
+        const q = e.target.closest('[data-q]');
+        if (q) { u.qty = Math.max(1, Math.min(99, u.qty + Number(q.dataset.q))); ltPersist(); ltRenderAll(); }
+        else if (e.target.closest('.lt-u-del')) ltRemove(u.id);
+        else if (e.target.closest('.lt-u-map')) ltPlace(u.id);
+      });
+      $('lt-rig').addEventListener('change', (e) => {
+        const row = e.target.closest('.lt-unit'); if (!row) return;
+        const u = ltUnit(row.dataset.uid); if (!u) return;
+        if (e.target.classList.contains('lt-u-leg')) { u.leg = e.target.value; ltPersist(); ltRenderAll(); }
+        else if (e.target.classList.contains('lt-u-note')) { u.note = e.target.value.trim().slice(0, 60); ltPersist(); }
+        else if (e.target.classList.contains('lt-u-ov')) { u.ov = parseAmp(e.target.value); ltPersist(); ltRenderAll(); }
+      });
+      ['red', 'blue', 'black', 'white', 'rating'].forEach((k) => {
+        $('lt-gen-' + k).addEventListener('input', (e) => {
+          const s = ltCur(); s.gen[k] = parseAmp(e.target.value);
+          if (k !== 'rating') s.gen.updatedAt = Date.now();
+          ltPersist(); ltRenderHero(); ltRenderGen();
+        });
+      });
+      $('lt-gen-clear').addEventListener('click', () => {
+        const s = ltCur(); const prev = Object.assign({}, s.gen);
+        s.gen = { red: null, blue: null, black: null, white: null, rating: prev.rating, updatedAt: null };
+        ltPersist(); ltRenderAll();
+        showUndo('Lighting readings cleared', () => { s.gen = prev; ltPersist(); ltRenderAll(); });
+      });
+      $('lt-bal-btn').addEventListener('click', () => {
+        ltBalOpen = !ltBalOpen;
+        $('lt-bal-btn').setAttribute('aria-expanded', String(ltBalOpen));
+        if (ltBalOpen) ltRenderBalance(); else $('lt-bal-card').hidden = true;
+      });
+      $('lt-bal-card').addEventListener('click', (e) => {
+        if (e.target.closest('#lt-bal-apply')) ltApplyBalance();
+        else if (e.target.closest('#lt-bal-undo')) { ltUndoBalance(); hideUndo(); }
+      });
+      $('lt-c-add').addEventListener('click', () => {
+        const name = $('lt-c-name').value.trim();
+        const w = parseAmp($('lt-c-w').value), a = parseAmp($('lt-c-a').value);
+        if (!name) { toast('Give the fixture a name.'); $('lt-c-name').focus(); return; }
+        if (!w && !a) { toast('Enter the watts or the amps.'); $('lt-c-w').focus(); return; }
+        const id = ltAddCustom({ name, form: $('lt-c-form').value, w, a, v240: $('lt-c-240').checked });
+        ['lt-c-name', 'lt-c-w', 'lt-c-a'].forEach((x) => { $(x).value = ''; }); $('lt-c-240').checked = false;
+        ltFilter.q = ''; ltFilter.brand = ''; ltFilter.group = ''; $('lt-q').value = ''; ltRenderLibrary();
+        toast('Custom fixture added to the library');
+        return id;
+      });
+      $('lt-custom-list').addEventListener('click', (e) => { const li = e.target.closest('[data-cid]'); if (li && e.target.closest('.lt-cdel')) ltDeleteCustom(li.dataset.cid); });
+      $('lt-layer-btn').addEventListener('click', ltToggleLayer);
+      $('lt-place-btn').addEventListener('click', ltPlaceAll);
+      const sh = $('lt-sheet');
+      sh.addEventListener('click', (e) => {
+        if (Date.now() - ltSheetAt < 350) { e.preventDefault(); e.stopPropagation(); return; }
+        const u = ltUnit(ltSel); if (!u) return;
+        const q = e.target.closest('[data-sq]');
+        if (q) { u.qty = Math.max(1, Math.min(99, u.qty + Number(q.dataset.sq))); ltSheetChanged(); }
+        else if (e.target.closest('#lt-sh-off')) { u.mx = null; u.my = null; ltPersist(); ltCloseSheet(); ltRenderAll(); }
+        else if (e.target.closest('#lt-sh-done')) ltCloseSheet();
+      }, true);
+      sh.addEventListener('change', (e) => {
+        const u = ltUnit(ltSel); if (!u) return;
+        if (e.target.id === 'lt-sh-leg') { u.leg = e.target.value; ltSheetChanged(); }
+        else if (e.target.id === 'lt-sh-note') { u.note = e.target.value.trim().slice(0, 60); ltSheetChanged(); }
+      });
+      ltApplyMode();
+    })();
+
+    $('lt-share-link').addEventListener('click', () => $('share-link-btn').click());
+    $('lt-share-text').addEventListener('click', () => $('share-text-btn').click());
+
     window.__phaseTracker = {
       getState: () => cloneState(current()),
       getLocal: () => cloneState(localState),
@@ -6335,6 +7337,15 @@
       fuelCheck: { setNow: (t) => { fcClock = t; renderFluids(current()); }, relAge, last: () => { const l = lastCheck(fluidOf(current())); return l ? Object.assign({}, l) : null; }, list: () => fluidOf(current()).checks.map((e) => Object.assign({}, e)), LEVELS: FC_LEVELS, KEEP: FC_KEEP, SHOW: FC_SHOW },
       svc: { stats: (now) => svcStats(svcOf(current()), now), setNow: (t) => { svcClock = t; renderSvc(); }, render: () => renderSvc(), DEFAULT_AT: SVC_DEFAULT_AT },
       rebalanceMoves: () => rebalancePlan ? JSON.parse(JSON.stringify(rebalancePlan.moves)) : null,
+      lighting: {
+        get: () => JSON.parse(JSON.stringify(ltCur())), all: () => ltAllFix().map((f) => Object.assign({}, f)), fix: (k) => ltFix(k),
+        add: ltAdd, remove: ltRemove, place: ltPlace, placeAll: ltPlaceAll, addCustom: ltAddCustom, deleteCustom: ltDeleteCustom,
+        totals: () => ltTotals(), check: () => ltLegCheck(), suggest: () => JSON.parse(JSON.stringify(ltSuggest())), apply: ltApplyBalance, undo: ltUndoBalance,
+        setMode: ltSetMode, mode: () => ltMode, art: (k) => ltArt(ltFix(k)), glyph: (k) => ltGlyph(ltFix(k)), compact: () => ltCompact(ltCur()), expand: ltExpand,
+        setGen: (o) => { Object.assign(ltCur().gen, o); ltPersist(); ltRenderAll(); }, render: ltRenderAll, openSheet: ltOpenSheet, closeSheet: ltCloseSheet,
+        setUnit: (id, o) => { const u = ltUnit(id); if (u) { Object.assign(u, o); ltPersist(); ltRenderAll(); ltRenderLayerIfMap(); } return !!u; },
+        KEY: 'legcheck-lighting-v1', MODE_KEY: 'legcheck-mode-v1', FORMS: LT_FORMS
+      },
       map: {
         get: () => cloneState(currentMap()),
         getLocal: () => cloneState(localState.map),
